@@ -1,0 +1,11 @@
+C:\Users\acura\source\repos\gWeasleGUI\gWeasleGUI\bin\Debug\gWeasleGUI.exe.config
+C:\Users\acura\source\repos\gWeasleGUI\gWeasleGUI\bin\Debug\gWeasleGUI.exe
+C:\Users\acura\source\repos\gWeasleGUI\gWeasleGUI\bin\Debug\gWeasleGUI.pdb
+C:\Users\acura\source\repos\gWeasleGUI\gWeasleGUI\obj\Debug\gWeasleGUI.csproj.AssemblyReference.cache
+C:\Users\acura\source\repos\gWeasleGUI\gWeasleGUI\obj\Debug\gWeasleGUI.csproj.SuggestedBindingRedirects.cache
+C:\Users\acura\source\repos\gWeasleGUI\gWeasleGUI\obj\Debug\gWeasleGUI.Properties.Resources.resources
+C:\Users\acura\source\repos\gWeasleGUI\gWeasleGUI\obj\Debug\gWeasleGUI.csproj.GenerateResource.cache
+C:\Users\acura\source\repos\gWeasleGUI\gWeasleGUI\obj\Debug\gWeasleGUI.csproj.CoreCompileInputs.cache
+C:\Users\acura\source\repos\gWeasleGUI\gWeasleGUI\obj\Debug\gWeasleGUI.exe
+C:\Users\acura\source\repos\gWeasleGUI\gWeasleGUI\obj\Debug\gWeasleGUI.pdb
+C:\Users\acura\source\repos\gWeasleGUI\gWeasleGUI\obj\Debug\gWeasleGUI.gWeazleFrm.resources

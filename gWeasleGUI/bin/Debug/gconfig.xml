@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Gconfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <GwToolsPath>C:\Users\acura\Downloads\greaseweazle-1.3-win</GwToolsPath>
+  <LogFile>gwlog.txt</LogFile>
+  <Time>true</Time>
+  <LastFormatType>ibm.1440</LastFormatType>
+  <LastFileExt>IMG|*.ima;*.img;*.st</LastFileExt>
+  <RawFormat>false</RawFormat>
+</Gconfig>
