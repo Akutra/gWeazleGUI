@@ -27,13 +27,16 @@ To install gWeazleGUI, copy the binary to desired path.
 
 ### Windows
 
-Doubleclick the executable and enter the path to your gw host tools.
+Doubleclick the executable and enter the path to your gw host tools. 
+>If gWeazleGUI does not automatically ask you for the gw tools path, click options (the cog wheel) and input them.
 
 #### Linux (e.g. Ubuntu)
 
 TBD.
 
 ## Using the App
+
+>If gWeazleGUI does not automatically ask you for the gw tools path, click options (the cog wheel) and input them.
 
 Single window graphic user interface that you can use like the command prompt host tools. You execute the command after configuring the command details from the window.
 
