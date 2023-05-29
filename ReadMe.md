@@ -27,7 +27,7 @@ To install gWeazleGUI, copy the binary to desired path.
 
 ### Windows
 
-Doubleclick the executable and enter the path to your gw host tools. 
+Doubleclick the executable and enter the path to your gw host tools. GW Host Tools can be unzipped to any directory for use.
 >If gWeazleGUI does not automatically ask you for the gw tools path, click options (the cog wheel) and input them.
 
 #### Linux (e.g. Ubuntu)
