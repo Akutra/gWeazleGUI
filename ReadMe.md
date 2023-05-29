@@ -24,6 +24,7 @@ gWeazleGUI is a graphical user interface for the grease weazle device.
 ## Install
 
 To install gWeazleGUI, copy the binary to desired path.
+- Grease Weazle Host Tools v1.3 or greater is required.
 
 ### Windows
 
