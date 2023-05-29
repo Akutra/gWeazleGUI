@@ -73,6 +73,7 @@ namespace gWeasleGUI
             {
                 this.Invoke(new MethodInvoker(delegate
                 {
+                    actionCB.Items.Clear();
                     actionCB.Items.AddRange(ops);
                     if (actionCB.Items.Count > 0) { actionCB.SelectedIndex = 0; }
                     actionCB.Enabled = true;
@@ -89,10 +90,10 @@ namespace gWeasleGUI
             if( this.gw is null) { this.DisplayContentAction($"Unable to load GreaseWeasle!"); return; }
 
             // Verify Host tools version compatibilty
-            if (this.gw.gwHostToolsVersion < 1.3)
+            if (this.gw.gwHostToolsVersion < 1.12)
             {
                 string err = this.gw.gwHostToolsVersion == 0 ? "Greaseweazle Host Tools not found." : $"Greaseweazle Host Tools v{this.gw.gwHostToolsVersion} found.";
-                string msg = $"{err}{Environment.NewLine}*** Greaseweazle Host Tools version 1.3 or greater is required for {ConfigLoader.AppName}.";
+                string msg = $"{err}{Environment.NewLine}*** Greaseweazle Host Tools version 1.12 or greater is required for {ConfigLoader.AppName}.";
                 this.DisplayContentAction(msg);
 
                 this.Invoke(new MethodInvoker(delegate
