@@ -115,6 +115,7 @@ namespace gWeasleGUI
                 string err = $"*** Unable to load device on port {this.gwPortTB.Text.Trim()}.";
                 string msg = $"{gwmsg}{Environment.NewLine}{err}{Environment.NewLine}*** Greaseweazle device required for {ConfigLoader.AppName}.";
                 this.DisplayContentAction(msg);
+                gwpathcontainer.Visible = true;
                 return;
             }
 
