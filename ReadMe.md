@@ -1,9 +1,5 @@
 # gWeazleGUI
 
-![CI Badge][ci-badge]
-![Downloads Badge][downloads-badge]
-![Version Badge][version-badge]
-
 ![gWeazleGUI](gWeazleGUIMainScreen.jpg)
 
 GW Host Tools GUI.
