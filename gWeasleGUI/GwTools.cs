@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using static gWeasleGUI.GwTools;
 
 namespace gWeasleGUI
 {
@@ -32,12 +33,14 @@ namespace gWeasleGUI
         public string gw_exe { get; private set; } = "gw";
         public string GwToolsPath { get; private set; }
         public string LastGetFormatsAction { get; private set; } = string.Empty;
+        public string LastGetHelpAction { get; private set; } = string.Empty;
 
         private ILogger logger;
         private char separator = Path.DirectorySeparatorChar;
         private static Action<string> gw_output;
         private Action DoneAction, DeviceLoaded;
         private string LastExecutedCommand = string.Empty;
+        private Dictionary<string, string> gw_helpCache = new Dictionary<string, string>();
 
         /// <summary>
         /// Initialize the GwTools class for interfacing with the commandline gw tools
@@ -146,6 +149,7 @@ namespace gWeasleGUI
                         }
                     }
                 }
+                this.gw_helpCache.Clear();
 
                 // Events after initialize
                 this.DeviceLoaded();
@@ -154,6 +158,37 @@ namespace gWeasleGUI
                     RunGWCommand(AfterLoad, this.currentDevice.port);
                 }
             });
+        }
+
+        /// <summary>
+        /// Get the help for a specific action direct from gw
+        /// </summary>
+        /// <param name="gwaction">action to use for this help command</param>
+        /// <param name="responseAction">callback action to handle async call results</param>
+        public void GetActionHelp(string gwaction, Action<string> responseAction)
+        {
+            string args = $"{gwaction} --help";
+
+            if (this.gw_helpCache.ContainsKey(gwaction))
+            {
+                // todo?
+                // Start the command on it's own thread.
+                //exe_task = Task.Factory.StartNew(
+                //    () =>
+                //    {
+                this.LastGetHelpAction = gwaction;
+                this.DoneAction();
+                responseAction(this.gw_helpCache[gwaction]);
+            }
+            else
+            {
+                ExecuteGWCommand(args, (response) =>
+                {
+                    gw_helpCache[gwaction] = response;
+                    responseAction(response);
+                    this.LastGetHelpAction = gwaction;
+                });
+            }
         }
 
         /// <summary>
@@ -168,7 +203,7 @@ namespace gWeasleGUI
             ExecuteGWCommand(args, (response) =>
             {
                 List<string> operations = new List<string>();
-                List<string> items = ExtractGroup(@"Actions:", response);
+                List<string> items = utilities.ExtractGroup(@"Actions:", response);
 
                 foreach (string item in items)
                 {
@@ -187,7 +222,7 @@ namespace gWeasleGUI
         /// <param name="LoadAcceptedSuffixes">action to handle results</param>
         public void GetAcceptedSuffixes(Action<string[]> LoadAcceptedSuffixes)
         {
-            // TODO: Until gw provides a way to get this data, hardcode values accepted by gw v1.3
+            // TODO: Until gw provides a way to get this data, hardcode values accepted by gw v1.13
             string[] ext = new[]
             {
                 "A2R|*.a2r", "ADF|*.adf", "ADS|*.ads", "ADM|*.adm", "ADL|*.adl", "D64|*.d64", "D88|*.d81", "D88|*.d88", "DCP|*.dcp", "DIM|*.dim", 
@@ -200,16 +235,16 @@ namespace gWeasleGUI
         /// <summary>
         /// Load format types direct from gw
         /// </summary>
-        /// <param name="gwcommand">action to use for this help command</param>
+        /// <param name="gwaction">action to use for this help command</param>
         /// <param name="LoadTypes">callback action to handle async call results</param>
-        public void GetFormatTypes(string gwcommand, Action<string[]> LoadTypes)
+        public void GetFormatTypes(string gwaction, Action<string[]> LoadTypes)
         {
-            string args = $"{gwcommand} --help";
-
-            ExecuteGWCommand(args, (response) =>
+            string args = $"{gwaction} --help";
+            // Action to handle response
+            Action<string> processResponse = (response) =>
             {
                 List<string> types = new List<string>();
-                List<string> items = ExtractGroup(@"FORMAT options:", response);
+                List<string> items = utilities.ExtractGroup(@"FORMAT options:", response);
 
                 foreach (string item in items)
                 {
@@ -217,9 +252,21 @@ namespace gWeasleGUI
                 }
                 this.logger.Info($"{types.Count} formats loaded.");
 
+                if (!gw_helpCache.ContainsKey(gwaction))
+                    gw_helpCache[gwaction] = response;
+
                 LoadTypes(types.ToArray());
-                this.LastGetFormatsAction = gwcommand;
-            });
+                this.LastGetFormatsAction = gwaction;
+            };
+
+            if(gw_helpCache.ContainsKey(gwaction))
+            {
+                processResponse(gw_helpCache[gwaction]);
+            } else
+            {
+                ExecuteGWCommand(args, processResponse);
+                this.LastGetHelpAction = gwaction;
+            }
         }
 
         /// <summary>
@@ -269,31 +316,6 @@ namespace gWeasleGUI
                     break;
             }
             return cmdArgs;
-        }
-
-        /// <summary>
-        /// Process raw response content
-        /// </summary>
-        /// <param name="start"></param>
-        /// <param name="rawContent"></param>
-        /// <returns></returns>
-        private List<string> ExtractGroup(string start, string rawContent)
-        {
-            StringReader contentStream = new StringReader(rawContent);
-            string current = string.Empty;
-            List<string> values = new List<string>();
-
-            while(current!=start && contentStream.Peek() > -1)
-            {
-                current = contentStream.ReadLine().Trim();
-            }
-
-            while(!string.IsNullOrEmpty(current) || contentStream.Peek() > -1)
-            {
-                current = contentStream.ReadLine();
-                if (!string.IsNullOrEmpty(current)) { values.Add(current); }
-            }
-            return values;
         }
 
         /// <summary>

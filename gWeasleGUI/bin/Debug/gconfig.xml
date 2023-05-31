@@ -2,7 +2,7 @@
 <Gconfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <GwToolsPath></GwToolsPath>
   <Time>true</Time>
-  <LastFormatType>ibm.1440</LastFormatType>
-  <LastFileExt>IMG|*.ima;*.img;*.st</LastFileExt>
-  <RawFormat>false</RawFormat>
+  <LastFormatType>default</LastFormatType>
+  <LastFileExt>SCP|*.scp</LastFileExt>
+  <RawFormat>true</RawFormat>
 </Gconfig>

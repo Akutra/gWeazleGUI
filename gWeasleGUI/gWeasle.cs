@@ -68,6 +68,7 @@ namespace gWeasleGUI
         /// </summary>
         private void LoadGWOperations()
         {
+            this.ActionStart();
             // Intialize available gw operations
             this.gw.GetOperations((ops) =>
             {
@@ -87,24 +88,24 @@ namespace gWeasleGUI
         /// </summary>
         private void GwDeviceLoaded()
         {
-            if( this.gw is null) { this.DisplayContentAction($"Unable to load GreaseWeasle!"); return; }
+            if( this.gw is null) { this.DisplayContentAction($"Unable to load GreaseWeasle!"); this.DisableInterface(); return; }
 
             // Verify Host tools version compatibilty
-            if (this.gw.gwHostToolsVersion < 1.12)
-            {
-                string err = this.gw.gwHostToolsVersion == 0 ? "Greaseweazle Host Tools not found." : $"Greaseweazle Host Tools v{this.gw.gwHostToolsVersion} found.";
-                string msg = $"{err}{Environment.NewLine}*** Greaseweazle Host Tools version 1.12 or greater is required for {ConfigLoader.AppName}.";
-                this.DisplayContentAction(msg);
+            //if (this.gw.gwHostToolsVersion < 1.12)
+            //{
+            //    string err = this.gw.gwHostToolsVersion == 0 ? "Greaseweazle Host Tools not found." : $"Greaseweazle Host Tools v{this.gw.gwHostToolsVersion} found.";
+            //    string msg = $"{err}{Environment.NewLine}*** Greaseweazle Host Tools version 1.12 or greater is required for {ConfigLoader.AppName}.";
+            //    this.DisplayContentAction(msg);
 
-                this.Invoke(new MethodInvoker(delegate
-                {
-                    gwToolsVersion.Text = $"H{this.gw.gwHostToolsVersion}";
-                    this.DisableInterface();
-                    gwPathSelectionTB.Text = this.ConfigManager.ConfigData.GwToolsPath;
-                    gwpathcontainer.Visible = true;
-                }));
-                return;
-            }
+            //    this.Invoke(new MethodInvoker(delegate
+            //    {
+            //        gwToolsVersion.Text = $"H{this.gw.gwHostToolsVersion}";
+            //        this.DisableInterface();
+            //        gwPathSelectionTB.Text = this.ConfigManager.ConfigData.GwToolsPath;
+            //        gwpathcontainer.Visible = true;
+            //    }));
+            //    return;
+            //}
 
             // verify device can be loaded
             if (string.IsNullOrEmpty(this.gw.currentDevice.port))
@@ -134,6 +135,16 @@ namespace gWeasleGUI
         {
             this.Invoke(new MethodInvoker(delegate {
                this.outputTB.AppendText($"{content}{Environment.NewLine}");
+            }));
+        }
+
+        /// <summary>
+        /// Thread safe event method for clearing content to the display window
+        /// </summary>
+        private void ClearDisplayContent()
+        {
+            this.Invoke(new MethodInvoker(delegate {
+                this.outputTB.Clear();
             }));
         }
 
@@ -250,14 +261,17 @@ namespace gWeasleGUI
                 action = actionCB.Text.Trim().ToLower()
             };
             List<string> args = new List<string>();
-
-            // get the arguments specific to the gw action
-            this.ProcessAction(cmd.action, args);
-            cmd.args = args.ToArray();
-
-            // run the gw action command
             outputTB.Text = string.Empty; // clear the display for the executing command
-            gw.RunGWCommand(cmd, this.gwPortTB.Text.Trim());
+
+            // get the arguments specific to the gw action then execute the command
+            this.PopulateArgs(cmd.action, args, () =>
+            {
+                cmd.args = args.ToArray();
+                this.ActionStart();
+
+                // run the gw action command
+                this.gw.RunGWCommand(cmd, this.gwPortTB.Text.Trim());
+            });
         }
 
         /// <summary>
@@ -267,7 +281,17 @@ namespace gWeasleGUI
         /// <param name="e">ignored</param>
         private void actionCB_SelectedIndexChanged(object sender, EventArgs e)
         {
-            this.ProcessAction();
+            this.EnableActionInterface();
+        }
+
+        private void EnableActionInterface()
+        {
+            string current_action = actionCB.Text.Trim().ToLower();
+            DisableAllOptions();
+            this.PopulateArgs(current_action, null, () => {
+                ExecuteBtn.Enabled = true;
+                gwCmdHelpBtn.Enabled = true;
+            });
         }
 
         /// <summary>
@@ -280,6 +304,9 @@ namespace gWeasleGUI
         private void ProcessAction(string action = null, List<string> arguments = null)
         {
             string current_action = action ?? actionCB.Text.Trim().ToLower();
+            ExecuteBtn.Enabled = true;
+            gwCmdHelpBtn.Enabled = true;
+
             switch (current_action)
             {
                 case "info":
@@ -328,7 +355,6 @@ namespace gWeasleGUI
                     } else
                     {
                         this.logger.Info($"Unsupported action: {current_action}");
-                        this.ActionComplete();
                     }
                     break;
             }

@@ -1,47 +1,72 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.Windows.Forms;
 
 namespace gWeasleGUI
 {
     public partial class gWeazleFrm : Form
     {
-        private Action<List<string>> gwAdditionalArgs, gwFormatTypeArg, gwRawArg, gwEraseBlankArg, gwNoVerifyArg, gwDriveArg, gwCylArg;
-        private Action<List<string>> gwInFile, gwOutFile, gwExistingFileArg, gwCylinders;
+        private Action<List<string>> gwAdditionalArgs;
+        private Action<List<string>> gwInFile, gwOutFile, gwCylinders;
         private Action<string[]> gwGetFormatTypes;
 
-        private string LastGetFormatsAction = string.Empty;
+        private Dictionary<string, Action<List<string>>> GWParameters;
+        private Dictionary<string, Action> GWParaInterface;
 
         /// <summary>
         /// Unified argument handling
         /// </summary>
         private void InitializeArgumentFilters()
         {
+            this.GWParameters = new Dictionary<string, Action<List<string>>>();
+            this.GWParaInterface = new Dictionary<string, Action>();
+
             // arguments
-            this.gwAdditionalArgs = (al) => { 
-                if (!string.IsNullOrEmpty(additonalArgsTB.Text.Trim())) { al.Add(additonalArgsTB.Text.Trim()); } 
-            };
-            this.gwFormatTypeArg = (al) => { 
+            this.GWParameters.Add("--format", (al) => { 
                 if (gwFormatTypeCB.SelectedItem.ToString().Trim().ToLower().IndexOf("default") == -1) { al.Add($"--format {gwFormatTypeCB.SelectedItem}"); } 
-            };
-            this.gwRawArg = (al) => { 
+            });
+            this.GWParaInterface.Add("--format", () => {
+                gwFormatTypeLBL.Enabled = true; gwFormatTypeCB.Enabled = true;
+            });
+            this.GWParameters.Add("--raw", (al) => { 
                 if (gwRawCB.Checked) { al.Add($"--raw"); } 
-            };
-            this.gwEraseBlankArg = (al) => { 
+            });
+            this.GWParaInterface.Add("--raw", () => {
+                gwRawCB.Enabled = true;
+            });
+            this.GWParameters.Add("--erase-empty", (al) => { 
                 if (gwEraseBlankCB.Checked) { al.Add("--erase-empty"); } 
-            };
-            this.gwNoVerifyArg = (al) => { 
+            });
+            this.GWParaInterface.Add("--erase-empty", () => {
+                gwEraseBlankCB.Enabled = true;
+            });
+            this.GWParameters.Add("--no-verify", (al) => { 
                 if (gwNoVerifyCB.Checked) { al.Add("--no-verify"); } 
-            };
-            this.gwDriveArg = (al) => { 
+            });
+            this.GWParaInterface.Add("--no-verify", () => {
+                gwNoVerifyCB.Enabled = true;
+            });
+            this.GWParameters.Add("--drive", (al) => { 
                 if (!string.IsNullOrEmpty(driveTB.Text.Trim()) && driveTB.Text.Trim().ToLower() != "a") { al.Add($"--drive {driveTB.Text.Trim()}"); } 
-            };
-            this.gwCylArg = (al) => {
-                int cyl = 0;
-                if(!string.IsNullOrEmpty(gwCylTB.Text.Trim()) && int.TryParse(gwCylTB.Text.Trim(), out cyl)) { al.Add($"--cyls {cyl}"); }
-            };
-            this.gwExistingFileArg = (al) => {
+            });
+            this.GWParaInterface.Add("--drive", () => {
+                driveTB.Enabled = true; driveLBL.Enabled = true;
+            });
+            this.GWParameters.Add("--cyls", (al) => {
+                int cyl = 0; if(!string.IsNullOrEmpty(gwCylTB.Text.Trim()) && int.TryParse(gwCylTB.Text.Trim(), out cyl)) { al.Add($"--cyls {cyl}"); }
+            });
+            this.GWParaInterface.Add("--cyls", () => {
+                gwCylLBL.Enabled = true; gwCylTB.Enabled = true;
+            });
+            this.GWParameters.Add("--file", (al) => {
                 if (!string.IsNullOrEmpty(this.GwOutFile)) { al.Add($"--file \"{this.GwOutFile}\""); }
+            });
+            this.GWParaInterface.Add("--file", () => {
+                SelectExistingFileBtn.Enabled = true;
+            });
+            this.gwAdditionalArgs = (al) => {
+                if (!string.IsNullOrEmpty(additonalArgsTB.Text.Trim())) { al.Add(additonalArgsTB.Text.Trim()); }
             };
 
             // positional arguments
@@ -78,6 +103,37 @@ namespace gWeasleGUI
             };
         }
 
+        private void PopulateArgs(string gwaction, List<string> args, Action ArgsComplete)
+        {
+            this.gw.GetActionHelp(gwaction, (response) =>
+            {
+                this.Invoke(new MethodInvoker(delegate
+                {
+                    List<string> available = utilities.ExtractGroup("optional arguments:", response);
+
+                    // get argument list directly from gw tools
+                    foreach (string arg in available)
+                    {
+                        string sanitizedArg = utilities.ExtractDDArg(arg);
+                        if(args is null)
+                        {
+                            if (this.GWParaInterface.ContainsKey(sanitizedArg))
+                                this.GWParaInterface[sanitizedArg]();
+                        }
+                        else
+                        {
+                            if (this.GWParameters.ContainsKey(sanitizedArg))
+                                this.GWParameters[sanitizedArg](args);
+                        }
+                    }
+                    // complete the arg list with any additional details specific to the gw action
+                    this.ProcessAction(gwaction, args);
+
+                    ArgsComplete();
+                }));
+            });
+        }
+
         /// <summary>
         /// gw info
         /// </summary>
@@ -87,9 +143,7 @@ namespace gWeasleGUI
             if (args is null)
             {
                 // interface
-                DisableAllOptions();
-                ExecuteBtn.Enabled = true;
-                gwCmdHelpBtn.Enabled = true;
+
             } else
             {
                 // options
@@ -102,22 +156,13 @@ namespace gWeasleGUI
         /// TODO: gui access to additional args
         /// </summary>
         /// <param name="args">optional argument list to populate</param>
-
         private void GwGUI_Read(List<string> args = null)
         {
             if (args is null)
             {
                 // interface
-                DisableAllOptions();
-                gwFormatTypeLBL.Enabled = true;
-                gwFormatTypeCB.Enabled = true;
-                gwRawCB.Enabled = true;
-                driveTB.Enabled = true;
-                driveLBL.Enabled = true;
                 SelectNewFileBtn.Enabled = true;
                 GwFileDisplay.Text = $">> {this.GwInFile}";
-                ExecuteBtn.Enabled = true;
-                gwCmdHelpBtn.Enabled = true;
 
                 // only load format types if necessary
                 if (gwFormatTypeCB.Items.Count < 2 || this.gw.LastGetFormatsAction != "read")
@@ -130,9 +175,6 @@ namespace gWeasleGUI
             } else
             {
                 // options
-                gwDriveArg(args);
-                gwFormatTypeArg(args);
-                gwRawArg(args);
                 gwAdditionalArgs(args);
 
                 // File is positional so it must come after the options
@@ -153,17 +195,8 @@ namespace gWeasleGUI
             if (args is null)
             {
                 // interface
-                DisableAllOptions();
-                gwFormatTypeLBL.Enabled = true;
-                gwFormatTypeCB.Enabled = true;
-                gwEraseBlankCB.Enabled = true;
-                gwNoVerifyCB.Enabled = true;
-                driveTB.Enabled = true;
-                driveLBL.Enabled = true;
                 SelectExistingFileBtn.Enabled = true;
                 GwFileDisplay.Text = $"<< {this.GwOutFile}";
-                ExecuteBtn.Enabled = true;
-                gwCmdHelpBtn.Enabled = true;
 
                 // only load format types if necessary
                 if (gwFormatTypeCB.Items.Count < 2 || this.gw.LastGetFormatsAction != "write")
@@ -176,10 +209,6 @@ namespace gWeasleGUI
             } else
             {
                 // options
-                gwDriveArg(args);
-                gwFormatTypeArg(args);
-                gwEraseBlankArg(args);
-                gwNoVerifyArg(args);
                 gwAdditionalArgs(args);
 
                 // File is positional so it must come after the options
@@ -200,14 +229,9 @@ namespace gWeasleGUI
             if (args is null)
             {
                 // interface
-                DisableAllOptions();
-                gwFormatTypeLBL.Enabled = true;
-                gwFormatTypeCB.Enabled = true;
                 SelectNewFileBtn.Enabled = true;
                 SelectExistingFileBtn.Enabled = true;
                 GwFileDisplay.Text = $"{this.GwOutFile} >> {this.GwInFile}";
-                ExecuteBtn.Enabled = true;
-                gwCmdHelpBtn.Enabled = true;
 
                 // only load format types if necessary
                 if (gwFormatTypeCB.Items.Count < 2 || this.gw.LastGetFormatsAction != "convert")
@@ -221,7 +245,6 @@ namespace gWeasleGUI
             else
             {
                 // options
-                gwFormatTypeArg(args);
                 gwAdditionalArgs(args);
 
                 // File is positional so it must come after the options
@@ -242,16 +265,10 @@ namespace gWeasleGUI
             if (args is null)
             {
                 // interface
-                DisableAllOptions();
-                driveTB.Enabled = true;
-                driveLBL.Enabled = true;
-                ExecuteBtn.Enabled = true;
-                gwCmdHelpBtn.Enabled = true;
             }
             else
             {
                 // options
-                gwDriveArg(args);
                 gwAdditionalArgs(args);
             }
         }
@@ -265,19 +282,10 @@ namespace gWeasleGUI
             if (args is null)
             {
                 // interface
-                DisableAllOptions();
-                driveTB.Enabled = true;
-                driveLBL.Enabled = true;
-                gwCylLBL.Enabled = true;
-                gwCylTB.Enabled = true;
-                ExecuteBtn.Enabled = true;
-                gwCmdHelpBtn.Enabled = true;
             }
             else
             {
                 // options
-                gwDriveArg(args);
-                gwCylArg(args);
                 gwAdditionalArgs(args);
             }
         }
@@ -291,18 +299,10 @@ namespace gWeasleGUI
             if (args is null)
             {
                 // interface
-                DisableAllOptions();
-                driveTB.Enabled = true;
-                driveLBL.Enabled = true;
-                gwCylLBL.Enabled = true;
-                gwCylTB.Enabled = true;
-                ExecuteBtn.Enabled = true;
-                gwCmdHelpBtn.Enabled = true;
             }
             else
             {
                 // options
-                gwDriveArg(args);
                 gwAdditionalArgs(args);
 
                 // positional arguments
@@ -319,9 +319,6 @@ namespace gWeasleGUI
             if (args is null)
             {
                 // interface
-                DisableAllOptions();
-                ExecuteBtn.Enabled = true;
-                gwCmdHelpBtn.Enabled = true;
             }
             else
             {
@@ -339,16 +336,11 @@ namespace gWeasleGUI
             if (args is null)
             {
                 // interface
-                DisableAllOptions();
-                SelectExistingFileBtn.Enabled = true;
-                ExecuteBtn.Enabled = true;
-                gwCmdHelpBtn.Enabled = true;
                 GwFileDisplay.Text = $"<< {this.GwOutFile}";
             }
             else
             {
                 // options
-                gwExistingFileArg(args);
                 gwAdditionalArgs(args);
             }
         }
@@ -364,9 +356,6 @@ namespace gWeasleGUI
             if (args is null)
             {
                 // interface
-                DisableAllOptions();
-                ExecuteBtn.Enabled = true;
-                gwCmdHelpBtn.Enabled = true;
             }
             else
             {
@@ -384,9 +373,6 @@ namespace gWeasleGUI
             if (args is null)
             {
                 // interface
-                DisableAllOptions();
-                ExecuteBtn.Enabled = true;
-                gwCmdHelpBtn.Enabled = true;
             }
             else
             {
@@ -404,9 +390,6 @@ namespace gWeasleGUI
             if (args is null)
             {
                 // interface
-                DisableAllOptions();
-                ExecuteBtn.Enabled = true;
-                gwCmdHelpBtn.Enabled = true;
             }
             else
             {
@@ -424,16 +407,10 @@ namespace gWeasleGUI
             if (args is null)
             {
                 // interface
-                DisableAllOptions();
-                driveTB.Enabled = true;
-                driveLBL.Enabled = true;
-                ExecuteBtn.Enabled = true;
-                gwCmdHelpBtn.Enabled = true;
             }
             else
             {
                 // options
-                gwDriveArg(args);
                 gwAdditionalArgs(args);
             }
         }

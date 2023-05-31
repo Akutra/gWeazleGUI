@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -56,6 +57,11 @@ namespace gWeasleGUI
             return null;
         }
 
+        /// <summary>
+        /// Extract the actual final file extension from a path
+        /// </summary>
+        /// <param name="filePath">file</param>
+        /// <returns>ending suffix in lowercase</returns>
         public static string GetFileExt(string filePath)
         {
             string[] parts = filePath.Split('.');
@@ -74,6 +80,54 @@ namespace gWeasleGUI
                 return Path.GetDirectoryName(FileName);
             }
             return FileName;
+        }
+
+        /// <summary>
+        /// Extract a group/list of items from string with mixed content
+        /// </summary>
+        /// <param name="start">line to look for marking the start of the group</param>
+        /// <param name="rawContent">full content string</param>
+        /// <returns>list of items extracted</returns>
+        public static List<string> ExtractGroup(string start, string rawContent)
+        {
+            StringReader contentStream = new StringReader(rawContent);
+            string current = string.Empty;
+            List<string> values = new List<string>();
+
+            while (current != start && contentStream.Peek() > -1)
+            {
+                current = contentStream.ReadLine().Trim();
+            }
+
+            while (!string.IsNullOrEmpty(current) || contentStream.Peek() > -1)
+            {
+                current = contentStream.ReadLine();
+                if (string.IsNullOrEmpty(current))
+                    continue;
+
+                // there may be another group after.
+                // group heading should end with a colon whereas a normal item would not.
+                if(current.Trim().EndsWith(":"))
+                    break;
+
+                values.Add(current);
+            }
+            return values;
+        }
+
+        public static string ExtractDDArg(string fullargument)
+        {
+            string[] _arg_temp;
+            _arg_temp = fullargument.Trim().Split(' ');
+
+            foreach (string arg in _arg_temp)
+            {
+                if(arg.Trim().StartsWith("--"))
+                {
+                    return arg;
+                }
+            }
+            return string.Empty;
         }
     }
 }
