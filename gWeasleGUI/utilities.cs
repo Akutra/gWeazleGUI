@@ -129,5 +129,18 @@ namespace gWeasleGUI
             }
             return string.Empty;
         }
+
+        public static string MaxSizeFile(string fileName, int length)
+        {
+            if(fileName is null) { return string.Empty; }
+
+            int chars = length / 8;
+            if(fileName.Length > chars)
+            {
+                string[] parts = fileName.Split(Path.DirectorySeparatorChar);
+                return $"{parts.First()}{Path.DirectorySeparatorChar}...{Path.DirectorySeparatorChar}{parts.Last()}";
+            }
+            return fileName;
+        }
     }
 }

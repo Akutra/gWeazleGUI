@@ -8,7 +8,7 @@ namespace gWeasleGUI
     public partial class gWeazleFrm : Form
     {
         private Action<List<string>> gwAdditionalArgs;
-        private Action<List<string>> gwInFile, gwOutFile, gwCylinders;
+        private Action<List<string>> gwNewFile, gwExistingFile, gwCylinders;
         private Action<string[]> gwGetFormatTypes;
 
         private Dictionary<string, Action<List<string>>> GWParameters;
@@ -23,6 +23,12 @@ namespace gWeasleGUI
             this.GWParaInterface = new Dictionary<string, Action>();
 
             // arguments
+            this.GWParameters.Add("--diskdefs", (al) => {
+                if (!string.IsNullOrEmpty(this.GwDiskDefsFile)) { al.Add($"--diskdefs \"{this.GwDiskDefsFile}\""); }
+            });
+            this.GWParaInterface.Add("--diskdefs", () => {
+                diskdefsBtn.Enabled = true; diskdefsLBL.Enabled = true;
+            });
             this.GWParameters.Add("--format", (al) => { 
                 if (gwFormatTypeCB.SelectedItem.ToString().Trim().ToLower().IndexOf("default") == -1) { al.Add($"--format {gwFormatTypeCB.SelectedItem}"); } 
             });
@@ -60,7 +66,7 @@ namespace gWeasleGUI
                 gwCylLBL.Enabled = true; gwCylTB.Enabled = true;
             });
             this.GWParameters.Add("--file", (al) => {
-                if (!string.IsNullOrEmpty(this.GwOutFile)) { al.Add($"--file \"{this.GwOutFile}\""); }
+                if (!string.IsNullOrEmpty(this.GwExistingFile)) { al.Add($"--file \"{this.GwExistingFile}\""); }
             });
             this.GWParaInterface.Add("--file", () => {
                 SelectExistingFileBtn.Enabled = true;
@@ -70,13 +76,13 @@ namespace gWeasleGUI
             };
 
             // positional arguments
-            this.gwInFile = (al) =>
+            this.gwNewFile = (al) =>
             {
-                if(!string.IsNullOrEmpty(this.GwInFile.Trim())) { al.Add($"\"{this.GwInFile.Trim()}\""); }
+                if(!string.IsNullOrEmpty(this.GwNewFile.Trim())) { al.Add($"\"{this.GwNewFile.Trim()}\""); }
             };
-            this.gwOutFile = (al) =>
+            this.gwExistingFile = (al) =>
             {
-                if (!string.IsNullOrEmpty(this.GwOutFile.Trim())) { al.Add($"\"{this.GwOutFile.Trim()}\""); }
+                if (!string.IsNullOrEmpty(this.GwExistingFile.Trim())) { al.Add($"\"{this.GwExistingFile.Trim()}\""); }
             };
             this.gwCylinders = (al) =>
             {
@@ -162,7 +168,7 @@ namespace gWeasleGUI
             {
                 // interface
                 SelectNewFileBtn.Enabled = true;
-                GwFileDisplay.Text = $">> {this.GwInFile}";
+                GwFileDisplay.Text = $">> {this.GwNewFile}";
 
                 // only load format types if necessary
                 if (gwFormatTypeCB.Items.Count < 2 || this.gw.LastGetFormatsAction != "read")
@@ -178,7 +184,7 @@ namespace gWeasleGUI
                 gwAdditionalArgs(args);
 
                 // File is positional so it must come after the options
-                gwInFile(args);
+                gwNewFile(args);
 
                 // update config file for options that persist
                 UpdateFormatConfig();
@@ -196,7 +202,7 @@ namespace gWeasleGUI
             {
                 // interface
                 SelectExistingFileBtn.Enabled = true;
-                GwFileDisplay.Text = $"<< {this.GwOutFile}";
+                GwFileDisplay.Text = $"<< {this.GwExistingFile}";
 
                 // only load format types if necessary
                 if (gwFormatTypeCB.Items.Count < 2 || this.gw.LastGetFormatsAction != "write")
@@ -212,7 +218,7 @@ namespace gWeasleGUI
                 gwAdditionalArgs(args);
 
                 // File is positional so it must come after the options
-                gwOutFile(args);
+                gwExistingFile(args);
 
                 // update config file for options that persist
                 UpdateFormatConfig();
@@ -231,7 +237,7 @@ namespace gWeasleGUI
                 // interface
                 SelectNewFileBtn.Enabled = true;
                 SelectExistingFileBtn.Enabled = true;
-                GwFileDisplay.Text = $"{this.GwOutFile} >> {this.GwInFile}";
+                GwFileDisplay.Text = $"{this.GwExistingFile} >> {this.GwNewFile}";
 
                 // only load format types if necessary
                 if (gwFormatTypeCB.Items.Count < 2 || this.gw.LastGetFormatsAction != "convert")
@@ -248,8 +254,8 @@ namespace gWeasleGUI
                 gwAdditionalArgs(args);
 
                 // File is positional so it must come after the options
-                gwOutFile(args);
-                gwInFile(args);
+                gwExistingFile(args);
+                gwNewFile(args);
 
                 // update config file for options that persist
                 UpdateFormatConfig();
@@ -336,7 +342,7 @@ namespace gWeasleGUI
             if (args is null)
             {
                 // interface
-                GwFileDisplay.Text = $"<< {this.GwOutFile}";
+                GwFileDisplay.Text = $"<< {this.GwExistingFile}";
             }
             else
             {

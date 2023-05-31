@@ -38,7 +38,7 @@ namespace gWeasleGUI
         private ILogger logger;
         private char separator = Path.DirectorySeparatorChar;
         private static Action<string> gw_output;
-        private Action DoneAction, DeviceLoaded;
+        private Action StartAction, DoneAction, DeviceLoaded;
         private string LastExecutedCommand = string.Empty;
         private Dictionary<string, string> gw_helpCache = new Dictionary<string, string>();
 
@@ -50,7 +50,7 @@ namespace gWeasleGUI
         /// <param name="output">action event used to output to the current display</param>
         /// <param name="doneAction">action event to execute upon completion of commands</param>
         /// <param name="deviceLoaded">action event to execute after the device has loaded</param>
-        public GwTools(ILogger logger, string gwHostToolsPath, Action<string> output, Action doneAction, Action deviceLoaded)
+        public GwTools(ILogger logger, string gwHostToolsPath, Action<string> output, Action doneAction, Action beginAction, Action deviceLoaded)
         {
             this.logger = logger;
 
@@ -61,6 +61,7 @@ namespace gWeasleGUI
 
             gw_output = output;
             DoneAction = doneAction;
+            StartAction = beginAction;
             DeviceLoaded = deviceLoaded;
             ReLoadGW(gwHostToolsPath);
         }
@@ -96,7 +97,7 @@ namespace gWeasleGUI
                 ExecuteGWCommand(cmdArgs);
             } else
             {
-                this.DoneAction();
+                //this.DoneAction();
             }
         }
 
@@ -171,13 +172,8 @@ namespace gWeasleGUI
 
             if (this.gw_helpCache.ContainsKey(gwaction))
             {
-                // todo?
-                // Start the command on it's own thread.
-                //exe_task = Task.Factory.StartNew(
-                //    () =>
-                //    {
                 this.LastGetHelpAction = gwaction;
-                this.DoneAction();
+                //this.DoneAction();
                 responseAction(this.gw_helpCache[gwaction]);
             }
             else
@@ -351,6 +347,7 @@ namespace gWeasleGUI
                 {
                     try
                     {
+                        StartAction();
                         ProcessStartInfo procStartInfo = new ProcessStartInfo()
                         {
                             UseShellExecute = false,

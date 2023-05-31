@@ -14,7 +14,7 @@ namespace gWeasleGUI
         Action<string> DisplayContentAction, PersistExtConfig;
         int ActionCount = 0;
 
-        string GwInFile = string.Empty, GwOutFile = string.Empty;
+        string GwNewFile = string.Empty, GwExistingFile = string.Empty, GwDiskDefsFile = string.Empty;
 
         public gWeazleFrm()
         {
@@ -48,7 +48,7 @@ namespace gWeasleGUI
             PopulateConfig();
 
             // initialize gw commandline tools
-            this.gw = new GwTools(logger,ConfigManager.ConfigData.GwToolsPath, this.DisplayContentAction, this.ActionComplete, ActionGwDeviceLoaded);
+            this.gw = new GwTools(logger,ConfigManager.ConfigData.GwToolsPath, this.DisplayContentAction, this.ActionComplete, this.ActionStart, this.ActionGwDeviceLoaded);
 
             // persist file extension to config file
             this.PersistExtConfig = (ext) =>
@@ -61,6 +61,7 @@ namespace gWeasleGUI
             };
 
             this.InitializeArgumentFilters();
+            this.ActionComplete();
         }
 
         /// <summary>
@@ -68,7 +69,7 @@ namespace gWeasleGUI
         /// </summary>
         private void LoadGWOperations()
         {
-            this.ActionStart();
+            //this.ActionStart();
             // Intialize available gw operations
             this.gw.GetOperations((ops) =>
             {
@@ -156,7 +157,7 @@ namespace gWeasleGUI
             this.Invoke(new MethodInvoker(delegate
             {
                 this.ActionCount++;
-                DisableAllOptions();
+                //DisableAllOptions();
                 busy1.Visible = true;
             }));
         }
@@ -193,7 +194,7 @@ namespace gWeasleGUI
                 // Update has different extensions
                 case "update":
                     string[] ext = new[] { "Any File|*.*", "Firmware Update|*.upd" };
-                    this.GwOutFile = utilities.GetFilePath("existing", ext, ext.Last(), null);
+                    this.GwExistingFile = utilities.GetFilePath("existing", ext, ext.Last(), null);
                     this.ProcessAction();
 
                     this.ActionComplete();
@@ -203,7 +204,7 @@ namespace gWeasleGUI
                     this.gw.GetAcceptedSuffixes((suffixes) =>
                     {
                         //Set the source path with persistent file extension
-                        this.GwOutFile = utilities.GetFilePath("existing", suffixes, this.ConfigManager.ConfigData.LastFileExt, this.PersistExtConfig);
+                        this.GwExistingFile = utilities.GetFilePath("existing", suffixes, this.ConfigManager.ConfigData.LastFileExt, this.PersistExtConfig);
                         this.ProcessAction();
 
                         this.ActionComplete();
@@ -224,7 +225,7 @@ namespace gWeasleGUI
             this.gw.GetAcceptedSuffixes((suffixes) =>
             {
                 //Set the source path with persistent file extension
-                this.GwInFile = utilities.GetFilePath("new", suffixes, this.ConfigManager.ConfigData.LastFileExt, this.PersistExtConfig);
+                this.GwNewFile = utilities.GetFilePath("new", suffixes, this.ConfigManager.ConfigData.LastFileExt, this.PersistExtConfig);
                 this.ProcessAction();
 
                 this.ActionComplete();
@@ -267,10 +268,10 @@ namespace gWeasleGUI
             this.PopulateArgs(cmd.action, args, () =>
             {
                 cmd.args = args.ToArray();
-                this.ActionStart();
 
                 // run the gw action command
                 this.gw.RunGWCommand(cmd, this.gwPortTB.Text.Trim());
+                this.ActionComplete();
             });
         }
 
@@ -374,6 +375,8 @@ namespace gWeasleGUI
             driveLBL.Enabled = false;
             gwCylLBL.Enabled = false;
             gwCylTB.Enabled = false;
+            diskdefsBtn.Enabled = false;
+            diskdefsLBL.Enabled = false;
 
             GwFileDisplay.Text = string.Empty;
             SelectNewFileBtn.Enabled = false;
@@ -435,6 +438,18 @@ namespace gWeasleGUI
             gwpathcontainer.Visible = false;
         }
 
+        private void diskdefsBtn_Click(object sender, EventArgs e)
+        {
+            this.ActionStart();
+
+            string[] ext = new[] { "Any File|*.*", "Disk Configs|*.cfg" };
+            this.GwDiskDefsFile = utilities.GetFilePath("existing", ext, ext.Last(), null);
+            this.diskdefsLBL.Text = utilities.MaxSizeFile(this.GwDiskDefsFile, 200);
+            this.ProcessAction();
+
+            this.ActionComplete();
+        }
+
         private void timeCB_CheckedChanged(object sender, EventArgs e)
         {
             if(ConfigManager.ConfigData.Time != timeCB.Checked)
@@ -451,7 +466,6 @@ namespace gWeasleGUI
         /// <param name="e">ignored</param>
         private void gwCmdHelpBtn_Click(object sender, EventArgs e)
         {
-            this.ActionStart();
             GwTools.gwCommand cmd = new GwTools.gwCommand()
             {
                 time = false,

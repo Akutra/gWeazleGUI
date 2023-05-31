@@ -54,19 +54,21 @@
             this.driveLBL = new System.Windows.Forms.Label();
             this.SelectNewFileBtn = new System.Windows.Forms.Button();
             this.gweazleTips = new System.Windows.Forms.ToolTip(this.components);
+            this.accessoptions = new System.Windows.Forms.PictureBox();
             this.gwCylTB = new System.Windows.Forms.TextBox();
             this.gwCylLBL = new System.Windows.Forms.Label();
             this.gwpathcontainer = new System.Windows.Forms.Panel();
-            this.gwPathSelectionTB = new System.Windows.Forms.TextBox();
-            this.SelectGWPathBtn = new System.Windows.Forms.Button();
-            this.gwPathSelectionLBL = new System.Windows.Forms.Label();
-            this.acceptGWLocationBtn = new System.Windows.Forms.Button();
-            this.accessoptions = new System.Windows.Forms.PictureBox();
-            this.busy1 = new System.Windows.Forms.PictureBox();
             this.closeGWOptionsBtn = new System.Windows.Forms.Button();
+            this.acceptGWLocationBtn = new System.Windows.Forms.Button();
+            this.gwPathSelectionLBL = new System.Windows.Forms.Label();
+            this.SelectGWPathBtn = new System.Windows.Forms.Button();
+            this.gwPathSelectionTB = new System.Windows.Forms.TextBox();
+            this.busy1 = new System.Windows.Forms.PictureBox();
+            this.diskdefsLBL = new System.Windows.Forms.Label();
+            this.diskdefsBtn = new System.Windows.Forms.Button();
             this.GwStatus.SuspendLayout();
-            this.gwpathcontainer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.accessoptions)).BeginInit();
+            this.gwpathcontainer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.busy1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -297,6 +299,19 @@
             this.SelectNewFileBtn.UseVisualStyleBackColor = true;
             this.SelectNewFileBtn.Click += new System.EventHandler(this.SelectNewFileBtn_Click);
             // 
+            // accessoptions
+            // 
+            this.accessoptions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.accessoptions.Image = global::gWeasleGUI.Properties.Resources.Grey_Options;
+            this.accessoptions.Location = new System.Drawing.Point(13, 388);
+            this.accessoptions.Name = "accessoptions";
+            this.accessoptions.Size = new System.Drawing.Size(28, 28);
+            this.accessoptions.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.accessoptions.TabIndex = 27;
+            this.accessoptions.TabStop = false;
+            this.gweazleTips.SetToolTip(this.accessoptions, "Options");
+            this.accessoptions.Click += new System.EventHandler(this.accessoptions_Click);
+            // 
             // gwCylTB
             // 
             this.gwCylTB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -332,35 +347,15 @@
             this.gwpathcontainer.TabIndex = 26;
             this.gwpathcontainer.Visible = false;
             // 
-            // gwPathSelectionTB
+            // closeGWOptionsBtn
             // 
-            this.gwPathSelectionTB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.gwPathSelectionTB.Location = new System.Drawing.Point(63, 83);
-            this.gwPathSelectionTB.Name = "gwPathSelectionTB";
-            this.gwPathSelectionTB.Size = new System.Drawing.Size(475, 20);
-            this.gwPathSelectionTB.TabIndex = 0;
-            // 
-            // SelectGWPathBtn
-            // 
-            this.SelectGWPathBtn.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.SelectGWPathBtn.Location = new System.Drawing.Point(534, 81);
-            this.SelectGWPathBtn.Name = "SelectGWPathBtn";
-            this.SelectGWPathBtn.Size = new System.Drawing.Size(75, 23);
-            this.SelectGWPathBtn.TabIndex = 1;
-            this.SelectGWPathBtn.Text = "Select";
-            this.SelectGWPathBtn.UseVisualStyleBackColor = true;
-            this.SelectGWPathBtn.Click += new System.EventHandler(this.SelectGWPathBtn_Click);
-            // 
-            // gwPathSelectionLBL
-            // 
-            this.gwPathSelectionLBL.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.gwPathSelectionLBL.AutoSize = true;
-            this.gwPathSelectionLBL.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gwPathSelectionLBL.Location = new System.Drawing.Point(59, 56);
-            this.gwPathSelectionLBL.Name = "gwPathSelectionLBL";
-            this.gwPathSelectionLBL.Size = new System.Drawing.Size(280, 24);
-            this.gwPathSelectionLBL.TabIndex = 2;
-            this.gwPathSelectionLBL.Text = "Path to GreaseWeazle host tools";
+            this.closeGWOptionsBtn.Location = new System.Drawing.Point(477, 162);
+            this.closeGWOptionsBtn.Name = "closeGWOptionsBtn";
+            this.closeGWOptionsBtn.Size = new System.Drawing.Size(75, 23);
+            this.closeGWOptionsBtn.TabIndex = 4;
+            this.closeGWOptionsBtn.Text = "Cancel";
+            this.closeGWOptionsBtn.UseVisualStyleBackColor = true;
+            this.closeGWOptionsBtn.Click += new System.EventHandler(this.closeGWOptionsBtn_Click);
             // 
             // acceptGWLocationBtn
             // 
@@ -373,18 +368,35 @@
             this.acceptGWLocationBtn.UseVisualStyleBackColor = true;
             this.acceptGWLocationBtn.Click += new System.EventHandler(this.acceptGWLocationBtn_Click);
             // 
-            // accessoptions
+            // gwPathSelectionLBL
             // 
-            this.accessoptions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.accessoptions.Image = global::gWeasleGUI.Properties.Resources.Grey_Options;
-            this.accessoptions.Location = new System.Drawing.Point(13, 388);
-            this.accessoptions.Name = "accessoptions";
-            this.accessoptions.Size = new System.Drawing.Size(28, 28);
-            this.accessoptions.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.accessoptions.TabIndex = 27;
-            this.accessoptions.TabStop = false;
-            this.gweazleTips.SetToolTip(this.accessoptions, "Options");
-            this.accessoptions.Click += new System.EventHandler(this.accessoptions_Click);
+            this.gwPathSelectionLBL.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.gwPathSelectionLBL.AutoSize = true;
+            this.gwPathSelectionLBL.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gwPathSelectionLBL.Location = new System.Drawing.Point(59, 56);
+            this.gwPathSelectionLBL.Name = "gwPathSelectionLBL";
+            this.gwPathSelectionLBL.Size = new System.Drawing.Size(280, 24);
+            this.gwPathSelectionLBL.TabIndex = 2;
+            this.gwPathSelectionLBL.Text = "Path to GreaseWeazle host tools";
+            // 
+            // SelectGWPathBtn
+            // 
+            this.SelectGWPathBtn.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.SelectGWPathBtn.Location = new System.Drawing.Point(534, 81);
+            this.SelectGWPathBtn.Name = "SelectGWPathBtn";
+            this.SelectGWPathBtn.Size = new System.Drawing.Size(75, 23);
+            this.SelectGWPathBtn.TabIndex = 1;
+            this.SelectGWPathBtn.Text = "Select";
+            this.SelectGWPathBtn.UseVisualStyleBackColor = true;
+            this.SelectGWPathBtn.Click += new System.EventHandler(this.SelectGWPathBtn_Click);
+            // 
+            // gwPathSelectionTB
+            // 
+            this.gwPathSelectionTB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.gwPathSelectionTB.Location = new System.Drawing.Point(63, 83);
+            this.gwPathSelectionTB.Name = "gwPathSelectionTB";
+            this.gwPathSelectionTB.Size = new System.Drawing.Size(475, 20);
+            this.gwPathSelectionTB.TabIndex = 0;
             // 
             // busy1
             // 
@@ -398,21 +410,34 @@
             this.busy1.TabIndex = 9;
             this.busy1.TabStop = false;
             // 
-            // closeGWOptionsBtn
+            // diskdefsLBL
             // 
-            this.closeGWOptionsBtn.Location = new System.Drawing.Point(477, 162);
-            this.closeGWOptionsBtn.Name = "closeGWOptionsBtn";
-            this.closeGWOptionsBtn.Size = new System.Drawing.Size(75, 23);
-            this.closeGWOptionsBtn.TabIndex = 4;
-            this.closeGWOptionsBtn.Text = "Cancel";
-            this.closeGWOptionsBtn.UseVisualStyleBackColor = true;
-            this.closeGWOptionsBtn.Click += new System.EventHandler(this.closeGWOptionsBtn_Click);
+            this.diskdefsLBL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.diskdefsLBL.AutoSize = true;
+            this.diskdefsLBL.Location = new System.Drawing.Point(53, 394);
+            this.diskdefsLBL.MaximumSize = new System.Drawing.Size(300, 0);
+            this.diskdefsLBL.Name = "diskdefsLBL";
+            this.diskdefsLBL.Size = new System.Drawing.Size(41, 13);
+            this.diskdefsLBL.TabIndex = 28;
+            this.diskdefsLBL.Text = "Default";
+            // 
+            // diskdefsBtn
+            // 
+            this.diskdefsBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.diskdefsBtn.Location = new System.Drawing.Point(212, 389);
+            this.diskdefsBtn.Name = "diskdefsBtn";
+            this.diskdefsBtn.Size = new System.Drawing.Size(61, 23);
+            this.diskdefsBtn.TabIndex = 29;
+            this.diskdefsBtn.Text = "Disk Defs";
+            this.diskdefsBtn.UseVisualStyleBackColor = true;
+            this.diskdefsBtn.Click += new System.EventHandler(this.diskdefsBtn_Click);
             // 
             // gWeazleFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(779, 441);
+            this.Controls.Add(this.diskdefsBtn);
             this.Controls.Add(this.accessoptions);
             this.Controls.Add(this.gwpathcontainer);
             this.Controls.Add(this.gwCylLBL);
@@ -439,15 +464,16 @@
             this.Controls.Add(this.ExecuteBtn);
             this.Controls.Add(this.outputTB);
             this.Controls.Add(this.GwFileDisplay);
+            this.Controls.Add(this.diskdefsLBL);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "gWeazleFrm";
             this.Text = "gWeazleGUI";
             this.Load += new System.EventHandler(this.gWeasleFrm_Load);
             this.GwStatus.ResumeLayout(false);
             this.GwStatus.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.accessoptions)).EndInit();
             this.gwpathcontainer.ResumeLayout(false);
             this.gwpathcontainer.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.accessoptions)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.busy1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -489,6 +515,8 @@
         private System.Windows.Forms.Button SelectGWPathBtn;
         private System.Windows.Forms.PictureBox accessoptions;
         private System.Windows.Forms.Button closeGWOptionsBtn;
+        private System.Windows.Forms.Label diskdefsLBL;
+        private System.Windows.Forms.Button diskdefsBtn;
     }
 }
 
