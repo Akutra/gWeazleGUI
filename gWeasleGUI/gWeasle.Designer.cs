@@ -66,6 +66,10 @@
             this.busy1 = new System.Windows.Forms.PictureBox();
             this.diskdefsLBL = new System.Windows.Forms.Label();
             this.diskdefsBtn = new System.Windows.Forms.Button();
+            this.gwRetriesLBL = new System.Windows.Forms.Label();
+            this.gwRetriesTB = new System.Windows.Forms.TextBox();
+            this.gwSeekRetriesTB = new System.Windows.Forms.TextBox();
+            this.gwSeekRetriesLBL = new System.Windows.Forms.Label();
             this.GwStatus.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.accessoptions)).BeginInit();
             this.gwpathcontainer.SuspendLayout();
@@ -432,11 +436,47 @@
             this.diskdefsBtn.UseVisualStyleBackColor = true;
             this.diskdefsBtn.Click += new System.EventHandler(this.diskdefsBtn_Click);
             // 
+            // gwRetriesLBL
+            // 
+            this.gwRetriesLBL.AutoSize = true;
+            this.gwRetriesLBL.Location = new System.Drawing.Point(10, 71);
+            this.gwRetriesLBL.Name = "gwRetriesLBL";
+            this.gwRetriesLBL.Size = new System.Drawing.Size(40, 13);
+            this.gwRetriesLBL.TabIndex = 30;
+            this.gwRetriesLBL.Text = "Retries";
+            // 
+            // gwRetriesTB
+            // 
+            this.gwRetriesTB.Location = new System.Drawing.Point(56, 68);
+            this.gwRetriesTB.Name = "gwRetriesTB";
+            this.gwRetriesTB.Size = new System.Drawing.Size(24, 20);
+            this.gwRetriesTB.TabIndex = 31;
+            // 
+            // gwSeekRetriesTB
+            // 
+            this.gwSeekRetriesTB.Location = new System.Drawing.Point(160, 68);
+            this.gwSeekRetriesTB.Name = "gwSeekRetriesTB";
+            this.gwSeekRetriesTB.Size = new System.Drawing.Size(24, 20);
+            this.gwSeekRetriesTB.TabIndex = 33;
+            // 
+            // gwSeekRetriesLBL
+            // 
+            this.gwSeekRetriesLBL.AutoSize = true;
+            this.gwSeekRetriesLBL.Location = new System.Drawing.Point(86, 71);
+            this.gwSeekRetriesLBL.Name = "gwSeekRetriesLBL";
+            this.gwSeekRetriesLBL.Size = new System.Drawing.Size(68, 13);
+            this.gwSeekRetriesLBL.TabIndex = 32;
+            this.gwSeekRetriesLBL.Text = "Seek Retries";
+            // 
             // gWeazleFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(779, 441);
+            this.Controls.Add(this.gwSeekRetriesTB);
+            this.Controls.Add(this.gwSeekRetriesLBL);
+            this.Controls.Add(this.gwRetriesTB);
+            this.Controls.Add(this.gwRetriesLBL);
             this.Controls.Add(this.diskdefsBtn);
             this.Controls.Add(this.accessoptions);
             this.Controls.Add(this.gwpathcontainer);
@@ -517,6 +557,10 @@
         private System.Windows.Forms.Button closeGWOptionsBtn;
         private System.Windows.Forms.Label diskdefsLBL;
         private System.Windows.Forms.Button diskdefsBtn;
+        private System.Windows.Forms.Label gwRetriesLBL;
+        private System.Windows.Forms.TextBox gwRetriesTB;
+        private System.Windows.Forms.TextBox gwSeekRetriesTB;
+        private System.Windows.Forms.Label gwSeekRetriesLBL;
     }
 }
 

@@ -23,6 +23,18 @@ namespace gWeasleGUI
             this.GWParaInterface = new Dictionary<string, Action>();
 
             // arguments
+            this.GWParameters.Add("--seek-retries", (al) => {
+                if (!string.IsNullOrEmpty(this.gwSeekRetriesTB.Text.Trim())) { al.Add($"--seek-retries {this.gwSeekRetriesTB.Text.Trim()}"); }
+            });
+            this.GWParaInterface.Add("--seek-retries", () => {
+                gwSeekRetriesTB.Enabled = true; gwSeekRetriesLBL.Enabled = true;
+            });
+            this.GWParameters.Add("--retries", (al) => {
+                if (!string.IsNullOrEmpty(this.gwRetriesTB.Text.Trim())) { al.Add($"--retries {this.gwRetriesTB.Text.Trim()}"); }
+            });
+            this.GWParaInterface.Add("--retries", () => {
+                gwRetriesTB.Enabled = true; gwRetriesLBL.Enabled = true;
+            });
             this.GWParameters.Add("--diskdefs", (al) => {
                 if (!string.IsNullOrEmpty(this.GwDiskDefsFile)) { al.Add($"--diskdefs \"{this.GwDiskDefsFile}\""); }
             });

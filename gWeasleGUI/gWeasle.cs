@@ -379,6 +379,10 @@ namespace gWeasleGUI
             gwCylTB.Enabled = false;
             diskdefsBtn.Enabled = false;
             diskdefsLBL.Enabled = false;
+            gwSeekRetriesTB.Enabled = false;
+            gwSeekRetriesLBL.Enabled = false;
+            gwRetriesLBL.Enabled = false;
+            gwRetriesTB.Enabled = false;
 
             GwFileDisplay.Text = string.Empty;
             SelectNewFileBtn.Enabled = false;
