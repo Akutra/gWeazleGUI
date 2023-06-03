@@ -36,10 +36,10 @@ namespace gWeasleGUI
                 gwRetriesTB.Enabled = true; gwRetriesLBL.Enabled = true;
             });
             this.GWParameters.Add("--diskdefs", (al) => {
-                if (!string.IsNullOrEmpty(this.GwDiskDefsFile)) { al.Add($"--diskdefs \"{this.GwDiskDefsFile}\""); }
+                if (!string.IsNullOrEmpty(this.GwDiskDefsFile) && this.useDiskDefsFile) { al.Add($"--diskdefs \"{this.GwDiskDefsFile}\""); }
             });
             this.GWParaInterface.Add("--diskdefs", () => {
-                diskdefsBtn.Enabled = true; diskdefsLBL.Enabled = true;
+                //gwDiskDefsBtn.Enabled = true;
             });
             this.GWParameters.Add("--format", (al) => { 
                 if (gwFormatTypeCB.SelectedItem.ToString().Trim().ToLower().IndexOf("default") == -1) { al.Add($"--format {gwFormatTypeCB.SelectedItem}"); } 

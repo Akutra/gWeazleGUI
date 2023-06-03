@@ -15,6 +15,7 @@ namespace gWeasleGUI
         int ActionCount = 0;
 
         string GwNewFile = string.Empty, GwExistingFile = string.Empty, GwDiskDefsFile = string.Empty;
+        bool useDiskDefsFile = true;
 
         public gWeazleFrm()
         {
@@ -61,6 +62,7 @@ namespace gWeasleGUI
             };
 
             this.InitializeArgumentFilters();
+            this.InitializeDDParaHandling();
             this.ActionComplete();
         }
 
@@ -377,8 +379,7 @@ namespace gWeasleGUI
             driveLBL.Enabled = false;
             gwCylLBL.Enabled = false;
             gwCylTB.Enabled = false;
-            diskdefsBtn.Enabled = false;
-            diskdefsLBL.Enabled = false;
+            //gwDiskDefsBtn.Enabled = false;
             gwSeekRetriesTB.Enabled = false;
             gwSeekRetriesLBL.Enabled = false;
             gwRetriesLBL.Enabled = false;
@@ -444,16 +445,103 @@ namespace gWeasleGUI
             gwpathcontainer.Visible = false;
         }
 
-        private void diskdefsBtn_Click(object sender, EventArgs e)
+        private void gwDDDontUseBtn_Click(object sender, EventArgs e)
+        {
+            this.useDiskDefsFile = false;
+            if( this.useDiskDefsFile != this.ConfigManager.ConfigData.LastUseDiskDefsCfgFile)
+            {
+                this.ConfigManager.ConfigData.LastUseDiskDefsCfgFile = this.useDiskDefsFile;
+                this.ConfigManager.WriteConfig();
+            }
+            gwDiskConfigPanel.Visible = false;
+        }
+
+        private void gwDDfileBtn_Click(object sender, EventArgs e)
         {
             this.ActionStart();
 
             string[] ext = new[] { "Any File|*.*", "Disk Configs|*.cfg" };
             this.GwDiskDefsFile = utilities.GetFilePath("existing", ext, ext.Last(), null);
-            this.diskdefsLBL.Text = utilities.MaxSizeFile(this.GwDiskDefsFile, this.diskdefsLBL.MaximumSize.Width);
-            this.ProcessAction();
+            this.gwDDfileLBL.Text = utilities.MaxSizeFile(this.GwDiskDefsFile, this.gwDDfileLBL.MaximumSize.Width);
 
+            if ( this.gwDD.LoadDiskDefs(this.GwDiskDefsFile) )
+            {
+                if(this.ConfigManager.ConfigData.LastDiskDefsCfgFile != this.GwDiskDefsFile)
+                { 
+                    this.ConfigManager.ConfigData.LastDiskDefsCfgFile = this.GwDiskDefsFile;
+                    this.ConfigManager.WriteConfig();
+                }
+                gwDiskConfigCB.Items.AddRange(this.gwDD.GetDiskDefinitionsKeys());
+            }
+            
+            this.ProcessAction();
             this.ActionComplete();
+        }
+
+        private void gwDDUseBtn_Click(object sender, EventArgs e)
+        {
+            this.useDiskDefsFile = true;
+            if (this.useDiskDefsFile != this.ConfigManager.ConfigData.LastUseDiskDefsCfgFile)
+            {
+                this.ConfigManager.ConfigData.LastUseDiskDefsCfgFile = this.useDiskDefsFile;
+                this.ConfigManager.WriteConfig();
+            }
+            gwDiskConfigPanel.Visible = false;
+        }
+
+        private void gwDDTrackListLB_SelectedValueChanged(object sender, EventArgs e)
+        {
+            gwDDRemoveTrackBtn.Enabled = true;
+        }
+
+        private void gwDDRemoveTrackBtn_Click(object sender, EventArgs e)
+        {
+            RemoveTrackDef(gwDDTrackListLB.Text);
+            gwDDTrackListLB.Items.Remove(gwDDTrackListLB.SelectedItem);
+
+            gwDDRemoveTrackBtn.Enabled = false;
+        }
+
+        private void gwDDApplyTrackBtn_Click(object sender, EventArgs e)
+        {
+            if (AddTrackDef())
+            {
+                gwDDRemoveTrackBtn.Enabled = false;
+            }
+        }
+
+        private void diskDefApplyBtn_Click(object sender, EventArgs e)
+        {
+            if(PopulateDiskDef())
+            {
+                gwDDRemoveTrackBtn.Enabled = false;
+
+                // todo save
+                //this.gwDD.SaveDiskDefs();
+            }
+        }
+
+        private void gwDiskConfigCB_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            PopulateDDDisplay(gwDiskConfigCB.SelectedItem.ToString());
+        }
+
+        private void gwDDTrackListLB_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            GwDiskDefs.TrackDefinition track = CurrentDiskDef.Tracks.Where(t => t.ToString() == gwDDTrackListLB.Text).FirstOrDefault();
+            PopulateTDDisplay(track);
+        }
+
+        private void newDiskConfigBtn_Click(object sender, EventArgs e)
+        {
+            PopulateDDDisplay();
+        }
+
+        private void diskdefsBtn_Click(object sender, EventArgs e)
+        {
+            this.gwDDfileLBL.Text = utilities.MaxSizeFile(this.GwDiskDefsFile, this.gwDDfileLBL.MaximumSize.Width);
+            gwDiskConfigCB.Items.AddRange(this.gwDD.GetDiskDefinitionsKeys());
+            gwDiskConfigPanel.Visible = true;
         }
 
         private void timeCB_CheckedChanged(object sender, EventArgs e)
@@ -499,6 +587,8 @@ namespace gWeasleGUI
         {
             timeCB.Checked = ConfigManager.ConfigData.Time;
             gwRawCB.Checked = ConfigManager.ConfigData.RawFormat;
+            this.GwDiskDefsFile = ConfigManager.ConfigData.LastDiskDefsCfgFile;
+            this.useDiskDefsFile = ConfigManager.ConfigData.LastUseDiskDefsCfgFile;
         }
     }
 }

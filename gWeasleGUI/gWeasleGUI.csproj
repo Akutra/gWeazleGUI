@@ -66,6 +66,7 @@
   <ItemGroup>
     <Compile Include="gconfig.cs" />
     <Compile Include="guiLogger.cs" />
+    <Compile Include="GwDiskDefs.cs" />
     <Compile Include="gWeasle.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -75,11 +76,17 @@
     <Compile Include="GwGUICommands.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="GwGUIDiskDefs.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="GwTools.cs" />
     <Compile Include="iLogger.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="utilities.cs" />
+    <Compile Include="vTextParam.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <EmbeddedResource Include="gWeasle.resx">
       <DependentUpon>gWeasle.cs</DependentUpon>
     </EmbeddedResource>
