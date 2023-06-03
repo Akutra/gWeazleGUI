@@ -497,7 +497,6 @@ namespace gWeasleGUI
         private void gwDDRemoveTrackBtn_Click(object sender, EventArgs e)
         {
             RemoveTrackDef(gwDDTrackListLB.Text);
-            gwDDTrackListLB.Items.Remove(gwDDTrackListLB.SelectedItem);
 
             gwDDRemoveTrackBtn.Enabled = false;
         }
@@ -535,6 +534,23 @@ namespace gWeasleGUI
         private void newDiskConfigBtn_Click(object sender, EventArgs e)
         {
             PopulateDDDisplay();
+        }
+
+        private void gwDDReloadBtn_Click(object sender, EventArgs e)
+        {
+            if (this.gwDD.LoadDiskDefs(this.GwDiskDefsFile))
+            {
+                gwDiskConfigCB.Items.Clear();
+                gwDiskConfigCB.Items.AddRange(this.gwDD.GetDiskDefinitionsKeys());
+                PopulateDDDisplay(this.gwDD.GetDiskDefinition(gwDiskConfigCB.Text.Trim()));
+            }
+
+            this.ProcessAction();
+        }
+
+        private void gwDDSaveBtn_Click(object sender, EventArgs e)
+        {
+            this.gwDD.SaveDiskDefs(this.GwDiskDefsFile);
         }
 
         private void diskdefsBtn_Click(object sender, EventArgs e)

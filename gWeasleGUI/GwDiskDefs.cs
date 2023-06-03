@@ -15,7 +15,7 @@ namespace gWeasleGUI
             public string Cylinders;
             public string Heads;
             public string step;
-            public TrackDefinition[] Tracks;
+            public TrackDefinition[] Tracks = new TrackDefinition[0];
 
             public override string ToString()
             {

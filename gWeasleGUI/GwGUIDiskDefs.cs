@@ -41,19 +41,19 @@ namespace gWeasleGUI
             // disk def parms
             GWDiskDefPara.Add("cyls", (dd) =>
             {
-                gwDDCylsTB.ValidationFailure = !(int.TryParse(gwDDCylsTB.Text.Trim(), out c) && (c >= 1 && c <= 255));
+                gwDDCylsTB.ValidationFailure = !NumericValidator(gwDDCylsTB.Text.Trim());
                 dd.Cylinders = gwDDCylsTB.Text.Trim();
                 return gwDDCylsTB.ValidationFailure;
             });
             GWDiskDefPara.Add("heads", (dd) =>
             {
-                gwDDHeadsTB.ValidationFailure = !(int.TryParse(gwDDHeadsTB.Text.Trim(), out c) && (c == 1 || c == 2));
+                gwDDHeadsTB.ValidationFailure = !NumericValidator(gwDDHeadsTB.Text.Trim(), 2);
                 dd.Heads = gwDDHeadsTB.Text.Trim();
                 return gwDDHeadsTB.ValidationFailure;
             });
             GWDiskDefPara.Add("step", (dd) =>
             {
-                gwDDStepTB.ValidationFailure = !(int.TryParse(gwDDStepTB.Text.Trim(), out c) && (c >= 1 && c <= 4));
+                gwDDStepTB.ValidationFailure = !NumericValidator(gwDDStepTB.Text.Trim(), 4);
                 dd.Heads = gwDDStepTB.Text.Trim();
                 return gwDDStepTB.ValidationFailure;
             });
@@ -61,25 +61,25 @@ namespace gWeasleGUI
             // track def parms
             GWDiskDefTrackPara.Add("tracks", (td) =>
             {
-                gwDDtracksTB.ValidationFailure = !TrackValidator.IsMatch(gwDDtracksTB.Text.Trim());
+                gwDDtracksTB.ValidationFailure = !(string.IsNullOrEmpty(gwDDtracksTB.Text.Trim()) || TrackValidator.IsMatch(gwDDtracksTB.Text.Trim()));
                 td.Tracks = gwDDtracksTB.Text.Trim();
                 return gwDDtracksTB.ValidationFailure;
             });
             GWDiskDefTrackPara.Add("trackformat", (td) =>
             {
-                gwDDformatTB.ValidationFailure = !FormatValidator.IsMatch(gwDDformatTB.Text.Trim());
+                gwDDformatTB.ValidationFailure = !(string.IsNullOrEmpty(gwDDformatTB.Text.Trim()) || FormatValidator.IsMatch(gwDDformatTB.Text.Trim()));
                 td.Format = gwDDformatTB.Text.Trim();
                 return gwDDformatTB.ValidationFailure;
             });
             GWDiskDefTrackPara.Add("secs", (td) =>
             {
-                gwDDsectorsTB.ValidationFailure = !(int.TryParse(gwDDsectorsTB.Text.Trim(), out c) && (c >= 0 && c <= 256));
+                gwDDsectorsTB.ValidationFailure = !NumericValidator(gwDDsectorsTB.Text.Trim(), 256, 0);
                 td.parameters["secs"] = gwDDsectorsTB.Text.Trim();
                 return gwDDsectorsTB.ValidationFailure;
             });
             GWDiskDefTrackPara.Add("bps", (td) =>
             {
-                gwDDbpsTB.ValidationFailure = !BpsValidator.IsMatch(gwDDbpsTB.Text.Trim());
+                gwDDbpsTB.ValidationFailure = !(string.IsNullOrEmpty(gwDDbpsTB.Text.Trim()) || BpsValidator.IsMatch(gwDDbpsTB.Text.Trim()));
                 td.parameters["bps"] = gwDDbpsTB.Text.Trim();
                 return gwDDbpsTB.ValidationFailure;
             });
@@ -90,86 +90,86 @@ namespace gWeasleGUI
             });
             GWDiskDefTrackPara.Add("cskew", (td) =>
             {
-                gwDDcskewTB.ValidationFailure = !(int.TryParse(gwDDcskewTB.Text.Trim(), out c) && (c >= 0 && c <= 255));
+                gwDDcskewTB.ValidationFailure = !NumericValidator(gwDDcskewTB.Text.Trim(), 255, 0);
                 td.parameters["cskew"] = gwDDcskewTB.Text.Trim();
                 return gwDDcskewTB.ValidationFailure;
             });
             GWDiskDefTrackPara.Add("hskew", (td) =>
             {
-                gwDDhskewTB.ValidationFailure = !(int.TryParse(gwDDhskewTB.Text.Trim(), out c) && (c >= 0 && c <= 255));
+                gwDDhskewTB.ValidationFailure = !NumericValidator(gwDDhskewTB.Text.Trim(), 255, 0);
                 td.parameters["hskew"] = gwDDhskewTB.Text.Trim();
                 return gwDDhskewTB.ValidationFailure;
             });
             GWDiskDefTrackPara.Add("interleave", (td) =>
             {
-                gwDDinterleaveTB.ValidationFailure = !(int.TryParse(gwDDinterleaveTB.Text.Trim(), out c) && (c >= 1 && c <= 255));
+                gwDDinterleaveTB.ValidationFailure = !NumericValidator(gwDDinterleaveTB.Text.Trim());
                 td.parameters["interleave"] = gwDDinterleaveTB.Text.Trim();
                 return gwDDinterleaveTB.ValidationFailure;
             });
             GWDiskDefTrackPara.Add("id", (td) =>
             {
-                gwDDidTB.ValidationFailure = !(int.TryParse(gwDDidTB.Text.Trim(), out c) && (c >= 0 && c <= 255));
+                gwDDidTB.ValidationFailure = !NumericValidator(gwDDidTB.Text.Trim(), 255, 0);
                 td.parameters["id"] = gwDDidTB.Text.Trim();
                 return gwDDidTB.ValidationFailure;
             });
             GWDiskDefTrackPara.Add("h", (td) =>
             {
-                gwDDhTB.ValidationFailure = !(int.TryParse(gwDDhTB.Text.Trim(), out c) && (c >= 0 && c <= 255));
+                gwDDhTB.ValidationFailure = !NumericValidator(gwDDhTB.Text.Trim(), 255, 0);
                 td.parameters["h"] = gwDDhTB.Text.Trim();
                 return gwDDhTB.ValidationFailure;
             });
             GWDiskDefTrackPara.Add("gap1", (td) =>
             {
-                gwDDgap1TB.ValidationFailure = !(int.TryParse(gwDDgap1TB.Text.Trim(), out c) && (c >= 0 && c <= 255));
+                gwDDgap1TB.ValidationFailure = !NumericValidator(gwDDgap1TB.Text.Trim(), 255, 0);
                 td.parameters["gap1"] = gwDDgap1TB.Text.Trim();
                 return gwDDgap1TB.ValidationFailure;
             });
             GWDiskDefTrackPara.Add("gap2", (td) =>
             {
-                gwDDgap2TB.ValidationFailure = !(int.TryParse(gwDDgap2TB.Text.Trim(), out c) && (c >= 0 && c <= 255));
+                gwDDgap2TB.ValidationFailure = !NumericValidator(gwDDgap2TB.Text.Trim(), 255, 0);
                 td.parameters["gap2"] = gwDDgap2TB.Text.Trim();
                 return gwDDgap2TB.ValidationFailure;
             });
             GWDiskDefTrackPara.Add("gap3", (td) =>
             {
-                gwDDgap3TB.ValidationFailure = !(int.TryParse(gwDDgap3TB.Text.Trim(), out c) && (c >= 0 && c <= 255));
+                gwDDgap3TB.ValidationFailure = !NumericValidator(gwDDgap3TB.Text.Trim(), 255, 0);
                 td.parameters["gap3"] = gwDDgap3TB.Text.Trim();
                 return gwDDgap3TB.ValidationFailure;
             });
             GWDiskDefTrackPara.Add("gap4a", (td) =>
             {
-                gwDDgap4aTB.ValidationFailure = !(int.TryParse(gwDDgap4aTB.Text.Trim(), out c) && (c >= 0 && c <= 255));
+                gwDDgap4aTB.ValidationFailure = !NumericValidator(gwDDgap4aTB.Text.Trim(), 255, 0);
                 td.parameters["gap4a"] = gwDDgap4aTB.Text.Trim();
                 return gwDDgap4aTB.ValidationFailure;
             });
             GWDiskDefTrackPara.Add("gapbyte", (td) =>
             {
-                gwDDgapbyteTB.ValidationFailure = !(int.TryParse(gwDDgapbyteTB.Text.Trim(), out c) && (c >= 0 && c <= 255));
+                gwDDgapbyteTB.ValidationFailure = !NumericValidator(gwDDgapbyteTB.Text.Trim(), 255, 0);
                 td.parameters["gapbyte"] = gwDDgapbyteTB.Text.Trim();
                 return gwDDgapbyteTB.ValidationFailure;
             });
             GWDiskDefTrackPara.Add("rate", (td) =>
             {
-                gwDDrateTB.ValidationFailure = !(int.TryParse(gwDDrateTB.Text.Trim(), out c) && (c >= 1 && c <= 2000));
+                gwDDrateTB.ValidationFailure = !NumericValidator(gwDDrateTB.Text.Trim(), 2000);
                 td.parameters["rate"] = gwDDrateTB.Text.Trim();
                 return gwDDrateTB.ValidationFailure;
             });
             GWDiskDefTrackPara.Add("rpm", (td) =>
             {
-                gwDDrpmTB.ValidationFailure = !(int.TryParse(gwDDrpmTB.Text.Trim(), out c) && (c >= 1 && c <= 2000));
+                gwDDrpmTB.ValidationFailure = !NumericValidator(gwDDrpmTB.Text.Trim(), 2000);
                 td.parameters["rpm"] = gwDDrpmTB.Text.Trim();
                 return gwDDrpmTB.ValidationFailure;
             });
             GWDiskDefTrackPara.Add("img_bps", (td) =>
             {
-                gwDDimgbpsTB.ValidationFailure = !int.TryParse(gwDDimgbpsTB.Text.Trim(), out c);
+                gwDDimgbpsTB.ValidationFailure = !(string.IsNullOrEmpty(gwDDimgbpsTB.Text.Trim()) || int.TryParse(gwDDimgbpsTB.Text.Trim(), out c));
                 td.parameters["img_bps"] = gwDDimgbpsTB.Text.Trim();
                 return gwDDimgbpsTB.ValidationFailure;
             });
             GWDiskDefTrackPara.Add("clock", (td) =>
             {
                 double clk;
-                gwDDclockTB.ValidationFailure = !double.TryParse(gwDDclockTB.Text.Trim(), out clk);
+                gwDDclockTB.ValidationFailure = !(string.IsNullOrEmpty(gwDDclockTB.Text.Trim()) || double.TryParse(gwDDclockTB.Text.Trim(), out clk));
                 td.parameters["clock"] = gwDDclockTB.Text.Trim();
                 return gwDDclockTB.ValidationFailure;
             });
@@ -201,6 +201,21 @@ namespace gWeasleGUI
                 { "clock", (tg) => {gwDDclockTB.Text = tg.parameters.ContainsKey("clock") ? tg.parameters["clock"] : string.Empty;} },
                 { "format", (tg) => {gwDDsubformatTB.Text = tg.parameters.ContainsKey("format") ? tg.parameters["format"] : string.Empty; }}
             };
+        }
+
+        /// <summary>
+        /// Common validator string value as an integer
+        /// </summary>
+        /// <param name="value">string content</param>
+        /// <param name="bottom">lowest number accepted, default of 1</param>
+        /// <param name="top">highest number accepted, default of 255</param>
+        /// <returns>returns true if it meets the criteria or is empty</returns>
+        public bool NumericValidator(string value, int top = 255, int bottom = 1)
+        {
+            if(string.IsNullOrEmpty(value)) return true; // empty value means reset and should pass
+
+            int c;
+            return (int.TryParse(value, out c) && (c >= bottom && c <= top));
         }
 
         public bool PopulateDiskDef()
@@ -258,7 +273,7 @@ namespace gWeasleGUI
             if (isValid)
             {
                 ddTracks[track.ToString()] = track;
-                if( !gwDDTrackListLB.Items.Contains(track.ToString()))
+                if( gwDDTrackListLB.FindString(track.ToString()) == ListBox.NoMatches)
                     gwDDTrackListLB.Items.Add(track.ToString());
 
                 CurrentDiskDef.Tracks = ddTracks.Values.ToArray();
@@ -275,6 +290,8 @@ namespace gWeasleGUI
                 ddTracks.Remove(trackref);
                 CurrentDiskDef.Tracks = ddTracks.Values.ToArray();
             }
+            if (gwDDTrackListLB.FindString(trackref) != ListBox.NoMatches)
+                gwDDTrackListLB.Items.RemoveAt(gwDDTrackListLB.FindString(trackref));
         }
 
         private void PopulateDDDisplay(string defName)
@@ -293,6 +310,7 @@ namespace gWeasleGUI
             gwDDHeadsTB.Text = diskDefinition.Heads;
             gwDDStepTB.Text = diskDefinition.step;
 
+            string selTrack = gwDDTrackListLB.Text; // persistent selection, try to select again after refresh
             gwDDTrackListLB.Items.Clear();
             if (diskDefinition.Tracks != null && diskDefinition.Tracks.Count() > 0)
             {
@@ -307,6 +325,9 @@ namespace gWeasleGUI
             {
                 ddTracks.Add(td.ToString(), td);
             }
+
+            if (!string.IsNullOrEmpty(selTrack) && gwDDTrackListLB.FindString(selTrack) != ListBox.NoMatches)
+                gwDDTrackListLB.SelectedIndex = gwDDTrackListLB.FindString(selTrack);
         }
 
         private void PopulateTDDisplay(GwDiskDefs.TrackDefinition trackDef = null)

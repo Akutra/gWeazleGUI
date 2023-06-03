@@ -70,6 +70,8 @@
             this.gwSeekRetriesTB = new gWeasleGUI.vTextParam();
             this.gwSeekRetriesLBL = new System.Windows.Forms.Label();
             this.gwDiskConfigPanel = new System.Windows.Forms.Panel();
+            this.gwDDSaveBtn = new System.Windows.Forms.Button();
+            this.gwDDReloadBtn = new System.Windows.Forms.Button();
             this.gwDDfileBtn = new System.Windows.Forms.Button();
             this.gwDDfileLBL = new System.Windows.Forms.Label();
             this.gwDDDontUseBtn = new System.Windows.Forms.Button();
@@ -528,6 +530,8 @@
             // 
             // gwDiskConfigPanel
             // 
+            this.gwDiskConfigPanel.Controls.Add(this.gwDDSaveBtn);
+            this.gwDiskConfigPanel.Controls.Add(this.gwDDReloadBtn);
             this.gwDiskConfigPanel.Controls.Add(this.gwDDfileBtn);
             this.gwDiskConfigPanel.Controls.Add(this.gwDDfileLBL);
             this.gwDiskConfigPanel.Controls.Add(this.gwDDDontUseBtn);
@@ -550,6 +554,26 @@
             this.gwDiskConfigPanel.Size = new System.Drawing.Size(710, 254);
             this.gwDiskConfigPanel.TabIndex = 34;
             this.gwDiskConfigPanel.Visible = false;
+            // 
+            // gwDDSaveBtn
+            // 
+            this.gwDDSaveBtn.Location = new System.Drawing.Point(119, 227);
+            this.gwDDSaveBtn.Name = "gwDDSaveBtn";
+            this.gwDDSaveBtn.Size = new System.Drawing.Size(102, 23);
+            this.gwDDSaveBtn.TabIndex = 33;
+            this.gwDDSaveBtn.Text = "Save to file";
+            this.gwDDSaveBtn.UseVisualStyleBackColor = true;
+            this.gwDDSaveBtn.Click += new System.EventHandler(this.gwDDSaveBtn_Click);
+            // 
+            // gwDDReloadBtn
+            // 
+            this.gwDDReloadBtn.Location = new System.Drawing.Point(11, 227);
+            this.gwDDReloadBtn.Name = "gwDDReloadBtn";
+            this.gwDDReloadBtn.Size = new System.Drawing.Size(102, 23);
+            this.gwDDReloadBtn.TabIndex = 32;
+            this.gwDDReloadBtn.Text = "Reload from file";
+            this.gwDDReloadBtn.UseVisualStyleBackColor = true;
+            this.gwDDReloadBtn.Click += new System.EventHandler(this.gwDDReloadBtn_Click);
             // 
             // gwDDfileBtn
             // 
@@ -1285,6 +1309,8 @@
         private vTextParam gwDDsubformatTB;
         private System.Windows.Forms.Label gwDDsubformatLBL;
         private System.Windows.Forms.Button gwDDRemoveTrackBtn;
+        private System.Windows.Forms.Button gwDDReloadBtn;
+        private System.Windows.Forms.Button gwDDSaveBtn;
     }
 }
 
