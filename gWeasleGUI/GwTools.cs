@@ -244,7 +244,12 @@ namespace gWeasleGUI
 
                 foreach (string item in items)
                 {
-                    types.Add(item.Trim().Split(' ').FirstOrDefault());
+                    // Allow nwer columned output
+                    IEnumerable<string> parts = item.Trim().Split(' ').Where(i => !string.IsNullOrEmpty(i));
+                    if (parts.Count() > 0)
+                    {
+                        types.AddRange(parts);
+                    }
                 }
                 this.logger.Info($"{types.Count} formats loaded.");
 

@@ -453,6 +453,9 @@ namespace gWeasleGUI
                 this.ConfigManager.ConfigData.LastUseDiskDefsCfgFile = this.useDiskDefsFile;
                 this.ConfigManager.WriteConfig();
             }
+
+            this.ProcessAction();
+
             gwDiskConfigPanel.Visible = false;
         }
 
@@ -471,6 +474,7 @@ namespace gWeasleGUI
                     this.ConfigManager.ConfigData.LastDiskDefsCfgFile = this.GwDiskDefsFile;
                     this.ConfigManager.WriteConfig();
                 }
+                gwDiskConfigCB.Items.Clear();
                 gwDiskConfigCB.Items.AddRange(this.gwDD.GetDiskDefinitionsKeys());
             }
             
@@ -486,6 +490,10 @@ namespace gWeasleGUI
                 this.ConfigManager.ConfigData.LastUseDiskDefsCfgFile = this.useDiskDefsFile;
                 this.ConfigManager.WriteConfig();
             }
+            this.gwDD.SaveDiskDefs(this.GwDiskDefsFile);
+
+            this.ProcessAction();
+
             gwDiskConfigPanel.Visible = false;
         }
 
@@ -515,8 +523,11 @@ namespace gWeasleGUI
             {
                 gwDDRemoveTrackBtn.Enabled = false;
 
-                // todo save
-                //this.gwDD.SaveDiskDefs();
+                gwDiskConfigCB.Items.Clear();
+                gwDiskConfigCB.Items.AddRange(this.gwDD.GetDiskDefinitionsKeys());
+
+                if(gwDiskConfigCB.FindString(diskDefNameTB.Text.Trim()) != ListBox.NoMatches)
+                    gwDiskConfigCB.SelectedIndex = gwDiskConfigCB.FindString(diskDefNameTB.Text.Trim());
             }
         }
 
@@ -553,9 +564,21 @@ namespace gWeasleGUI
             this.gwDD.SaveDiskDefs(this.GwDiskDefsFile);
         }
 
+        private void removeDiskConfigBtn_Click(object sender, EventArgs e)
+        {
+            string ddName = gwDiskConfigCB.Text.Trim();
+            this.gwDD.RemoveDefinition(ddName);
+
+            if (gwDiskConfigCB.FindString(ddName) != ListBox.NoMatches)
+                gwDiskConfigCB.Items.RemoveAt(gwDiskConfigCB.FindString(ddName));
+
+            this.ProcessAction();
+        }
+
         private void diskdefsBtn_Click(object sender, EventArgs e)
         {
             this.gwDDfileLBL.Text = utilities.MaxSizeFile(this.GwDiskDefsFile, this.gwDDfileLBL.MaximumSize.Width);
+            gwDiskConfigCB.Items.Clear();
             gwDiskConfigCB.Items.AddRange(this.gwDD.GetDiskDefinitionsKeys());
             gwDiskConfigPanel.Visible = true;
         }

@@ -24,7 +24,7 @@ namespace gWeasleGUI
 
         // at least we will have the correct characters
         public static readonly Regex TrackValidator = new Regex(@"^[0-9*-.]+$");
-        public static readonly Regex FormatValidator = new Regex(@"^[0-9a-z.]+$");
+        public static readonly Regex FormatValidator = new Regex(@"^[0-9a-z_.]+$");
         public static readonly Regex BpsValidator = new Regex(@"^[0-9,*-]+$");
 
         /// <summary>
@@ -39,22 +39,28 @@ namespace gWeasleGUI
             gwDD = new GwDiskDefs(logger, this.ActionStart, this.ActionComplete, this.ConfigManager.ConfigData.LastDiskDefsCfgFile);
 
             // disk def parms
+            GWDiskDefPara.Add("name", (dd) =>
+            {
+                diskDefNameTB.ValidationFailure = !FormatValidator.IsMatch(diskDefNameTB.Text.Trim());
+                dd.Name = diskDefNameTB.Text.Trim();
+                return diskDefNameTB.ValidationFailure;
+            });
             GWDiskDefPara.Add("cyls", (dd) =>
             {
-                gwDDCylsTB.ValidationFailure = !NumericValidator(gwDDCylsTB.Text.Trim());
+                gwDDCylsTB.ValidationFailure = string.IsNullOrEmpty(gwDDCylsTB.Text.Trim()) || !NumericValidator(gwDDCylsTB.Text.Trim());
                 dd.Cylinders = gwDDCylsTB.Text.Trim();
                 return gwDDCylsTB.ValidationFailure;
             });
             GWDiskDefPara.Add("heads", (dd) =>
             {
-                gwDDHeadsTB.ValidationFailure = !NumericValidator(gwDDHeadsTB.Text.Trim(), 2);
+                gwDDHeadsTB.ValidationFailure = string.IsNullOrEmpty(gwDDCylsTB.Text.Trim()) || !NumericValidator(gwDDHeadsTB.Text.Trim(), 2);
                 dd.Heads = gwDDHeadsTB.Text.Trim();
                 return gwDDHeadsTB.ValidationFailure;
             });
             GWDiskDefPara.Add("step", (dd) =>
             {
                 gwDDStepTB.ValidationFailure = !NumericValidator(gwDDStepTB.Text.Trim(), 4);
-                dd.Heads = gwDDStepTB.Text.Trim();
+                dd.step = gwDDStepTB.Text.Trim();
                 return gwDDStepTB.ValidationFailure;
             });
 
@@ -85,7 +91,7 @@ namespace gWeasleGUI
             });
             GWDiskDefTrackPara.Add("iam", (td) =>
             {
-                td.parameters["iam"] = gwDDiamCB.Checked ? "yes" : "no";
+                td.parameters["iam"] = gwDDiamCB.Checked ? "" : "no";
                 return false;
             });
             GWDiskDefTrackPara.Add("cskew", (td) =>
@@ -184,7 +190,7 @@ namespace gWeasleGUI
             {
                 { "secs", (tg) => { gwDDsectorsTB.Text = tg.parameters.ContainsKey("secs") ? tg.parameters["secs"] : string.Empty; } },
                 { "bps", (tg) => { gwDDbpsTB.Text = tg.parameters.ContainsKey("bps") ? tg.parameters["bps"] : string.Empty; } },
-                { "iam", (tg) => {gwDDiamCB.Checked = tg.parameters.ContainsKey("iam") && tg.parameters["iam"] == "yes" ? true : false; } },
+                { "iam", (tg) => {gwDDiamCB.Checked = tg.parameters.ContainsKey("iam") && tg.parameters["iam"] == "no" ? false : true; } },
                 { "cskew", (tg) => {gwDDcskewTB.Text = tg.parameters.ContainsKey("cskew") ? tg.parameters["cskew"] : string.Empty;} },
                 { "hskew", (tg) => {gwDDhskewTB.Text = tg.parameters.ContainsKey("hskew") ? tg.parameters["hskew"] : string.Empty;} },
                 { "interleave", (tg) => {gwDDinterleaveTB.Text = tg.parameters.ContainsKey("interleave") ? tg.parameters["interleave"] : string.Empty;} },
@@ -220,11 +226,17 @@ namespace gWeasleGUI
 
         public bool PopulateDiskDef()
         {
-            //GwDiskDefs.DiskDefinition response = new GwDiskDefs.DiskDefinition();
+            if (CurrentDiskDef.Name != diskDefNameTB.Text.Trim())
+                CurrentDiskDef = new DiskDefinition();
+
             bool isValid = true;
 
+            // Name
+            if (GWDiskDefPara["name"](CurrentDiskDef))
+                isValid = false;
+
             // Cylinders
-            if(GWDiskDefPara["cyls"](CurrentDiskDef))
+            if (GWDiskDefPara["cyls"](CurrentDiskDef))
                 isValid = false;
 
             // Heads
@@ -247,6 +259,8 @@ namespace gWeasleGUI
 
         public bool AddTrackDef()
         {
+            if (string.IsNullOrEmpty(CurrentDiskDef.Name)) return false;
+
             GwDiskDefs.TrackDefinition track = new GwDiskDefs.TrackDefinition();
             List<string> trackparms = new List<string>();
 
@@ -344,6 +358,19 @@ namespace gWeasleGUI
                 GWTrackDefDisplay[trackProp](trackDef);
             }
 
+        }
+
+        private string[] GetDiskFormats()
+        {
+            string[] response = null;
+
+            // see if we can use the config file for formats
+            if(this.ddCfgFileAvailable && this.useDiskDefsFile && !string.IsNullOrEmpty(this.GwDiskDefsFile))
+            {
+                response = this.gwDD.GetDiskDefinitionsKeys();
+            }
+
+            return response;
         }
     }
 }

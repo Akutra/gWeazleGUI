@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Gconfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <GwToolsPath>C:\Users\acura\Downloads\greaseweazle-1.12-win\greaseweazle-1.12</GwToolsPath>
+  <GwToolsPath></GwToolsPath>
   <Time>true</Time>
   <LastFormatType>default</LastFormatType>
-  <LastFileExt>SCP|*.scp</LastFileExt>
-  <RawFormat>true</RawFormat>
-  <LastDiskDefsCfgFile>C:\Users\acura\Downloads\greaseweazle-1.12-win\greaseweazle-1.12\diskdefs.cfg</LastDiskDefsCfgFile>
+  <LastFileExt>IMG|*.ima;*.img;*.st</LastFileExt>
+  <RawFormat>false</RawFormat>
+  <LastDiskDefsCfgFile></LastDiskDefsCfgFile>
+  <LastUseDiskDefsCfgFile>true</LastUseDiskDefsCfgFile>
 </Gconfig>

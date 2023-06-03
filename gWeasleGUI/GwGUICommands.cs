@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Windows.Forms;
 
@@ -13,6 +14,8 @@ namespace gWeasleGUI
 
         private Dictionary<string, Action<List<string>>> GWParameters;
         private Dictionary<string, Action> GWParaInterface;
+
+        private bool ddCfgFileAvailable = true;
 
         /// <summary>
         /// Unified argument handling
@@ -39,7 +42,7 @@ namespace gWeasleGUI
                 if (!string.IsNullOrEmpty(this.GwDiskDefsFile) && this.useDiskDefsFile) { al.Add($"--diskdefs \"{this.GwDiskDefsFile}\""); }
             });
             this.GWParaInterface.Add("--diskdefs", () => {
-                //gwDiskDefsBtn.Enabled = true;
+                this.ddCfgFileAvailable = true;
             });
             this.GWParameters.Add("--format", (al) => { 
                 if (gwFormatTypeCB.SelectedItem.ToString().Trim().ToLower().IndexOf("default") == -1) { al.Add($"--format {gwFormatTypeCB.SelectedItem}"); } 
@@ -129,6 +132,9 @@ namespace gWeasleGUI
                 {
                     List<string> available = utilities.ExtractGroup("optional arguments:", response);
 
+                    if (args is null)
+                        this.ddCfgFileAvailable = false; // fix for older versions when --diskdefs is not available
+
                     // get argument list directly from gw tools
                     foreach (string arg in available)
                     {
@@ -182,14 +188,16 @@ namespace gWeasleGUI
                 SelectNewFileBtn.Enabled = true;
                 GwFileDisplay.Text = $">> {this.GwNewFile}";
 
-                // only load format types if necessary
-                if (gwFormatTypeCB.Items.Count < 2 || this.gw.LastGetFormatsAction != "read")
-                {
-                    // available gw format types
-                    gwFormatTypeCB.Items.Clear();
-                    gwFormatTypeCB.Items.Add("default");
+                // available gw format types
+                gwFormatTypeCB.Items.Clear();
+                gwFormatTypeCB.Items.Add("default");
+
+                string[] fileDD = GetDiskFormats();
+                if (fileDD != null && fileDD.Count() > 0)
+                    gwGetFormatTypes(fileDD);
+                else
                     this.gw.GetFormatTypes("read", gwGetFormatTypes);
-                }
+
             } else
             {
                 // options
@@ -216,14 +224,16 @@ namespace gWeasleGUI
                 SelectExistingFileBtn.Enabled = true;
                 GwFileDisplay.Text = $"<< {this.GwExistingFile}";
 
-                // only load format types if necessary
-                if (gwFormatTypeCB.Items.Count < 2 || this.gw.LastGetFormatsAction != "write")
-                {
-                    // available gw format types
-                    gwFormatTypeCB.Items.Clear();
-                    gwFormatTypeCB.Items.Add("default");
+                // available gw format types
+                gwFormatTypeCB.Items.Clear();
+                gwFormatTypeCB.Items.Add("default");
+
+                string[] fileDD = GetDiskFormats();
+                if (fileDD != null && fileDD.Count() > 0)
+                    gwGetFormatTypes(fileDD);
+                else
                     this.gw.GetFormatTypes("write", gwGetFormatTypes);
-                }
+
             } else
             {
                 // options
@@ -251,14 +261,16 @@ namespace gWeasleGUI
                 SelectExistingFileBtn.Enabled = true;
                 GwFileDisplay.Text = $"{this.GwExistingFile} >> {this.GwNewFile}";
 
-                // only load format types if necessary
-                if (gwFormatTypeCB.Items.Count < 2 || this.gw.LastGetFormatsAction != "convert")
-                {
-                    // available gw format types
-                    gwFormatTypeCB.Items.Clear();
-                    gwFormatTypeCB.Items.Add("default");
+                // available gw format types
+                gwFormatTypeCB.Items.Clear();
+                gwFormatTypeCB.Items.Add("default");
+
+                string[] fileDD = GetDiskFormats();
+                if (fileDD != null && fileDD.Count() > 0)
+                    gwGetFormatTypes(fileDD);
+                else
                     this.gw.GetFormatTypes("convert", gwGetFormatTypes);
-                }
+                
             }
             else
             {

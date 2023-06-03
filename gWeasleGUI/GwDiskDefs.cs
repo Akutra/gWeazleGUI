@@ -39,6 +39,7 @@ namespace gWeasleGUI
         ILogger logger = null;
         Action ActionStart, ActionDone;
         Dictionary<string, DiskDefinition> DiskDefinitions;
+        bool ddChanged = false;
 
         public GwDiskDefs(ILogger logger, Action WorkStart, Action WorkComplete, string fileName = null) 
         { 
@@ -51,7 +52,11 @@ namespace gWeasleGUI
 
         public void SetDefinition(DiskDefinition diskDef)
         {
-            DiskDefinitions[diskDef.ToString()] = diskDef;
+            if (diskDef != null)
+            {
+                DiskDefinitions[diskDef.ToString()] = diskDef;
+                ddChanged = true;
+            }
         }
 
         public DiskDefinition GetDiskDefinition(string name)
@@ -60,6 +65,15 @@ namespace gWeasleGUI
                 return DiskDefinitions[name];
 
             return null;
+        }
+
+        public void RemoveDefinition(string name)
+        {
+            if (DiskDefinitions.ContainsKey(name))
+            {
+                DiskDefinitions.Remove(name);
+                ddChanged = true;
+            }
         }
 
         public string[] GetDiskDefinitionsKeys()
@@ -141,6 +155,7 @@ namespace gWeasleGUI
                 logger.Error($"Error loading disk config file line {lastreadlinenumber}", e);
                 return false;
             }
+            ddChanged = false;
 
             ActionDone();
             return true;
@@ -181,26 +196,37 @@ namespace gWeasleGUI
         {
             ActionStart();
 
-            using (StreamWriter writer = new StreamWriter(fileName))
+            if (!ddChanged) return;
+
+            try
             {
-                foreach (DiskDefinition diskDef in DiskDefinitions.Values)
+                using (StreamWriter writer = new StreamWriter(fileName))
                 {
-                    writer.WriteLine($"disk {diskDef.Name}");
-                    writer.WriteLine($"    cyls = {diskDef.Cylinders}");
-                    writer.WriteLine($"    heads = {diskDef.Heads}");
-                    foreach (TrackDefinition track in diskDef.Tracks)
+                    foreach (DiskDefinition diskDef in DiskDefinitions.Values)
                     {
-                        writer.WriteLine($"    tracks {track}");
-                        foreach(string key in track.parameters.Keys)
+                        writer.WriteLine($"disk {diskDef.Name}");
+                        writer.WriteLine($"    cyls = {diskDef.Cylinders}");
+                        writer.WriteLine($"    heads = {diskDef.Heads}");
+                        foreach (TrackDefinition track in diskDef.Tracks)
                         {
-                            if (!string.IsNullOrEmpty(track.parameters[key]))
-                                writer.WriteLine($"        {key} = {track.parameters[key]}");
+                            writer.WriteLine($"    tracks {track}");
+                            foreach (string key in track.parameters.Keys)
+                            {
+                                if (!string.IsNullOrEmpty(track.parameters[key]))
+                                    writer.WriteLine($"        {key} = {track.parameters[key]}");
+                            }
+                            writer.WriteLine("    end");
                         }
-                        writer.WriteLine("    end");
+                        writer.WriteLine("end");
                     }
-                    writer.WriteLine("end");
                 }
             }
+            catch (Exception e)
+            {
+                logger.Error("Error writing disk config file.", e);
+                return;
+            }
+            ddChanged = false;
 
             ActionDone();
         }
