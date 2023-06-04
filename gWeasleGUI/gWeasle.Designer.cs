@@ -55,6 +55,41 @@
             this.SelectNewFileBtn = new System.Windows.Forms.Button();
             this.gweazleTips = new System.Windows.Forms.ToolTip(this.components);
             this.accessoptions = new System.Windows.Forms.PictureBox();
+            this.removeDiskConfigBtn = new System.Windows.Forms.Button();
+            this.gwDDsubformatTB = new gWeasleGUI.vTextParam();
+            this.gwDDclockTB = new gWeasleGUI.vTextParam();
+            this.gwDDimgbpsTB = new gWeasleGUI.vTextParam();
+            this.gwDDgapbyteTB = new gWeasleGUI.vTextParam();
+            this.gwDDgap4aTB = new gWeasleGUI.vTextParam();
+            this.gwDDgap3TB = new gWeasleGUI.vTextParam();
+            this.gwDDgap2TB = new gWeasleGUI.vTextParam();
+            this.gwDDgap1TB = new gWeasleGUI.vTextParam();
+            this.gwDDrpmTB = new gWeasleGUI.vTextParam();
+            this.gwDDrateTB = new gWeasleGUI.vTextParam();
+            this.gwDDhTB = new gWeasleGUI.vTextParam();
+            this.gwDDinterleaveTB = new gWeasleGUI.vTextParam();
+            this.gwDDidTB = new gWeasleGUI.vTextParam();
+            this.gwDDhskewTB = new gWeasleGUI.vTextParam();
+            this.gwDDcskewTB = new gWeasleGUI.vTextParam();
+            this.gwDDiamCB = new System.Windows.Forms.CheckBox();
+            this.gwDDbpsTB = new gWeasleGUI.vTextParam();
+            this.gwDDformatTB = new gWeasleGUI.vTextParam();
+            this.gwDDtracksTB = new gWeasleGUI.vTextParam();
+            this.gwDDsectorsTB = new gWeasleGUI.vTextParam();
+            this.gwDDStepTB = new gWeasleGUI.vTextParam();
+            this.gwDDHeadsTB = new gWeasleGUI.vTextParam();
+            this.gwDDCylsTB = new gWeasleGUI.vTextParam();
+            this.diskDefNameTB = new gWeasleGUI.vTextParam();
+            this.newDiskConfigBtn = new System.Windows.Forms.Button();
+            this.gwDiskConfigCB = new System.Windows.Forms.ComboBox();
+            this.gwDDSaveBtn = new System.Windows.Forms.Button();
+            this.gwDDReloadBtn = new System.Windows.Forms.Button();
+            this.gwDDfileBtn = new System.Windows.Forms.Button();
+            this.gwDDDontUseBtn = new System.Windows.Forms.Button();
+            this.gwDDUseBtn = new System.Windows.Forms.Button();
+            this.gwDDRemoveTrackBtn = new System.Windows.Forms.Button();
+            this.gwDDApplyTrackBtn = new System.Windows.Forms.Button();
+            this.diskDefApplyBtn = new System.Windows.Forms.Button();
             this.gwCylTB = new gWeasleGUI.vTextParam();
             this.gwCylLBL = new System.Windows.Forms.Label();
             this.gwpathcontainer = new System.Windows.Forms.Panel();
@@ -70,68 +105,33 @@
             this.gwSeekRetriesTB = new gWeasleGUI.vTextParam();
             this.gwSeekRetriesLBL = new System.Windows.Forms.Label();
             this.gwDiskConfigPanel = new System.Windows.Forms.Panel();
-            this.gwDDSaveBtn = new System.Windows.Forms.Button();
-            this.gwDDReloadBtn = new System.Windows.Forms.Button();
-            this.gwDDfileBtn = new System.Windows.Forms.Button();
             this.gwDDfileLBL = new System.Windows.Forms.Label();
-            this.gwDDDontUseBtn = new System.Windows.Forms.Button();
-            this.gwDDUseBtn = new System.Windows.Forms.Button();
             this.gwDDtracksgroupBox = new System.Windows.Forms.GroupBox();
-            this.gwDDRemoveTrackBtn = new System.Windows.Forms.Button();
-            this.gwDDsubformatTB = new gWeasleGUI.vTextParam();
             this.gwDDsubformatLBL = new System.Windows.Forms.Label();
-            this.gwDDclockTB = new gWeasleGUI.vTextParam();
             this.gwDDclockLBL = new System.Windows.Forms.Label();
-            this.gwDDApplyTrackBtn = new System.Windows.Forms.Button();
-            this.gwDDimgbpsTB = new gWeasleGUI.vTextParam();
             this.gwDDimgbpsLBL = new System.Windows.Forms.Label();
-            this.gwDDgapbyteTB = new gWeasleGUI.vTextParam();
             this.gwDDgapbyteLBL = new System.Windows.Forms.Label();
-            this.gwDDgap4aTB = new gWeasleGUI.vTextParam();
             this.gwDDgap4aLBL = new System.Windows.Forms.Label();
-            this.gwDDgap3TB = new gWeasleGUI.vTextParam();
             this.gwDDgap3LBL = new System.Windows.Forms.Label();
-            this.gwDDgap2TB = new gWeasleGUI.vTextParam();
             this.gwDDgap2LBL = new System.Windows.Forms.Label();
-            this.gwDDgap1TB = new gWeasleGUI.vTextParam();
             this.gwDDgap1LBL = new System.Windows.Forms.Label();
-            this.gwDDrpmTB = new gWeasleGUI.vTextParam();
             this.gwDDrpmLBL = new System.Windows.Forms.Label();
-            this.gwDDrateTB = new gWeasleGUI.vTextParam();
             this.gwDDrateLBL = new System.Windows.Forms.Label();
-            this.gwDDhTB = new gWeasleGUI.vTextParam();
             this.gwDDhLBL = new System.Windows.Forms.Label();
-            this.gwDDinterleaveTB = new gWeasleGUI.vTextParam();
             this.gwDDinterleaveLBL = new System.Windows.Forms.Label();
-            this.gwDDidTB = new gWeasleGUI.vTextParam();
             this.gwDDidLBL = new System.Windows.Forms.Label();
-            this.gwDDhskewTB = new gWeasleGUI.vTextParam();
             this.gwDDhskewLBL = new System.Windows.Forms.Label();
-            this.gwDDcskewTB = new gWeasleGUI.vTextParam();
             this.gwDDcskewLBL = new System.Windows.Forms.Label();
-            this.gwDDiamCB = new System.Windows.Forms.CheckBox();
-            this.gwDDbpsTB = new gWeasleGUI.vTextParam();
             this.gwDDbpsLBL = new System.Windows.Forms.Label();
-            this.gwDDformatTB = new gWeasleGUI.vTextParam();
             this.gwDDformatLBL = new System.Windows.Forms.Label();
-            this.gwDDtracksTB = new gWeasleGUI.vTextParam();
             this.gwDDtracksLBL = new System.Windows.Forms.Label();
-            this.gwDDsectorsTB = new gWeasleGUI.vTextParam();
             this.gwDDsectorsLBL = new System.Windows.Forms.Label();
             this.gwDDTrackListLB = new System.Windows.Forms.ListBox();
-            this.gwDDStepTB = new gWeasleGUI.vTextParam();
             this.gwDDStepLBL = new System.Windows.Forms.Label();
-            this.gwDDHeadsTB = new gWeasleGUI.vTextParam();
             this.gwDDheadsLBL = new System.Windows.Forms.Label();
-            this.gwDDCylsTB = new gWeasleGUI.vTextParam();
             this.gwDDCylsLBL = new System.Windows.Forms.Label();
-            this.diskDefApplyBtn = new System.Windows.Forms.Button();
-            this.diskDefNameTB = new gWeasleGUI.vTextParam();
             this.diskDefsNameLBL = new System.Windows.Forms.Label();
-            this.newDiskConfigBtn = new System.Windows.Forms.Button();
             this.gwDiskConfigLBL = new System.Windows.Forms.Label();
-            this.gwDiskConfigCB = new System.Windows.Forms.ComboBox();
-            this.removeDiskConfigBtn = new System.Windows.Forms.Button();
             this.GwStatus.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.accessoptions)).BeginInit();
             this.gwpathcontainer.SuspendLayout();
@@ -383,6 +383,354 @@
             this.gweazleTips.SetToolTip(this.accessoptions, "Options");
             this.accessoptions.Click += new System.EventHandler(this.accessoptions_Click);
             // 
+            // removeDiskConfigBtn
+            // 
+            this.removeDiskConfigBtn.Location = new System.Drawing.Point(270, 41);
+            this.removeDiskConfigBtn.Name = "removeDiskConfigBtn";
+            this.removeDiskConfigBtn.Size = new System.Drawing.Size(68, 23);
+            this.removeDiskConfigBtn.TabIndex = 48;
+            this.removeDiskConfigBtn.Text = "Remove";
+            this.gweazleTips.SetToolTip(this.removeDiskConfigBtn, "Remove the selected config");
+            this.removeDiskConfigBtn.UseVisualStyleBackColor = true;
+            this.removeDiskConfigBtn.Click += new System.EventHandler(this.removeDiskConfigBtn_Click);
+            // 
+            // gwDDsubformatTB
+            // 
+            this.gwDDsubformatTB.Location = new System.Drawing.Point(299, 123);
+            this.gwDDsubformatTB.Name = "gwDDsubformatTB";
+            this.gwDDsubformatTB.Size = new System.Drawing.Size(47, 20);
+            this.gwDDsubformatTB.TabIndex = 40;
+            this.gweazleTips.SetToolTip(this.gwDDsubformatTB, "Format code for these tracks");
+            this.gwDDsubformatTB.ValidationFailure = false;
+            // 
+            // gwDDclockTB
+            // 
+            this.gwDDclockTB.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
+            this.gwDDclockTB.Location = new System.Drawing.Point(394, 19);
+            this.gwDDclockTB.Name = "gwDDclockTB";
+            this.gwDDclockTB.Size = new System.Drawing.Size(53, 20);
+            this.gwDDclockTB.TabIndex = 25;
+            this.gweazleTips.SetToolTip(this.gwDDclockTB, "Clock");
+            this.gwDDclockTB.ValidationFailure = false;
+            // 
+            // gwDDimgbpsTB
+            // 
+            this.gwDDimgbpsTB.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
+            this.gwDDimgbpsTB.Location = new System.Drawing.Point(178, 123);
+            this.gwDDimgbpsTB.Name = "gwDDimgbpsTB";
+            this.gwDDimgbpsTB.Size = new System.Drawing.Size(53, 20);
+            this.gwDDimgbpsTB.TabIndex = 39;
+            this.gweazleTips.SetToolTip(this.gwDDimgbpsTB, "Bytes per sector in IMG file (short sectors are padded)");
+            this.gwDDimgbpsTB.ValidationFailure = false;
+            // 
+            // gwDDgapbyteTB
+            // 
+            this.gwDDgapbyteTB.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
+            this.gwDDgapbyteTB.Location = new System.Drawing.Point(54, 123);
+            this.gwDDgapbyteTB.Name = "gwDDgapbyteTB";
+            this.gwDDgapbyteTB.Size = new System.Drawing.Size(66, 20);
+            this.gwDDgapbyteTB.TabIndex = 38;
+            this.gweazleTips.SetToolTip(this.gwDDgapbyteTB, "Byte value used to fill the above gaps (0-255, default: auto)");
+            this.gwDDgapbyteTB.ValidationFailure = false;
+            // 
+            // gwDDgap4aTB
+            // 
+            this.gwDDgap4aTB.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
+            this.gwDDgap4aTB.Location = new System.Drawing.Point(304, 97);
+            this.gwDDgap4aTB.Name = "gwDDgap4aTB";
+            this.gwDDgap4aTB.Size = new System.Drawing.Size(47, 20);
+            this.gwDDgap4aTB.TabIndex = 37;
+            this.gweazleTips.SetToolTip(this.gwDDgap4aTB, "Post-Index Gap size (0-255, default: auto)");
+            this.gwDDgap4aTB.ValidationFailure = false;
+            // 
+            // gwDDgap3TB
+            // 
+            this.gwDDgap3TB.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
+            this.gwDDgap3TB.Location = new System.Drawing.Point(208, 97);
+            this.gwDDgap3TB.Name = "gwDDgap3TB";
+            this.gwDDgap3TB.Size = new System.Drawing.Size(47, 20);
+            this.gwDDgap3TB.TabIndex = 36;
+            this.gweazleTips.SetToolTip(this.gwDDgap3TB, "Post-DAM Gap size (0-255, default: auto)");
+            this.gwDDgap3TB.ValidationFailure = false;
+            // 
+            // gwDDgap2TB
+            // 
+            this.gwDDgap2TB.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
+            this.gwDDgap2TB.Location = new System.Drawing.Point(126, 97);
+            this.gwDDgap2TB.Name = "gwDDgap2TB";
+            this.gwDDgap2TB.Size = new System.Drawing.Size(39, 20);
+            this.gwDDgap2TB.TabIndex = 35;
+            this.gweazleTips.SetToolTip(this.gwDDgap2TB, "Post-IDAM Gap size (0-255, default: auto)");
+            this.gwDDgap2TB.ValidationFailure = false;
+            // 
+            // gwDDgap1TB
+            // 
+            this.gwDDgap1TB.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
+            this.gwDDgap1TB.Location = new System.Drawing.Point(38, 97);
+            this.gwDDgap1TB.Name = "gwDDgap1TB";
+            this.gwDDgap1TB.Size = new System.Drawing.Size(45, 20);
+            this.gwDDgap1TB.TabIndex = 34;
+            this.gweazleTips.SetToolTip(this.gwDDgap1TB, "Post-IAM Gap size (0-255, default: auto)");
+            this.gwDDgap1TB.ValidationFailure = false;
+            // 
+            // gwDDrpmTB
+            // 
+            this.gwDDrpmTB.Location = new System.Drawing.Point(317, 71);
+            this.gwDDrpmTB.Name = "gwDDrpmTB";
+            this.gwDDrpmTB.Size = new System.Drawing.Size(47, 20);
+            this.gwDDrpmTB.TabIndex = 33;
+            this.gweazleTips.SetToolTip(this.gwDDrpmTB, "Disk spin speed in RPM (1-2000, default: 300)");
+            this.gwDDrpmTB.ValidationFailure = false;
+            // 
+            // gwDDrateTB
+            // 
+            this.gwDDrateTB.Location = new System.Drawing.Point(234, 71);
+            this.gwDDrateTB.Name = "gwDDrateTB";
+            this.gwDDrateTB.Size = new System.Drawing.Size(47, 20);
+            this.gwDDrateTB.TabIndex = 32;
+            this.gweazleTips.SetToolTip(this.gwDDrateTB, "Data rate in kbps (1-2000, default: auto)");
+            this.gwDDrateTB.ValidationFailure = false;
+            // 
+            // gwDDhTB
+            // 
+            this.gwDDhTB.Location = new System.Drawing.Point(153, 71);
+            this.gwDDhTB.Name = "gwDDhTB";
+            this.gwDDhTB.Size = new System.Drawing.Size(39, 20);
+            this.gwDDhTB.TabIndex = 31;
+            this.gweazleTips.SetToolTip(this.gwDDhTB, "Head (aka H) byte value in each sector header (0-255, default: auto)");
+            this.gwDDhTB.ValidationFailure = false;
+            // 
+            // gwDDinterleaveTB
+            // 
+            this.gwDDinterleaveTB.Location = new System.Drawing.Point(63, 71);
+            this.gwDDinterleaveTB.Name = "gwDDinterleaveTB";
+            this.gwDDinterleaveTB.Size = new System.Drawing.Size(45, 20);
+            this.gwDDinterleaveTB.TabIndex = 30;
+            this.gweazleTips.SetToolTip(this.gwDDinterleaveTB, "Sector interleave, N:1 (1-255, default: 1)");
+            this.gwDDinterleaveTB.ValidationFailure = false;
+            // 
+            // gwDDidTB
+            // 
+            this.gwDDidTB.Location = new System.Drawing.Point(306, 19);
+            this.gwDDidTB.Name = "gwDDidTB";
+            this.gwDDidTB.Size = new System.Drawing.Size(47, 20);
+            this.gwDDidTB.TabIndex = 24;
+            this.gweazleTips.SetToolTip(this.gwDDidTB, "Sector ID (aka R) of logical first sector (0-255, default: 1)");
+            this.gwDDidTB.ValidationFailure = false;
+            // 
+            // gwDDhskewTB
+            // 
+            this.gwDDhskewTB.Location = new System.Drawing.Point(394, 45);
+            this.gwDDhskewTB.Name = "gwDDhskewTB";
+            this.gwDDhskewTB.Size = new System.Drawing.Size(47, 20);
+            this.gwDDhskewTB.TabIndex = 29;
+            this.gweazleTips.SetToolTip(this.gwDDhskewTB, "Sector skew per head (0-255, default: 0)");
+            this.gwDDhskewTB.ValidationFailure = false;
+            // 
+            // gwDDcskewTB
+            // 
+            this.gwDDcskewTB.Location = new System.Drawing.Point(274, 45);
+            this.gwDDcskewTB.Name = "gwDDcskewTB";
+            this.gwDDcskewTB.Size = new System.Drawing.Size(47, 20);
+            this.gwDDcskewTB.TabIndex = 28;
+            this.gweazleTips.SetToolTip(this.gwDDcskewTB, "Sector skew per cylinder (0-255, default: 0)");
+            this.gwDDcskewTB.ValidationFailure = false;
+            // 
+            // gwDDiamCB
+            // 
+            this.gwDDiamCB.AutoSize = true;
+            this.gwDDiamCB.Location = new System.Drawing.Point(237, 21);
+            this.gwDDiamCB.Name = "gwDDiamCB";
+            this.gwDDiamCB.Size = new System.Drawing.Size(42, 17);
+            this.gwDDiamCB.TabIndex = 23;
+            this.gwDDiamCB.Text = "iam";
+            this.gweazleTips.SetToolTip(this.gwDDiamCB, "Index Address Mark (yes|no, default: yes)");
+            this.gwDDiamCB.UseVisualStyleBackColor = true;
+            // 
+            // gwDDbpsTB
+            // 
+            this.gwDDbpsTB.Location = new System.Drawing.Point(132, 45);
+            this.gwDDbpsTB.Name = "gwDDbpsTB";
+            this.gwDDbpsTB.Size = new System.Drawing.Size(85, 20);
+            this.gwDDbpsTB.TabIndex = 27;
+            this.gweazleTips.SetToolTip(this.gwDDbpsTB, "Bytes per sector (128, 256, 512, 1024, 2048, 4096, 8192)");
+            this.gwDDbpsTB.ValidationFailure = false;
+            // 
+            // gwDDformatTB
+            // 
+            this.gwDDformatTB.Location = new System.Drawing.Point(156, 19);
+            this.gwDDformatTB.Name = "gwDDformatTB";
+            this.gwDDformatTB.Size = new System.Drawing.Size(75, 20);
+            this.gwDDformatTB.TabIndex = 22;
+            this.gweazleTips.SetToolTip(this.gwDDformatTB, "Format for these tracks");
+            this.gwDDformatTB.ValidationFailure = false;
+            // 
+            // gwDDtracksTB
+            // 
+            this.gwDDtracksTB.Location = new System.Drawing.Point(52, 19);
+            this.gwDDtracksTB.Name = "gwDDtracksTB";
+            this.gwDDtracksTB.Size = new System.Drawing.Size(54, 20);
+            this.gwDDtracksTB.TabIndex = 21;
+            this.gweazleTips.SetToolTip(this.gwDDtracksTB, "Track list or \"*\" for all unmatched tracks");
+            this.gwDDtracksTB.ValidationFailure = false;
+            // 
+            // gwDDsectorsTB
+            // 
+            this.gwDDsectorsTB.Location = new System.Drawing.Point(52, 45);
+            this.gwDDsectorsTB.Name = "gwDDsectorsTB";
+            this.gwDDsectorsTB.Size = new System.Drawing.Size(47, 20);
+            this.gwDDsectorsTB.TabIndex = 26;
+            this.gweazleTips.SetToolTip(this.gwDDsectorsTB, "Number of sectors (0-256, default: 0)");
+            this.gwDDsectorsTB.ValidationFailure = false;
+            // 
+            // gwDDStepTB
+            // 
+            this.gwDDStepTB.Location = new System.Drawing.Point(634, 43);
+            this.gwDDStepTB.Name = "gwDDStepTB";
+            this.gwDDStepTB.Size = new System.Drawing.Size(65, 20);
+            this.gwDDStepTB.TabIndex = 20;
+            this.gweazleTips.SetToolTip(this.gwDDStepTB, "Number of physical drive steps per image step (1-4)");
+            this.gwDDStepTB.ValidationFailure = false;
+            // 
+            // gwDDHeadsTB
+            // 
+            this.gwDDHeadsTB.Location = new System.Drawing.Point(528, 43);
+            this.gwDDHeadsTB.Name = "gwDDHeadsTB";
+            this.gwDDHeadsTB.Size = new System.Drawing.Size(65, 20);
+            this.gwDDHeadsTB.TabIndex = 19;
+            this.gweazleTips.SetToolTip(this.gwDDHeadsTB, "Number of heads/sides (1-2)");
+            this.gwDDHeadsTB.ValidationFailure = false;
+            // 
+            // gwDDCylsTB
+            // 
+            this.gwDDCylsTB.BackColor = System.Drawing.SystemColors.Window;
+            this.gwDDCylsTB.Location = new System.Drawing.Point(413, 43);
+            this.gwDDCylsTB.Name = "gwDDCylsTB";
+            this.gwDDCylsTB.Size = new System.Drawing.Size(65, 20);
+            this.gwDDCylsTB.TabIndex = 18;
+            this.gweazleTips.SetToolTip(this.gwDDCylsTB, "Number of cylinders (1-255)");
+            this.gwDDCylsTB.ValidationFailure = false;
+            // 
+            // diskDefNameTB
+            // 
+            this.diskDefNameTB.Location = new System.Drawing.Point(446, 15);
+            this.diskDefNameTB.Name = "diskDefNameTB";
+            this.diskDefNameTB.Size = new System.Drawing.Size(121, 20);
+            this.diskDefNameTB.TabIndex = 14;
+            this.gweazleTips.SetToolTip(this.diskDefNameTB, "Disk Definition Name");
+            this.diskDefNameTB.ValidationFailure = false;
+            // 
+            // newDiskConfigBtn
+            // 
+            this.newDiskConfigBtn.Location = new System.Drawing.Point(201, 41);
+            this.newDiskConfigBtn.Name = "newDiskConfigBtn";
+            this.newDiskConfigBtn.Size = new System.Drawing.Size(68, 23);
+            this.newDiskConfigBtn.TabIndex = 17;
+            this.newDiskConfigBtn.Text = "New";
+            this.gweazleTips.SetToolTip(this.newDiskConfigBtn, "New config");
+            this.newDiskConfigBtn.UseVisualStyleBackColor = true;
+            this.newDiskConfigBtn.Click += new System.EventHandler(this.newDiskConfigBtn_Click);
+            // 
+            // gwDiskConfigCB
+            // 
+            this.gwDiskConfigCB.FormattingEnabled = true;
+            this.gwDiskConfigCB.Location = new System.Drawing.Point(77, 43);
+            this.gwDiskConfigCB.Name = "gwDiskConfigCB";
+            this.gwDiskConfigCB.Size = new System.Drawing.Size(121, 21);
+            this.gwDiskConfigCB.TabIndex = 16;
+            this.gweazleTips.SetToolTip(this.gwDiskConfigCB, "Loaded disk configs");
+            this.gwDiskConfigCB.SelectedIndexChanged += new System.EventHandler(this.gwDiskConfigCB_SelectedIndexChanged);
+            // 
+            // gwDDSaveBtn
+            // 
+            this.gwDDSaveBtn.Location = new System.Drawing.Point(119, 227);
+            this.gwDDSaveBtn.Name = "gwDDSaveBtn";
+            this.gwDDSaveBtn.Size = new System.Drawing.Size(102, 23);
+            this.gwDDSaveBtn.TabIndex = 45;
+            this.gwDDSaveBtn.Text = "Save to file";
+            this.gweazleTips.SetToolTip(this.gwDDSaveBtn, "Save to the config file");
+            this.gwDDSaveBtn.UseVisualStyleBackColor = true;
+            this.gwDDSaveBtn.Click += new System.EventHandler(this.gwDDSaveBtn_Click);
+            // 
+            // gwDDReloadBtn
+            // 
+            this.gwDDReloadBtn.Location = new System.Drawing.Point(11, 227);
+            this.gwDDReloadBtn.Name = "gwDDReloadBtn";
+            this.gwDDReloadBtn.Size = new System.Drawing.Size(102, 23);
+            this.gwDDReloadBtn.TabIndex = 44;
+            this.gwDDReloadBtn.Text = "Reload from file";
+            this.gweazleTips.SetToolTip(this.gwDDReloadBtn, "Reload the config file");
+            this.gwDDReloadBtn.UseVisualStyleBackColor = true;
+            this.gwDDReloadBtn.Click += new System.EventHandler(this.gwDDReloadBtn_Click);
+            // 
+            // gwDDfileBtn
+            // 
+            this.gwDDfileBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.gwDDfileBtn.Location = new System.Drawing.Point(293, 13);
+            this.gwDDfileBtn.Name = "gwDDfileBtn";
+            this.gwDDfileBtn.Size = new System.Drawing.Size(94, 23);
+            this.gwDDfileBtn.TabIndex = 13;
+            this.gwDDfileBtn.Text = "Disk Defs File";
+            this.gweazleTips.SetToolTip(this.gwDDfileBtn, "Select  a Disk Definition File (*.cfg)");
+            this.gwDDfileBtn.UseVisualStyleBackColor = true;
+            this.gwDDfileBtn.Click += new System.EventHandler(this.gwDDfileBtn_Click);
+            // 
+            // gwDDDontUseBtn
+            // 
+            this.gwDDDontUseBtn.Location = new System.Drawing.Point(543, 227);
+            this.gwDDDontUseBtn.Name = "gwDDDontUseBtn";
+            this.gwDDDontUseBtn.Size = new System.Drawing.Size(75, 23);
+            this.gwDDDontUseBtn.TabIndex = 46;
+            this.gwDDDontUseBtn.Text = "Don\'t Use";
+            this.gweazleTips.SetToolTip(this.gwDDDontUseBtn, "Don\'t use a config file in gw Actions");
+            this.gwDDDontUseBtn.UseVisualStyleBackColor = true;
+            this.gwDDDontUseBtn.Click += new System.EventHandler(this.gwDDDontUseBtn_Click);
+            // 
+            // gwDDUseBtn
+            // 
+            this.gwDDUseBtn.Location = new System.Drawing.Point(624, 227);
+            this.gwDDUseBtn.Name = "gwDDUseBtn";
+            this.gwDDUseBtn.Size = new System.Drawing.Size(75, 23);
+            this.gwDDUseBtn.TabIndex = 47;
+            this.gwDDUseBtn.Text = "Use";
+            this.gweazleTips.SetToolTip(this.gwDDUseBtn, "Use this config file in gw operations");
+            this.gwDDUseBtn.UseVisualStyleBackColor = true;
+            this.gwDDUseBtn.Click += new System.EventHandler(this.gwDDUseBtn_Click);
+            // 
+            // gwDDRemoveTrackBtn
+            // 
+            this.gwDDRemoveTrackBtn.Enabled = false;
+            this.gwDDRemoveTrackBtn.Location = new System.Drawing.Point(402, 88);
+            this.gwDDRemoveTrackBtn.Name = "gwDDRemoveTrackBtn";
+            this.gwDDRemoveTrackBtn.Size = new System.Drawing.Size(75, 23);
+            this.gwDDRemoveTrackBtn.TabIndex = 41;
+            this.gwDDRemoveTrackBtn.Text = "Remove";
+            this.gweazleTips.SetToolTip(this.gwDDRemoveTrackBtn, "Remove Track set");
+            this.gwDDRemoveTrackBtn.UseVisualStyleBackColor = true;
+            this.gwDDRemoveTrackBtn.Click += new System.EventHandler(this.gwDDRemoveTrackBtn_Click);
+            // 
+            // gwDDApplyTrackBtn
+            // 
+            this.gwDDApplyTrackBtn.Location = new System.Drawing.Point(402, 117);
+            this.gwDDApplyTrackBtn.Name = "gwDDApplyTrackBtn";
+            this.gwDDApplyTrackBtn.Size = new System.Drawing.Size(75, 23);
+            this.gwDDApplyTrackBtn.TabIndex = 42;
+            this.gwDDApplyTrackBtn.Text = "Apply / Add";
+            this.gweazleTips.SetToolTip(this.gwDDApplyTrackBtn, "Add or Update track set");
+            this.gwDDApplyTrackBtn.UseVisualStyleBackColor = true;
+            this.gwDDApplyTrackBtn.Click += new System.EventHandler(this.gwDDApplyTrackBtn_Click);
+            // 
+            // diskDefApplyBtn
+            // 
+            this.diskDefApplyBtn.Location = new System.Drawing.Point(573, 13);
+            this.diskDefApplyBtn.Name = "diskDefApplyBtn";
+            this.diskDefApplyBtn.Size = new System.Drawing.Size(75, 23);
+            this.diskDefApplyBtn.TabIndex = 15;
+            this.diskDefApplyBtn.Text = "Apply";
+            this.gweazleTips.SetToolTip(this.diskDefApplyBtn, "Apply changes to this config");
+            this.diskDefApplyBtn.UseVisualStyleBackColor = true;
+            this.diskDefApplyBtn.Click += new System.EventHandler(this.diskDefApplyBtn_Click);
+            // 
             // gwCylTB
             // 
             this.gwCylTB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -556,37 +904,6 @@
             this.gwDiskConfigPanel.TabIndex = 34;
             this.gwDiskConfigPanel.Visible = false;
             // 
-            // gwDDSaveBtn
-            // 
-            this.gwDDSaveBtn.Location = new System.Drawing.Point(119, 227);
-            this.gwDDSaveBtn.Name = "gwDDSaveBtn";
-            this.gwDDSaveBtn.Size = new System.Drawing.Size(102, 23);
-            this.gwDDSaveBtn.TabIndex = 45;
-            this.gwDDSaveBtn.Text = "Save to file";
-            this.gwDDSaveBtn.UseVisualStyleBackColor = true;
-            this.gwDDSaveBtn.Click += new System.EventHandler(this.gwDDSaveBtn_Click);
-            // 
-            // gwDDReloadBtn
-            // 
-            this.gwDDReloadBtn.Location = new System.Drawing.Point(11, 227);
-            this.gwDDReloadBtn.Name = "gwDDReloadBtn";
-            this.gwDDReloadBtn.Size = new System.Drawing.Size(102, 23);
-            this.gwDDReloadBtn.TabIndex = 44;
-            this.gwDDReloadBtn.Text = "Reload from file";
-            this.gwDDReloadBtn.UseVisualStyleBackColor = true;
-            this.gwDDReloadBtn.Click += new System.EventHandler(this.gwDDReloadBtn_Click);
-            // 
-            // gwDDfileBtn
-            // 
-            this.gwDDfileBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.gwDDfileBtn.Location = new System.Drawing.Point(293, 13);
-            this.gwDDfileBtn.Name = "gwDDfileBtn";
-            this.gwDDfileBtn.Size = new System.Drawing.Size(94, 23);
-            this.gwDDfileBtn.TabIndex = 13;
-            this.gwDDfileBtn.Text = "Disk Defs File";
-            this.gwDDfileBtn.UseVisualStyleBackColor = true;
-            this.gwDDfileBtn.Click += new System.EventHandler(this.gwDDfileBtn_Click);
-            // 
             // gwDDfileLBL
             // 
             this.gwDDfileLBL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -597,26 +914,6 @@
             this.gwDDfileLBL.Size = new System.Drawing.Size(60, 13);
             this.gwDDfileLBL.TabIndex = 30;
             this.gwDDfileLBL.Text = "[File Name]";
-            // 
-            // gwDDDontUseBtn
-            // 
-            this.gwDDDontUseBtn.Location = new System.Drawing.Point(543, 227);
-            this.gwDDDontUseBtn.Name = "gwDDDontUseBtn";
-            this.gwDDDontUseBtn.Size = new System.Drawing.Size(75, 23);
-            this.gwDDDontUseBtn.TabIndex = 46;
-            this.gwDDDontUseBtn.Text = "Don\'t Use";
-            this.gwDDDontUseBtn.UseVisualStyleBackColor = true;
-            this.gwDDDontUseBtn.Click += new System.EventHandler(this.gwDDDontUseBtn_Click);
-            // 
-            // gwDDUseBtn
-            // 
-            this.gwDDUseBtn.Location = new System.Drawing.Point(624, 227);
-            this.gwDDUseBtn.Name = "gwDDUseBtn";
-            this.gwDDUseBtn.Size = new System.Drawing.Size(75, 23);
-            this.gwDDUseBtn.TabIndex = 47;
-            this.gwDDUseBtn.Text = "Use";
-            this.gwDDUseBtn.UseVisualStyleBackColor = true;
-            this.gwDDUseBtn.Click += new System.EventHandler(this.gwDDUseBtn_Click);
             // 
             // gwDDtracksgroupBox
             // 
@@ -669,25 +966,6 @@
             this.gwDDtracksgroupBox.TabStop = false;
             this.gwDDtracksgroupBox.Text = "Track Sets";
             // 
-            // gwDDRemoveTrackBtn
-            // 
-            this.gwDDRemoveTrackBtn.Enabled = false;
-            this.gwDDRemoveTrackBtn.Location = new System.Drawing.Point(402, 88);
-            this.gwDDRemoveTrackBtn.Name = "gwDDRemoveTrackBtn";
-            this.gwDDRemoveTrackBtn.Size = new System.Drawing.Size(75, 23);
-            this.gwDDRemoveTrackBtn.TabIndex = 41;
-            this.gwDDRemoveTrackBtn.Text = "Remove";
-            this.gwDDRemoveTrackBtn.UseVisualStyleBackColor = true;
-            this.gwDDRemoveTrackBtn.Click += new System.EventHandler(this.gwDDRemoveTrackBtn_Click);
-            // 
-            // gwDDsubformatTB
-            // 
-            this.gwDDsubformatTB.Location = new System.Drawing.Point(299, 123);
-            this.gwDDsubformatTB.Name = "gwDDsubformatTB";
-            this.gwDDsubformatTB.Size = new System.Drawing.Size(47, 20);
-            this.gwDDsubformatTB.TabIndex = 40;
-            this.gwDDsubformatTB.ValidationFailure = false;
-            // 
             // gwDDsubformatLBL
             // 
             this.gwDDsubformatLBL.AutoSize = true;
@@ -696,15 +974,6 @@
             this.gwDDsubformatLBL.Size = new System.Drawing.Size(58, 13);
             this.gwDDsubformatLBL.TabIndex = 58;
             this.gwDDsubformatLBL.Text = "SubFormat";
-            // 
-            // gwDDclockTB
-            // 
-            this.gwDDclockTB.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
-            this.gwDDclockTB.Location = new System.Drawing.Point(394, 19);
-            this.gwDDclockTB.Name = "gwDDclockTB";
-            this.gwDDclockTB.Size = new System.Drawing.Size(53, 20);
-            this.gwDDclockTB.TabIndex = 25;
-            this.gwDDclockTB.ValidationFailure = false;
             // 
             // gwDDclockLBL
             // 
@@ -716,25 +985,6 @@
             this.gwDDclockLBL.TabIndex = 56;
             this.gwDDclockLBL.Text = "clock";
             // 
-            // gwDDApplyTrackBtn
-            // 
-            this.gwDDApplyTrackBtn.Location = new System.Drawing.Point(402, 117);
-            this.gwDDApplyTrackBtn.Name = "gwDDApplyTrackBtn";
-            this.gwDDApplyTrackBtn.Size = new System.Drawing.Size(75, 23);
-            this.gwDDApplyTrackBtn.TabIndex = 42;
-            this.gwDDApplyTrackBtn.Text = "Apply / Add";
-            this.gwDDApplyTrackBtn.UseVisualStyleBackColor = true;
-            this.gwDDApplyTrackBtn.Click += new System.EventHandler(this.gwDDApplyTrackBtn_Click);
-            // 
-            // gwDDimgbpsTB
-            // 
-            this.gwDDimgbpsTB.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
-            this.gwDDimgbpsTB.Location = new System.Drawing.Point(178, 123);
-            this.gwDDimgbpsTB.Name = "gwDDimgbpsTB";
-            this.gwDDimgbpsTB.Size = new System.Drawing.Size(53, 20);
-            this.gwDDimgbpsTB.TabIndex = 39;
-            this.gwDDimgbpsTB.ValidationFailure = false;
-            // 
             // gwDDimgbpsLBL
             // 
             this.gwDDimgbpsLBL.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
@@ -744,15 +994,6 @@
             this.gwDDimgbpsLBL.Size = new System.Drawing.Size(43, 13);
             this.gwDDimgbpsLBL.TabIndex = 53;
             this.gwDDimgbpsLBL.Text = "img bps";
-            // 
-            // gwDDgapbyteTB
-            // 
-            this.gwDDgapbyteTB.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
-            this.gwDDgapbyteTB.Location = new System.Drawing.Point(54, 123);
-            this.gwDDgapbyteTB.Name = "gwDDgapbyteTB";
-            this.gwDDgapbyteTB.Size = new System.Drawing.Size(66, 20);
-            this.gwDDgapbyteTB.TabIndex = 38;
-            this.gwDDgapbyteTB.ValidationFailure = false;
             // 
             // gwDDgapbyteLBL
             // 
@@ -764,15 +1005,6 @@
             this.gwDDgapbyteLBL.TabIndex = 51;
             this.gwDDgapbyteLBL.Text = "gapbyte";
             // 
-            // gwDDgap4aTB
-            // 
-            this.gwDDgap4aTB.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
-            this.gwDDgap4aTB.Location = new System.Drawing.Point(304, 97);
-            this.gwDDgap4aTB.Name = "gwDDgap4aTB";
-            this.gwDDgap4aTB.Size = new System.Drawing.Size(47, 20);
-            this.gwDDgap4aTB.TabIndex = 37;
-            this.gwDDgap4aTB.ValidationFailure = false;
-            // 
             // gwDDgap4aLBL
             // 
             this.gwDDgap4aLBL.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
@@ -782,15 +1014,6 @@
             this.gwDDgap4aLBL.Size = new System.Drawing.Size(37, 13);
             this.gwDDgap4aLBL.TabIndex = 49;
             this.gwDDgap4aLBL.Text = "gap4a";
-            // 
-            // gwDDgap3TB
-            // 
-            this.gwDDgap3TB.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
-            this.gwDDgap3TB.Location = new System.Drawing.Point(208, 97);
-            this.gwDDgap3TB.Name = "gwDDgap3TB";
-            this.gwDDgap3TB.Size = new System.Drawing.Size(47, 20);
-            this.gwDDgap3TB.TabIndex = 36;
-            this.gwDDgap3TB.ValidationFailure = false;
             // 
             // gwDDgap3LBL
             // 
@@ -802,15 +1025,6 @@
             this.gwDDgap3LBL.TabIndex = 47;
             this.gwDDgap3LBL.Text = "gap3";
             // 
-            // gwDDgap2TB
-            // 
-            this.gwDDgap2TB.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
-            this.gwDDgap2TB.Location = new System.Drawing.Point(126, 97);
-            this.gwDDgap2TB.Name = "gwDDgap2TB";
-            this.gwDDgap2TB.Size = new System.Drawing.Size(39, 20);
-            this.gwDDgap2TB.TabIndex = 35;
-            this.gwDDgap2TB.ValidationFailure = false;
-            // 
             // gwDDgap2LBL
             // 
             this.gwDDgap2LBL.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
@@ -820,15 +1034,6 @@
             this.gwDDgap2LBL.Size = new System.Drawing.Size(31, 13);
             this.gwDDgap2LBL.TabIndex = 45;
             this.gwDDgap2LBL.Text = "gap2";
-            // 
-            // gwDDgap1TB
-            // 
-            this.gwDDgap1TB.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
-            this.gwDDgap1TB.Location = new System.Drawing.Point(38, 97);
-            this.gwDDgap1TB.Name = "gwDDgap1TB";
-            this.gwDDgap1TB.Size = new System.Drawing.Size(45, 20);
-            this.gwDDgap1TB.TabIndex = 34;
-            this.gwDDgap1TB.ValidationFailure = false;
             // 
             // gwDDgap1LBL
             // 
@@ -840,14 +1045,6 @@
             this.gwDDgap1LBL.TabIndex = 43;
             this.gwDDgap1LBL.Text = "gap1";
             // 
-            // gwDDrpmTB
-            // 
-            this.gwDDrpmTB.Location = new System.Drawing.Point(317, 71);
-            this.gwDDrpmTB.Name = "gwDDrpmTB";
-            this.gwDDrpmTB.Size = new System.Drawing.Size(47, 20);
-            this.gwDDrpmTB.TabIndex = 33;
-            this.gwDDrpmTB.ValidationFailure = false;
-            // 
             // gwDDrpmLBL
             // 
             this.gwDDrpmLBL.AutoSize = true;
@@ -856,14 +1053,6 @@
             this.gwDDrpmLBL.Size = new System.Drawing.Size(24, 13);
             this.gwDDrpmLBL.TabIndex = 41;
             this.gwDDrpmLBL.Text = "rpm";
-            // 
-            // gwDDrateTB
-            // 
-            this.gwDDrateTB.Location = new System.Drawing.Point(234, 71);
-            this.gwDDrateTB.Name = "gwDDrateTB";
-            this.gwDDrateTB.Size = new System.Drawing.Size(47, 20);
-            this.gwDDrateTB.TabIndex = 32;
-            this.gwDDrateTB.ValidationFailure = false;
             // 
             // gwDDrateLBL
             // 
@@ -874,14 +1063,6 @@
             this.gwDDrateLBL.TabIndex = 39;
             this.gwDDrateLBL.Text = "Rate";
             // 
-            // gwDDhTB
-            // 
-            this.gwDDhTB.Location = new System.Drawing.Point(153, 71);
-            this.gwDDhTB.Name = "gwDDhTB";
-            this.gwDDhTB.Size = new System.Drawing.Size(39, 20);
-            this.gwDDhTB.TabIndex = 31;
-            this.gwDDhTB.ValidationFailure = false;
-            // 
             // gwDDhLBL
             // 
             this.gwDDhLBL.AutoSize = true;
@@ -890,14 +1071,6 @@
             this.gwDDhLBL.Size = new System.Drawing.Size(33, 13);
             this.gwDDhLBL.TabIndex = 37;
             this.gwDDhLBL.Text = "Head";
-            // 
-            // gwDDinterleaveTB
-            // 
-            this.gwDDinterleaveTB.Location = new System.Drawing.Point(63, 71);
-            this.gwDDinterleaveTB.Name = "gwDDinterleaveTB";
-            this.gwDDinterleaveTB.Size = new System.Drawing.Size(45, 20);
-            this.gwDDinterleaveTB.TabIndex = 30;
-            this.gwDDinterleaveTB.ValidationFailure = false;
             // 
             // gwDDinterleaveLBL
             // 
@@ -908,14 +1081,6 @@
             this.gwDDinterleaveLBL.TabIndex = 35;
             this.gwDDinterleaveLBL.Text = "Interleave";
             // 
-            // gwDDidTB
-            // 
-            this.gwDDidTB.Location = new System.Drawing.Point(306, 19);
-            this.gwDDidTB.Name = "gwDDidTB";
-            this.gwDDidTB.Size = new System.Drawing.Size(47, 20);
-            this.gwDDidTB.TabIndex = 24;
-            this.gwDDidTB.ValidationFailure = false;
-            // 
             // gwDDidLBL
             // 
             this.gwDDidLBL.AutoSize = true;
@@ -924,14 +1089,6 @@
             this.gwDDidLBL.Size = new System.Drawing.Size(16, 13);
             this.gwDDidLBL.TabIndex = 33;
             this.gwDDidLBL.Text = "Id";
-            // 
-            // gwDDhskewTB
-            // 
-            this.gwDDhskewTB.Location = new System.Drawing.Point(394, 45);
-            this.gwDDhskewTB.Name = "gwDDhskewTB";
-            this.gwDDhskewTB.Size = new System.Drawing.Size(47, 20);
-            this.gwDDhskewTB.TabIndex = 29;
-            this.gwDDhskewTB.ValidationFailure = false;
             // 
             // gwDDhskewLBL
             // 
@@ -942,14 +1099,6 @@
             this.gwDDhskewLBL.TabIndex = 31;
             this.gwDDhskewLBL.Text = "Skew head";
             // 
-            // gwDDcskewTB
-            // 
-            this.gwDDcskewTB.Location = new System.Drawing.Point(274, 45);
-            this.gwDDcskewTB.Name = "gwDDcskewTB";
-            this.gwDDcskewTB.Size = new System.Drawing.Size(47, 20);
-            this.gwDDcskewTB.TabIndex = 28;
-            this.gwDDcskewTB.ValidationFailure = false;
-            // 
             // gwDDcskewLBL
             // 
             this.gwDDcskewLBL.AutoSize = true;
@@ -958,24 +1107,6 @@
             this.gwDDcskewLBL.Size = new System.Drawing.Size(50, 13);
             this.gwDDcskewLBL.TabIndex = 29;
             this.gwDDcskewLBL.Text = "Skew cyl";
-            // 
-            // gwDDiamCB
-            // 
-            this.gwDDiamCB.AutoSize = true;
-            this.gwDDiamCB.Location = new System.Drawing.Point(237, 21);
-            this.gwDDiamCB.Name = "gwDDiamCB";
-            this.gwDDiamCB.Size = new System.Drawing.Size(42, 17);
-            this.gwDDiamCB.TabIndex = 23;
-            this.gwDDiamCB.Text = "iam";
-            this.gwDDiamCB.UseVisualStyleBackColor = true;
-            // 
-            // gwDDbpsTB
-            // 
-            this.gwDDbpsTB.Location = new System.Drawing.Point(132, 45);
-            this.gwDDbpsTB.Name = "gwDDbpsTB";
-            this.gwDDbpsTB.Size = new System.Drawing.Size(85, 20);
-            this.gwDDbpsTB.TabIndex = 27;
-            this.gwDDbpsTB.ValidationFailure = false;
             // 
             // gwDDbpsLBL
             // 
@@ -986,14 +1117,6 @@
             this.gwDDbpsLBL.TabIndex = 26;
             this.gwDDbpsLBL.Text = "bps";
             // 
-            // gwDDformatTB
-            // 
-            this.gwDDformatTB.Location = new System.Drawing.Point(156, 19);
-            this.gwDDformatTB.Name = "gwDDformatTB";
-            this.gwDDformatTB.Size = new System.Drawing.Size(75, 20);
-            this.gwDDformatTB.TabIndex = 22;
-            this.gwDDformatTB.ValidationFailure = false;
-            // 
             // gwDDformatLBL
             // 
             this.gwDDformatLBL.AutoSize = true;
@@ -1003,14 +1126,6 @@
             this.gwDDformatLBL.TabIndex = 24;
             this.gwDDformatLBL.Text = "Format";
             // 
-            // gwDDtracksTB
-            // 
-            this.gwDDtracksTB.Location = new System.Drawing.Point(52, 19);
-            this.gwDDtracksTB.Name = "gwDDtracksTB";
-            this.gwDDtracksTB.Size = new System.Drawing.Size(54, 20);
-            this.gwDDtracksTB.TabIndex = 21;
-            this.gwDDtracksTB.ValidationFailure = false;
-            // 
             // gwDDtracksLBL
             // 
             this.gwDDtracksLBL.AutoSize = true;
@@ -1019,14 +1134,6 @@
             this.gwDDtracksLBL.Size = new System.Drawing.Size(40, 13);
             this.gwDDtracksLBL.TabIndex = 22;
             this.gwDDtracksLBL.Text = "Tracks";
-            // 
-            // gwDDsectorsTB
-            // 
-            this.gwDDsectorsTB.Location = new System.Drawing.Point(52, 45);
-            this.gwDDsectorsTB.Name = "gwDDsectorsTB";
-            this.gwDDsectorsTB.Size = new System.Drawing.Size(47, 20);
-            this.gwDDsectorsTB.TabIndex = 26;
-            this.gwDDsectorsTB.ValidationFailure = false;
             // 
             // gwDDsectorsLBL
             // 
@@ -1047,14 +1154,6 @@
             this.gwDDTrackListLB.SelectedIndexChanged += new System.EventHandler(this.gwDDTrackListLB_SelectedIndexChanged);
             this.gwDDTrackListLB.SelectedValueChanged += new System.EventHandler(this.gwDDTrackListLB_SelectedValueChanged);
             // 
-            // gwDDStepTB
-            // 
-            this.gwDDStepTB.Location = new System.Drawing.Point(634, 43);
-            this.gwDDStepTB.Name = "gwDDStepTB";
-            this.gwDDStepTB.Size = new System.Drawing.Size(65, 20);
-            this.gwDDStepTB.TabIndex = 20;
-            this.gwDDStepTB.ValidationFailure = false;
-            // 
             // gwDDStepLBL
             // 
             this.gwDDStepLBL.AutoSize = true;
@@ -1063,14 +1162,6 @@
             this.gwDDStepLBL.Size = new System.Drawing.Size(29, 13);
             this.gwDDStepLBL.TabIndex = 10;
             this.gwDDStepLBL.Text = "Step";
-            // 
-            // gwDDHeadsTB
-            // 
-            this.gwDDHeadsTB.Location = new System.Drawing.Point(528, 43);
-            this.gwDDHeadsTB.Name = "gwDDHeadsTB";
-            this.gwDDHeadsTB.Size = new System.Drawing.Size(65, 20);
-            this.gwDDHeadsTB.TabIndex = 19;
-            this.gwDDHeadsTB.ValidationFailure = false;
             // 
             // gwDDheadsLBL
             // 
@@ -1081,15 +1172,6 @@
             this.gwDDheadsLBL.TabIndex = 8;
             this.gwDDheadsLBL.Text = "Heads";
             // 
-            // gwDDCylsTB
-            // 
-            this.gwDDCylsTB.BackColor = System.Drawing.SystemColors.Window;
-            this.gwDDCylsTB.Location = new System.Drawing.Point(413, 43);
-            this.gwDDCylsTB.Name = "gwDDCylsTB";
-            this.gwDDCylsTB.Size = new System.Drawing.Size(65, 20);
-            this.gwDDCylsTB.TabIndex = 18;
-            this.gwDDCylsTB.ValidationFailure = false;
-            // 
             // gwDDCylsLBL
             // 
             this.gwDDCylsLBL.AutoSize = true;
@@ -1098,24 +1180,6 @@
             this.gwDDCylsLBL.Size = new System.Drawing.Size(49, 13);
             this.gwDDCylsLBL.TabIndex = 6;
             this.gwDDCylsLBL.Text = "Cylinders";
-            // 
-            // diskDefApplyBtn
-            // 
-            this.diskDefApplyBtn.Location = new System.Drawing.Point(573, 13);
-            this.diskDefApplyBtn.Name = "diskDefApplyBtn";
-            this.diskDefApplyBtn.Size = new System.Drawing.Size(75, 23);
-            this.diskDefApplyBtn.TabIndex = 15;
-            this.diskDefApplyBtn.Text = "Apply";
-            this.diskDefApplyBtn.UseVisualStyleBackColor = true;
-            this.diskDefApplyBtn.Click += new System.EventHandler(this.diskDefApplyBtn_Click);
-            // 
-            // diskDefNameTB
-            // 
-            this.diskDefNameTB.Location = new System.Drawing.Point(446, 15);
-            this.diskDefNameTB.Name = "diskDefNameTB";
-            this.diskDefNameTB.Size = new System.Drawing.Size(121, 20);
-            this.diskDefNameTB.TabIndex = 14;
-            this.diskDefNameTB.ValidationFailure = false;
             // 
             // diskDefsNameLBL
             // 
@@ -1126,16 +1190,6 @@
             this.diskDefsNameLBL.TabIndex = 3;
             this.diskDefsNameLBL.Text = "Name";
             // 
-            // newDiskConfigBtn
-            // 
-            this.newDiskConfigBtn.Location = new System.Drawing.Point(201, 41);
-            this.newDiskConfigBtn.Name = "newDiskConfigBtn";
-            this.newDiskConfigBtn.Size = new System.Drawing.Size(68, 23);
-            this.newDiskConfigBtn.TabIndex = 17;
-            this.newDiskConfigBtn.Text = "New";
-            this.newDiskConfigBtn.UseVisualStyleBackColor = true;
-            this.newDiskConfigBtn.Click += new System.EventHandler(this.newDiskConfigBtn_Click);
-            // 
             // gwDiskConfigLBL
             // 
             this.gwDiskConfigLBL.AutoSize = true;
@@ -1144,25 +1198,6 @@
             this.gwDiskConfigLBL.Size = new System.Drawing.Size(61, 13);
             this.gwDiskConfigLBL.TabIndex = 1;
             this.gwDiskConfigLBL.Text = "Disk Config";
-            // 
-            // gwDiskConfigCB
-            // 
-            this.gwDiskConfigCB.FormattingEnabled = true;
-            this.gwDiskConfigCB.Location = new System.Drawing.Point(77, 43);
-            this.gwDiskConfigCB.Name = "gwDiskConfigCB";
-            this.gwDiskConfigCB.Size = new System.Drawing.Size(121, 21);
-            this.gwDiskConfigCB.TabIndex = 16;
-            this.gwDiskConfigCB.SelectedIndexChanged += new System.EventHandler(this.gwDiskConfigCB_SelectedIndexChanged);
-            // 
-            // removeDiskConfigBtn
-            // 
-            this.removeDiskConfigBtn.Location = new System.Drawing.Point(270, 41);
-            this.removeDiskConfigBtn.Name = "removeDiskConfigBtn";
-            this.removeDiskConfigBtn.Size = new System.Drawing.Size(68, 23);
-            this.removeDiskConfigBtn.TabIndex = 48;
-            this.removeDiskConfigBtn.Text = "Remove";
-            this.removeDiskConfigBtn.UseVisualStyleBackColor = true;
-            this.removeDiskConfigBtn.Click += new System.EventHandler(this.removeDiskConfigBtn_Click);
             // 
             // gWeazleFrm
             // 
