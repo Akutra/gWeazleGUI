@@ -19,6 +19,7 @@ gWeazleGUI is a graphical user interface for the grease weazle device.
 
 * Support for Windows (Ubuntu will be soon)
 * Easy to use single window interface
+* Disk definition config file builder / modifier
 * Access to all the command line options available in gw host tools 
 * Retain setting in an XML file to reuse later
 
