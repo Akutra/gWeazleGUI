@@ -1,6 +1,7 @@
 # gWeazleGUI
 
 ![gWeazleGUI](gWeazleGUIMainScreen.jpg)
+![gWeazleGUI](gWeazleGUIDDCfgScreen.jpg)
 
 GW Host Tools GUI.
 
