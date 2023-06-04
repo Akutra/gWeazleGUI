@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Gconfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <GwToolsPath></GwToolsPath>
-  <LogFile>gwlog.txt</LogFile>
-  <time>true</time>
-  <OperationType>None</OperationType>
+  <GwToolsPath>C:\Users\acura\Downloads\greaseweazle-1.12-win\greaseweazle-1.12</GwToolsPath>
+  <Time>false</Time>
+  <LastFormatType />
+  <LastFileExt />
+  <RawFormat>false</RawFormat>
+  <LastDiskDefsCfgFile />
+  <LastUseDiskDefsCfgFile>true</LastUseDiskDefsCfgFile>
 </Gconfig>

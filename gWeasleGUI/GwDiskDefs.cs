@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace gWeasleGUI
 {
@@ -196,7 +198,7 @@ namespace gWeasleGUI
         {
             ActionStart();
 
-            if (!ddChanged) return;
+            if (!ddChanged) { ActionDone(); return; }
 
             try
             {
@@ -229,6 +231,11 @@ namespace gWeasleGUI
             ddChanged = false;
 
             ActionDone();
+        }
+
+        public void Clear()
+        {
+            DiskDefinitions.Clear();
         }
     }
 }
