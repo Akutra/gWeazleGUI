@@ -222,7 +222,7 @@ namespace gWeasleGUI
             string[] ext = new[]
             {
                 "A2R|*.a2r", "ADF|*.adf", "ADS|*.ads", "ADM|*.adm", "ADL|*.adl", "D64|*.d64", "D88|*.d81", "D88|*.d88", "DCP|*.dcp", "DIM|*.dim", 
-                "DSD|*.dsd", "DSK|*.dsk", "FDI|*.fdi", "HDM|*.hdm", "HFE|*.hfe", "IMG|*.ima;*.img;*.st", "IMD|*.imd", "IPF|*.ipf", "MGT|*.mgt", 
+                "DSD|*.dsd", "DSK|*.dsk", "FDI|*.fdi", "HDM|*.hdm", "HFE|*.hfe", "IMG|*.img;*.ima;*.st", "IMD|*.imd", "IPF|*.ipf", "MGT|*.mgt", 
                 "MSA|*.msa", "KryoFlux|*.raw", "SF7|*.sf7", "SCP|*.scp", "SSD|*.ssd", "XDF|*.xdf"
             };
             LoadAcceptedSuffixes(ext);

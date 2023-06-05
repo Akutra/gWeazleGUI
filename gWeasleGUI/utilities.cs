@@ -16,7 +16,7 @@ namespace gWeasleGUI
         /// <param name="ext">starting extension</param>
         /// <param name="selectedExt">event action used for reporting the extension of freshly selected file</param>
         /// <returns>the file with full path</returns>
-        public static string GetFilePath(string filetype, string[] extensions, string ext, Action<string> selectedExt)
+        public static string GetFilePath(string filetype, string[] extensions, string ext, Action<string> selectedExt, bool overwriteprompt = true)
         {
             FileDialog dialog;
             int pIdx = Array.IndexOf(extensions, ext);
@@ -24,12 +24,14 @@ namespace gWeasleGUI
             if (filetype == "existing")
             {
                 dialog = new System.Windows.Forms.OpenFileDialog();
-                dialog.Title = "Select Existing Image";
+                dialog.Title = "Select existing file";
             }
             else
             {
                 dialog = new System.Windows.Forms.SaveFileDialog();
-                dialog.Title = "Select Image to Create";
+                dialog.Title = "Select a file";
+                ((SaveFileDialog)dialog).OverwritePrompt = overwriteprompt;
+                
             }
 
             dialog.Filter = string.Join("|", extensions);

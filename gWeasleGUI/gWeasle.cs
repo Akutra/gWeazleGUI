@@ -465,7 +465,7 @@ namespace gWeasleGUI
             //this.ActionStart();
 
             string[] ext = new[] { "Any File|*.*", "Disk Configs|*.cfg" };
-            string fileSelection = utilities.GetFilePath("new", ext, ext.Last(), null);
+            string fileSelection = utilities.GetFilePath("new", ext, ext.Last(), null, false);
             if (string.IsNullOrEmpty(fileSelection)) return;
 
             this.GwDiskDefsFile = fileSelection;
