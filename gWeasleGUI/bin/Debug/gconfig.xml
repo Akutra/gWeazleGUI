@@ -2,9 +2,9 @@
 <Gconfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <GwToolsPath></GwToolsPath>
   <Time>true</Time>
-  <LastFormatType></LastFormatType>
-  <LastFileExt></LastFileExt>
+  <LastFormatType />
+  <LastFileExt />
   <RawFormat>false</RawFormat>
-  <LastDiskDefsCfgFile></LastDiskDefsCfgFile>
+  <LastDiskDefsCfgFile />
   <LastUseDiskDefsCfgFile>false</LastUseDiskDefsCfgFile>
 </Gconfig>

@@ -132,7 +132,7 @@ namespace gWeasleGUI
             return string.Empty;
         }
 
-        public static string MaxSizeFile(string fileName, int length)
+        public static string MaxSizeFileName(string fileName, int length = 200)
         {
             if(fileName is null) { return string.Empty; }
 

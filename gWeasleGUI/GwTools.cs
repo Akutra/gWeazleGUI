@@ -158,7 +158,7 @@ namespace gWeasleGUI
                 {
                     RunGWCommand(AfterLoad, this.currentDevice.port);
                 }
-            });
+            }, (ex) => { this.DeviceLoaded(); });
         }
 
         /// <summary>
@@ -324,11 +324,14 @@ namespace gWeasleGUI
         /// </summary>
         /// <param name="args">gw arguments as would be accepted on an actual commandline</param>
         /// <param name="processResponse">optional event handler to handle response data after completion, when not provided all data goes to the standard async handler</param>
-        private void ExecuteGWCommand(string args, Action<string> processResponse = null)
+        private void ExecuteGWCommand(string args, Action<string> processResponse = null, Action<Exception> errorResponse = null)
         {
-            string cmd = "powershell"; // $"\"{this.GwToolsPath}{this.separator}{this.gw_exe}\""; // "powershell";
-            args = $".{this.separator}{this.gw_exe} {args}";
-            ExecuteCommand(cmd, args, processResponse);
+            string cmd = $"\"{this.GwToolsPath}{this.separator}{this.gw_exe}\""; // "powershell";
+            if (string.IsNullOrEmpty(this.GwToolsPath))
+                cmd = this.gw_exe;
+
+            //args = $".{this.separator}{this.gw_exe} {args}";
+            ExecuteCommand(cmd, args, processResponse, errorResponse);
         }
 
         /// <summary>
@@ -337,11 +340,11 @@ namespace gWeasleGUI
         /// <param name="exe">executable</param>
         /// <param name="args">arguments</param>
         /// <param name="processResponse">optional event handler to handle response data after completion, when not provided all data goes to the standard async handler</param>
-        private void ExecuteCommand(string exe, string args, Action<string> processResponse = null)
+        private void ExecuteCommand(string exe, string args, Action<string> processResponse = null, Action<Exception> errorResponse = null)
         {
             string rt = string.Empty, err = string.Empty;
             Task exe_task;
-            this.LastExecutedCommand = $"{exe} {args}";
+            this.LastExecutedCommand = $"{utilities.MaxSizeFileName(exe)} {args}";
             string startOut = $"Executing command: {this.LastExecutedCommand}";
             gw_output(startOut);
             this.logger.Info(startOut);
@@ -386,7 +389,7 @@ namespace gWeasleGUI
                                 processResponse(rt);
                             }
 
-                            string endOut = $"Command completed: {p.StartInfo.FileName} {p.StartInfo.Arguments}";
+                            string endOut = $"Command completed: {utilities.MaxSizeFileName(p.StartInfo.FileName)} {p.StartInfo.Arguments}";
                             gw_output(endOut);
                             this.logger.Info(endOut);
                             this.DoneAction();
@@ -411,6 +414,7 @@ namespace gWeasleGUI
                     {
                         this.logger.Error($"Error occured while executing the command {args}", ex);
                         gw_output($"Error occured while executing the command {args}{Environment.NewLine}Exception: {ex}");
+                        if(errorResponse != null) { errorResponse(ex); }
                         this.DoneAction();
                     }
                 });

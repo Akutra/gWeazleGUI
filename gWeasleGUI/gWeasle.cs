@@ -112,7 +112,7 @@ namespace gWeasleGUI
             //}
 
             // verify device can be loaded
-            if (string.IsNullOrEmpty(this.gw.currentDevice.port))
+            if (this.gw.currentDevice is null || string.IsNullOrEmpty(this.gw.currentDevice.port))
             {
                 string gwmsg = this.gw.gwHostToolsVersion == 0 ? "Greaseweazle Host Tools not found." : $"Greaseweazle Host Tools v{this.gw.gwHostToolsVersion} found.";
                 string err = $"*** Unable to load device on port {this.gwPortTB.Text.Trim()}.";
@@ -469,7 +469,7 @@ namespace gWeasleGUI
             if (string.IsNullOrEmpty(fileSelection)) return;
 
             this.GwDiskDefsFile = fileSelection;
-            this.gwDDfileLBL.Text = utilities.MaxSizeFile(this.GwDiskDefsFile, this.gwDDfileLBL.MaximumSize.Width);
+            this.gwDDfileLBL.Text = utilities.MaxSizeFileName(this.GwDiskDefsFile, this.gwDDfileLBL.MaximumSize.Width);
 
             // Reset
             gwDiskConfigCB.Items.Clear();
@@ -587,7 +587,7 @@ namespace gWeasleGUI
 
         private void diskdefsBtn_Click(object sender, EventArgs e)
         {
-            this.gwDDfileLBL.Text = utilities.MaxSizeFile(this.GwDiskDefsFile, this.gwDDfileLBL.MaximumSize.Width);
+            this.gwDDfileLBL.Text = utilities.MaxSizeFileName(this.GwDiskDefsFile, this.gwDDfileLBL.MaximumSize.Width);
             gwDiskConfigCB.Items.Clear();
             gwDiskConfigCB.Items.AddRange(this.gwDD.GetDiskDefinitionsKeys());
             gwDiskConfigPanel.Visible = true;
