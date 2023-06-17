@@ -119,15 +119,22 @@ namespace gWeasleGUI
                 string msg = $"{gwmsg}{Environment.NewLine}{err}{Environment.NewLine}*** Greaseweazle device required for {ConfigLoader.AppName}.";
                 this.DisplayContentAction(msg);
                 // thread safe show options
-                this.Invoke(new MethodInvoker(delegate { gwpathcontainer.Visible = true; }));
+                this.Invoke(new MethodInvoker(delegate { GWTab.SelectedTab = this.optionsTab; }));
                 return;
             }
 
             // thread safe populate valid data to the interface
             this.Invoke(new MethodInvoker(delegate
             {
+                gwPathSelectionTB.Text = this.ConfigManager.ConfigData.GwToolsPath;
                 gwToolsVersion.Text = $"H{this.gw.gwHostToolsVersion}";
                 gwPortTB.Text = this.gw.currentDevice.port;
+                gwModelValue.Text = this.gw.currentDevice.model;
+                gwMCUValue.Text = this.gw.currentDevice.mcu;
+                gwFirmwareValue.Text = this.gw.currentDevice.firmwareVersion.ToString();
+                gwSerialValue.Text = this.gw.currentDevice.serial;
+                gwUSBRateValue.Text = this.gw.currentDevice.usbRate;
+
                 this.Text = $"{ConfigLoader.AppName} {ConfigLoader.Version} ({ConfigLoader.VersionDetails}) - {this.gw.currentDevice.model} ({this.gw.currentDevice.serial})";
                 this.LoadGWOperations(); // load gw actions
             }));            
@@ -273,6 +280,7 @@ namespace gWeasleGUI
             this.PopulateArgs(cmd.action, args, () =>
             {
                 cmd.args = args.ToArray();
+                GWTab.SelectedTab = actionTab;
 
                 // run the gw action command
                 this.gw.RunGWCommand(cmd, this.gwPortTB.Text.Trim());
@@ -422,7 +430,7 @@ namespace gWeasleGUI
                 this.ConfigManager.WriteConfig();
                 this.gw.ReLoadGW(this.ConfigManager.ConfigData.GwToolsPath);
             }
-            gwpathcontainer.Visible = false;
+            //gwpathcontainer.Visible = false;
         }
 
         /// <summary>
@@ -432,7 +440,8 @@ namespace gWeasleGUI
         /// <param name="e">ignored</param>
         private void accessoptions_Click(object sender, EventArgs e)
         {
-            gwpathcontainer.Visible = true;
+            //gwpathcontainer.Visible = true;
+            GWTab.SelectedTab = this.optionsTab;
             gwPathSelectionTB.Text = this.ConfigManager.ConfigData.GwToolsPath;
         }
 
@@ -443,7 +452,8 @@ namespace gWeasleGUI
         /// <param name="e">ignored</param>
         private void closeGWOptionsBtn_Click(object sender, EventArgs e)
         {
-            gwpathcontainer.Visible = false;
+            //gwpathcontainer.Visible = false;
+            GWTab.SelectedTab = actionTab;
         }
 
         private void gwDDDontUseBtn_Click(object sender, EventArgs e)
@@ -457,7 +467,8 @@ namespace gWeasleGUI
 
             this.ProcessAction();
 
-            gwDiskConfigPanel.Visible = false;
+            //gwDiskConfigPanel.Visible = false;
+            GWTab.SelectedTab = actionTab;
         }
 
         private void gwDDfileBtn_Click(object sender, EventArgs e)
@@ -504,7 +515,8 @@ namespace gWeasleGUI
 
             this.ProcessAction();
 
-            gwDiskConfigPanel.Visible = false;
+            //gwDiskConfigPanel.Visible = false;
+            GWTab.SelectedTab = actionTab;
         }
 
         private void gwDDTrackListLB_SelectedValueChanged(object sender, EventArgs e)
@@ -585,12 +597,18 @@ namespace gWeasleGUI
             this.ProcessAction();
         }
 
-        private void diskdefsBtn_Click(object sender, EventArgs e)
+        private void SelectGWProfileBtn_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void gwDiskDefsBtn_Click(object sender, EventArgs e)
         {
             this.gwDDfileLBL.Text = utilities.MaxSizeFileName(this.GwDiskDefsFile, this.gwDDfileLBL.MaximumSize.Width);
             gwDiskConfigCB.Items.Clear();
             gwDiskConfigCB.Items.AddRange(this.gwDD.GetDiskDefinitionsKeys());
-            gwDiskConfigPanel.Visible = true;
+            //gwDiskConfigPanel.Visible = true;
+            GWTab.SelectedTab = ddTab;
         }
 
         private void timeCB_CheckedChanged(object sender, EventArgs e)
@@ -617,6 +635,7 @@ namespace gWeasleGUI
             };
 
             outputTB.Text = string.Empty;
+            GWTab.SelectedTab = actionTab;
             gw.RunGWCommand(cmd, this.gw.currentDevice.port);
         }
 
