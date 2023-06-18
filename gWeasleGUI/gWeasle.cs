@@ -16,7 +16,6 @@ namespace gWeasleGUI
         int ActionCount = 0;
 
         string GwNewFile = string.Empty, GwExistingFile = string.Empty, GwDiskDefsFile = string.Empty;
-        bool useDiskDefsFile = true;
 
         public gWeazleFrm()
         {
@@ -119,7 +118,15 @@ namespace gWeasleGUI
                 string msg = $"{gwmsg}{Environment.NewLine}{err}{Environment.NewLine}*** Greaseweazle device required for {ConfigLoader.AppName}.";
                 this.DisplayContentAction(msg);
                 // thread safe show options
-                this.Invoke(new MethodInvoker(delegate { GWTab.SelectedTab = this.optionsTab; }));
+                this.Invoke(new MethodInvoker(delegate {
+                    gwToolsVersion.Text = "None";
+                    gwModelValue.Text = "Not Found.";
+                    gwMCUValue.Text = string.Empty;
+                    gwFirmwareValue.Text = string.Empty;
+                    gwSerialValue.Text = string.Empty;
+                    gwUSBRateValue.Text = string.Empty;
+                    GWTab.SelectedTab = this.optionsTab; 
+                }));
                 return;
             }
 
@@ -257,6 +264,14 @@ namespace gWeasleGUI
             string[] ext = new[] { "Any File|*.*", "GreaseWeazle EXE|gw.exe" };
             gwPathSelectionTB.Text = utilities.GetFilePath("existing", ext, ext.Last(), null);
 
+            if (!string.IsNullOrEmpty(gwPathSelectionTB.Text) && this.ConfigManager.ConfigData.GwToolsPath != utilities.GetAbsoluteFolder(gwPathSelectionTB.Text.Trim()))
+            {
+                this.ConfigManager.ConfigData.GwToolsPath = utilities.GetAbsoluteFolder(gwPathSelectionTB.Text.Trim());
+                this.ConfigManager.WriteConfig();
+                this.gw.ReLoadGW(this.ConfigManager.ConfigData.GwToolsPath);
+                GWTab.SelectedTab = deviceTab;
+            }
+
             this.ActionComplete();
         }
 
@@ -295,6 +310,11 @@ namespace gWeasleGUI
         /// <param name="e">ignored</param>
         private void actionCB_SelectedIndexChanged(object sender, EventArgs e)
         {
+            string action = actionCB.Text.Trim();
+            if (action.Length > 1)
+                action = $"{char.ToUpper(action[0])}{action.Substring(1)}";
+
+            parmTab.Text = $"{action} parameters".Trim();
             this.EnableActionInterface();
         }
 
@@ -379,20 +399,62 @@ namespace gWeasleGUI
         /// </summary>
         private void DisableAllOptions()
         {
-            gwFormatTypeLBL.Enabled = false;
-            gwFormatTypeCB.Enabled = false;
-            gwRawCB.Enabled = false;
-            gwEraseBlankCB.Enabled = false;
-            gwNoVerifyCB.Enabled = false;
-            driveTB.Enabled = false;
-            driveLBL.Enabled = false;
-            gwCylLBL.Enabled = false;
-            gwCylTB.Enabled = false;
+            gwTSPECCylTB.Visible = false;
+            gwTSPECHeadsTB.Visible = false;
+            gwTSPECStepTB.Visible = false;
+            gwTSPECOffsetsTB.Visible = false;
+            gwTSPECSwapCB.Visible = false;
+            gwTSPECCylLBL.Visible = false; 
+            gwTSPECHeadsLBL.Visible = false;
+            gwTSPECStepLBL.Visible = false; 
+            gwTSPECOffsetsLBL.Visible = false;
+            gwPLLPeriodTB.Visible = false; 
+            gwPLLPhaseTB.Visible = false;
+            gwPLLPeriodLBL.Visible = false;
+            gwPLLPhaseLBL.Visible = false;
+            gwOutTracksLBL.Visible = false;
+            gwOTTSPECCylTB.Visible = false; 
+            gwOTTSPECHeadsTB.Visible = false; 
+            gwOTTSPECStepTB.Visible = false;
+            gwOTTSPECOffsetsTB.Visible = false; 
+            gwOTTSPECSwapCB.Visible = false;
+            gwOTTSPECCylLBL.Visible = false; 
+            gwOTTSPECHeadsLBL.Visible = false; 
+            gwOTTSPECStepLBL.Visible = false; 
+            gwOTTSPECOffsetsLBL.Visible = false;
+
+            gwRawCB.Visible = false;
+            gwEraseBlankCB.Visible = false;
+            gwNoVerifyCB.Visible = false;
+            gwPreEraseCB.Visible = false;
+            gwHFreqCB.Visible = false;
+            gwMotorOnCB.Visible = false;
+            gwForceCB.Visible = false;
+            gwUseDiskDefFileCB.Visible = false;
+
+            gwNrLBL.Visible = false;
+            gwNrTB.Visible = false;
+            gwLingerLBL.Visible = false; 
+            gwLingerTB.Visible = false;
+            gwPassesLBL.Visible = false;
+            gwPassesTB.Visible = false;
+            gwFakeIndexTB.Visible = false;
+            gwFakeIndexLBL.Visible = false;
+            gwAdjustSpeedTB.Visible = false; 
+            gwAdjustSpeedLBL.Visible = false;
+            gwRevsTB.Visible = false;
+            gwRevsLBL.Visible = false;
+            gwFormatTypeLBL.Visible = false;
+            gwFormatTypeCB.Visible = false;
+            driveTB.Visible = false;
+            driveLBL.Visible = false;
+            gwCylLBL.Visible = false;
+            gwCylTB.Visible = false;
             //gwDiskDefsBtn.Enabled = false;
-            gwSeekRetriesTB.Enabled = false;
-            gwSeekRetriesLBL.Enabled = false;
-            gwRetriesLBL.Enabled = false;
-            gwRetriesTB.Enabled = false;
+            gwSeekRetriesTB.Visible = false;
+            gwSeekRetriesLBL.Visible = false;
+            gwRetriesLBL.Visible = false;
+            gwRetriesTB.Visible = false;
 
             GwFileDisplay.Text = string.Empty;
             SelectNewFileBtn.Enabled = false;
@@ -418,22 +480,6 @@ namespace gWeasleGUI
         }
 
         /// <summary>
-        /// update gw host tools path with the textbox text in options
-        /// </summary>
-        /// <param name="sender">ignored</param>
-        /// <param name="e">ignored</param>
-        private void acceptGWLocationBtn_Click(object sender, EventArgs e)
-        {
-            if (this.ConfigManager.ConfigData.GwToolsPath != utilities.GetAbsoluteFolder(gwPathSelectionTB.Text.Trim()))
-            {
-                this.ConfigManager.ConfigData.GwToolsPath = utilities.GetAbsoluteFolder(gwPathSelectionTB.Text.Trim());
-                this.ConfigManager.WriteConfig();
-                this.gw.ReLoadGW(this.ConfigManager.ConfigData.GwToolsPath);
-            }
-            //gwpathcontainer.Visible = false;
-        }
-
-        /// <summary>
         /// Display the options
         /// </summary>
         /// <param name="sender">ignored</param>
@@ -443,32 +489,6 @@ namespace gWeasleGUI
             //gwpathcontainer.Visible = true;
             GWTab.SelectedTab = this.optionsTab;
             gwPathSelectionTB.Text = this.ConfigManager.ConfigData.GwToolsPath;
-        }
-
-        /// <summary>
-        /// Close the option popup
-        /// </summary>
-        /// <param name="sender">ignored</param>
-        /// <param name="e">ignored</param>
-        private void closeGWOptionsBtn_Click(object sender, EventArgs e)
-        {
-            //gwpathcontainer.Visible = false;
-            GWTab.SelectedTab = actionTab;
-        }
-
-        private void gwDDDontUseBtn_Click(object sender, EventArgs e)
-        {
-            this.useDiskDefsFile = false;
-            if( this.useDiskDefsFile != this.ConfigManager.ConfigData.LastUseDiskDefsCfgFile)
-            {
-                this.ConfigManager.ConfigData.LastUseDiskDefsCfgFile = this.useDiskDefsFile;
-                this.ConfigManager.WriteConfig();
-            }
-
-            this.ProcessAction();
-
-            //gwDiskConfigPanel.Visible = false;
-            GWTab.SelectedTab = actionTab;
         }
 
         private void gwDDfileBtn_Click(object sender, EventArgs e)
@@ -484,22 +504,6 @@ namespace gWeasleGUI
             
             this.ProcessAction();
             //this.ActionComplete();
-        }
-
-        private void gwDDUseBtn_Click(object sender, EventArgs e)
-        {
-            this.useDiskDefsFile = true;
-            if (this.useDiskDefsFile != this.ConfigManager.ConfigData.LastUseDiskDefsCfgFile)
-            {
-                this.ConfigManager.ConfigData.LastUseDiskDefsCfgFile = this.useDiskDefsFile;
-                this.ConfigManager.WriteConfig();
-            }
-            this.gwDD.SaveDiskDefs(this.GwDiskDefsFile);
-
-            this.ProcessAction();
-
-            //gwDiskConfigPanel.Visible = false;
-            GWTab.SelectedTab = actionTab;
         }
 
         private void gwDDTrackListLB_SelectedValueChanged(object sender, EventArgs e)
@@ -585,14 +589,15 @@ namespace gWeasleGUI
 
         }
 
-        private void gwDiskDefsBtn_Click(object sender, EventArgs e)
+        private void gwUseDiskDefFileCB_CheckedChanged(object sender, EventArgs e)
         {
-            //this.gwDDfileLBL.Text = utilities.MaxSizeFileName(this.GwDiskDefsFile, this.gwDDfileLBL.MaximumSize.Width);
-            //gwDiskConfigCB.Items.Clear();
-            //gwDiskConfigCB.Items.AddRange(this.gwDD.GetDiskDefinitionsKeys());
-            //gwDiskConfigPanel.Visible = true;
-            LoadDD();
-            GWTab.SelectedTab = ddTab;
+            if (this.gwUseDiskDefFileCB.Checked != this.ConfigManager.ConfigData.LastUseDiskDefsCfgFile)
+            {
+                this.ConfigManager.ConfigData.LastUseDiskDefsCfgFile = this.gwUseDiskDefFileCB.Checked;
+                this.ConfigManager.WriteConfig();
+            }
+
+            this.ProcessAction();
         }
 
         private void timeCB_CheckedChanged(object sender, EventArgs e)
@@ -640,7 +645,7 @@ namespace gWeasleGUI
             timeCB.Checked = ConfigManager.ConfigData.Time;
             gwRawCB.Checked = ConfigManager.ConfigData.RawFormat;
             this.GwDiskDefsFile = ConfigManager.ConfigData.LastDiskDefsCfgFile;
-            this.useDiskDefsFile = ConfigManager.ConfigData.LastUseDiskDefsCfgFile;
+            gwUseDiskDefFileCB.Checked = ConfigManager.ConfigData.LastUseDiskDefsCfgFile;
             LoadDD();
         }
 

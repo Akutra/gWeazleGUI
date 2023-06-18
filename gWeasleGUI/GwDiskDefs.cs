@@ -96,6 +96,7 @@ namespace gWeasleGUI
                     DiskDefinition diskDef = null;
                     TrackDefinition trackDef = null;
                     List<TrackDefinition> tracks = new List<TrackDefinition>();
+                    DiskDefinitions.Clear();
 
                     while (reader.Peek() > -1)
                     {

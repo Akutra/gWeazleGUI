@@ -324,6 +324,7 @@ namespace gWeasleGUI
             gwDDHeadsTB.Text = diskDefinition.Heads;
             gwDDStepTB.Text = diskDefinition.step;
 
+            string selDD = gwDiskConfigCB.Text; // persistent selection, try to select again after refresh
             string selTrack = gwDDTrackListLB.Text; // persistent selection, try to select again after refresh
             gwDDTrackListLB.Items.Clear();
             if (diskDefinition.Tracks != null && diskDefinition.Tracks.Count() > 0)
@@ -342,6 +343,15 @@ namespace gWeasleGUI
 
             if (!string.IsNullOrEmpty(selTrack) && gwDDTrackListLB.FindString(selTrack) != ListBox.NoMatches)
                 gwDDTrackListLB.SelectedIndex = gwDDTrackListLB.FindString(selTrack);
+
+            if (!string.IsNullOrEmpty(selDD) && gwDiskConfigCB.FindString(selDD) != ListBox.NoMatches)
+            {
+                gwDiskConfigCB.SelectedIndex = gwDiskConfigCB.FindString(selDD);
+            } else
+            {
+                gwDiskConfigCB.SelectedIndex = 0;
+            }
+
         }
 
         private void PopulateTDDisplay(GwDiskDefs.TrackDefinition trackDef = null)
@@ -365,7 +375,7 @@ namespace gWeasleGUI
             string[] response = null;
 
             // see if we can use the config file for formats
-            if(this.ddCfgFileAvailable && this.useDiskDefsFile && !string.IsNullOrEmpty(this.GwDiskDefsFile))
+            if(this.ddCfgFileAvailable && this.gwUseDiskDefFileCB.Checked && !string.IsNullOrEmpty(this.GwDiskDefsFile))
             {
                 response = this.gwDD.GetDiskDefinitionsKeys();
             }
