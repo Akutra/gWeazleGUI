@@ -47,7 +47,6 @@ namespace gWeasleGUI
             // load persistent config data
             this.ConfigManager = new ConfigLoader(logger, this.ActionStart, this.ActionComplete);
             this.Text = $"{ConfigLoader.AppName} {ConfigLoader.Version} ({ConfigLoader.VersionDetails})";
-            PopulateConfig();
 
             // initialize gw commandline tools
             this.gw = new GwTools(logger,ConfigManager.ConfigData.GwToolsPath, this.DisplayContentAction, this.ActionComplete, this.ActionStart, this.ActionGwDeviceLoaded);
@@ -64,6 +63,7 @@ namespace gWeasleGUI
 
             this.InitializeArgumentFilters();
             this.InitializeDDParaHandling();
+            this.PopulateConfig();
             this.ActionComplete();
         }
 
@@ -480,24 +480,7 @@ namespace gWeasleGUI
             if (string.IsNullOrEmpty(fileSelection)) return;
 
             this.GwDiskDefsFile = fileSelection;
-            this.gwDDfileLBL.Text = utilities.MaxSizeFileName(this.GwDiskDefsFile, this.gwDDfileLBL.MaximumSize.Width);
-
-            // Reset
-            gwDiskConfigCB.Items.Clear();
-            this.gwDD.Clear();
-            this.ddTracks.Clear();
-            this.CurrentDiskDef = new GwDiskDefs.DiskDefinition();
-
-            // Load the new file if it exists
-            if ( File.Exists(this.GwDiskDefsFile) && this.gwDD.LoadDiskDefs(this.GwDiskDefsFile) )
-            {
-                if(this.ConfigManager.ConfigData.LastDiskDefsCfgFile != this.GwDiskDefsFile)
-                { 
-                    this.ConfigManager.ConfigData.LastDiskDefsCfgFile = this.GwDiskDefsFile;
-                    this.ConfigManager.WriteConfig();
-                }
-                gwDiskConfigCB.Items.AddRange(this.gwDD.GetDiskDefinitionsKeys());
-            }
+            LoadDD();
             
             this.ProcessAction();
             //this.ActionComplete();
@@ -604,10 +587,11 @@ namespace gWeasleGUI
 
         private void gwDiskDefsBtn_Click(object sender, EventArgs e)
         {
-            this.gwDDfileLBL.Text = utilities.MaxSizeFileName(this.GwDiskDefsFile, this.gwDDfileLBL.MaximumSize.Width);
-            gwDiskConfigCB.Items.Clear();
-            gwDiskConfigCB.Items.AddRange(this.gwDD.GetDiskDefinitionsKeys());
+            //this.gwDDfileLBL.Text = utilities.MaxSizeFileName(this.GwDiskDefsFile, this.gwDDfileLBL.MaximumSize.Width);
+            //gwDiskConfigCB.Items.Clear();
+            //gwDiskConfigCB.Items.AddRange(this.gwDD.GetDiskDefinitionsKeys());
             //gwDiskConfigPanel.Visible = true;
+            LoadDD();
             GWTab.SelectedTab = ddTab;
         }
 
@@ -657,6 +641,29 @@ namespace gWeasleGUI
             gwRawCB.Checked = ConfigManager.ConfigData.RawFormat;
             this.GwDiskDefsFile = ConfigManager.ConfigData.LastDiskDefsCfgFile;
             this.useDiskDefsFile = ConfigManager.ConfigData.LastUseDiskDefsCfgFile;
+            LoadDD();
+        }
+
+        private void LoadDD()
+        {
+            this.gwDDfileLBL.Text = utilities.MaxSizeFileName(this.GwDiskDefsFile, this.gwDDfileLBL.MaximumSize.Width);
+
+            // Reset
+            gwDiskConfigCB.Items.Clear();
+            this.gwDD?.Clear();
+            this.ddTracks?.Clear();
+            this.CurrentDiskDef = new GwDiskDefs.DiskDefinition();
+
+            // Load the new file if it exists
+            if (File.Exists(this.GwDiskDefsFile) && this.gwDD.LoadDiskDefs(this.GwDiskDefsFile))
+            {
+                if (this.ConfigManager.ConfigData.LastDiskDefsCfgFile != this.GwDiskDefsFile)
+                {
+                    this.ConfigManager.ConfigData.LastDiskDefsCfgFile = this.GwDiskDefsFile;
+                    this.ConfigManager.WriteConfig();
+                }
+                gwDiskConfigCB.Items.AddRange(this.gwDD.GetDiskDefinitionsKeys());
+            }
         }
     }
 }
