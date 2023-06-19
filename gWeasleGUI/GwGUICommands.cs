@@ -9,198 +9,167 @@ namespace gWeasleGUI
 {
     public partial class gWeazleFrm : Form
     {
-        private Action<List<string>> gwAdditionalArgs;
-        private Action<List<string>> gwNewFile, gwExistingFile, gwCylinders;
+        private Func<templates, object> gwAdditionalArgs;
+        private Func<templates, object> gwNewFile, gwExistingFile, gwCylinders;
         private Action<string[]> gwGetFormatTypes;
 
-        private Dictionary<string, Action<List<string>>> GWParameters;
-        private Dictionary<string, Action> GWParaInterface;
+        private Dictionary<string, Func<templates, object>> GWParameters;
+        private Dictionary<string, List<Control>> GWParaInterface;
 
-        private bool ddCfgFileAvailable = true;
+        //private bool ddCfgFileAvailable = true;
 
         /// <summary>
         /// Unified argument handling
         /// </summary>
         private void InitializeArgumentFilters()
         {
-            this.GWParameters = new Dictionary<string, Action<List<string>>>();
-            this.GWParaInterface = new Dictionary<string, Action>();
+            this.GWParameters = new Dictionary<string, Func<templates, object>>();
+            this.GWParaInterface = new Dictionary<string, List<Control>>();
 
             // arguments
-            this.GWParameters.Add("--pll", (al) => {
-                StringBuilder PLL = new StringBuilder();
-                if (!string.IsNullOrEmpty(this.gwPLLPeriodTB.Text.Trim())) { PLL.Append(this.gwPLLPeriodTB.Text.Trim()); }
-                if (!string.IsNullOrEmpty(this.gwPLLPhaseTB.Text.Trim())) { PLL.Append($":{this.gwPLLPhaseTB.Text.Trim()}"); }
-                if (PLL.Length > 0) { al.Add($"--pll {PLL.ToString().Trim(':')}"); }
+            this.GWParameters.Add("--pll", (t) => {
+                return ArgProcessTemplate("--pll", t);
             });
-            this.GWParaInterface.Add("--pll", () => {
-                gwPLLPeriodTB.Visible = true; gwPLLPhaseTB.Visible = true;
-                gwPLLPeriodLBL.Visible = true; gwPLLPhaseLBL.Visible = true;
+            this.GWParaInterface.Add("--pll", new List<Control>() { gwPLLPeriodTB, gwPLLPhaseTB, gwPLLPeriodLBL, gwPLLPhaseLBL });
+
+            this.GWParameters.Add("--adjust-speed", (t) => {
+                return ArgProcessTemplate("--adjust-speed", t);
             });
-            this.GWParameters.Add("--adjust-speed", (al) => {
-                if (!string.IsNullOrEmpty(this.gwAdjustSpeedTB.Text.Trim())) { al.Add($"--adjust-speed {this.gwAdjustSpeedTB.Text.Trim()}"); }
+            this.GWParaInterface.Add("--adjust-speed", new List<Control>() { gwAdjustSpeedTB, gwAdjustSpeedLBL } );
+
+            this.GWParameters.Add("--fake-index", (t) => {
+                return ArgProcessTemplate("--fake-index", t);
             });
-            this.GWParaInterface.Add("--adjust-speed", () => {
-                gwAdjustSpeedTB.Visible = true; gwAdjustSpeedLBL.Visible = true;
+            this.GWParaInterface.Add("--fake-index", new List<Control>() { gwFakeIndexTB, gwFakeIndexLBL } );
+
+            this.GWParameters.Add("--tracks", (t) => {
+                return ArgProcessTemplate("--tracks", t);
             });
-            this.GWParameters.Add("--fake-index", (al) => {
-                if (!string.IsNullOrEmpty(this.gwFakeIndexTB.Text.Trim())) { al.Add($"--fake-index {this.gwFakeIndexTB.Text.Trim()}"); }
+            this.GWParaInterface.Add("--tracks", new List<Control>() { 
+                gwTSPECCylTB, gwTSPECHeadsTB, gwTSPECStepTB, gwTSPECOffsetsTB, gwTSPECSwapCB,
+                gwTSPECCylLBL, gwTSPECHeadsLBL, gwTSPECStepLBL, gwTSPECOffsetsLBL });
+
+            this.GWParameters.Add("--out-tracks", (t) => {
+                return ArgProcessTemplate("--out-tracks", t);
             });
-            this.GWParaInterface.Add("--fake-index", () => {
-                gwFakeIndexTB.Visible = true; gwFakeIndexLBL.Visible = true;
+            this.GWParaInterface.Add("--out-tracks", new List<Control>() {
+                gwOutTracksLBL, gwOTTSPECCylTB, gwOTTSPECHeadsTB, gwOTTSPECStepTB, gwOTTSPECOffsetsTB, gwOTTSPECSwapCB,
+                gwOTTSPECCylLBL, gwOTTSPECHeadsLBL, gwOTTSPECStepLBL, gwOTTSPECOffsetsLBL });
+
+            this.GWParameters.Add("--revs", (t) => {
+                return ArgProcessTemplate("--revs", t, false, null, typeof(int));
             });
-            this.GWParameters.Add("--tracks", (al) => {
-                StringBuilder TSPEC = new StringBuilder();
-                if (!string.IsNullOrEmpty(this.gwTSPECCylTB.Text.Trim())) { TSPEC.Append(this.gwTSPECCylTB.Text.Trim()); }
-                if (!string.IsNullOrEmpty(this.gwTSPECHeadsTB.Text.Trim())) { TSPEC.Append($":{this.gwTSPECHeadsTB.Text.Trim()}"); }
-                if (!string.IsNullOrEmpty(this.gwTSPECStepTB.Text.Trim())) { TSPEC.Append($":{this.gwTSPECStepTB.Text.Trim()}"); }
-                if (!string.IsNullOrEmpty(this.gwTSPECOffsetsTB.Text.Trim())) { TSPEC.Append($":{this.gwTSPECOffsetsTB.Text.Trim()}"); }
-                if(this.gwTSPECSwapCB.Checked) { TSPEC.Append(":hswap"); }
-                if(TSPEC.Length>0) { al.Add($"--tracks {TSPEC.ToString().Trim(':')}"); }
+            this.GWParaInterface.Add("--revs", new List<Control>() {  gwRevsTB, gwRevsLBL });
+
+            this.GWParameters.Add("--seek-retries", (t) => {
+                return ArgProcessTemplate("--seek-retries", t);
             });
-            this.GWParaInterface.Add("--tracks", () => {
-                gwTSPECCylTB.Visible = true; gwTSPECHeadsTB.Visible = true; gwTSPECStepTB.Visible = true; gwTSPECOffsetsTB.Visible = true; gwTSPECSwapCB.Visible = true;
-                gwTSPECCylLBL.Visible = true; gwTSPECHeadsLBL.Visible = true; gwTSPECStepLBL.Visible = true; gwTSPECOffsetsLBL.Visible = true;
+            this.GWParaInterface.Add("--seek-retries", new List<Control>() { gwSeekRetriesTB, gwSeekRetriesLBL });
+
+            this.GWParameters.Add("--retries", (t) => {
+                return ArgProcessTemplate("--retries", t);
             });
-            this.GWParameters.Add("--out-tracks", (al) => {
-                StringBuilder TSPEC = new StringBuilder();
-                if (!string.IsNullOrEmpty(this.gwOTTSPECCylTB.Text.Trim())) { TSPEC.Append(this.gwOTTSPECCylTB.Text.Trim()); }
-                if (!string.IsNullOrEmpty(this.gwOTTSPECHeadsTB.Text.Trim())) { TSPEC.Append($":{this.gwOTTSPECHeadsTB.Text.Trim()}"); }
-                if (!string.IsNullOrEmpty(this.gwOTTSPECStepTB.Text.Trim())) { TSPEC.Append($":{this.gwOTTSPECStepTB.Text.Trim()}"); }
-                if (!string.IsNullOrEmpty(this.gwOTTSPECOffsetsTB.Text.Trim())) { TSPEC.Append($":{this.gwOTTSPECOffsetsTB.Text.Trim()}"); }
-                if (this.gwOTTSPECSwapCB.Checked) { TSPEC.Append(":hswap"); }
-                if (TSPEC.Length > 0) { al.Add($"--out-tracks {TSPEC.ToString().Trim(':')}"); }
+            this.GWParaInterface.Add("--retries", new List<Control>() { gwRetriesTB, gwRetriesLBL });
+
+            this.GWParameters.Add("--diskdefs", (t) => {
+                if (this.gwUseDiskDefFileCB.Checked && gwFormatTypeCB.Text.Trim().ToLower() != "default")
+                    return ArgProcessTemplate("--diskdefs", t, new List<Control>() { gwDiskDefsFileTB }, true);
+
+                return string.Empty;
             });
-            this.GWParaInterface.Add("--out-tracks", () => {
-                gwOutTracksLBL.Visible = true;
-                gwOTTSPECCylTB.Visible = true; gwOTTSPECHeadsTB.Visible = true; gwOTTSPECStepTB.Visible = true; gwOTTSPECOffsetsTB.Visible = true; gwOTTSPECSwapCB.Visible = true;
-                gwOTTSPECCylLBL.Visible = true; gwOTTSPECHeadsLBL.Visible = true; gwOTTSPECStepLBL.Visible = true; gwOTTSPECOffsetsLBL.Visible = true;
+            this.GWParaInterface.Add("--diskdefs", new List<Control>() ); // , gwUseDiskDefFileCB ddCfgFileAvailable = true;
+
+            this.GWParameters.Add("--format", (t) => {
+                return ArgProcessTemplate("--format", t, false, "default");
             });
-            this.GWParameters.Add("--revs", (al) => {
-                if (!string.IsNullOrEmpty(this.gwRevsTB.Text.Trim())) { al.Add($"--revs {this.gwRevsTB.Text.Trim()}"); }
+            this.GWParaInterface.Add("--format", new List<Control>() { gwFormatTypeLBL, gwFormatTypeCB });
+
+            this.GWParameters.Add("--hfreq", (t) => {
+                return ArgProcessTemplate("--hfreq", t);
             });
-            this.GWParaInterface.Add("--revs", () => {
-                gwRevsTB.Visible = true; gwRevsLBL.Visible = true;
+            this.GWParaInterface.Add("--hfreq", new List<Control>() { gwHFreqCB });
+
+            this.GWParameters.Add("--raw", (t) => {
+                return ArgProcessTemplate("--raw", t);
             });
-            this.GWParameters.Add("--seek-retries", (al) => {
-                if (!string.IsNullOrEmpty(this.gwSeekRetriesTB.Text.Trim())) { al.Add($"--seek-retries {this.gwSeekRetriesTB.Text.Trim()}"); }
+            this.GWParaInterface.Add("--raw", new List<Control>() { gwRawCB });
+
+            this.GWParameters.Add("--erase-empty", (t) => {
+                return ArgProcessTemplate("--erase-empty", t);
             });
-            this.GWParaInterface.Add("--seek-retries", () => {
-                gwSeekRetriesTB.Visible = true; gwSeekRetriesLBL.Visible = true;
+            this.GWParaInterface.Add("--erase-empty", new List<Control>() { gwEraseBlankCB });
+
+            this.GWParameters.Add("--pre-erase", (t) => {
+                return ArgProcessTemplate("--pre-erase", t);
             });
-            this.GWParameters.Add("--retries", (al) => {
-                if (!string.IsNullOrEmpty(this.gwRetriesTB.Text.Trim())) { al.Add($"--retries {this.gwRetriesTB.Text.Trim()}"); }
+            this.GWParaInterface.Add("--pre-erase", new List<Control>() { gwPreEraseCB });
+
+            this.GWParameters.Add("--no-verify", (t) => {
+                return ArgProcessTemplate("--format", t);
             });
-            this.GWParaInterface.Add("--retries", () => {
-                gwRetriesTB.Visible = true; gwRetriesLBL.Visible = true;
+            this.GWParaInterface.Add("--no-verify", new List<Control>() { gwNoVerifyCB });
+
+            this.GWParameters.Add("--motor-on", (t) => {
+                return ArgProcessTemplate("--motor-on", t);
             });
-            this.GWParameters.Add("--diskdefs", (al) => {
-                if (!string.IsNullOrEmpty(this.GwDiskDefsFile) && this.gwUseDiskDefFileCB.Checked) { al.Add($"--diskdefs \"{this.GwDiskDefsFile}\""); }
+            this.GWParaInterface.Add("--motor-on", new List<Control>() { gwMotorOnCB });
+
+            this.GWParameters.Add("--force", (t) => {
+                return ArgProcessTemplate("--force", t);
             });
-            this.GWParaInterface.Add("--diskdefs", () => {
-                this.gwUseDiskDefFileCB.Visible = true; this.ddCfgFileAvailable = true;
+            this.GWParaInterface.Add("--force", new List<Control>() { gwForceCB });
+
+            this.GWParameters.Add("--drive", (t) => {
+                return ArgProcessTemplate("--drive", t, false, "a");
             });
-            this.GWParameters.Add("--format", (al) => { 
-                if (gwFormatTypeCB.SelectedItem.ToString().Trim().ToLower().IndexOf("default") == -1) { al.Add($"--format {gwFormatTypeCB.SelectedItem}"); } 
+            this.GWParaInterface.Add("--drive", new List<Control>() { driveTB, driveLBL });
+
+            this.GWParameters.Add("--cyls", (t) => {
+                return ArgProcessTemplate("--cyls", t, false, null, typeof(int));
             });
-            this.GWParaInterface.Add("--format", () => {
-                gwFormatTypeLBL.Visible = true; gwFormatTypeCB.Visible = true;
+            this.GWParaInterface.Add("--cyls", new List<Control>() { gwCylLBL, gwCylTB });
+
+            this.GWParameters.Add("--passes", (t) => {
+                return ArgProcessTemplate("--passes", t, false, null, typeof(int));
             });
-            this.GWParameters.Add("--hfreq", (al) => {
-                if (gwHFreqCB.Checked) { al.Add($"--hfreq"); }
+            this.GWParaInterface.Add("--passes", new List<Control>() { gwPassesLBL, gwPassesTB });
+
+            this.GWParameters.Add("--linger", (t) => {
+                return ArgProcessTemplate("--linger", t, false, null, typeof(int));
             });
-            this.GWParaInterface.Add("--hfreq", () => {
-                gwHFreqCB.Visible = true;
+            this.GWParaInterface.Add("--linger", new List<Control>() { gwLingerLBL, gwLingerTB });
+
+            this.GWParameters.Add("--nr", (t) => {
+                return ArgProcessTemplate("--nr", t, false, null, typeof(int));
             });
-            this.GWParameters.Add("--raw", (al) => { 
-                if (gwRawCB.Checked) { al.Add($"--raw"); } 
+            this.GWParaInterface.Add("--nr", new List<Control>() { gwNrLBL, gwNrTB });
+
+            this.GWParameters.Add("--file", (t) => {
+                return ArgProcessTemplate("--file", t, true);
             });
-            this.GWParaInterface.Add("--raw", () => {
-                gwRawCB.Visible = true;
-            });
-            this.GWParameters.Add("--erase-empty", (al) => { 
-                if (gwEraseBlankCB.Checked) { al.Add("--erase-empty"); } 
-            });
-            this.GWParaInterface.Add("--erase-empty", () => {
-                gwEraseBlankCB.Visible = true;
-            });
-            this.GWParameters.Add("--pre-erase", (al) => {
-                if (gwPreEraseCB.Checked) { al.Add("--pre-erase"); }
-            });
-            this.GWParaInterface.Add("--pre-erase", () => {
-                gwPreEraseCB.Visible = true;
-            });
-            this.GWParameters.Add("--no-verify", (al) => { 
-                if (gwNoVerifyCB.Checked) { al.Add("--no-verify"); } 
-            });
-            this.GWParaInterface.Add("--no-verify", () => {
-                gwNoVerifyCB.Visible = true;
-            });
-            this.GWParameters.Add("--motor-on", (al) => {
-                if (gwMotorOnCB.Checked) { al.Add("--motor-on"); }
-            });
-            this.GWParaInterface.Add("--motor-on", () => {
-                gwMotorOnCB.Visible = true;
-            });
-            this.GWParameters.Add("--force", (al) => {
-                if (gwForceCB.Checked) { al.Add("--force"); }
-            });
-            this.GWParaInterface.Add("--force", () => {
-                gwForceCB.Visible = true;
-            });
-            this.GWParameters.Add("--drive", (al) => { 
-                if (!string.IsNullOrEmpty(driveTB.Text.Trim()) && driveTB.Text.Trim().ToLower() != "a") { al.Add($"--drive {driveTB.Text.Trim()}"); } 
-            });
-            this.GWParaInterface.Add("--drive", () => {
-                driveTB.Visible = true; driveLBL.Visible = true;
-            });
-            this.GWParameters.Add("--cyls", (al) => {
-                int cyl = 0; if(!string.IsNullOrEmpty(gwCylTB.Text.Trim()) && int.TryParse(gwCylTB.Text.Trim(), out cyl)) { al.Add($"--cyls {cyl}"); }
-            });
-            this.GWParaInterface.Add("--cyls", () => {
-                gwCylLBL.Visible = true; gwCylTB.Visible = true;
-            });
-            this.GWParameters.Add("--passes", (al) => {
-                int passes = 0; if (!string.IsNullOrEmpty(gwPassesTB.Text.Trim()) && int.TryParse(gwPassesTB.Text.Trim(), out passes)) { al.Add($"--passes {passes}"); }
-            });
-            this.GWParaInterface.Add("--passes", () => {
-                gwPassesLBL.Visible = true; gwPassesTB.Visible = true;
-            });
-            this.GWParameters.Add("--linger", (al) => {
-                int linger = 0; if (!string.IsNullOrEmpty(gwLingerTB.Text.Trim()) && int.TryParse(gwLingerTB.Text.Trim(), out linger)) { al.Add($"--linger {linger}"); }
-            });
-            this.GWParaInterface.Add("--linger", () => {
-                gwLingerLBL.Visible = true; gwLingerTB.Visible = true;
-            });
-            this.GWParameters.Add("--nr", (al) => {
-                int nr = 0; if (!string.IsNullOrEmpty(gwNrTB.Text.Trim()) && int.TryParse(gwNrTB.Text.Trim(), out nr)) { al.Add($"--nr {nr}"); }
-            });
-            this.GWParaInterface.Add("--nr", () => {
-                gwNrLBL.Visible = true; gwNrTB.Visible = true;
-            });
-            this.GWParameters.Add("--file", (al) => {
-                if (!string.IsNullOrEmpty(this.GwExistingFile)) { al.Add($"--file \"{this.GwExistingFile}\""); }
-            });
-            this.GWParaInterface.Add("--file", () => {
-                SelectExistingFileBtn.Visible = true;
-            });
-            this.gwAdditionalArgs = (al) => {
-                if (!string.IsNullOrEmpty(additonalArgsTB.Text.Trim())) { al.Add(additonalArgsTB.Text.Trim()); }
+            this.GWParaInterface.Add("--file", new List<Control>() { SelectExistingFileBtn });
+
+            this.gwAdditionalArgs = (t) => {
+                return ArgProcessTemplate("additional-arguments", t, new List<Control>() { additonalArgsTB }, false, null, null, false);
+                //if (!string.IsNullOrEmpty(additonalArgsTB.Text.Trim())) { al.Add(additonalArgsTB.Text.Trim()); }
             };
 
             // positional arguments
-            this.gwNewFile = (al) =>
+            this.gwNewFile = (t) =>
             {
-                if(!string.IsNullOrEmpty(this.GwNewFile.Trim())) { al.Add($"\"{this.GwNewFile.Trim()}\""); }
+                return ArgProcessTemplate("new-file", t, null, true, this.GwNewFile.Trim(), null, false);
+                //if (!string.IsNullOrEmpty(this.GwNewFile.Trim())) { al.Add($"\"{this.GwNewFile.Trim()}\""); }
             };
-            this.gwExistingFile = (al) =>
+            this.gwExistingFile = (t) =>
             {
-                if (!string.IsNullOrEmpty(this.GwExistingFile.Trim())) { al.Add($"\"{this.GwExistingFile.Trim()}\""); }
+                return ArgProcessTemplate("exisiting-file", t, null, true, this.GwExistingFile.Trim(), null, false);
+                //if (!string.IsNullOrEmpty(this.GwExistingFile.Trim())) { al.Add($"\"{this.GwExistingFile.Trim()}\""); }
             };
-            this.gwCylinders = (al) =>
+            this.gwCylinders = (t) =>
             {
-                int cyl = 0;
-                if (!string.IsNullOrEmpty(gwCylTB.Text.Trim()) && int.TryParse(gwCylTB.Text.Trim(), out cyl)) { al.Add($"{cyl}"); }
+                return ArgProcessTemplate("cylinders", t, new List<Control>() { gwCylTB }, false, null, typeof(int), false);
+                //int cyl = 0;
+                //if (!string.IsNullOrEmpty(gwCylTB.Text.Trim()) && int.TryParse(gwCylTB.Text.Trim(), out cyl)) { al.Add($"{cyl}"); }
             };
 
             // Callback for loading the format types directly from gw into the interface
@@ -230,8 +199,8 @@ namespace gWeasleGUI
                 {
                     List<string> available = utilities.ExtractGroup("optional arguments:", response);
 
-                    if (args is null)
-                        this.ddCfgFileAvailable = false; // fix for older versions when --diskdefs is not available
+                    if (args is null && available.Where(p => p.Trim().ToLower().StartsWith("--diskdefs")).Count()>0)
+                        this.gwUseDiskDefFileCB.Visible = true; // fix for older versions when --diskdefs is not available
 
                     // get argument list directly from gw tools
                     foreach (string arg in available)
@@ -240,12 +209,17 @@ namespace gWeasleGUI
                         if(args is null)
                         {
                             if (this.GWParaInterface.ContainsKey(sanitizedArg))
-                                this.GWParaInterface[sanitizedArg]();
+                                this.ArgVisibility(sanitizedArg, true);
                         }
                         else
                         {
                             if (this.GWParameters.ContainsKey(sanitizedArg))
-                                this.GWParameters[sanitizedArg](args);
+                            {
+                                string argValue = this.GWParameters[sanitizedArg](templates.CmdArg).ToString();
+                                if (!string.IsNullOrEmpty(argValue))
+                                    args.Add(argValue);
+                            }
+                                
                         }
                     }
                     // complete the arg list with any additional details specific to the gw action
@@ -254,6 +228,129 @@ namespace gWeasleGUI
                     ArgsComplete();
                 }));
             });
+        }
+
+        private void PopulateArgs(string gwaction, List<object> args)
+        {
+            if (args is null) return;
+
+            //get all arguments
+            foreach (var arg in GWParameters.Values)
+            {
+                //string sanitizedArg = utilities.ExtractDDArg(arg);
+
+                var argValue = arg(templates.JsonObject);
+                if (argValue != null)
+                        args.Add(argValue);
+
+            }
+            //complete the arg list with any additional details specific to the gw action
+            //this.ProcessAction(gwaction, args);
+        }
+
+        enum templates
+        {
+            CmdArg,
+            JsonObject
+        }
+
+        private object ArgProcessTemplate(string argKey, templates templateType, bool quote = false, object def = null, Type parmType = null, bool includeKey = true)
+        {
+            IEnumerable<Control> argControls = GetValueFields(argKey);
+            return ArgProcessTemplate(argKey, templateType, argControls, quote, def, parmType, includeKey);
+        }
+
+        private object ArgProcessTemplate(string argKey, templates templateType, IEnumerable<Control>  argControls, bool quote = false, object def = null, Type parmType = null, bool includeKey = true)
+        {
+            switch (templateType)
+            {
+                case templates.CmdArg:
+                    return CmdArgTemplate(argKey, argControls, quote, def, parmType, includeKey);
+                case templates.JsonObject:
+                    //todo
+                    break;
+            }
+            return null;
+        }
+
+        private string CmdArgTemplate(string argKey, IEnumerable<Control> argControls, bool quote = false, object def = null, Type parmType = null, bool includeKey = true)
+        {
+            string quotation = quote ? "\"" : string.Empty;
+            string prefix = includeKey ? $"{argKey} " : string.Empty;
+
+            if(argControls is null)
+            {
+                string value = def?.ToString();
+                if( !string.IsNullOrEmpty(value) )
+                    return $"{quotation}{value}{quotation}";
+            }
+            if( argControls.Count()==1 )
+            {
+                Control input = argControls.First();
+
+                if ((input.GetType() == typeof(ComboBox) || input.GetType() == typeof(TextBox) || input.GetType() == typeof(vTextParam)) && !string.IsNullOrEmpty(input.Text.Trim()))
+                {
+                    if (parmType == typeof(int))
+                    {
+                        int defInt;
+                        if (int.TryParse(input.Text.Trim(), out defInt))
+                            return $"{prefix}{quotation}{input.Text}{quotation}";
+                    }
+                    else
+                    {
+                        string defValue = def?.ToString().ToLower();
+                        if (input.Text.Trim().ToLower() != defValue)
+                            return $"{prefix}{quotation}{input.Text}{quotation}";
+                    }
+                }
+
+                if (input.GetType() == typeof(CheckBox) && ((CheckBox)input).Checked)
+                {
+                    return $"{prefix}".Trim();
+                }
+            }
+            if( argControls.Count()>1 )
+            {
+                List<string> ctrlValues = new List<string>();
+
+                IEnumerable<Control> tbControls = argControls.Where(c => (c.GetType() == typeof(TextBox) || c.GetType() == typeof(vTextParam)) && !string.IsNullOrEmpty(c.Text.Trim()) && !string.IsNullOrEmpty(c.Tag?.ToString().Trim()));
+                if (tbControls.Count() > 0) ctrlValues.AddRange(tbControls.Select(c => $"{c.Tag.ToString().Trim()}={c.Text.Trim()}"));
+
+                IEnumerable<Control> cbControls = argControls.Where(c => c.GetType() == typeof(CheckBox) && ((CheckBox)c).Checked && c.Tag != null);
+                if (cbControls.Count() > 0) ctrlValues.AddRange(cbControls.Select(c => c.Tag.ToString().Trim()));
+
+                string argcomposite = string.Join(":", ctrlValues.ToArray()).Trim(':');
+
+                if (!string.IsNullOrEmpty(argcomposite))
+                    return $"{argKey} {argcomposite}";
+            }
+            return string.Empty;
+        }
+
+        private IEnumerable<Control> GetValueFields(string argKey)
+        {
+            List<Control> controls = GWParaInterface[argKey] ?? new List<Control>();
+            IEnumerable<Control> rt = controls.Where(c => c.GetType() == typeof(vTextParam) || c.GetType() == typeof(TextBox) || c.GetType() == typeof(CheckBox) || c.GetType() == typeof(ComboBox));
+            return rt;
+        }
+
+        public void ArgVisibility(string argKey, bool visible)
+        {
+            List<Control> controls = GWParaInterface[argKey];
+            foreach (Control control in controls)
+            {
+                if (control != null)
+                {
+                    control.Visible = visible;
+                }
+            }
+        }
+
+        private void AddToArgs(List<string> args, Func<templates, object> argFunc)
+        {
+            string addargs = argFunc(templates.CmdArg)?.ToString();
+            if( !string.IsNullOrEmpty(addargs) )
+                args.Add(addargs);
         }
 
         /// <summary>
@@ -269,7 +366,7 @@ namespace gWeasleGUI
             } else
             {
                 // options
-                gwAdditionalArgs(args);
+                AddToArgs(args, gwAdditionalArgs);
             }
         }
 
@@ -284,6 +381,7 @@ namespace gWeasleGUI
             {
                 // interface
                 SelectNewFileBtn.Enabled = true;
+                //gwUseDiskDefFileCB.Visible = true;
                 GwFileDisplay.Text = $">> {this.GwNewFile}";
 
                 // available gw format types
@@ -299,10 +397,10 @@ namespace gWeasleGUI
             } else
             {
                 // options
-                gwAdditionalArgs(args);
+                AddToArgs(args, gwAdditionalArgs);
 
                 // File is positional so it must come after the options
-                gwNewFile(args);
+                AddToArgs(args, gwNewFile);
 
                 // update config file for options that persist
                 UpdateFormatConfig();
@@ -320,6 +418,7 @@ namespace gWeasleGUI
             {
                 // interface
                 SelectExistingFileBtn.Enabled = true;
+                //gwUseDiskDefFileCB.Visible = true;
                 GwFileDisplay.Text = $"<< {this.GwExistingFile}";
 
                 // available gw format types
@@ -335,10 +434,10 @@ namespace gWeasleGUI
             } else
             {
                 // options
-                gwAdditionalArgs(args);
+                AddToArgs(args, gwAdditionalArgs);
 
                 // File is positional so it must come after the options
-                gwExistingFile(args);
+                AddToArgs(args, gwExistingFile);
 
                 // update config file for options that persist
                 UpdateFormatConfig();
@@ -357,6 +456,7 @@ namespace gWeasleGUI
                 // interface
                 SelectNewFileBtn.Enabled = true;
                 SelectExistingFileBtn.Enabled = true;
+                //gwUseDiskDefFileCB.Visible = true;
                 GwFileDisplay.Text = $"{this.GwExistingFile} >> {this.GwNewFile}";
 
                 // available gw format types
@@ -373,11 +473,11 @@ namespace gWeasleGUI
             else
             {
                 // options
-                gwAdditionalArgs(args);
+                AddToArgs(args, gwAdditionalArgs);
 
                 // File is positional so it must come after the options
-                gwExistingFile(args);
-                gwNewFile(args);
+                AddToArgs(args, gwExistingFile);
+                AddToArgs(args, gwNewFile);
 
                 // update config file for options that persist
                 UpdateFormatConfig();
@@ -397,7 +497,7 @@ namespace gWeasleGUI
             else
             {
                 // options
-                gwAdditionalArgs(args);
+                AddToArgs(args, gwAdditionalArgs);
             }
         }
 
@@ -414,7 +514,7 @@ namespace gWeasleGUI
             else
             {
                 // options
-                gwAdditionalArgs(args);
+                AddToArgs(args, gwAdditionalArgs);
             }
         }
 
@@ -434,10 +534,10 @@ namespace gWeasleGUI
             else
             {
                 // options
-                gwAdditionalArgs(args);
+                AddToArgs(args, gwAdditionalArgs);
 
                 // positional arguments
-                gwCylinders(args);
+                AddToArgs(args, gwCylinders);
             }
         }
 
@@ -454,7 +554,7 @@ namespace gWeasleGUI
             else
             {
                 // options
-                gwAdditionalArgs(args);
+                AddToArgs(args, gwAdditionalArgs);
             }
         }
 
@@ -473,7 +573,7 @@ namespace gWeasleGUI
             else
             {
                 // options
-                gwAdditionalArgs(args);
+                AddToArgs(args, gwAdditionalArgs);
             }
         }
 
@@ -492,7 +592,7 @@ namespace gWeasleGUI
             else
             {
                 // options
-                gwAdditionalArgs(args);
+                AddToArgs(args, gwAdditionalArgs);
             }
         }
 
@@ -509,7 +609,7 @@ namespace gWeasleGUI
             else
             {
                 // options
-                gwAdditionalArgs(args);
+                AddToArgs(args, gwAdditionalArgs);
             }
         }
 
@@ -526,7 +626,7 @@ namespace gWeasleGUI
             else
             {
                 // options
-                gwAdditionalArgs(args);
+                AddToArgs(args, gwAdditionalArgs);
             }
         }
 
@@ -543,7 +643,7 @@ namespace gWeasleGUI
             else
             {
                 // options
-                gwAdditionalArgs(args);
+                AddToArgs(args, gwAdditionalArgs);
             }
         }
     }

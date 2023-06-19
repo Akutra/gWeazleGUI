@@ -137,6 +137,7 @@
             this.gwFormatTypeCB = new System.Windows.Forms.ComboBox();
             this.gwFormatTypeLBL = new System.Windows.Forms.Label();
             this.ddTab = new System.Windows.Forms.TabPage();
+            this.gwDiskDefsFileTB = new System.Windows.Forms.TextBox();
             this.gwDDfileLBL = new System.Windows.Forms.Label();
             this.gwDDtracksgroupBox = new System.Windows.Forms.GroupBox();
             this.gwDDsubformatLBL = new System.Windows.Forms.Label();
@@ -165,13 +166,20 @@
             this.diskDefsNameLBL = new System.Windows.Forms.Label();
             this.gwDiskConfigLBL = new System.Windows.Forms.Label();
             this.optionsTab = new System.Windows.Forms.TabPage();
+            this.SelectProfilePathBtn = new System.Windows.Forms.Button();
+            this.ProfileClearBtn = new System.Windows.Forms.Button();
+            this.SaveProfileBtn = new System.Windows.Forms.Button();
+            this.ProfileNameLBL = new System.Windows.Forms.Label();
+            this.ProfileNameTB = new gWeasleGUI.vTextParam();
+            this.CmdProfileFileLBL = new System.Windows.Forms.Label();
             this.gwProfileSelLBL = new System.Windows.Forms.Label();
-            this.SelectGWProfileBtn = new System.Windows.Forms.Button();
-            this.gwProfileSelTB = new gWeasleGUI.vTextParam();
+            this.OpenProfileBtn = new System.Windows.Forms.Button();
+            this.gwProfileFileTB = new gWeasleGUI.vTextParam();
             this.gwPathSelectionLBL = new System.Windows.Forms.Label();
             this.SelectGWPathBtn = new System.Windows.Forms.Button();
             this.gwPathSelectionTB = new gWeasleGUI.vTextParam();
             this.deviceTab = new System.Windows.Forms.TabPage();
+            this.gwReloadBtn = new System.Windows.Forms.Button();
             this.gwUSBRateValue = new System.Windows.Forms.Label();
             this.gwUSBRateLBL = new System.Windows.Forms.Label();
             this.gwSerialValue = new System.Windows.Forms.Label();
@@ -184,7 +192,7 @@
             this.gwModelLBL = new System.Windows.Forms.Label();
             this.gwPortLBL = new System.Windows.Forms.Label();
             this.gwPortTB = new gWeasleGUI.vTextParam();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.CmdProfileCB = new System.Windows.Forms.ComboBox();
             this.gwCmdProfileLBL = new System.Windows.Forms.Label();
             this.GwStatus.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.accessoptions)).BeginInit();
@@ -204,7 +212,7 @@
             this.ExecuteBtn.Location = new System.Drawing.Point(664, 409);
             this.ExecuteBtn.Name = "ExecuteBtn";
             this.ExecuteBtn.Size = new System.Drawing.Size(75, 23);
-            this.ExecuteBtn.TabIndex = 52;
+            this.ExecuteBtn.TabIndex = 5;
             this.ExecuteBtn.Text = "Execute";
             this.ExecuteBtn.UseVisualStyleBackColor = true;
             this.ExecuteBtn.Click += new System.EventHandler(this.ExecuteBtn_Click);
@@ -215,7 +223,7 @@
             this.actionCB.Location = new System.Drawing.Point(56, 10);
             this.actionCB.Name = "actionCB";
             this.actionCB.Size = new System.Drawing.Size(69, 21);
-            this.actionCB.TabIndex = 1;
+            this.actionCB.TabIndex = 0;
             this.actionCB.SelectedIndexChanged += new System.EventHandler(this.actionCB_SelectedIndexChanged);
             // 
             // GwStatus
@@ -257,7 +265,7 @@
             this.timeCB.Location = new System.Drawing.Point(456, 413);
             this.timeCB.Name = "timeCB";
             this.timeCB.Size = new System.Drawing.Size(119, 17);
-            this.timeCB.TabIndex = 50;
+            this.timeCB.TabIndex = 3;
             this.timeCB.Text = "Report Elapse Time";
             this.timeCB.UseVisualStyleBackColor = true;
             this.timeCB.CheckedChanged += new System.EventHandler(this.timeCB_CheckedChanged);
@@ -268,7 +276,7 @@
             this.gwCmdHelpBtn.Location = new System.Drawing.Point(581, 409);
             this.gwCmdHelpBtn.Name = "gwCmdHelpBtn";
             this.gwCmdHelpBtn.Size = new System.Drawing.Size(77, 23);
-            this.gwCmdHelpBtn.TabIndex = 51;
+            this.gwCmdHelpBtn.TabIndex = 4;
             this.gwCmdHelpBtn.Text = "Action Help";
             this.gwCmdHelpBtn.UseVisualStyleBackColor = true;
             this.gwCmdHelpBtn.Click += new System.EventHandler(this.gwCmdHelpBtn_Click);
@@ -291,7 +299,7 @@
             this.removeDiskConfigBtn.Location = new System.Drawing.Point(275, 37);
             this.removeDiskConfigBtn.Name = "removeDiskConfigBtn";
             this.removeDiskConfigBtn.Size = new System.Drawing.Size(68, 23);
-            this.removeDiskConfigBtn.TabIndex = 68;
+            this.removeDiskConfigBtn.TabIndex = 44;
             this.removeDiskConfigBtn.Text = "Remove";
             this.gweazleTips.SetToolTip(this.removeDiskConfigBtn, "Remove the selected config");
             this.removeDiskConfigBtn.UseVisualStyleBackColor = true;
@@ -303,7 +311,7 @@
             this.gwDDSaveBtn.Location = new System.Drawing.Point(119, 311);
             this.gwDDSaveBtn.Name = "gwDDSaveBtn";
             this.gwDDSaveBtn.Size = new System.Drawing.Size(102, 23);
-            this.gwDDSaveBtn.TabIndex = 65;
+            this.gwDDSaveBtn.TabIndex = 74;
             this.gwDDSaveBtn.Text = "Save to file";
             this.gweazleTips.SetToolTip(this.gwDDSaveBtn, "Save to the config file");
             this.gwDDSaveBtn.UseVisualStyleBackColor = true;
@@ -315,7 +323,7 @@
             this.gwDDReloadBtn.Location = new System.Drawing.Point(10, 311);
             this.gwDDReloadBtn.Name = "gwDDReloadBtn";
             this.gwDDReloadBtn.Size = new System.Drawing.Size(102, 23);
-            this.gwDDReloadBtn.TabIndex = 64;
+            this.gwDDReloadBtn.TabIndex = 73;
             this.gwDDReloadBtn.Text = "Reload from file";
             this.gweazleTips.SetToolTip(this.gwDDReloadBtn, "Reload the config file");
             this.gwDDReloadBtn.UseVisualStyleBackColor = true;
@@ -327,7 +335,7 @@
             this.gwDDfileBtn.Location = new System.Drawing.Point(646, 10);
             this.gwDDfileBtn.Name = "gwDDfileBtn";
             this.gwDDfileBtn.Size = new System.Drawing.Size(94, 23);
-            this.gwDDfileBtn.TabIndex = 55;
+            this.gwDDfileBtn.TabIndex = 41;
             this.gwDDfileBtn.Text = "Disk Defs File";
             this.gweazleTips.SetToolTip(this.gwDDfileBtn, "Select  a Disk Definition File (*.cfg)");
             this.gwDDfileBtn.UseVisualStyleBackColor = true;
@@ -340,7 +348,7 @@
             this.gwDDRemoveTrackBtn.Location = new System.Drawing.Point(477, 136);
             this.gwDDRemoveTrackBtn.Name = "gwDDRemoveTrackBtn";
             this.gwDDRemoveTrackBtn.Size = new System.Drawing.Size(75, 23);
-            this.gwDDRemoveTrackBtn.TabIndex = 41;
+            this.gwDDRemoveTrackBtn.TabIndex = 70;
             this.gwDDRemoveTrackBtn.Text = "Remove";
             this.gweazleTips.SetToolTip(this.gwDDRemoveTrackBtn, "Remove Track set");
             this.gwDDRemoveTrackBtn.UseVisualStyleBackColor = true;
@@ -352,7 +360,7 @@
             this.gwDDApplyTrackBtn.Location = new System.Drawing.Point(477, 165);
             this.gwDDApplyTrackBtn.Name = "gwDDApplyTrackBtn";
             this.gwDDApplyTrackBtn.Size = new System.Drawing.Size(75, 23);
-            this.gwDDApplyTrackBtn.TabIndex = 42;
+            this.gwDDApplyTrackBtn.TabIndex = 71;
             this.gwDDApplyTrackBtn.Text = "Apply / Add";
             this.gweazleTips.SetToolTip(this.gwDDApplyTrackBtn, "Add or Update track set");
             this.gwDDApplyTrackBtn.UseVisualStyleBackColor = true;
@@ -364,7 +372,7 @@
             this.gwDDiamCB.Location = new System.Drawing.Point(255, 29);
             this.gwDDiamCB.Name = "gwDDiamCB";
             this.gwDDiamCB.Size = new System.Drawing.Size(42, 17);
-            this.gwDDiamCB.TabIndex = 23;
+            this.gwDDiamCB.TabIndex = 52;
             this.gwDDiamCB.Text = "iam";
             this.gweazleTips.SetToolTip(this.gwDDiamCB, "Index Address Mark (yes|no, default: yes)");
             this.gwDDiamCB.UseVisualStyleBackColor = true;
@@ -374,7 +382,7 @@
             this.diskDefApplyBtn.Location = new System.Drawing.Point(591, 42);
             this.diskDefApplyBtn.Name = "diskDefApplyBtn";
             this.diskDefApplyBtn.Size = new System.Drawing.Size(75, 23);
-            this.diskDefApplyBtn.TabIndex = 57;
+            this.diskDefApplyBtn.TabIndex = 49;
             this.diskDefApplyBtn.Text = "Apply";
             this.gweazleTips.SetToolTip(this.diskDefApplyBtn, "Apply changes to this config");
             this.diskDefApplyBtn.UseVisualStyleBackColor = true;
@@ -385,7 +393,7 @@
             this.newDiskConfigBtn.Location = new System.Drawing.Point(206, 37);
             this.newDiskConfigBtn.Name = "newDiskConfigBtn";
             this.newDiskConfigBtn.Size = new System.Drawing.Size(68, 23);
-            this.newDiskConfigBtn.TabIndex = 59;
+            this.newDiskConfigBtn.TabIndex = 43;
             this.newDiskConfigBtn.Text = "New";
             this.gweazleTips.SetToolTip(this.newDiskConfigBtn, "New config");
             this.newDiskConfigBtn.UseVisualStyleBackColor = true;
@@ -397,7 +405,7 @@
             this.gwDiskConfigCB.Location = new System.Drawing.Point(82, 39);
             this.gwDiskConfigCB.Name = "gwDiskConfigCB";
             this.gwDiskConfigCB.Size = new System.Drawing.Size(121, 21);
-            this.gwDiskConfigCB.TabIndex = 58;
+            this.gwDiskConfigCB.TabIndex = 42;
             this.gweazleTips.SetToolTip(this.gwDiskConfigCB, "Loaded disk configs");
             this.gwDiskConfigCB.SelectedIndexChanged += new System.EventHandler(this.gwDiskConfigCB_SelectedIndexChanged);
             // 
@@ -407,7 +415,7 @@
             this.SelectNewFileBtn.Location = new System.Drawing.Point(694, 6);
             this.SelectNewFileBtn.Name = "SelectNewFileBtn";
             this.SelectNewFileBtn.Size = new System.Drawing.Size(58, 23);
-            this.SelectNewFileBtn.TabIndex = 49;
+            this.SelectNewFileBtn.TabIndex = 7;
             this.SelectNewFileBtn.Text = "New File";
             this.gweazleTips.SetToolTip(this.SelectNewFileBtn, "A file to be created");
             this.SelectNewFileBtn.UseVisualStyleBackColor = true;
@@ -419,7 +427,7 @@
             this.SelectExistingFileBtn.Location = new System.Drawing.Point(630, 6);
             this.SelectExistingFileBtn.Name = "SelectExistingFileBtn";
             this.SelectExistingFileBtn.Size = new System.Drawing.Size(58, 23);
-            this.SelectExistingFileBtn.TabIndex = 48;
+            this.SelectExistingFileBtn.TabIndex = 6;
             this.SelectExistingFileBtn.Text = "Existing";
             this.gweazleTips.SetToolTip(this.SelectExistingFileBtn, "An existing image file");
             this.SelectExistingFileBtn.UseVisualStyleBackColor = true;
@@ -430,7 +438,7 @@
             this.gwDDsubformatTB.Location = new System.Drawing.Point(317, 131);
             this.gwDDsubformatTB.Name = "gwDDsubformatTB";
             this.gwDDsubformatTB.Size = new System.Drawing.Size(47, 20);
-            this.gwDDsubformatTB.TabIndex = 40;
+            this.gwDDsubformatTB.TabIndex = 69;
             this.gweazleTips.SetToolTip(this.gwDDsubformatTB, "Format code for these tracks");
             this.gwDDsubformatTB.ValidationFailure = false;
             // 
@@ -440,7 +448,7 @@
             this.gwDDclockTB.Location = new System.Drawing.Point(412, 27);
             this.gwDDclockTB.Name = "gwDDclockTB";
             this.gwDDclockTB.Size = new System.Drawing.Size(53, 20);
-            this.gwDDclockTB.TabIndex = 25;
+            this.gwDDclockTB.TabIndex = 54;
             this.gweazleTips.SetToolTip(this.gwDDclockTB, "Clock");
             this.gwDDclockTB.ValidationFailure = false;
             // 
@@ -450,7 +458,7 @@
             this.gwDDimgbpsTB.Location = new System.Drawing.Point(196, 131);
             this.gwDDimgbpsTB.Name = "gwDDimgbpsTB";
             this.gwDDimgbpsTB.Size = new System.Drawing.Size(53, 20);
-            this.gwDDimgbpsTB.TabIndex = 39;
+            this.gwDDimgbpsTB.TabIndex = 68;
             this.gweazleTips.SetToolTip(this.gwDDimgbpsTB, "Bytes per sector in IMG file (short sectors are padded)");
             this.gwDDimgbpsTB.ValidationFailure = false;
             // 
@@ -460,7 +468,7 @@
             this.gwDDgapbyteTB.Location = new System.Drawing.Point(72, 131);
             this.gwDDgapbyteTB.Name = "gwDDgapbyteTB";
             this.gwDDgapbyteTB.Size = new System.Drawing.Size(66, 20);
-            this.gwDDgapbyteTB.TabIndex = 38;
+            this.gwDDgapbyteTB.TabIndex = 67;
             this.gweazleTips.SetToolTip(this.gwDDgapbyteTB, "Byte value used to fill the above gaps (0-255, default: auto)");
             this.gwDDgapbyteTB.ValidationFailure = false;
             // 
@@ -470,7 +478,7 @@
             this.gwDDgap4aTB.Location = new System.Drawing.Point(322, 105);
             this.gwDDgap4aTB.Name = "gwDDgap4aTB";
             this.gwDDgap4aTB.Size = new System.Drawing.Size(47, 20);
-            this.gwDDgap4aTB.TabIndex = 37;
+            this.gwDDgap4aTB.TabIndex = 66;
             this.gweazleTips.SetToolTip(this.gwDDgap4aTB, "Post-Index Gap size (0-255, default: auto)");
             this.gwDDgap4aTB.ValidationFailure = false;
             // 
@@ -480,7 +488,7 @@
             this.gwDDgap3TB.Location = new System.Drawing.Point(226, 105);
             this.gwDDgap3TB.Name = "gwDDgap3TB";
             this.gwDDgap3TB.Size = new System.Drawing.Size(47, 20);
-            this.gwDDgap3TB.TabIndex = 36;
+            this.gwDDgap3TB.TabIndex = 65;
             this.gweazleTips.SetToolTip(this.gwDDgap3TB, "Post-DAM Gap size (0-255, default: auto)");
             this.gwDDgap3TB.ValidationFailure = false;
             // 
@@ -490,7 +498,7 @@
             this.gwDDgap2TB.Location = new System.Drawing.Point(144, 105);
             this.gwDDgap2TB.Name = "gwDDgap2TB";
             this.gwDDgap2TB.Size = new System.Drawing.Size(39, 20);
-            this.gwDDgap2TB.TabIndex = 35;
+            this.gwDDgap2TB.TabIndex = 64;
             this.gweazleTips.SetToolTip(this.gwDDgap2TB, "Post-IDAM Gap size (0-255, default: auto)");
             this.gwDDgap2TB.ValidationFailure = false;
             // 
@@ -500,7 +508,7 @@
             this.gwDDgap1TB.Location = new System.Drawing.Point(56, 105);
             this.gwDDgap1TB.Name = "gwDDgap1TB";
             this.gwDDgap1TB.Size = new System.Drawing.Size(45, 20);
-            this.gwDDgap1TB.TabIndex = 34;
+            this.gwDDgap1TB.TabIndex = 63;
             this.gweazleTips.SetToolTip(this.gwDDgap1TB, "Post-IAM Gap size (0-255, default: auto)");
             this.gwDDgap1TB.ValidationFailure = false;
             // 
@@ -509,7 +517,7 @@
             this.gwDDrpmTB.Location = new System.Drawing.Point(335, 79);
             this.gwDDrpmTB.Name = "gwDDrpmTB";
             this.gwDDrpmTB.Size = new System.Drawing.Size(47, 20);
-            this.gwDDrpmTB.TabIndex = 33;
+            this.gwDDrpmTB.TabIndex = 62;
             this.gweazleTips.SetToolTip(this.gwDDrpmTB, "Disk spin speed in RPM (1-2000, default: 300)");
             this.gwDDrpmTB.ValidationFailure = false;
             // 
@@ -518,7 +526,7 @@
             this.gwDDrateTB.Location = new System.Drawing.Point(252, 79);
             this.gwDDrateTB.Name = "gwDDrateTB";
             this.gwDDrateTB.Size = new System.Drawing.Size(47, 20);
-            this.gwDDrateTB.TabIndex = 32;
+            this.gwDDrateTB.TabIndex = 61;
             this.gweazleTips.SetToolTip(this.gwDDrateTB, "Data rate in kbps (1-2000, default: auto)");
             this.gwDDrateTB.ValidationFailure = false;
             // 
@@ -527,7 +535,7 @@
             this.gwDDhTB.Location = new System.Drawing.Point(171, 79);
             this.gwDDhTB.Name = "gwDDhTB";
             this.gwDDhTB.Size = new System.Drawing.Size(39, 20);
-            this.gwDDhTB.TabIndex = 31;
+            this.gwDDhTB.TabIndex = 60;
             this.gweazleTips.SetToolTip(this.gwDDhTB, "Head (aka H) byte value in each sector header (0-255, default: auto)");
             this.gwDDhTB.ValidationFailure = false;
             // 
@@ -536,7 +544,7 @@
             this.gwDDinterleaveTB.Location = new System.Drawing.Point(81, 79);
             this.gwDDinterleaveTB.Name = "gwDDinterleaveTB";
             this.gwDDinterleaveTB.Size = new System.Drawing.Size(45, 20);
-            this.gwDDinterleaveTB.TabIndex = 30;
+            this.gwDDinterleaveTB.TabIndex = 59;
             this.gweazleTips.SetToolTip(this.gwDDinterleaveTB, "Sector interleave, N:1 (1-255, default: 1)");
             this.gwDDinterleaveTB.ValidationFailure = false;
             // 
@@ -545,7 +553,7 @@
             this.gwDDidTB.Location = new System.Drawing.Point(324, 27);
             this.gwDDidTB.Name = "gwDDidTB";
             this.gwDDidTB.Size = new System.Drawing.Size(47, 20);
-            this.gwDDidTB.TabIndex = 24;
+            this.gwDDidTB.TabIndex = 53;
             this.gweazleTips.SetToolTip(this.gwDDidTB, "Sector ID (aka R) of logical first sector (0-255, default: 1)");
             this.gwDDidTB.ValidationFailure = false;
             // 
@@ -554,7 +562,7 @@
             this.gwDDhskewTB.Location = new System.Drawing.Point(412, 53);
             this.gwDDhskewTB.Name = "gwDDhskewTB";
             this.gwDDhskewTB.Size = new System.Drawing.Size(47, 20);
-            this.gwDDhskewTB.TabIndex = 29;
+            this.gwDDhskewTB.TabIndex = 58;
             this.gweazleTips.SetToolTip(this.gwDDhskewTB, "Sector skew per head (0-255, default: 0)");
             this.gwDDhskewTB.ValidationFailure = false;
             // 
@@ -563,7 +571,7 @@
             this.gwDDcskewTB.Location = new System.Drawing.Point(292, 53);
             this.gwDDcskewTB.Name = "gwDDcskewTB";
             this.gwDDcskewTB.Size = new System.Drawing.Size(47, 20);
-            this.gwDDcskewTB.TabIndex = 28;
+            this.gwDDcskewTB.TabIndex = 57;
             this.gweazleTips.SetToolTip(this.gwDDcskewTB, "Sector skew per cylinder (0-255, default: 0)");
             this.gwDDcskewTB.ValidationFailure = false;
             // 
@@ -572,7 +580,7 @@
             this.gwDDbpsTB.Location = new System.Drawing.Point(150, 53);
             this.gwDDbpsTB.Name = "gwDDbpsTB";
             this.gwDDbpsTB.Size = new System.Drawing.Size(85, 20);
-            this.gwDDbpsTB.TabIndex = 27;
+            this.gwDDbpsTB.TabIndex = 56;
             this.gweazleTips.SetToolTip(this.gwDDbpsTB, "Bytes per sector (128, 256, 512, 1024, 2048, 4096, 8192)");
             this.gwDDbpsTB.ValidationFailure = false;
             // 
@@ -581,7 +589,7 @@
             this.gwDDformatTB.Location = new System.Drawing.Point(174, 27);
             this.gwDDformatTB.Name = "gwDDformatTB";
             this.gwDDformatTB.Size = new System.Drawing.Size(75, 20);
-            this.gwDDformatTB.TabIndex = 22;
+            this.gwDDformatTB.TabIndex = 51;
             this.gweazleTips.SetToolTip(this.gwDDformatTB, "Format for these tracks");
             this.gwDDformatTB.ValidationFailure = false;
             // 
@@ -590,7 +598,7 @@
             this.gwDDtracksTB.Location = new System.Drawing.Point(70, 27);
             this.gwDDtracksTB.Name = "gwDDtracksTB";
             this.gwDDtracksTB.Size = new System.Drawing.Size(54, 20);
-            this.gwDDtracksTB.TabIndex = 21;
+            this.gwDDtracksTB.TabIndex = 50;
             this.gweazleTips.SetToolTip(this.gwDDtracksTB, "Track list or \"*\" for all unmatched tracks");
             this.gwDDtracksTB.ValidationFailure = false;
             // 
@@ -599,7 +607,7 @@
             this.gwDDsectorsTB.Location = new System.Drawing.Point(70, 53);
             this.gwDDsectorsTB.Name = "gwDDsectorsTB";
             this.gwDDsectorsTB.Size = new System.Drawing.Size(47, 20);
-            this.gwDDsectorsTB.TabIndex = 26;
+            this.gwDDsectorsTB.TabIndex = 55;
             this.gweazleTips.SetToolTip(this.gwDDsectorsTB, "Number of sectors (0-256, default: 0)");
             this.gwDDsectorsTB.ValidationFailure = false;
             // 
@@ -608,7 +616,7 @@
             this.gwDDStepTB.Location = new System.Drawing.Point(652, 72);
             this.gwDDStepTB.Name = "gwDDStepTB";
             this.gwDDStepTB.Size = new System.Drawing.Size(65, 20);
-            this.gwDDStepTB.TabIndex = 62;
+            this.gwDDStepTB.TabIndex = 48;
             this.gweazleTips.SetToolTip(this.gwDDStepTB, "Number of physical drive steps per image step (1-4)");
             this.gwDDStepTB.ValidationFailure = false;
             // 
@@ -617,7 +625,7 @@
             this.gwDDHeadsTB.Location = new System.Drawing.Point(546, 72);
             this.gwDDHeadsTB.Name = "gwDDHeadsTB";
             this.gwDDHeadsTB.Size = new System.Drawing.Size(65, 20);
-            this.gwDDHeadsTB.TabIndex = 61;
+            this.gwDDHeadsTB.TabIndex = 47;
             this.gweazleTips.SetToolTip(this.gwDDHeadsTB, "Number of heads/sides (1-2)");
             this.gwDDHeadsTB.ValidationFailure = false;
             // 
@@ -627,7 +635,7 @@
             this.gwDDCylsTB.Location = new System.Drawing.Point(431, 72);
             this.gwDDCylsTB.Name = "gwDDCylsTB";
             this.gwDDCylsTB.Size = new System.Drawing.Size(65, 20);
-            this.gwDDCylsTB.TabIndex = 60;
+            this.gwDDCylsTB.TabIndex = 46;
             this.gweazleTips.SetToolTip(this.gwDDCylsTB, "Number of cylinders (1-255)");
             this.gwDDCylsTB.ValidationFailure = false;
             // 
@@ -636,7 +644,7 @@
             this.diskDefNameTB.Location = new System.Drawing.Point(464, 44);
             this.diskDefNameTB.Name = "diskDefNameTB";
             this.diskDefNameTB.Size = new System.Drawing.Size(121, 20);
-            this.diskDefNameTB.TabIndex = 56;
+            this.diskDefNameTB.TabIndex = 45;
             this.gweazleTips.SetToolTip(this.diskDefNameTB, "Disk Definition Name");
             this.diskDefNameTB.ValidationFailure = false;
             // 
@@ -666,7 +674,7 @@
             this.GWTab.Name = "GWTab";
             this.GWTab.SelectedIndex = 0;
             this.GWTab.Size = new System.Drawing.Size(766, 367);
-            this.GWTab.TabIndex = 53;
+            this.GWTab.TabIndex = 2;
             // 
             // actionTab
             // 
@@ -770,7 +778,7 @@
             this.gwUseDiskDefFileCB.Location = new System.Drawing.Point(268, 34);
             this.gwUseDiskDefFileCB.Name = "gwUseDiskDefFileCB";
             this.gwUseDiskDefFileCB.Size = new System.Drawing.Size(113, 17);
-            this.gwUseDiskDefFileCB.TabIndex = 131;
+            this.gwUseDiskDefFileCB.TabIndex = 10;
             this.gwUseDiskDefFileCB.Text = "Use Disk Defs File";
             this.gwUseDiskDefFileCB.UseVisualStyleBackColor = true;
             this.gwUseDiskDefFileCB.Visible = false;
@@ -782,7 +790,8 @@
             this.gwOTTSPECSwapCB.Location = new System.Drawing.Point(327, 109);
             this.gwOTTSPECSwapCB.Name = "gwOTTSPECSwapCB";
             this.gwOTTSPECSwapCB.Size = new System.Drawing.Size(53, 17);
-            this.gwOTTSPECSwapCB.TabIndex = 130;
+            this.gwOTTSPECSwapCB.TabIndex = 22;
+            this.gwOTTSPECSwapCB.Tag = "hswap";
             this.gwOTTSPECSwapCB.Text = "Swap";
             this.gwOTTSPECSwapCB.UseVisualStyleBackColor = true;
             // 
@@ -792,13 +801,13 @@
             this.gwTSPECSwapCB.Location = new System.Drawing.Point(127, 109);
             this.gwTSPECSwapCB.Name = "gwTSPECSwapCB";
             this.gwTSPECSwapCB.Size = new System.Drawing.Size(53, 17);
-            this.gwTSPECSwapCB.TabIndex = 129;
+            this.gwTSPECSwapCB.TabIndex = 17;
+            this.gwTSPECSwapCB.Tag = "hswap";
             this.gwTSPECSwapCB.Text = "Swap";
             this.gwTSPECSwapCB.UseVisualStyleBackColor = true;
             // 
             // driveLBL
             // 
-            this.driveLBL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.driveLBL.AutoSize = true;
             this.driveLBL.Location = new System.Drawing.Point(200, 35);
             this.driveLBL.Name = "driveLBL";
@@ -808,16 +817,14 @@
             // 
             // driveTB
             // 
-            this.driveTB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.driveTB.Location = new System.Drawing.Point(238, 32);
             this.driveTB.Name = "driveTB";
             this.driveTB.Size = new System.Drawing.Size(23, 20);
-            this.driveTB.TabIndex = 128;
+            this.driveTB.TabIndex = 9;
             this.driveTB.ValidationFailure = false;
             // 
             // gwNrLBL
             // 
-            this.gwNrLBL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.gwNrLBL.AutoSize = true;
             this.gwNrLBL.Location = new System.Drawing.Point(15, 62);
             this.gwNrLBL.Name = "gwNrLBL";
@@ -828,11 +835,10 @@
             // 
             // gwNrTB
             // 
-            this.gwNrTB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.gwNrTB.Location = new System.Drawing.Point(71, 59);
             this.gwNrTB.Name = "gwNrTB";
             this.gwNrTB.Size = new System.Drawing.Size(34, 20);
-            this.gwNrTB.TabIndex = 125;
+            this.gwNrTB.TabIndex = 11;
             this.gwNrTB.ValidationFailure = false;
             this.gwNrTB.Visible = false;
             // 
@@ -842,7 +848,7 @@
             this.gwForceCB.Location = new System.Drawing.Point(261, 220);
             this.gwForceCB.Name = "gwForceCB";
             this.gwForceCB.Size = new System.Drawing.Size(53, 17);
-            this.gwForceCB.TabIndex = 124;
+            this.gwForceCB.TabIndex = 38;
             this.gwForceCB.Text = "Force";
             this.gwForceCB.UseVisualStyleBackColor = true;
             // 
@@ -852,13 +858,12 @@
             this.gwMotorOnCB.Location = new System.Drawing.Point(261, 197);
             this.gwMotorOnCB.Name = "gwMotorOnCB";
             this.gwMotorOnCB.Size = new System.Drawing.Size(70, 17);
-            this.gwMotorOnCB.TabIndex = 123;
+            this.gwMotorOnCB.TabIndex = 37;
             this.gwMotorOnCB.Text = "Motor On";
             this.gwMotorOnCB.UseVisualStyleBackColor = true;
             // 
             // gwLingerLBL
             // 
-            this.gwLingerLBL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.gwLingerLBL.AutoSize = true;
             this.gwLingerLBL.Location = new System.Drawing.Point(289, 62);
             this.gwLingerLBL.Name = "gwLingerLBL";
@@ -869,17 +874,15 @@
             // 
             // gwLingerTB
             // 
-            this.gwLingerTB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.gwLingerTB.Location = new System.Drawing.Point(331, 59);
             this.gwLingerTB.Name = "gwLingerTB";
             this.gwLingerTB.Size = new System.Drawing.Size(34, 20);
-            this.gwLingerTB.TabIndex = 121;
+            this.gwLingerTB.TabIndex = 14;
             this.gwLingerTB.ValidationFailure = false;
             this.gwLingerTB.Visible = false;
             // 
             // gwPassesLBL
             // 
-            this.gwPassesLBL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.gwPassesLBL.AutoSize = true;
             this.gwPassesLBL.Location = new System.Drawing.Point(199, 62);
             this.gwPassesLBL.Name = "gwPassesLBL";
@@ -890,11 +893,10 @@
             // 
             // gwPassesTB
             // 
-            this.gwPassesTB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.gwPassesTB.Location = new System.Drawing.Point(249, 59);
+            this.gwPassesTB.Location = new System.Drawing.Point(246, 59);
             this.gwPassesTB.Name = "gwPassesTB";
             this.gwPassesTB.Size = new System.Drawing.Size(34, 20);
-            this.gwPassesTB.TabIndex = 119;
+            this.gwPassesTB.TabIndex = 13;
             this.gwPassesTB.ValidationFailure = false;
             this.gwPassesTB.Visible = false;
             // 
@@ -903,7 +905,7 @@
             this.gwOTTSPECOffsetsTB.Location = new System.Drawing.Point(286, 159);
             this.gwOTTSPECOffsetsTB.Name = "gwOTTSPECOffsetsTB";
             this.gwOTTSPECOffsetsTB.Size = new System.Drawing.Size(119, 20);
-            this.gwOTTSPECOffsetsTB.TabIndex = 116;
+            this.gwOTTSPECOffsetsTB.TabIndex = 24;
             this.gwOTTSPECOffsetsTB.ValidationFailure = false;
             this.gwOTTSPECOffsetsTB.Visible = false;
             // 
@@ -923,7 +925,7 @@
             this.gwHFreqCB.Location = new System.Drawing.Point(261, 174);
             this.gwHFreqCB.Name = "gwHFreqCB";
             this.gwHFreqCB.Size = new System.Drawing.Size(101, 17);
-            this.gwHFreqCB.TabIndex = 118;
+            this.gwHFreqCB.TabIndex = 36;
             this.gwHFreqCB.Text = "High Frequency";
             this.gwHFreqCB.UseVisualStyleBackColor = true;
             // 
@@ -942,7 +944,8 @@
             this.gwOTTSPECStepTB.Location = new System.Drawing.Point(286, 133);
             this.gwOTTSPECStepTB.Name = "gwOTTSPECStepTB";
             this.gwOTTSPECStepTB.Size = new System.Drawing.Size(35, 20);
-            this.gwOTTSPECStepTB.TabIndex = 114;
+            this.gwOTTSPECStepTB.TabIndex = 23;
+            this.gwOTTSPECStepTB.Tag = "step";
             this.gwOTTSPECStepTB.ValidationFailure = false;
             this.gwOTTSPECStepTB.Visible = false;
             // 
@@ -961,7 +964,8 @@
             this.gwOTTSPECHeadsTB.Location = new System.Drawing.Point(286, 107);
             this.gwOTTSPECHeadsTB.Name = "gwOTTSPECHeadsTB";
             this.gwOTTSPECHeadsTB.Size = new System.Drawing.Size(35, 20);
-            this.gwOTTSPECHeadsTB.TabIndex = 112;
+            this.gwOTTSPECHeadsTB.TabIndex = 21;
+            this.gwOTTSPECHeadsTB.Tag = "h";
             this.gwOTTSPECHeadsTB.ValidationFailure = false;
             this.gwOTTSPECHeadsTB.Visible = false;
             // 
@@ -980,7 +984,8 @@
             this.gwOTTSPECCylTB.Location = new System.Drawing.Point(286, 81);
             this.gwOTTSPECCylTB.Name = "gwOTTSPECCylTB";
             this.gwOTTSPECCylTB.Size = new System.Drawing.Size(119, 20);
-            this.gwOTTSPECCylTB.TabIndex = 110;
+            this.gwOTTSPECCylTB.TabIndex = 20;
+            this.gwOTTSPECCylTB.Tag = "c";
             this.gwOTTSPECCylTB.ValidationFailure = false;
             this.gwOTTSPECCylTB.Visible = false;
             // 
@@ -1000,7 +1005,7 @@
             this.gwPreEraseCB.Location = new System.Drawing.Point(261, 151);
             this.gwPreEraseCB.Name = "gwPreEraseCB";
             this.gwPreEraseCB.Size = new System.Drawing.Size(72, 17);
-            this.gwPreEraseCB.TabIndex = 108;
+            this.gwPreEraseCB.TabIndex = 35;
             this.gwPreEraseCB.Text = "Pre-Erase";
             this.gwPreEraseCB.UseVisualStyleBackColor = true;
             // 
@@ -1009,7 +1014,7 @@
             this.gwRevsTB.Location = new System.Drawing.Point(86, 213);
             this.gwRevsTB.Name = "gwRevsTB";
             this.gwRevsTB.Size = new System.Drawing.Size(40, 20);
-            this.gwRevsTB.TabIndex = 107;
+            this.gwRevsTB.TabIndex = 27;
             this.gwRevsTB.ValidationFailure = false;
             this.gwRevsTB.Visible = false;
             // 
@@ -1028,7 +1033,7 @@
             this.gwAdjustSpeedTB.Location = new System.Drawing.Point(208, 239);
             this.gwAdjustSpeedTB.Name = "gwAdjustSpeedTB";
             this.gwAdjustSpeedTB.Size = new System.Drawing.Size(40, 20);
-            this.gwAdjustSpeedTB.TabIndex = 103;
+            this.gwAdjustSpeedTB.TabIndex = 29;
             this.gwAdjustSpeedTB.ValidationFailure = false;
             // 
             // gwAdjustSpeedLBL
@@ -1045,7 +1050,7 @@
             this.gwFakeIndexTB.Location = new System.Drawing.Point(86, 239);
             this.gwFakeIndexTB.Name = "gwFakeIndexTB";
             this.gwFakeIndexTB.Size = new System.Drawing.Size(40, 20);
-            this.gwFakeIndexTB.TabIndex = 102;
+            this.gwFakeIndexTB.TabIndex = 28;
             this.gwFakeIndexTB.ValidationFailure = false;
             // 
             // gwFakeIndexLBL
@@ -1062,7 +1067,8 @@
             this.gwPLLPhaseTB.Location = new System.Drawing.Point(170, 185);
             this.gwPLLPhaseTB.Name = "gwPLLPhaseTB";
             this.gwPLLPhaseTB.Size = new System.Drawing.Size(35, 20);
-            this.gwPLLPhaseTB.TabIndex = 101;
+            this.gwPLLPhaseTB.TabIndex = 26;
+            this.gwPLLPhaseTB.Tag = "phase";
             this.gwPLLPhaseTB.ValidationFailure = false;
             // 
             // gwPLLPhaseLBL
@@ -1079,7 +1085,8 @@
             this.gwPLLPeriodTB.Location = new System.Drawing.Point(86, 185);
             this.gwPLLPeriodTB.Name = "gwPLLPeriodTB";
             this.gwPLLPeriodTB.Size = new System.Drawing.Size(35, 20);
-            this.gwPLLPeriodTB.TabIndex = 99;
+            this.gwPLLPeriodTB.TabIndex = 25;
+            this.gwPLLPeriodTB.Tag = "period";
             this.gwPLLPeriodTB.ValidationFailure = false;
             // 
             // gwPLLPeriodLBL
@@ -1096,7 +1103,7 @@
             this.gwTSPECOffsetsTB.Location = new System.Drawing.Point(86, 159);
             this.gwTSPECOffsetsTB.Name = "gwTSPECOffsetsTB";
             this.gwTSPECOffsetsTB.Size = new System.Drawing.Size(119, 20);
-            this.gwTSPECOffsetsTB.TabIndex = 97;
+            this.gwTSPECOffsetsTB.TabIndex = 19;
             this.gwTSPECOffsetsTB.ValidationFailure = false;
             // 
             // gwTSPECOffsetsLBL
@@ -1113,7 +1120,8 @@
             this.gwTSPECStepTB.Location = new System.Drawing.Point(86, 133);
             this.gwTSPECStepTB.Name = "gwTSPECStepTB";
             this.gwTSPECStepTB.Size = new System.Drawing.Size(35, 20);
-            this.gwTSPECStepTB.TabIndex = 95;
+            this.gwTSPECStepTB.TabIndex = 18;
+            this.gwTSPECStepTB.Tag = "step";
             this.gwTSPECStepTB.ValidationFailure = false;
             // 
             // gwTSPECStepLBL
@@ -1130,7 +1138,8 @@
             this.gwTSPECHeadsTB.Location = new System.Drawing.Point(86, 107);
             this.gwTSPECHeadsTB.Name = "gwTSPECHeadsTB";
             this.gwTSPECHeadsTB.Size = new System.Drawing.Size(35, 20);
-            this.gwTSPECHeadsTB.TabIndex = 93;
+            this.gwTSPECHeadsTB.TabIndex = 16;
+            this.gwTSPECHeadsTB.Tag = "h";
             this.gwTSPECHeadsTB.ValidationFailure = false;
             // 
             // gwTSPECHeadsLBL
@@ -1147,7 +1156,8 @@
             this.gwTSPECCylTB.Location = new System.Drawing.Point(86, 81);
             this.gwTSPECCylTB.Name = "gwTSPECCylTB";
             this.gwTSPECCylTB.Size = new System.Drawing.Size(119, 20);
-            this.gwTSPECCylTB.TabIndex = 91;
+            this.gwTSPECCylTB.TabIndex = 15;
+            this.gwTSPECCylTB.Tag = "c";
             this.gwTSPECCylTB.ValidationFailure = false;
             // 
             // gwTSPECCylLBL
@@ -1165,7 +1175,7 @@
             this.gwNoVerifyCB.Location = new System.Drawing.Point(261, 82);
             this.gwNoVerifyCB.Name = "gwNoVerifyCB";
             this.gwNoVerifyCB.Size = new System.Drawing.Size(69, 17);
-            this.gwNoVerifyCB.TabIndex = 89;
+            this.gwNoVerifyCB.TabIndex = 32;
             this.gwNoVerifyCB.Text = "No Verify";
             this.gwNoVerifyCB.UseVisualStyleBackColor = true;
             // 
@@ -1175,7 +1185,7 @@
             this.gwEraseBlankCB.Location = new System.Drawing.Point(261, 128);
             this.gwEraseBlankCB.Name = "gwEraseBlankCB";
             this.gwEraseBlankCB.Size = new System.Drawing.Size(85, 17);
-            this.gwEraseBlankCB.TabIndex = 88;
+            this.gwEraseBlankCB.TabIndex = 34;
             this.gwEraseBlankCB.Text = "Erase Empty";
             this.gwEraseBlankCB.UseVisualStyleBackColor = true;
             // 
@@ -1185,7 +1195,7 @@
             this.gwRawCB.Location = new System.Drawing.Point(261, 105);
             this.gwRawCB.Name = "gwRawCB";
             this.gwRawCB.Size = new System.Drawing.Size(48, 17);
-            this.gwRawCB.TabIndex = 87;
+            this.gwRawCB.TabIndex = 33;
             this.gwRawCB.Text = "Raw";
             this.gwRawCB.UseVisualStyleBackColor = true;
             // 
@@ -1194,7 +1204,7 @@
             this.gwSeekRetriesTB.Location = new System.Drawing.Point(208, 265);
             this.gwSeekRetriesTB.Name = "gwSeekRetriesTB";
             this.gwSeekRetriesTB.Size = new System.Drawing.Size(36, 20);
-            this.gwSeekRetriesTB.TabIndex = 84;
+            this.gwSeekRetriesTB.TabIndex = 31;
             this.gwSeekRetriesTB.ValidationFailure = false;
             // 
             // gwSeekRetriesLBL
@@ -1211,7 +1221,7 @@
             this.gwRetriesTB.Location = new System.Drawing.Point(86, 265);
             this.gwRetriesTB.Name = "gwRetriesTB";
             this.gwRetriesTB.Size = new System.Drawing.Size(40, 20);
-            this.gwRetriesTB.TabIndex = 83;
+            this.gwRetriesTB.TabIndex = 30;
             this.gwRetriesTB.ValidationFailure = false;
             // 
             // gwRetriesLBL
@@ -1234,7 +1244,6 @@
             // 
             // gwCylLBL
             // 
-            this.gwCylLBL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.gwCylLBL.AutoSize = true;
             this.gwCylLBL.Location = new System.Drawing.Point(110, 62);
             this.gwCylLBL.Name = "gwCylLBL";
@@ -1245,11 +1254,10 @@
             // 
             // gwCylTB
             // 
-            this.gwCylTB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.gwCylTB.Location = new System.Drawing.Point(160, 59);
             this.gwCylTB.Name = "gwCylTB";
             this.gwCylTB.Size = new System.Drawing.Size(34, 20);
-            this.gwCylTB.TabIndex = 39;
+            this.gwCylTB.TabIndex = 12;
             this.gwCylTB.ValidationFailure = false;
             this.gwCylTB.Visible = false;
             // 
@@ -1270,7 +1278,7 @@
             this.additonalArgsTB.Location = new System.Drawing.Point(134, 306);
             this.additonalArgsTB.Name = "additonalArgsTB";
             this.additonalArgsTB.Size = new System.Drawing.Size(604, 20);
-            this.additonalArgsTB.TabIndex = 42;
+            this.additonalArgsTB.TabIndex = 39;
             this.additonalArgsTB.ValidationFailure = false;
             // 
             // gwFormatTypeCB
@@ -1279,7 +1287,7 @@
             this.gwFormatTypeCB.Location = new System.Drawing.Point(87, 32);
             this.gwFormatTypeCB.Name = "gwFormatTypeCB";
             this.gwFormatTypeCB.Size = new System.Drawing.Size(107, 21);
-            this.gwFormatTypeCB.TabIndex = 34;
+            this.gwFormatTypeCB.TabIndex = 8;
             // 
             // gwFormatTypeLBL
             // 
@@ -1292,6 +1300,7 @@
             // 
             // ddTab
             // 
+            this.ddTab.Controls.Add(this.gwDiskDefsFileTB);
             this.ddTab.Controls.Add(this.removeDiskConfigBtn);
             this.ddTab.Controls.Add(this.gwDDSaveBtn);
             this.ddTab.Controls.Add(this.gwDDReloadBtn);
@@ -1316,6 +1325,14 @@
             this.ddTab.TabIndex = 2;
             this.ddTab.Text = "DiskDef Builder";
             this.ddTab.UseVisualStyleBackColor = true;
+            // 
+            // gwDiskDefsFileTB
+            // 
+            this.gwDiskDefsFileTB.Location = new System.Drawing.Point(86, 12);
+            this.gwDiskDefsFileTB.Name = "gwDiskDefsFileTB";
+            this.gwDiskDefsFileTB.Size = new System.Drawing.Size(100, 20);
+            this.gwDiskDefsFileTB.TabIndex = 40;
+            this.gwDiskDefsFileTB.Visible = false;
             // 
             // gwDDfileLBL
             // 
@@ -1566,7 +1583,7 @@
             this.gwDDTrackListLB.Location = new System.Drawing.Point(558, 18);
             this.gwDDTrackListLB.Name = "gwDDTrackListLB";
             this.gwDDTrackListLB.Size = new System.Drawing.Size(188, 173);
-            this.gwDDTrackListLB.TabIndex = 43;
+            this.gwDDTrackListLB.TabIndex = 72;
             this.gwDDTrackListLB.SelectedIndexChanged += new System.EventHandler(this.gwDDTrackListLB_SelectedIndexChanged);
             this.gwDDTrackListLB.SelectedValueChanged += new System.EventHandler(this.gwDDTrackListLB_SelectedValueChanged);
             // 
@@ -1617,9 +1634,15 @@
             // 
             // optionsTab
             // 
+            this.optionsTab.Controls.Add(this.SelectProfilePathBtn);
+            this.optionsTab.Controls.Add(this.ProfileClearBtn);
+            this.optionsTab.Controls.Add(this.SaveProfileBtn);
+            this.optionsTab.Controls.Add(this.ProfileNameLBL);
+            this.optionsTab.Controls.Add(this.ProfileNameTB);
+            this.optionsTab.Controls.Add(this.CmdProfileFileLBL);
             this.optionsTab.Controls.Add(this.gwProfileSelLBL);
-            this.optionsTab.Controls.Add(this.SelectGWProfileBtn);
-            this.optionsTab.Controls.Add(this.gwProfileSelTB);
+            this.optionsTab.Controls.Add(this.OpenProfileBtn);
+            this.optionsTab.Controls.Add(this.gwProfileFileTB);
             this.optionsTab.Controls.Add(this.gwPathSelectionLBL);
             this.optionsTab.Controls.Add(this.SelectGWPathBtn);
             this.optionsTab.Controls.Add(this.gwPathSelectionTB);
@@ -1629,6 +1652,66 @@
             this.optionsTab.TabIndex = 3;
             this.optionsTab.Text = "Options";
             this.optionsTab.UseVisualStyleBackColor = true;
+            // 
+            // SelectProfilePathBtn
+            // 
+            this.SelectProfilePathBtn.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.SelectProfilePathBtn.Location = new System.Drawing.Point(645, 107);
+            this.SelectProfilePathBtn.Name = "SelectProfilePathBtn";
+            this.SelectProfilePathBtn.Size = new System.Drawing.Size(75, 23);
+            this.SelectProfilePathBtn.TabIndex = 78;
+            this.SelectProfilePathBtn.Text = "Select";
+            this.SelectProfilePathBtn.UseVisualStyleBackColor = true;
+            this.SelectProfilePathBtn.Click += new System.EventHandler(this.SelectProfilePathBtn_Click);
+            // 
+            // ProfileClearBtn
+            // 
+            this.ProfileClearBtn.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.ProfileClearBtn.Location = new System.Drawing.Point(240, 161);
+            this.ProfileClearBtn.Name = "ProfileClearBtn";
+            this.ProfileClearBtn.Size = new System.Drawing.Size(75, 23);
+            this.ProfileClearBtn.TabIndex = 82;
+            this.ProfileClearBtn.Text = "New Profile";
+            this.ProfileClearBtn.UseVisualStyleBackColor = true;
+            this.ProfileClearBtn.Click += new System.EventHandler(this.ProfileClearBtn_Click);
+            // 
+            // SaveProfileBtn
+            // 
+            this.SaveProfileBtn.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.SaveProfileBtn.Location = new System.Drawing.Point(120, 161);
+            this.SaveProfileBtn.Name = "SaveProfileBtn";
+            this.SaveProfileBtn.Size = new System.Drawing.Size(114, 23);
+            this.SaveProfileBtn.TabIndex = 81;
+            this.SaveProfileBtn.Text = "Save Action Profile";
+            this.SaveProfileBtn.UseVisualStyleBackColor = true;
+            this.SaveProfileBtn.Click += new System.EventHandler(this.SaveProfileBtn_Click);
+            // 
+            // ProfileNameLBL
+            // 
+            this.ProfileNameLBL.AutoSize = true;
+            this.ProfileNameLBL.Location = new System.Drawing.Point(36, 138);
+            this.ProfileNameLBL.Name = "ProfileNameLBL";
+            this.ProfileNameLBL.Size = new System.Drawing.Size(35, 13);
+            this.ProfileNameLBL.TabIndex = 65;
+            this.ProfileNameLBL.Text = "Name";
+            // 
+            // ProfileNameTB
+            // 
+            this.ProfileNameTB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.ProfileNameTB.Location = new System.Drawing.Point(77, 135);
+            this.ProfileNameTB.Name = "ProfileNameTB";
+            this.ProfileNameTB.Size = new System.Drawing.Size(643, 20);
+            this.ProfileNameTB.TabIndex = 79;
+            this.ProfileNameTB.ValidationFailure = false;
+            // 
+            // CmdProfileFileLBL
+            // 
+            this.CmdProfileFileLBL.AutoSize = true;
+            this.CmdProfileFileLBL.Location = new System.Drawing.Point(36, 112);
+            this.CmdProfileFileLBL.Name = "CmdProfileFileLBL";
+            this.CmdProfileFileLBL.Size = new System.Drawing.Size(23, 13);
+            this.CmdProfileFileLBL.TabIndex = 63;
+            this.CmdProfileFileLBL.Text = "File";
             // 
             // gwProfileSelLBL
             // 
@@ -1641,25 +1724,25 @@
             this.gwProfileSelLBL.TabIndex = 60;
             this.gwProfileSelLBL.Text = "Path to Command Profile";
             // 
-            // SelectGWProfileBtn
+            // OpenProfileBtn
             // 
-            this.SelectGWProfileBtn.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.SelectGWProfileBtn.Location = new System.Drawing.Point(645, 107);
-            this.SelectGWProfileBtn.Name = "SelectGWProfileBtn";
-            this.SelectGWProfileBtn.Size = new System.Drawing.Size(75, 23);
-            this.SelectGWProfileBtn.TabIndex = 62;
-            this.SelectGWProfileBtn.Text = "Select";
-            this.SelectGWProfileBtn.UseVisualStyleBackColor = true;
-            this.SelectGWProfileBtn.Click += new System.EventHandler(this.SelectGWProfileBtn_Click);
+            this.OpenProfileBtn.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.OpenProfileBtn.Location = new System.Drawing.Point(39, 161);
+            this.OpenProfileBtn.Name = "OpenProfileBtn";
+            this.OpenProfileBtn.Size = new System.Drawing.Size(75, 23);
+            this.OpenProfileBtn.TabIndex = 80;
+            this.OpenProfileBtn.Text = "Open";
+            this.OpenProfileBtn.UseVisualStyleBackColor = true;
+            this.OpenProfileBtn.Click += new System.EventHandler(this.SelectGWProfileBtn_Click);
             // 
-            // gwProfileSelTB
+            // gwProfileFileTB
             // 
-            this.gwProfileSelTB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.gwProfileSelTB.Location = new System.Drawing.Point(39, 109);
-            this.gwProfileSelTB.Name = "gwProfileSelTB";
-            this.gwProfileSelTB.Size = new System.Drawing.Size(611, 20);
-            this.gwProfileSelTB.TabIndex = 61;
-            this.gwProfileSelTB.ValidationFailure = false;
+            this.gwProfileFileTB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.gwProfileFileTB.Location = new System.Drawing.Point(65, 109);
+            this.gwProfileFileTB.Name = "gwProfileFileTB";
+            this.gwProfileFileTB.Size = new System.Drawing.Size(585, 20);
+            this.gwProfileFileTB.TabIndex = 77;
+            this.gwProfileFileTB.ValidationFailure = false;
             // 
             // gwPathSelectionLBL
             // 
@@ -1678,7 +1761,7 @@
             this.SelectGWPathBtn.Location = new System.Drawing.Point(645, 43);
             this.SelectGWPathBtn.Name = "SelectGWPathBtn";
             this.SelectGWPathBtn.Size = new System.Drawing.Size(75, 23);
-            this.SelectGWPathBtn.TabIndex = 59;
+            this.SelectGWPathBtn.TabIndex = 76;
             this.SelectGWPathBtn.Text = "Select";
             this.SelectGWPathBtn.UseVisualStyleBackColor = true;
             this.SelectGWPathBtn.Click += new System.EventHandler(this.SelectGWPathBtn_Click);
@@ -1689,11 +1772,12 @@
             this.gwPathSelectionTB.Location = new System.Drawing.Point(39, 45);
             this.gwPathSelectionTB.Name = "gwPathSelectionTB";
             this.gwPathSelectionTB.Size = new System.Drawing.Size(611, 20);
-            this.gwPathSelectionTB.TabIndex = 58;
+            this.gwPathSelectionTB.TabIndex = 75;
             this.gwPathSelectionTB.ValidationFailure = false;
             // 
             // deviceTab
             // 
+            this.deviceTab.Controls.Add(this.gwReloadBtn);
             this.deviceTab.Controls.Add(this.gwUSBRateValue);
             this.deviceTab.Controls.Add(this.gwUSBRateLBL);
             this.deviceTab.Controls.Add(this.gwSerialValue);
@@ -1712,6 +1796,16 @@
             this.deviceTab.TabIndex = 4;
             this.deviceTab.Text = "Device";
             this.deviceTab.UseVisualStyleBackColor = true;
+            // 
+            // gwReloadBtn
+            // 
+            this.gwReloadBtn.Location = new System.Drawing.Point(136, 15);
+            this.gwReloadBtn.Name = "gwReloadBtn";
+            this.gwReloadBtn.Size = new System.Drawing.Size(163, 23);
+            this.gwReloadBtn.TabIndex = 84;
+            this.gwReloadBtn.Text = "Reload GreaseWeazle Tools";
+            this.gwReloadBtn.UseVisualStyleBackColor = true;
+            this.gwReloadBtn.Click += new System.EventHandler(this.gwReloadBtn_Click);
             // 
             // gwUSBRateValue
             // 
@@ -1822,18 +1916,18 @@
             this.gwPortTB.Location = new System.Drawing.Point(69, 17);
             this.gwPortTB.Name = "gwPortTB";
             this.gwPortTB.Size = new System.Drawing.Size(61, 20);
-            this.gwPortTB.TabIndex = 51;
+            this.gwPortTB.TabIndex = 83;
             this.gwPortTB.ValidationFailure = false;
             // 
-            // comboBox1
+            // CmdProfileCB
             // 
-            this.comboBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.CmdProfileCB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(167, 10);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(602, 21);
-            this.comboBox1.TabIndex = 55;
+            this.CmdProfileCB.FormattingEnabled = true;
+            this.CmdProfileCB.Location = new System.Drawing.Point(167, 10);
+            this.CmdProfileCB.Name = "CmdProfileCB";
+            this.CmdProfileCB.Size = new System.Drawing.Size(602, 21);
+            this.CmdProfileCB.TabIndex = 1;
             // 
             // gwCmdProfileLBL
             // 
@@ -1850,7 +1944,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(791, 461);
             this.Controls.Add(this.gwCmdProfileLBL);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.CmdProfileCB);
             this.Controls.Add(this.GWTab);
             this.Controls.Add(this.accessoptions);
             this.Controls.Add(this.gwCmdHelpBtn);
@@ -1989,11 +2083,11 @@
         private System.Windows.Forms.Button SelectNewFileBtn;
         private System.Windows.Forms.Button SelectExistingFileBtn;
         private System.Windows.Forms.Label GwFileDisplay;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox CmdProfileCB;
         private System.Windows.Forms.Label gwCmdProfileLBL;
         private System.Windows.Forms.Label gwProfileSelLBL;
-        private System.Windows.Forms.Button SelectGWProfileBtn;
-        private vTextParam gwProfileSelTB;
+        private System.Windows.Forms.Button OpenProfileBtn;
+        private vTextParam gwProfileFileTB;
         private System.Windows.Forms.Label gwOutTracksLBL;
         private vTextParam gwOTTSPECOffsetsTB;
         private System.Windows.Forms.Label gwOTTSPECOffsetsLBL;
@@ -2043,6 +2137,14 @@
         private System.Windows.Forms.CheckBox gwOTTSPECSwapCB;
         private System.Windows.Forms.CheckBox gwTSPECSwapCB;
         private System.Windows.Forms.CheckBox gwUseDiskDefFileCB;
+        private System.Windows.Forms.Label CmdProfileFileLBL;
+        private System.Windows.Forms.Label ProfileNameLBL;
+        private vTextParam ProfileNameTB;
+        private System.Windows.Forms.Button SaveProfileBtn;
+        private System.Windows.Forms.Button SelectProfilePathBtn;
+        private System.Windows.Forms.Button ProfileClearBtn;
+        private System.Windows.Forms.TextBox gwDiskDefsFileTB;
+        private System.Windows.Forms.Button gwReloadBtn;
     }
 }
 

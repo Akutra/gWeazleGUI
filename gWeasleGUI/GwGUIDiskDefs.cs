@@ -375,7 +375,7 @@ namespace gWeasleGUI
             string[] response = null;
 
             // see if we can use the config file for formats
-            if(this.ddCfgFileAvailable && this.gwUseDiskDefFileCB.Checked && !string.IsNullOrEmpty(this.GwDiskDefsFile))
+            if(this.gwUseDiskDefFileCB.Visible && this.gwUseDiskDefFileCB.Checked && !string.IsNullOrEmpty(this.gwDiskDefsFileTB.Text)) //this.ddCfgFileAvailable
             {
                 response = this.gwDD.GetDiskDefinitionsKeys();
             }

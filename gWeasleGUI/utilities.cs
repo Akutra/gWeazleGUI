@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using System.Xml.Serialization;
 
 namespace gWeasleGUI
 {
     public class utilities
     {
+        public static readonly int ERROR_BAD_ARGUMENTS = 0xA0;
+
         /// <summary>
         /// File path dialog helper with extension handling
         /// </summary>
@@ -143,6 +146,30 @@ namespace gWeasleGUI
                 return $"{parts.First()}{Path.DirectorySeparatorChar}...{Path.DirectorySeparatorChar}{parts.Last()}";
             }
             return fileName;
+        }
+
+        public static bool WriteXML(string FileName, GwTools.gwCommand cmd, ILogger logger)
+        {
+            bool success = true;
+            TextWriter writer = null;
+
+            try
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(GwTools.gwCommand));
+                writer = new StreamWriter(FileName);
+
+                serializer.Serialize(writer, cmd);
+            }
+            catch (Exception ex)
+            {
+                // report and return false
+                logger.Error($"Write object file failed", ex);
+                System.Environment.Exit(ERROR_BAD_ARGUMENTS);
+                success = false;
+            }
+            writer?.Close();
+
+            return success;
         }
     }
 }

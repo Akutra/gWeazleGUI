@@ -15,7 +15,7 @@ namespace gWeasleGUI
         Action<string> DisplayContentAction, PersistExtConfig;
         int ActionCount = 0;
 
-        string GwNewFile = string.Empty, GwExistingFile = string.Empty, GwDiskDefsFile = string.Empty;
+        string GwNewFile = string.Empty, GwExistingFile = string.Empty; //, GwDiskDefsFile = string.Empty;
 
         public gWeazleFrm()
         {
@@ -111,7 +111,7 @@ namespace gWeasleGUI
             //}
 
             // verify device can be loaded
-            if (this.gw.currentDevice is null || string.IsNullOrEmpty(this.gw.currentDevice.port))
+            if (this.gw.gwHostToolsVersion == 0 || this.gw.currentDevice is null || string.IsNullOrEmpty(this.gw.currentDevice.port))
             {
                 string gwmsg = this.gw.gwHostToolsVersion == 0 ? "Greaseweazle Host Tools not found." : $"Greaseweazle Host Tools v{this.gw.gwHostToolsVersion} found.";
                 string err = $"*** Unable to load device on port {this.gwPortTB.Text.Trim()}.";
@@ -119,13 +119,24 @@ namespace gWeasleGUI
                 this.DisplayContentAction(msg);
                 // thread safe show options
                 this.Invoke(new MethodInvoker(delegate {
-                    gwToolsVersion.Text = "None";
                     gwModelValue.Text = "Not Found.";
                     gwMCUValue.Text = string.Empty;
                     gwFirmwareValue.Text = string.Empty;
                     gwSerialValue.Text = string.Empty;
                     gwUSBRateValue.Text = string.Empty;
-                    GWTab.SelectedTab = this.optionsTab; 
+                    
+                    if(this.gw.gwHostToolsVersion>0)
+                    {
+                        logger.Info(err);
+                        gwToolsVersion.Text = $"H{this.gw.gwHostToolsVersion}";
+                        GWTab.SelectedTab = this.deviceTab;
+                    }
+                    else
+                    {
+                        logger.Info(gwmsg);
+                        gwToolsVersion.Text = "None";
+                        GWTab.SelectedTab = this.optionsTab;
+                    }
                 }));
                 return;
             }
@@ -269,7 +280,7 @@ namespace gWeasleGUI
                 this.ConfigManager.ConfigData.GwToolsPath = utilities.GetAbsoluteFolder(gwPathSelectionTB.Text.Trim());
                 this.ConfigManager.WriteConfig();
                 this.gw.ReLoadGW(this.ConfigManager.ConfigData.GwToolsPath);
-                GWTab.SelectedTab = deviceTab;
+                //GWTab.SelectedTab = deviceTab;
             }
 
             this.ActionComplete();
@@ -499,7 +510,7 @@ namespace gWeasleGUI
             string fileSelection = utilities.GetFilePath("new", ext, ext.Last(), null, false);
             if (string.IsNullOrEmpty(fileSelection)) return;
 
-            this.GwDiskDefsFile = fileSelection;
+            this.gwDiskDefsFileTB.Text = fileSelection;
             LoadDD();
             
             this.ProcessAction();
@@ -558,7 +569,7 @@ namespace gWeasleGUI
 
         private void gwDDReloadBtn_Click(object sender, EventArgs e)
         {
-            if (this.gwDD.LoadDiskDefs(this.GwDiskDefsFile))
+            if (this.gwDD.LoadDiskDefs(this.gwDiskDefsFileTB.Text))
             {
                 gwDiskConfigCB.Items.Clear();
                 gwDiskConfigCB.Items.AddRange(this.gwDD.GetDiskDefinitionsKeys());
@@ -570,7 +581,7 @@ namespace gWeasleGUI
 
         private void gwDDSaveBtn_Click(object sender, EventArgs e)
         {
-            this.gwDD.SaveDiskDefs(this.GwDiskDefsFile);
+            this.gwDD.SaveDiskDefs(this.gwDiskDefsFileTB.Text);
         }
 
         private void removeDiskConfigBtn_Click(object sender, EventArgs e)
@@ -586,7 +597,14 @@ namespace gWeasleGUI
 
         private void SelectGWProfileBtn_Click(object sender, EventArgs e)
         {
+            this.ActionStart();
 
+            string[] ext = new[] { "Any File|*.*", "eXtensible Markup Language|*.xml" };
+            this.gwProfileFileTB.Text = utilities.GetFilePath("existing", ext, ext.Last(), null);
+
+            // TODO: Load profile
+
+            this.ActionComplete();
         }
 
         private void gwUseDiskDefFileCB_CheckedChanged(object sender, EventArgs e)
@@ -600,6 +618,46 @@ namespace gWeasleGUI
             this.ProcessAction();
         }
 
+        private void SelectProfilePathBtn_Click(object sender, EventArgs e)
+        {
+            this.ActionStart();
+
+            string[] ext = new[] { "Any File|*.*", "eXtensible Markup Language|*.xml" };
+            this.gwProfileFileTB.Text = utilities.GetFilePath("select", ext, ext.Last(), null);
+
+            this.ActionComplete();
+        }
+
+        private void SaveProfileBtn_Click(object sender, EventArgs e)
+        {
+            this.ActionStart();
+            GwTools.gwCommand cmd = new GwTools.gwCommand()
+            {
+                time = timeCB.Checked,
+                action = actionCB.Text.Trim().ToLower()
+            };
+            List<string> args = new List<string>();
+
+            // get the arguments specific to the gw action then execute the command
+            this.PopulateArgs(cmd.action, args, () =>
+            {
+                cmd.args = args.ToArray();
+                GWTab.SelectedTab = actionTab;
+
+                // store the gw action command
+                utilities.WriteXML(ProfileNameTB.Text, cmd, this.logger);
+
+                this.ActionComplete();
+            });
+        }
+
+        private void ProfileClearBtn_Click(object sender, EventArgs e)
+        {
+            gwProfileFileTB.Text = string.Empty;
+            ProfileNameTB.Text = string.Empty;
+            CmdProfileCB.Text = string.Empty;
+        }
+
         private void timeCB_CheckedChanged(object sender, EventArgs e)
         {
             if(ConfigManager.ConfigData.Time != timeCB.Checked)
@@ -607,6 +665,15 @@ namespace gWeasleGUI
                 ConfigManager.ConfigData.Time = timeCB.Checked;
                 ConfigManager.WriteConfig();
             }
+        }
+
+        private void gwReloadBtn_Click(object sender, EventArgs e)
+        {
+            this.ActionStart();
+
+            this.gw.ReLoadGW(this.ConfigManager.ConfigData.GwToolsPath, this.gwPortTB.Text.Trim());
+
+            this.ActionComplete();
         }
 
         /// <summary>
@@ -644,14 +711,14 @@ namespace gWeasleGUI
         {
             timeCB.Checked = ConfigManager.ConfigData.Time;
             gwRawCB.Checked = ConfigManager.ConfigData.RawFormat;
-            this.GwDiskDefsFile = ConfigManager.ConfigData.LastDiskDefsCfgFile;
+            this.gwDiskDefsFileTB.Text = ConfigManager.ConfigData.LastDiskDefsCfgFile;
             gwUseDiskDefFileCB.Checked = ConfigManager.ConfigData.LastUseDiskDefsCfgFile;
             LoadDD();
         }
 
         private void LoadDD()
         {
-            this.gwDDfileLBL.Text = utilities.MaxSizeFileName(this.GwDiskDefsFile, this.gwDDfileLBL.MaximumSize.Width);
+            this.gwDDfileLBL.Text = utilities.MaxSizeFileName(this.gwDiskDefsFileTB.Text, this.gwDDfileLBL.MaximumSize.Width);
 
             // Reset
             gwDiskConfigCB.Items.Clear();
@@ -660,11 +727,11 @@ namespace gWeasleGUI
             this.CurrentDiskDef = new GwDiskDefs.DiskDefinition();
 
             // Load the new file if it exists
-            if (File.Exists(this.GwDiskDefsFile) && this.gwDD.LoadDiskDefs(this.GwDiskDefsFile))
+            if (File.Exists(this.gwDiskDefsFileTB.Text) && this.gwDD.LoadDiskDefs(this.gwDiskDefsFileTB.Text))
             {
-                if (this.ConfigManager.ConfigData.LastDiskDefsCfgFile != this.GwDiskDefsFile)
+                if (this.ConfigManager.ConfigData.LastDiskDefsCfgFile != this.gwDiskDefsFileTB.Text)
                 {
-                    this.ConfigManager.ConfigData.LastDiskDefsCfgFile = this.GwDiskDefsFile;
+                    this.ConfigManager.ConfigData.LastDiskDefsCfgFile = this.gwDiskDefsFileTB.Text;
                     this.ConfigManager.WriteConfig();
                 }
                 gwDiskConfigCB.Items.AddRange(this.gwDD.GetDiskDefinitionsKeys());

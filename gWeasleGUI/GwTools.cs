@@ -70,10 +70,15 @@ namespace gWeasleGUI
         /// Update the gw host tools path location and then load again
         /// </summary>
         /// <param name="gwHostToolsPath">gw host tools path</param>
-        public void ReLoadGW(string gwHostToolsPath)
+        public void ReLoadGW(string gwHostToolsPath, string port = null)
         {
             this.GwToolsPath = gwHostToolsPath;
-            LoadGW();
+            if( string.IsNullOrEmpty(port?.Trim()) )
+            {
+                LoadGW();
+                return;
+            }
+            LoadGW(port.Trim());
         }
 
         /// <summary>
