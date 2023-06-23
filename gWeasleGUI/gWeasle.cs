@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace gWeasleGUI
         Action<string> DisplayContentAction, PersistExtConfig;
         int ActionCount = 0;
 
-        string GwNewFile = string.Empty, GwExistingFile = string.Empty; //, GwDiskDefsFile = string.Empty;
+        string GwNewFile = string.Empty, GwExistingFile = string.Empty, GwDiskDefsFile = string.Empty;
 
         public gWeazleFrm()
         {
@@ -32,6 +33,9 @@ namespace gWeasleGUI
             ActionStart = () => { this.BusyActionableGUI(); };
             DisplayContentAction = (content) => { this.DisplayContent(content); };
             ActionGwDeviceLoaded = () => { this.GwDeviceLoaded(); };
+
+            //string PLLjson = JsonConvert.SerializeObject(new GwPLLValue());
+            //Console.WriteLine(PLLjson);
         }
 
         private void gWeasleFrm_Load(object sender, EventArgs e)
@@ -40,7 +44,7 @@ namespace gWeasleGUI
 
             // initialize the logger
             this.logger = new GuiLogger((msg) => {
-                if (msg.Trim().Length > 0) { this.Invoke(new MethodInvoker(delegate { GwCurrentStatus.Text = msg; })); }
+                if (msg.Trim().Length > 0) { this.Invoke(new MethodInvoker(delegate { this.DisplayContent(msg); GwCurrentStatus.Text = msg; })); }
             });
 
             // load persistent config data
@@ -299,13 +303,13 @@ namespace gWeasleGUI
                 time = timeCB.Checked,
                 action = actionCB.Text.Trim().ToLower()
             };
-            List<string> args = new List<string>();
+            List<gwArgument> args = new List<gwArgument>();
             outputTB.Text = string.Empty; // clear the display for the executing command
 
             // get the arguments specific to the gw action then execute the command
             this.PopulateArgs(cmd.action, args, () =>
             {
-                cmd.args = args.ToArray();
+                cmd.args = args;
                 GWTab.SelectedTab = actionTab;
 
                 // run the gw action command
@@ -346,7 +350,7 @@ namespace gWeasleGUI
         /// </summary>
         /// <param name="action">optional gw action to handle, default uses GUI selector value</param>
         /// <param name="arguments">optional argument list to populate</param>
-        private void ProcessAction(string action = null, List<string> arguments = null)
+        private void ProcessAction(string action = null, List<gwArgument> arguments = null)
         {
             string current_action = action ?? actionCB.Text.Trim().ToLower();
             ExecuteBtn.Enabled = true;
@@ -510,7 +514,7 @@ namespace gWeasleGUI
             string fileSelection = utilities.GetFilePath("new", ext, ext.Last(), null, false);
             if (string.IsNullOrEmpty(fileSelection)) return;
 
-            this.gwDiskDefsFileTB.Text = fileSelection;
+            this.GwDiskDefsFile = fileSelection;
             LoadDD();
             
             this.ProcessAction();
@@ -558,7 +562,7 @@ namespace gWeasleGUI
 
         private void gwDDTrackListLB_SelectedIndexChanged(object sender, EventArgs e)
         {
-            GwDiskDefs.TrackDefinition track = CurrentDiskDef.Tracks.Where(t => t.ToString() == gwDDTrackListLB.Text).FirstOrDefault();
+            TrackDefinition track = CurrentDiskDef.Tracks.Where(t => t.ToString() == gwDDTrackListLB.Text).FirstOrDefault();
             PopulateTDDisplay(track);
         }
 
@@ -569,7 +573,7 @@ namespace gWeasleGUI
 
         private void gwDDReloadBtn_Click(object sender, EventArgs e)
         {
-            if (this.gwDD.LoadDiskDefs(this.gwDiskDefsFileTB.Text))
+            if (this.gwDD.LoadDiskDefs(this.GwDiskDefsFile))
             {
                 gwDiskConfigCB.Items.Clear();
                 gwDiskConfigCB.Items.AddRange(this.gwDD.GetDiskDefinitionsKeys());
@@ -581,7 +585,7 @@ namespace gWeasleGUI
 
         private void gwDDSaveBtn_Click(object sender, EventArgs e)
         {
-            this.gwDD.SaveDiskDefs(this.gwDiskDefsFileTB.Text);
+            this.gwDD.SaveDiskDefs(this.GwDiskDefsFile);
         }
 
         private void removeDiskConfigBtn_Click(object sender, EventArgs e)
@@ -622,7 +626,7 @@ namespace gWeasleGUI
         {
             this.ActionStart();
 
-            string[] ext = new[] { "Any File|*.*", "eXtensible Markup Language|*.xml" };
+            string[] ext = new[] { "Any File|*.*", "JSON|*.json" };
             this.gwProfileFileTB.Text = utilities.GetFilePath("select", ext, ext.Last(), null);
 
             this.ActionComplete();
@@ -630,25 +634,34 @@ namespace gWeasleGUI
 
         private void SaveProfileBtn_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(this.gwProfileFileTB.Text)) {
+                this.gwProfileFileTB.ValidationFailure = true;
+                return; }
+
+            this.gwProfileFileTB.ValidationFailure = false;
+
             this.ActionStart();
             GwTools.gwCommand cmd = new GwTools.gwCommand()
             {
+                name = ProfileNameTB.Text,
                 time = timeCB.Checked,
                 action = actionCB.Text.Trim().ToLower()
             };
-            List<string> args = new List<string>();
+            //List<gwArgument> args = new List<gwArgument>();
 
-            // get the arguments specific to the gw action then execute the command
-            this.PopulateArgs(cmd.action, args, () =>
-            {
-                cmd.args = args.ToArray();
-                GWTab.SelectedTab = actionTab;
+            // get all the arguments
+            this.PopulateArgs(cmd.args);
 
-                // store the gw action command
-                utilities.WriteXML(ProfileNameTB.Text, cmd, this.logger);
+            string fileName = gwProfileFileTB.Text.Trim();
+            //cmd.args = args;
+            //GWTab.SelectedTab = actionTab;
 
-                this.ActionComplete();
-            });
+            this.logger.Info($"Writing action profile to file: {fileName}");
+            // store the gw action command
+            utilities.WriteJSON(fileName, cmd, this.logger);
+            this.logger.Info($"Done writing action profile to file: {fileName}");
+
+            this.ActionComplete();
         }
 
         private void ProfileClearBtn_Click(object sender, EventArgs e)
@@ -677,22 +690,20 @@ namespace gWeasleGUI
         }
 
         /// <summary>
-        /// Execute a timmed down version of the selected gw action with help parameter
+        /// Execute a trimmed down version of the selected gw action with help parameter
         /// </summary>
         /// <param name="sender">ignored</param>
         /// <param name="e">ignored</param>
         private void gwCmdHelpBtn_Click(object sender, EventArgs e)
         {
-            GwTools.gwCommand cmd = new GwTools.gwCommand()
+            this.gw.GetActionHelp(actionCB.Text.ToLower(), (response) =>
             {
-                time = false,
-                action = actionCB.Text.ToLower(),
-                args = new[] { "--help" }
-            };
-
-            outputTB.Text = string.Empty;
-            GWTab.SelectedTab = actionTab;
-            gw.RunGWCommand(cmd, this.gw.currentDevice.port);
+                this.Invoke(new MethodInvoker(delegate
+                {
+                    GWTab.SelectedTab = actionTab;
+                    outputTB.Text = response;
+                }));
+            });
         }
 
         private void UpdateFormatConfig()
@@ -711,27 +722,27 @@ namespace gWeasleGUI
         {
             timeCB.Checked = ConfigManager.ConfigData.Time;
             gwRawCB.Checked = ConfigManager.ConfigData.RawFormat;
-            this.gwDiskDefsFileTB.Text = ConfigManager.ConfigData.LastDiskDefsCfgFile;
+            this.GwDiskDefsFile = ConfigManager.ConfigData.LastDiskDefsCfgFile;
             gwUseDiskDefFileCB.Checked = ConfigManager.ConfigData.LastUseDiskDefsCfgFile;
             LoadDD();
         }
 
         private void LoadDD()
         {
-            this.gwDDfileLBL.Text = utilities.MaxSizeFileName(this.gwDiskDefsFileTB.Text, this.gwDDfileLBL.MaximumSize.Width);
+            this.gwDDfileLBL.Text = utilities.MaxSizeFileName(this.GwDiskDefsFile, this.gwDDfileLBL.MaximumSize.Width);
 
             // Reset
             gwDiskConfigCB.Items.Clear();
             this.gwDD?.Clear();
             this.ddTracks?.Clear();
-            this.CurrentDiskDef = new GwDiskDefs.DiskDefinition();
+            this.CurrentDiskDef = new GwDiskDefsValue();
 
             // Load the new file if it exists
-            if (File.Exists(this.gwDiskDefsFileTB.Text) && this.gwDD.LoadDiskDefs(this.gwDiskDefsFileTB.Text))
+            if (File.Exists(this.GwDiskDefsFile) && this.gwDD.LoadDiskDefs(this.GwDiskDefsFile))
             {
-                if (this.ConfigManager.ConfigData.LastDiskDefsCfgFile != this.gwDiskDefsFileTB.Text)
+                if (this.ConfigManager.ConfigData.LastDiskDefsCfgFile != this.GwDiskDefsFile)
                 {
-                    this.ConfigManager.ConfigData.LastDiskDefsCfgFile = this.gwDiskDefsFileTB.Text;
+                    this.ConfigManager.ConfigData.LastDiskDefsCfgFile = this.GwDiskDefsFile;
                     this.ConfigManager.WriteConfig();
                 }
                 gwDiskConfigCB.Items.AddRange(this.gwDD.GetDiskDefinitionsKeys());

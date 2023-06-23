@@ -15,12 +15,12 @@ namespace gWeasleGUI
     {
         private GwDiskDefs gwDD;
 
-        private Dictionary<string, Func<GwDiskDefs.DiskDefinition, bool>> GWDiskDefPara;
-        private Dictionary<string, Func<GwDiskDefs.TrackDefinition, bool>> GWDiskDefTrackPara;
-        private Dictionary<string, Action<GwDiskDefs.TrackDefinition>> GWTrackDefDisplay;
+        private Dictionary<string, Func<GwDiskDefsValue, bool>> GWDiskDefPara;
+        private Dictionary<string, Func<TrackDefinition, bool>> GWDiskDefTrackPara;
+        private Dictionary<string, Action<TrackDefinition>> GWTrackDefDisplay;
 
-        private GwDiskDefs.DiskDefinition CurrentDiskDef = new GwDiskDefs.DiskDefinition();
-        private Dictionary<string, GwDiskDefs.TrackDefinition> ddTracks = new Dictionary<string, GwDiskDefs.TrackDefinition>();
+        private GwDiskDefsValue CurrentDiskDef = new GwDiskDefsValue();
+        private Dictionary<string, TrackDefinition> ddTracks = new Dictionary<string, TrackDefinition>();
 
         // at least we will have the correct characters
         public static readonly Regex TrackValidator = new Regex(@"^[0-9*-.]+$");
@@ -32,8 +32,8 @@ namespace gWeasleGUI
         /// </summary>
         private void InitializeDDParaHandling()
         {
-            GWDiskDefPara = new Dictionary<string, Func<GwDiskDefs.DiskDefinition, bool>>();
-            GWDiskDefTrackPara = new Dictionary<string, Func<GwDiskDefs.TrackDefinition, bool>>();
+            GWDiskDefPara = new Dictionary<string, Func<GwDiskDefsValue, bool>>();
+            GWDiskDefTrackPara = new Dictionary<string, Func<TrackDefinition, bool>>();
             int c;
 
             gwDD = new GwDiskDefs(logger, this.ActionStart, this.ActionComplete, this.ConfigManager.ConfigData.LastDiskDefsCfgFile);
@@ -186,7 +186,7 @@ namespace gWeasleGUI
                 return gwDDsubformatTB.ValidationFailure;
             });
 
-            GWTrackDefDisplay = new Dictionary<string, Action<GwDiskDefs.TrackDefinition>>()
+            GWTrackDefDisplay = new Dictionary<string, Action<TrackDefinition>>()
             {
                 { "secs", (tg) => { gwDDsectorsTB.Text = tg.parameters.ContainsKey("secs") ? tg.parameters["secs"] : string.Empty; } },
                 { "bps", (tg) => { gwDDbpsTB.Text = tg.parameters.ContainsKey("bps") ? tg.parameters["bps"] : string.Empty; } },
@@ -227,7 +227,7 @@ namespace gWeasleGUI
         public bool PopulateDiskDef()
         {
             if (CurrentDiskDef.Name != diskDefNameTB.Text.Trim())
-                CurrentDiskDef = new DiskDefinition();
+                CurrentDiskDef = new GwDiskDefsValue();
 
             bool isValid = true;
 
@@ -261,7 +261,7 @@ namespace gWeasleGUI
         {
             if (string.IsNullOrEmpty(CurrentDiskDef.Name)) return false;
 
-            GwDiskDefs.TrackDefinition track = new GwDiskDefs.TrackDefinition();
+            TrackDefinition track = new TrackDefinition();
             List<string> trackparms = new List<string>();
 
             bool isValid = true;
@@ -310,14 +310,14 @@ namespace gWeasleGUI
 
         private void PopulateDDDisplay(string defName)
         {
-            GwDiskDefs.DiskDefinition diskDefinition = this.gwDD.GetDiskDefinition(defName);
+            GwDiskDefsValue diskDefinition = this.gwDD.GetDiskDefinition(defName);
             PopulateDDDisplay(diskDefinition);
         }
 
-        private void PopulateDDDisplay(GwDiskDefs.DiskDefinition diskDefinition = null)
+        private void PopulateDDDisplay(GwDiskDefsValue diskDefinition = null)
         {
             if( diskDefinition is null )
-                diskDefinition = new GwDiskDefs.DiskDefinition();
+                diskDefinition = new GwDiskDefsValue();
 
             diskDefNameTB.Text = diskDefinition.Name;
             gwDDCylsTB.Text = diskDefinition.Cylinders;
@@ -336,7 +336,7 @@ namespace gWeasleGUI
             PopulateTDDisplay();
 
             ddTracks.Clear();
-            foreach (GwDiskDefs.TrackDefinition td in CurrentDiskDef.Tracks)
+            foreach (TrackDefinition td in CurrentDiskDef.Tracks)
             {
                 ddTracks.Add(td.ToString(), td);
             }
@@ -354,10 +354,10 @@ namespace gWeasleGUI
 
         }
 
-        private void PopulateTDDisplay(GwDiskDefs.TrackDefinition trackDef = null)
+        private void PopulateTDDisplay(TrackDefinition trackDef = null)
         {
             if (trackDef is null)
-                trackDef = new GwDiskDefs.TrackDefinition();
+                trackDef = new TrackDefinition();
             
             
             gwDDtracksTB.Text = trackDef.Tracks;
@@ -375,7 +375,7 @@ namespace gWeasleGUI
             string[] response = null;
 
             // see if we can use the config file for formats
-            if(this.gwUseDiskDefFileCB.Visible && this.gwUseDiskDefFileCB.Checked && !string.IsNullOrEmpty(this.gwDiskDefsFileTB.Text)) //this.ddCfgFileAvailable
+            if(this.gwUseDiskDefFileCB.Visible && this.gwUseDiskDefFileCB.Checked && !string.IsNullOrEmpty(this.GwDiskDefsFile)) //this.ddCfgFileAvailable
             {
                 response = this.gwDD.GetDiskDefinitionsKeys();
             }

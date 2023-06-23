@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -148,16 +149,16 @@ namespace gWeasleGUI
             return fileName;
         }
 
-        public static bool WriteXML(string FileName, GwTools.gwCommand cmd, ILogger logger)
+        public static bool WriteJSON(string FileName, GwTools.gwCommand cmd, ILogger logger)
         {
             bool success = true;
             TextWriter writer = null;
 
             try
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(GwTools.gwCommand));
+                JsonSerializer serializer = new JsonSerializer();
+                serializer.Formatting = Formatting.Indented;
                 writer = new StreamWriter(FileName);
-
                 serializer.Serialize(writer, cmd);
             }
             catch (Exception ex)

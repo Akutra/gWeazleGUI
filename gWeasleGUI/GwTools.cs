@@ -23,9 +23,10 @@ namespace gWeasleGUI
 
         public class gwCommand
         {
+            public string name;
             public string action;
             public bool time = true;
-            public string[] args = new string[0];
+            public List<gwArgument> args = new List<gwArgument>();
         }
 
         public double gwHostToolsVersion { get; private set; } = 0;
@@ -284,7 +285,7 @@ namespace gWeasleGUI
         {
             string cmdArgs = string.Empty;
             string cmdtime = cmd.time ? "--time " : string.Empty;
-            string extraArgs = string.Join(" ", cmd.args).Trim();
+            string extraArgs = string.Join(" ", cmd.args.Select(a => a.ToString()).ToArray()).Trim();
 
             // Arg templates
             switch (cmd.action)
@@ -351,7 +352,7 @@ namespace gWeasleGUI
             Task exe_task;
             this.LastExecutedCommand = $"{utilities.MaxSizeFileName(exe)} {args}";
             string startOut = $"Executing command: {this.LastExecutedCommand}";
-            gw_output(startOut);
+            //gw_output(startOut);
             this.logger.Info(startOut);
 
             // Start the command on it's own thread.
@@ -395,7 +396,7 @@ namespace gWeasleGUI
                             }
 
                             string endOut = $"Command completed: {utilities.MaxSizeFileName(p.StartInfo.FileName)} {p.StartInfo.Arguments}";
-                            gw_output(endOut);
+                            //gw_output(endOut);
                             this.logger.Info(endOut);
                             this.DoneAction();
                         };
@@ -418,7 +419,7 @@ namespace gWeasleGUI
                     catch (Exception ex)
                     {
                         this.logger.Error($"Error occured while executing the command {args}", ex);
-                        gw_output($"Error occured while executing the command {args}{Environment.NewLine}Exception: {ex}");
+                        //gw_output($"Error occured while executing the command {args}{Environment.NewLine}Exception: {ex}");
                         if(errorResponse != null) { errorResponse(ex); }
                         this.DoneAction();
                     }

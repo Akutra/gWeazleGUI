@@ -137,7 +137,6 @@
             this.gwFormatTypeCB = new System.Windows.Forms.ComboBox();
             this.gwFormatTypeLBL = new System.Windows.Forms.Label();
             this.ddTab = new System.Windows.Forms.TabPage();
-            this.gwDiskDefsFileTB = new System.Windows.Forms.TextBox();
             this.gwDDfileLBL = new System.Windows.Forms.Label();
             this.gwDDtracksgroupBox = new System.Windows.Forms.GroupBox();
             this.gwDDsubformatLBL = new System.Windows.Forms.Label();
@@ -1300,7 +1299,6 @@
             // 
             // ddTab
             // 
-            this.ddTab.Controls.Add(this.gwDiskDefsFileTB);
             this.ddTab.Controls.Add(this.removeDiskConfigBtn);
             this.ddTab.Controls.Add(this.gwDDSaveBtn);
             this.ddTab.Controls.Add(this.gwDDReloadBtn);
@@ -1325,14 +1323,6 @@
             this.ddTab.TabIndex = 2;
             this.ddTab.Text = "DiskDef Builder";
             this.ddTab.UseVisualStyleBackColor = true;
-            // 
-            // gwDiskDefsFileTB
-            // 
-            this.gwDiskDefsFileTB.Location = new System.Drawing.Point(86, 12);
-            this.gwDiskDefsFileTB.Name = "gwDiskDefsFileTB";
-            this.gwDiskDefsFileTB.Size = new System.Drawing.Size(100, 20);
-            this.gwDiskDefsFileTB.TabIndex = 40;
-            this.gwDiskDefsFileTB.Visible = false;
             // 
             // gwDDfileLBL
             // 
@@ -1655,7 +1645,7 @@
             // 
             // SelectProfilePathBtn
             // 
-            this.SelectProfilePathBtn.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.SelectProfilePathBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.SelectProfilePathBtn.Location = new System.Drawing.Point(645, 107);
             this.SelectProfilePathBtn.Name = "SelectProfilePathBtn";
             this.SelectProfilePathBtn.Size = new System.Drawing.Size(75, 23);
@@ -1666,7 +1656,6 @@
             // 
             // ProfileClearBtn
             // 
-            this.ProfileClearBtn.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.ProfileClearBtn.Location = new System.Drawing.Point(240, 161);
             this.ProfileClearBtn.Name = "ProfileClearBtn";
             this.ProfileClearBtn.Size = new System.Drawing.Size(75, 23);
@@ -1677,7 +1666,6 @@
             // 
             // SaveProfileBtn
             // 
-            this.SaveProfileBtn.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.SaveProfileBtn.Location = new System.Drawing.Point(120, 161);
             this.SaveProfileBtn.Name = "SaveProfileBtn";
             this.SaveProfileBtn.Size = new System.Drawing.Size(114, 23);
@@ -1697,7 +1685,8 @@
             // 
             // ProfileNameTB
             // 
-            this.ProfileNameTB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.ProfileNameTB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.ProfileNameTB.Location = new System.Drawing.Point(77, 135);
             this.ProfileNameTB.Name = "ProfileNameTB";
             this.ProfileNameTB.Size = new System.Drawing.Size(643, 20);
@@ -1715,7 +1704,6 @@
             // 
             // gwProfileSelLBL
             // 
-            this.gwProfileSelLBL.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.gwProfileSelLBL.AutoSize = true;
             this.gwProfileSelLBL.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gwProfileSelLBL.Location = new System.Drawing.Point(35, 82);
@@ -1726,7 +1714,6 @@
             // 
             // OpenProfileBtn
             // 
-            this.OpenProfileBtn.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.OpenProfileBtn.Location = new System.Drawing.Point(39, 161);
             this.OpenProfileBtn.Name = "OpenProfileBtn";
             this.OpenProfileBtn.Size = new System.Drawing.Size(75, 23);
@@ -1737,7 +1724,8 @@
             // 
             // gwProfileFileTB
             // 
-            this.gwProfileFileTB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.gwProfileFileTB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.gwProfileFileTB.Location = new System.Drawing.Point(65, 109);
             this.gwProfileFileTB.Name = "gwProfileFileTB";
             this.gwProfileFileTB.Size = new System.Drawing.Size(585, 20);
@@ -1746,7 +1734,6 @@
             // 
             // gwPathSelectionLBL
             // 
-            this.gwPathSelectionLBL.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.gwPathSelectionLBL.AutoSize = true;
             this.gwPathSelectionLBL.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gwPathSelectionLBL.Location = new System.Drawing.Point(35, 18);
@@ -1757,7 +1744,7 @@
             // 
             // SelectGWPathBtn
             // 
-            this.SelectGWPathBtn.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.SelectGWPathBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.SelectGWPathBtn.Location = new System.Drawing.Point(645, 43);
             this.SelectGWPathBtn.Name = "SelectGWPathBtn";
             this.SelectGWPathBtn.Size = new System.Drawing.Size(75, 23);
@@ -1768,7 +1755,8 @@
             // 
             // gwPathSelectionTB
             // 
-            this.gwPathSelectionTB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.gwPathSelectionTB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.gwPathSelectionTB.Location = new System.Drawing.Point(39, 45);
             this.gwPathSelectionTB.Name = "gwPathSelectionTB";
             this.gwPathSelectionTB.Size = new System.Drawing.Size(611, 20);
@@ -2143,7 +2131,6 @@
         private System.Windows.Forms.Button SaveProfileBtn;
         private System.Windows.Forms.Button SelectProfilePathBtn;
         private System.Windows.Forms.Button ProfileClearBtn;
-        private System.Windows.Forms.TextBox gwDiskDefsFileTB;
         private System.Windows.Forms.Button gwReloadBtn;
     }
 }

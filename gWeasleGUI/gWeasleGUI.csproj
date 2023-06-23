@@ -51,6 +51,9 @@
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -66,7 +69,10 @@
   <ItemGroup>
     <Compile Include="gconfig.cs" />
     <Compile Include="guiLogger.cs" />
+    <Compile Include="gwArgument.cs" />
+    <Compile Include="GwBoolValue.cs" />
     <Compile Include="GwDiskDefs.cs" />
+    <Compile Include="GwDiskDefsValue.cs" />
     <Compile Include="gWeasle.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -79,8 +85,14 @@
     <Compile Include="GwGUIDiskDefs.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="GwIntValue.cs" />
+    <Compile Include="GwPLLValue.cs" />
+    <Compile Include="GwStringValue.cs" />
     <Compile Include="GwTools.cs" />
+    <Compile Include="GwTracksValue.cs" />
+    <Compile Include="IgwArgValue.cs" />
     <Compile Include="iLogger.cs" />
+    <Compile Include="JsonBuilder.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="utilities.cs" />
@@ -100,6 +112,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
