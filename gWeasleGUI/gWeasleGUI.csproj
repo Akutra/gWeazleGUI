@@ -50,10 +50,10 @@
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>BorderDownload.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -67,10 +67,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ProfileDictionary.cs" />
+    <Compile Include="DictionaryExtensions.cs" />
     <Compile Include="gconfig.cs" />
     <Compile Include="guiLogger.cs" />
     <Compile Include="gwArgument.cs" />
     <Compile Include="GwBoolValue.cs" />
+    <Compile Include="gwCommand.cs" />
     <Compile Include="GwDiskDefs.cs" />
     <Compile Include="GwDiskDefsValue.cs" />
     <Compile Include="gWeasle.cs">
@@ -92,7 +95,6 @@
     <Compile Include="GwTracksValue.cs" />
     <Compile Include="IgwArgValue.cs" />
     <Compile Include="iLogger.cs" />
-    <Compile Include="JsonBuilder.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="utilities.cs" />
@@ -143,6 +145,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Grey Options.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="BorderDownload.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

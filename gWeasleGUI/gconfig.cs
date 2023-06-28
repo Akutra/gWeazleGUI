@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
 
-namespace gWeasleGUI
+namespace gWeasleGUI.Config
 {
     public class Gconfig
     {
@@ -14,6 +15,8 @@ namespace gWeasleGUI
         public bool RawFormat { get; set; } = false;
         public string LastDiskDefsCfgFile { get; set; } = string.Empty;
         public bool LastUseDiskDefsCfgFile { get; set; } = true;
+
+        public ProfileDictionary<string, string> profiles = new ProfileDictionary<string, string>();
 
         public Gconfig()
         {

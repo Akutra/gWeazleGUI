@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using System.Xml;
 using static gWeasleGUI.GwTools;
 
 namespace gWeasleGUI
@@ -19,14 +20,6 @@ namespace gWeasleGUI
             public double firmwareVersion = 0;
             public string serial;
             public string usbRate;
-        }
-
-        public class gwCommand
-        {
-            public string name;
-            public string action;
-            public bool time = true;
-            public List<gwArgument> args = new List<gwArgument>();
         }
 
         public double gwHostToolsVersion { get; private set; } = 0;
@@ -257,7 +250,7 @@ namespace gWeasleGUI
                         types.AddRange(parts);
                     }
                 }
-                this.logger.Info($"{types.Count} formats loaded.");
+                //this.logger.Info($"{types.Count} formats loaded.");
 
                 if (!gw_helpCache.ContainsKey(gwaction))
                     gw_helpCache[gwaction] = response;

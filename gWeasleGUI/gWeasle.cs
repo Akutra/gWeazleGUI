@@ -1,9 +1,9 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using gWeasleGUI.Config;
 
 namespace gWeasleGUI
 {
@@ -33,9 +33,6 @@ namespace gWeasleGUI
             ActionStart = () => { this.BusyActionableGUI(); };
             DisplayContentAction = (content) => { this.DisplayContent(content); };
             ActionGwDeviceLoaded = () => { this.GwDeviceLoaded(); };
-
-            //string PLLjson = JsonConvert.SerializeObject(new GwPLLValue());
-            //Console.WriteLine(PLLjson);
         }
 
         private void gWeasleFrm_Load(object sender, EventArgs e)
@@ -50,6 +47,12 @@ namespace gWeasleGUI
             // load persistent config data
             this.ConfigManager = new ConfigLoader(logger, this.ActionStart, this.ActionComplete);
             this.Text = $"{ConfigLoader.AppName} {ConfigLoader.Version} ({ConfigLoader.VersionDetails})";
+
+            // purge missing profiles from config before adding to the interface
+            if(this.ConfigManager.ConfigData.profiles.HasChanged)
+                this.ConfigManager.WriteConfig();
+
+            this.CmdProfileCB.Items.AddRange(this.ConfigManager.ConfigData.profiles.Keys.ToArray());
 
             // initialize gw commandline tools
             this.gw = new GwTools(logger,ConfigManager.ConfigData.GwToolsPath, this.DisplayContentAction, this.ActionComplete, this.ActionStart, this.ActionGwDeviceLoaded);
@@ -298,7 +301,7 @@ namespace gWeasleGUI
         private void ExecuteBtn_Click(object sender, EventArgs e)
         {
             this.ActionStart();
-            GwTools.gwCommand cmd = new GwTools.gwCommand()
+            gwCommand cmd = new gwCommand()
             {
                 time = timeCB.Checked,
                 action = actionCB.Text.Trim().ToLower()
@@ -603,12 +606,80 @@ namespace gWeasleGUI
         {
             this.ActionStart();
 
-            string[] ext = new[] { "Any File|*.*", "eXtensible Markup Language|*.xml" };
-            this.gwProfileFileTB.Text = utilities.GetFilePath("existing", ext, ext.Last(), null);
+            //if (string.IsNullOrEmpty(this.gwProfileFileTB.Text))
+            //{
+                string[] ext = new[] { "Any File|*.*", "eXtensible Markup Language|*.xml" };
+                this.gwProfileFileTB.Text = utilities.GetFilePath("existing", ext, ext.Last(), null);
+            //}
 
-            // TODO: Load profile
+            LoadProfile(this.gwProfileFileTB.Text);
 
             this.ActionComplete();
+        }
+
+        private bool LoadProfile(string fileName)
+        {
+            gwCommand cmdProfile = new gwCommand();
+            if (File.Exists(fileName))
+            {
+                cmdProfile = utilities.DeserializeProfile(fileName, logger);
+                if (cmdProfile is null) { return false; }
+            }
+            else
+            {
+                logger.Info($"Unable to load profile because the file does not exist {fileName}");
+                return false;
+            }
+
+            if (!SetAction(cmdProfile.action))
+                logger.Info($"Warning: unable to set action to: '{cmdProfile.action}'");
+
+            timeCB.Checked = cmdProfile.time;
+            ProfileNameTB.Text = cmdProfile.name;
+
+
+            // load the attribnutes
+            foreach (gwArgument arg in cmdProfile.args)
+            {
+                // Disk Defs can determine if the specified format is available so process it before the format attribute
+                if (arg.Key.Equals("--diskdefs", StringComparison.OrdinalIgnoreCase))
+                {
+                    this.GwDiskDefsFile = string.Empty;
+                    if (File.Exists(arg.Value.ToString()))
+                    {
+                        this.GwDiskDefsFile = arg.Value.ToString();
+                        gwUseDiskDefFileCB.Checked = cmdProfile.useDiskDefs;
+                        LoadDD();
+                    }
+                    continue;
+                }
+                // positional unhandled arguments
+                if (arg.Key.Equals(NewFileArgName)) { this.GwNewFile = arg.Value.ToString(); continue; }
+                if (arg.Key.Equals(ExistingFileArgName)) { this.GwExistingFile = arg.Value.ToString(); continue; }
+                if (arg.Key.Equals(CylindersArgName)) { gwCylTB.Text = arg.Value.ToString(); continue; }
+
+                utilities.ArgPopulate(arg, GetValueFields(arg.Key));
+            }
+
+            ProcessAction();
+
+            if (UpdateProfile(cmdProfile.name, fileName))
+                this.ConfigManager.WriteConfig();
+
+            return true;
+        }
+
+        private bool SetAction(string action)
+        {
+            if (actionCB.Items.Contains(action))
+            {
+                actionCB.SelectedItem = action;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         private void gwUseDiskDefFileCB_CheckedChanged(object sender, EventArgs e)
@@ -626,8 +697,9 @@ namespace gWeasleGUI
         {
             this.ActionStart();
 
-            string[] ext = new[] { "Any File|*.*", "JSON|*.json" };
+            string[] ext = new[] { "Any File|*.*", "eXtensible Markup Language|*.xml" };
             this.gwProfileFileTB.Text = utilities.GetFilePath("select", ext, ext.Last(), null);
+            this.gwProfileFileTB.ValidationFailure = true;
 
             this.ActionComplete();
         }
@@ -641,34 +713,69 @@ namespace gWeasleGUI
             this.gwProfileFileTB.ValidationFailure = false;
 
             this.ActionStart();
-            GwTools.gwCommand cmd = new GwTools.gwCommand()
+            gwCommand cmd = new gwCommand()
             {
                 name = ProfileNameTB.Text,
                 time = timeCB.Checked,
-                action = actionCB.Text.Trim().ToLower()
+                action = actionCB.Text.Trim().ToLower(),
+                useDiskDefs = gwUseDiskDefFileCB.Checked
             };
-            //List<gwArgument> args = new List<gwArgument>();
 
             // get all the arguments
-            this.PopulateArgs(cmd.args);
+            this.PopulateArgs(cmd.action, cmd.args);
 
             string fileName = gwProfileFileTB.Text.Trim();
-            //cmd.args = args;
-            //GWTab.SelectedTab = actionTab;
+            GWTab.SelectedTab = actionTab;
 
-            this.logger.Info($"Writing action profile to file: {fileName}");
             // store the gw action command
-            utilities.WriteJSON(fileName, cmd, this.logger);
-            this.logger.Info($"Done writing action profile to file: {fileName}");
+            utilities.SerializeProfile(fileName, cmd, this.logger);
 
+            if(UpdateProfile(cmd.name, fileName))
+                this.ConfigManager.WriteConfig();
+
+            this.gwProfileFileTB.ValidationFailure = false;
             this.ActionComplete();
+        }
+
+        private bool UpdateProfile(string key, string value)
+        {
+            if (File.Exists(value))
+            {
+                if (this.ConfigManager.ConfigData.profiles.ContainsKey(key) && 
+                    this.ConfigManager.ConfigData.profiles[key] !=value)
+                {
+                    this.ConfigManager.ConfigData.profiles[key] = value;
+                    return true;
+                }
+
+                if (!this.ConfigManager.ConfigData.profiles.ContainsKey(key))
+                {
+                    // If the user changed the name, there will be a duplicate with the same file, but a different name.
+                    List<string> dups = this.ConfigManager.ConfigData.profiles.Where(p => p.Value == value).Select(p => p.Key).ToList();
+                    foreach (string dup in dups)
+                    {
+                        this.ConfigManager.ConfigData.profiles.Remove(dup);
+                        if (CmdProfileCB.Items.Contains(dup))
+                            CmdProfileCB.Items.Remove(dup);
+                    }
+
+                    this.ConfigManager.ConfigData.profiles.Add(key, value);
+
+                    if( !CmdProfileCB.Items.Contains(key) )
+                        CmdProfileCB.Items.Add(key);
+
+                    CmdProfileCB.SelectedItem = key;
+                    return true;
+                }
+            }
+            return false;
         }
 
         private void ProfileClearBtn_Click(object sender, EventArgs e)
         {
             gwProfileFileTB.Text = string.Empty;
             ProfileNameTB.Text = string.Empty;
-            CmdProfileCB.Text = string.Empty;
+            CmdProfileCB.SelectedIndex = -1;
         }
 
         private void timeCB_CheckedChanged(object sender, EventArgs e)
@@ -678,6 +785,35 @@ namespace gWeasleGUI
                 ConfigManager.ConfigData.Time = timeCB.Checked;
                 ConfigManager.WriteConfig();
             }
+        }
+
+        private void CmdProfileCB_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.ActionStart();
+
+            if( this.ConfigManager.ConfigData.profiles.ContainsKey(CmdProfileCB.Text) )
+            {
+                this.gwProfileFileTB.Text = this.ConfigManager.ConfigData.profiles[CmdProfileCB.Text];
+                if( !LoadProfile(this.gwProfileFileTB.Text) )
+                {
+                    logger.Info($"Unable to load profile removing it from the selector.");
+                    this.ConfigManager.ConfigData.profiles.Remove(CmdProfileCB.Text);
+                    this.ConfigManager.WriteConfig();
+                    CmdProfileCB.Items.Remove(CmdProfileCB.Text);
+                }
+            }
+
+            this.ActionComplete();
+        }
+
+        private void gwFormatTypeCB_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //if( !string.IsNullOrEmpty(gwFormatTypeCB.Text) &&
+            //    this.ConfigManager.ConfigData.LastFormatType != gwFormatTypeCB.Text)
+            //{
+            //    this.ConfigManager.ConfigData.LastFormatType = gwFormatTypeCB.Text;
+            //    this.ConfigManager.WriteConfig();
+            //}
         }
 
         private void gwReloadBtn_Click(object sender, EventArgs e)

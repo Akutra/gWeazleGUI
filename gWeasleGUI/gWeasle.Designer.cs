@@ -1287,6 +1287,7 @@
             this.gwFormatTypeCB.Name = "gwFormatTypeCB";
             this.gwFormatTypeCB.Size = new System.Drawing.Size(107, 21);
             this.gwFormatTypeCB.TabIndex = 8;
+            this.gwFormatTypeCB.SelectedIndexChanged += new System.EventHandler(this.gwFormatTypeCB_SelectedIndexChanged);
             // 
             // gwFormatTypeLBL
             // 
@@ -1708,9 +1709,9 @@
             this.gwProfileSelLBL.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gwProfileSelLBL.Location = new System.Drawing.Point(35, 82);
             this.gwProfileSelLBL.Name = "gwProfileSelLBL";
-            this.gwProfileSelLBL.Size = new System.Drawing.Size(217, 24);
+            this.gwProfileSelLBL.Size = new System.Drawing.Size(155, 24);
             this.gwProfileSelLBL.TabIndex = 60;
-            this.gwProfileSelLBL.Text = "Path to Command Profile";
+            this.gwProfileSelLBL.Text = "Command Profile";
             // 
             // OpenProfileBtn
             // 
@@ -1911,11 +1912,13 @@
             // 
             this.CmdProfileCB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.CmdProfileCB.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmdProfileCB.FormattingEnabled = true;
             this.CmdProfileCB.Location = new System.Drawing.Point(167, 10);
             this.CmdProfileCB.Name = "CmdProfileCB";
             this.CmdProfileCB.Size = new System.Drawing.Size(602, 21);
             this.CmdProfileCB.TabIndex = 1;
+            this.CmdProfileCB.SelectedIndexChanged += new System.EventHandler(this.CmdProfileCB_SelectedIndexChanged);
             // 
             // gwCmdProfileLBL
             // 

@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.AccessControl;
@@ -11,7 +10,6 @@ namespace gWeasleGUI
 {
     public partial class gWeazleFrm : Form
     {
-        private List<IgwArgValue> ArgValueTypes;
         private Func<templates, IgwArgValue> gwAdditionalArgs;
         private Func<templates, IgwArgValue> gwNewFile, gwExistingFile, gwCylinders;
         private Action<string[]> gwGetFormatTypes;
@@ -35,7 +33,7 @@ namespace gWeasleGUI
             this.GWParaInterface = new Dictionary<string, List<Control>>();
 
             // arguments
-            this.ArgValueTypes = new List<IgwArgValue>() { new GwTracksValue(), new GwPLLValue(), new GwIntValue(), new GwBoolValue(), new GwStringValue() };
+            //this.ArgValueTypes = new List<IgwArgValue>() { new GwTracksValue(), new GwPLLValue(), new GwIntValue(), new GwBoolValue(), new GwStringValue() };
             this.GWParameters.Add("--pll", (t) => {
                 return ArgProcessTemplate(argKey: "--pll", templateType: t);
             });
@@ -66,17 +64,17 @@ namespace gWeasleGUI
                 gwOTTSPECCylLBL, gwOTTSPECHeadsLBL, gwOTTSPECStepLBL, gwOTTSPECOffsetsLBL });
 
             this.GWParameters.Add("--revs", (t) => {
-                return ArgProcessTemplate(argKey: "--revs", templateType: t, parmType: typeof(int));
+                return ArgProcessTemplate(argKey: "--revs", templateType: t, parmType: typeof(GwIntValue));
             });
             this.GWParaInterface.Add("--revs", new List<Control>() {  gwRevsTB, gwRevsLBL });
 
             this.GWParameters.Add("--seek-retries", (t) => {
-                return ArgProcessTemplate(argKey: "--seek-retries", templateType: t, parmType: typeof(int));
+                return ArgProcessTemplate(argKey: "--seek-retries", templateType: t, parmType: typeof(GwIntValue));
             });
             this.GWParaInterface.Add("--seek-retries", new List<Control>() { gwSeekRetriesTB, gwSeekRetriesLBL });
 
             this.GWParameters.Add("--retries", (t) => {
-                return ArgProcessTemplate(argKey: "--retries", templateType: t, def: (int)3, parmType: typeof(int));
+                return ArgProcessTemplate(argKey: "--retries", templateType: t, def: (int)3, parmType: typeof(GwIntValue));
             });
             this.GWParaInterface.Add("--retries", new List<Control>() { gwRetriesTB, gwRetriesLBL });
 
@@ -134,22 +132,22 @@ namespace gWeasleGUI
             this.GWParaInterface.Add("--drive", new List<Control>() { driveTB, driveLBL });
 
             this.GWParameters.Add("--cyls", (t) => {
-                return ArgProcessTemplate(argKey: "--cyls", templateType: t, def: (int)80, parmType: typeof(int));
+                return ArgProcessTemplate(argKey: "--cyls", templateType: t, def: (int)80, parmType: typeof(GwIntValue));
             });
             this.GWParaInterface.Add("--cyls", new List<Control>() { gwCylLBL, gwCylTB });
 
             this.GWParameters.Add("--passes", (t) => {
-                return ArgProcessTemplate(argKey: "--passes", templateType: t, def: (int)3, parmType: typeof(int));
+                return ArgProcessTemplate(argKey: "--passes", templateType: t, def: (int)3, parmType: typeof(GwIntValue));
             });
             this.GWParaInterface.Add("--passes", new List<Control>() { gwPassesLBL, gwPassesTB });
 
             this.GWParameters.Add("--linger", (t) => {
-                return ArgProcessTemplate(argKey: "--linger", templateType: t, def: (int)100, parmType: typeof(int));
+                return ArgProcessTemplate(argKey: "--linger", templateType: t, def: (int)100, parmType: typeof(GwIntValue));
             });
             this.GWParaInterface.Add("--linger", new List<Control>() { gwLingerLBL, gwLingerTB });
 
             this.GWParameters.Add("--nr", (t) => {
-                return ArgProcessTemplate(argKey: "--nr", templateType: t, def: (int)1, parmType: typeof(int));
+                return ArgProcessTemplate(argKey: "--nr", templateType: t, def: (int)1, parmType: typeof(GwIntValue));
             });
             this.GWParaInterface.Add("--nr", new List<Control>() { gwNrLBL, gwNrTB });
 
@@ -162,6 +160,7 @@ namespace gWeasleGUI
             {
                 return ArgProcessTemplate(argKey: AdditionalArgsName, templateType: t, argControls: new List<Control>() { additonalArgsTB });
             };
+            this.GWParaInterface.Add(AdditionalArgsName, new List<Control>() { additonalArgsTB });
 
             // positional arguments
             this.gwNewFile = (t) =>
@@ -174,7 +173,7 @@ namespace gWeasleGUI
             };
             this.gwCylinders = (t) =>
             {
-                return ArgProcessTemplate(argKey: CylindersArgName, templateType: t, argControls: new List<Control>() { gwCylTB }, parmType: typeof(int));
+                return ArgProcessTemplate(argKey: CylindersArgName, templateType: t, argControls: new List<Control>() { gwCylTB }, parmType: typeof(GwIntValue));
             };
 
             // Callback for loading the format types directly from gw into the interface
@@ -183,10 +182,15 @@ namespace gWeasleGUI
             {
                 this.Invoke(new MethodInvoker(delegate
                 {
+                    string existing_selection = string.IsNullOrEmpty(gwFormatTypeCB.Text) ? this.ConfigManager.ConfigData.LastFormatType : gwFormatTypeCB.Text;
+
+                    // available gw format types
+                    gwFormatTypeCB.Items.Clear();
+                    gwFormatTypeCB.Items.Add("default");
                     gwFormatTypeCB.Items.AddRange(t);
-                    if (gwFormatTypeCB.Items.Contains(this.ConfigManager.ConfigData.LastFormatType))
+                    if (gwFormatTypeCB.Items.Contains(existing_selection))
                     {
-                        gwFormatTypeCB.SelectedIndex = gwFormatTypeCB.Items.IndexOf(this.ConfigManager.ConfigData.LastFormatType);
+                        gwFormatTypeCB.SelectedIndex = gwFormatTypeCB.Items.IndexOf(existing_selection);
                     }
                     else
                     {
@@ -236,7 +240,7 @@ namespace gWeasleGUI
             });
         }
 
-        private void PopulateArgs(List<gwArgument> args)
+        private void PopulateArgs(string gwaction, List<gwArgument> args)
         {
             //get all arguments
             foreach (string arg in GWParameters.Keys)
@@ -251,40 +255,21 @@ namespace gWeasleGUI
                     if (this.GWParameters.ContainsKey(arg))
                     {
                         IgwArgValue argValue = this.GWParameters[arg](templates.CmdArg);
-                        //if (!string.IsNullOrEmpty(argValue.ToString()))
-                        //{
-                            args.Add(new gwArgument(arg, argValue));
-                        //} else
-                        //{
-                        //    args.Add(new gwArgument(arg, GWParameters[arg](templates.ObjectType)));
-                        //}
+
+                        // disk defs has no controls, for a complete list we need to intercept it
+                        if (arg.Equals("--diskdefs", StringComparison.OrdinalIgnoreCase) && 
+                            !string.IsNullOrEmpty(this.GwDiskDefsFile) )
+                        {
+                            argValue = new GwStringValue(this.GwDiskDefsFile);
+                        }
+
+                        args.Add(new gwArgument(arg, argValue));
                     }
 
                 }
             }
             //complete the arg list with any additional details specific to the gw action
-            //this.ProcessAction(gwaction, args);
-        }
-
-        /// <summary>
-        /// Factory to instanciate a non-anonymous argument object depending on the kind of argument
-        /// </summary>
-        /// <param name="argKey">gw argument prefix used to determine the type</param>
-        /// <param name="JsonInitialValues">the values to populate it with</param>
-        /// <returns></returns>
-        public IgwArgValue ArgFactory(string argKey, string JsonInitialValues)
-        {
-            // the key that we will use to determine what kind of argument we have
-            string argType = argKey.ToLower();
-
-            // Instansiate a fresh object depending on the argument (i.e. String, PLL, Tracks, DiskDefs, etc.)
-            object ArgToBuild = GWParameters[argType](templates.ObjectType);
-
-            // Populate the object with the desired values
-            JsonConvert.PopulateObject(JsonInitialValues, ArgToBuild);
-
-            // return the freshly created argument object
-            return (IgwArgValue)ArgToBuild;
+            this.ProcessAction(gwaction, args);
         }
 
         enum templates
@@ -324,92 +309,11 @@ namespace gWeasleGUI
             switch (templateType)
             {
                 case templates.CmdArg:
-                    return CmdArgTemplate(argKey, argControls, def, parmType);
-                case templates.ObjectType:
-                    return ObjectTypeTemplate(argKey, def, parmType);
+                    return utilities.CmdArgTemplate(argKey, argControls, def, parmType);
+                //case templates.ObjectType:
+                //    return utilities.ObjectFactory(argKey, def, parmType);
             }
             return null;
-        }
-
-        private IgwArgValue CmdArgTemplate(string argKey, IEnumerable<Control> argControls, object def = null, Type parmType = null)
-        {
-            if(argControls is null)
-            {
-                string value = def is null ? string.Empty : def.ToString();
-                return new GwStringValue(value.Trim());
-            }
-            if( argControls.Count()==1 )
-            {
-                Control input = argControls.First();
-
-                if ((input.GetType() == typeof(ComboBox) || input.GetType() == typeof(TextBox) || input.GetType() == typeof(vTextParam)))// && !string.IsNullOrEmpty(input.Text.Trim()))
-                {
-                    if (parmType == typeof(int))
-                    {
-                        int defInt, intValue;
-                        if (def is int)
-                            defInt = (int)def;
-                        else
-                            int.TryParse(def?.ToString() ?? "0", out defInt);
-
-                        if (int.TryParse(input.Text.Trim(), out intValue))// && intValue != defInt)
-                        {
-                            return new GwIntValue(intValue) { DefValue = defInt };
-                        } else
-                        {
-                            return new GwIntValue() { DefValue = defInt };
-                        }
-                    }
-                    else
-                    {
-                        string defValue = def?.ToString().ToLower() ?? string.Empty;
-                        //if (!string.IsNullOrEmpty(input.Text) && input.Text.Trim().ToLower() != defValue)
-                            return new GwStringValue(input.Text.Trim()) { DefValue = defValue };
-                    }
-                }
-
-                if (input.GetType() == typeof(CheckBox))// && ((CheckBox)input).Checked)
-                {
-                    //return new GwBoolValue(true);
-                    return new GwBoolValue(((CheckBox)input).Checked);
-                }
-            }
-            if( argControls.Count()>1 )
-            {
-                JsonBuilder jsonBuilder = new JsonBuilder();
-
-                IEnumerable<Control> tbControls = argControls.Where(c => (c.GetType() == typeof(TextBox) || c.GetType() == typeof(vTextParam)) && !string.IsNullOrEmpty(c.Text.Trim()) && !string.IsNullOrEmpty(c.Tag?.ToString().Trim()));
-                if (tbControls.Count() > 0) jsonBuilder.AddRange(tbControls.ToDictionary(tk => tk.Tag.ToString().Trim(), tv => tv.Text.Trim()));
-
-                IEnumerable<Control> cbControls = argControls.Where(c => c.GetType() == typeof(CheckBox) && ((CheckBox)c).Checked && c.Tag != null);
-                if (cbControls.Count() > 0) jsonBuilder.AddRange(cbControls.ToDictionary(tk => tk.Tag.ToString().Trim(), tv => "true"));
-
-                // Arg Factory will determine argument class and populate the values
-                IgwArgValue Arg = ArgFactory(argKey, jsonBuilder.ToString());
-
-                // non-populated argument objects always return an empty string
-                //if (!string.IsNullOrEmpty(Arg.ToString()))
-                    return Arg;
-            }
-            return new GwStringValue();
-        }
-
-        private IgwArgValue ObjectTypeTemplate(string argName, object def = null, Type parmType = null)
-        {
-            // Value object template
-            string baseName = parmType?.Name ?? argName;
-            string argKey = $"Gw{baseName.Split('-').Last().Trim('-').ToUpper()}Value";
-
-            // If we have a class specific to this Argument use that
-            foreach(IgwArgValue argType in this.ArgValueTypes)
-            {
-                if( argType.ClassName == argKey)
-                    return (IgwArgValue)argType.NewInstance(def);
-            }
-
-            // all other use string value
-            string defValue = def?.ToString() ?? string.Empty;
-            return new GwStringValue() { DefValue = defValue };
         }
 
         private IEnumerable<Control> GetValueFields(string argKey)
@@ -468,10 +372,7 @@ namespace gWeasleGUI
                 SelectNewFileBtn.Enabled = true;
                 //gwUseDiskDefFileCB.Visible = true;
                 GwFileDisplay.Text = $">> {this.GwNewFile}";
-
-                // available gw format types
-                gwFormatTypeCB.Items.Clear();
-                gwFormatTypeCB.Items.Add("default");
+                gweazleTips.SetToolTip(GwFileDisplay, GwFileDisplay.Text);
 
                 string[] fileDD = GetDiskFormats();
                 if (fileDD != null && fileDD.Count() > 0)
@@ -505,10 +406,7 @@ namespace gWeasleGUI
                 SelectExistingFileBtn.Enabled = true;
                 //gwUseDiskDefFileCB.Visible = true;
                 GwFileDisplay.Text = $"<< {this.GwExistingFile}";
-
-                // available gw format types
-                gwFormatTypeCB.Items.Clear();
-                gwFormatTypeCB.Items.Add("default");
+                gweazleTips.SetToolTip(GwFileDisplay, GwFileDisplay.Text);
 
                 string[] fileDD = GetDiskFormats();
                 if (fileDD != null && fileDD.Count() > 0)
@@ -542,10 +440,7 @@ namespace gWeasleGUI
                 SelectExistingFileBtn.Enabled = true;
                 //gwUseDiskDefFileCB.Visible = true;
                 GwFileDisplay.Text = $"{this.GwExistingFile} >> {this.GwNewFile}";
-
-                // available gw format types
-                gwFormatTypeCB.Items.Clear();
-                gwFormatTypeCB.Items.Add("default");
+                gweazleTips.SetToolTip(GwFileDisplay, GwFileDisplay.Text);
 
                 string[] fileDD = GetDiskFormats();
                 if (fileDD != null && fileDD.Count() > 0)
