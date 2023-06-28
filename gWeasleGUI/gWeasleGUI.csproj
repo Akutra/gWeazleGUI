@@ -50,6 +50,9 @@
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>BorderDownload.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -64,9 +67,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ProfileDictionary.cs" />
+    <Compile Include="DictionaryExtensions.cs" />
     <Compile Include="gconfig.cs" />
     <Compile Include="guiLogger.cs" />
+    <Compile Include="gwArgument.cs" />
+    <Compile Include="GwBoolValue.cs" />
+    <Compile Include="gwCommand.cs" />
     <Compile Include="GwDiskDefs.cs" />
+    <Compile Include="GwDiskDefsValue.cs" />
     <Compile Include="gWeasle.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -79,7 +88,12 @@
     <Compile Include="GwGUIDiskDefs.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="GwIntValue.cs" />
+    <Compile Include="GwPLLValue.cs" />
+    <Compile Include="GwStringValue.cs" />
     <Compile Include="GwTools.cs" />
+    <Compile Include="GwTracksValue.cs" />
+    <Compile Include="IgwArgValue.cs" />
     <Compile Include="iLogger.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -100,6 +114,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -130,6 +145,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Grey Options.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="BorderDownload.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

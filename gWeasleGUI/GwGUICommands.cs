@@ -1,108 +1,179 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Security.Cryptography;
+using System.Text;
 using System.Windows.Forms;
 
 namespace gWeasleGUI
 {
     public partial class gWeazleFrm : Form
     {
-        private Action<List<string>> gwAdditionalArgs;
-        private Action<List<string>> gwNewFile, gwExistingFile, gwCylinders;
+        private Func<templates, IgwArgValue> gwAdditionalArgs;
+        private Func<templates, IgwArgValue> gwNewFile, gwExistingFile, gwCylinders;
         private Action<string[]> gwGetFormatTypes;
 
-        private Dictionary<string, Action<List<string>>> GWParameters;
-        private Dictionary<string, Action> GWParaInterface;
+        private Dictionary<string, Func<templates, IgwArgValue>> GWParameters;
+        private Dictionary<string, List<Control>> GWParaInterface;
 
-        private bool ddCfgFileAvailable = true;
+        // some statics for consistency
+        public static string AdditionalArgsName = "additional-arguments";
+        public static string NewFileArgName = "new-file";
+        public static string ExistingFileArgName = "exisiting-file";
+        public static string CylindersArgName = "cylinders";
+        //private bool ddCfgFileAvailable = true;
 
         /// <summary>
         /// Unified argument handling
         /// </summary>
         private void InitializeArgumentFilters()
         {
-            this.GWParameters = new Dictionary<string, Action<List<string>>>();
-            this.GWParaInterface = new Dictionary<string, Action>();
+            this.GWParameters = new Dictionary<string, Func<templates, IgwArgValue>>();
+            this.GWParaInterface = new Dictionary<string, List<Control>>();
 
             // arguments
-            this.GWParameters.Add("--seek-retries", (al) => {
-                if (!string.IsNullOrEmpty(this.gwSeekRetriesTB.Text.Trim())) { al.Add($"--seek-retries {this.gwSeekRetriesTB.Text.Trim()}"); }
+            //this.ArgValueTypes = new List<IgwArgValue>() { new GwTracksValue(), new GwPLLValue(), new GwIntValue(), new GwBoolValue(), new GwStringValue() };
+            this.GWParameters.Add("--pll", (t) => {
+                return ArgProcessTemplate(argKey: "--pll", templateType: t);
             });
-            this.GWParaInterface.Add("--seek-retries", () => {
-                gwSeekRetriesTB.Enabled = true; gwSeekRetriesLBL.Enabled = true;
+            this.GWParaInterface.Add("--pll", new List<Control>() { gwPLLPeriodTB, gwPLLPhaseTB, gwPLLPeriodLBL, gwPLLPhaseLBL });
+
+            this.GWParameters.Add("--adjust-speed", (t) => {
+                return ArgProcessTemplate(argKey: "--adjust-speed", templateType: t);
             });
-            this.GWParameters.Add("--retries", (al) => {
-                if (!string.IsNullOrEmpty(this.gwRetriesTB.Text.Trim())) { al.Add($"--retries {this.gwRetriesTB.Text.Trim()}"); }
+            this.GWParaInterface.Add("--adjust-speed", new List<Control>() { gwAdjustSpeedTB, gwAdjustSpeedLBL } );
+
+            this.GWParameters.Add("--fake-index", (t) => {
+                return ArgProcessTemplate(argKey: "--fake-index", templateType: t);
             });
-            this.GWParaInterface.Add("--retries", () => {
-                gwRetriesTB.Enabled = true; gwRetriesLBL.Enabled = true;
+            this.GWParaInterface.Add("--fake-index", new List<Control>() { gwFakeIndexTB, gwFakeIndexLBL } );
+
+            this.GWParameters.Add("--tracks", (t) => {
+                return ArgProcessTemplate(argKey: "--tracks", templateType: t);
             });
-            this.GWParameters.Add("--diskdefs", (al) => {
-                if (!string.IsNullOrEmpty(this.GwDiskDefsFile) && this.useDiskDefsFile) { al.Add($"--diskdefs \"{this.GwDiskDefsFile}\""); }
+            this.GWParaInterface.Add("--tracks", new List<Control>() { 
+                gwTSPECCylTB, gwTSPECHeadsTB, gwTSPECStepTB, gwTSPECOffsetsTB, gwTSPECSwapCB,
+                gwTSPECCylLBL, gwTSPECHeadsLBL, gwTSPECStepLBL, gwTSPECOffsetsLBL });
+
+            this.GWParameters.Add("--out-tracks", (t) => {
+                return ArgProcessTemplate(argKey: "--out-tracks", templateType: t);
             });
-            this.GWParaInterface.Add("--diskdefs", () => {
-                this.ddCfgFileAvailable = true;
+            this.GWParaInterface.Add("--out-tracks", new List<Control>() {
+                gwOutTracksLBL, gwOTTSPECCylTB, gwOTTSPECHeadsTB, gwOTTSPECStepTB, gwOTTSPECOffsetsTB, gwOTTSPECSwapCB,
+                gwOTTSPECCylLBL, gwOTTSPECHeadsLBL, gwOTTSPECStepLBL, gwOTTSPECOffsetsLBL });
+
+            this.GWParameters.Add("--revs", (t) => {
+                return ArgProcessTemplate(argKey: "--revs", templateType: t, parmType: typeof(GwIntValue));
             });
-            this.GWParameters.Add("--format", (al) => { 
-                if (gwFormatTypeCB.SelectedItem.ToString().Trim().ToLower().IndexOf("default") == -1) { al.Add($"--format {gwFormatTypeCB.SelectedItem}"); } 
+            this.GWParaInterface.Add("--revs", new List<Control>() {  gwRevsTB, gwRevsLBL });
+
+            this.GWParameters.Add("--seek-retries", (t) => {
+                return ArgProcessTemplate(argKey: "--seek-retries", templateType: t, parmType: typeof(GwIntValue));
             });
-            this.GWParaInterface.Add("--format", () => {
-                gwFormatTypeLBL.Enabled = true; gwFormatTypeCB.Enabled = true;
+            this.GWParaInterface.Add("--seek-retries", new List<Control>() { gwSeekRetriesTB, gwSeekRetriesLBL });
+
+            this.GWParameters.Add("--retries", (t) => {
+                return ArgProcessTemplate(argKey: "--retries", templateType: t, def: (int)3, parmType: typeof(GwIntValue));
             });
-            this.GWParameters.Add("--raw", (al) => { 
-                if (gwRawCB.Checked) { al.Add($"--raw"); } 
+            this.GWParaInterface.Add("--retries", new List<Control>() { gwRetriesTB, gwRetriesLBL });
+
+            this.GWParameters.Add("--diskdefs", (t) => {
+                if (this.gwUseDiskDefFileCB.Checked && gwFormatTypeCB.Text.Trim().ToLower() != "default")
+                    return ArgProcessTemplate(argKey: "--diskdefs", templateType: t, argControls: null, def: this.GwDiskDefsFile.Trim());
+
+                return new GwStringValue();
             });
-            this.GWParaInterface.Add("--raw", () => {
-                gwRawCB.Enabled = true;
+            this.GWParaInterface.Add("--diskdefs", new List<Control>() ); // , gwUseDiskDefFileCB ddCfgFileAvailable = true;
+
+            this.GWParameters.Add("--format", (t) => {
+                return ArgProcessTemplate(argKey: "--format", templateType: t, def: "default");
             });
-            this.GWParameters.Add("--erase-empty", (al) => { 
-                if (gwEraseBlankCB.Checked) { al.Add("--erase-empty"); } 
+            this.GWParaInterface.Add("--format", new List<Control>() { gwFormatTypeLBL, gwFormatTypeCB });
+
+            this.GWParameters.Add("--hfreq", (t) => {
+                return ArgProcessTemplate(argKey: "--hfreq", templateType: t);
             });
-            this.GWParaInterface.Add("--erase-empty", () => {
-                gwEraseBlankCB.Enabled = true;
+            this.GWParaInterface.Add("--hfreq", new List<Control>() { gwHFreqCB });
+
+            this.GWParameters.Add("--raw", (t) => {
+                return ArgProcessTemplate(argKey: "--raw", templateType: t);
             });
-            this.GWParameters.Add("--no-verify", (al) => { 
-                if (gwNoVerifyCB.Checked) { al.Add("--no-verify"); } 
+            this.GWParaInterface.Add("--raw", new List<Control>() { gwRawCB });
+
+            this.GWParameters.Add("--erase-empty", (t) => {
+                return ArgProcessTemplate(argKey: "--erase-empty", templateType: t);
             });
-            this.GWParaInterface.Add("--no-verify", () => {
-                gwNoVerifyCB.Enabled = true;
+            this.GWParaInterface.Add("--erase-empty", new List<Control>() { gwEraseBlankCB });
+
+            this.GWParameters.Add("--pre-erase", (t) => {
+                return ArgProcessTemplate(argKey: "--pre-erase", templateType: t);
             });
-            this.GWParameters.Add("--drive", (al) => { 
-                if (!string.IsNullOrEmpty(driveTB.Text.Trim()) && driveTB.Text.Trim().ToLower() != "a") { al.Add($"--drive {driveTB.Text.Trim()}"); } 
+            this.GWParaInterface.Add("--pre-erase", new List<Control>() { gwPreEraseCB });
+
+            this.GWParameters.Add("--no-verify", (t) => {
+                return ArgProcessTemplate(argKey: "--format", templateType: t);
             });
-            this.GWParaInterface.Add("--drive", () => {
-                driveTB.Enabled = true; driveLBL.Enabled = true;
+            this.GWParaInterface.Add("--no-verify", new List<Control>() { gwNoVerifyCB });
+
+            this.GWParameters.Add("--motor-on", (t) => {
+                return ArgProcessTemplate(argKey: "--motor-on", templateType: t);
             });
-            this.GWParameters.Add("--cyls", (al) => {
-                int cyl = 0; if(!string.IsNullOrEmpty(gwCylTB.Text.Trim()) && int.TryParse(gwCylTB.Text.Trim(), out cyl)) { al.Add($"--cyls {cyl}"); }
+            this.GWParaInterface.Add("--motor-on", new List<Control>() { gwMotorOnCB });
+
+            this.GWParameters.Add("--force", (t) => {
+                return ArgProcessTemplate(argKey: "--force", templateType: t);
             });
-            this.GWParaInterface.Add("--cyls", () => {
-                gwCylLBL.Enabled = true; gwCylTB.Enabled = true;
+            this.GWParaInterface.Add("--force", new List<Control>() { gwForceCB });
+
+            this.GWParameters.Add("--drive", (t) => {
+                return ArgProcessTemplate(argKey: "--drive", templateType: t, def: "a");
             });
-            this.GWParameters.Add("--file", (al) => {
-                if (!string.IsNullOrEmpty(this.GwExistingFile)) { al.Add($"--file \"{this.GwExistingFile}\""); }
+            this.GWParaInterface.Add("--drive", new List<Control>() { driveTB, driveLBL });
+
+            this.GWParameters.Add("--cyls", (t) => {
+                return ArgProcessTemplate(argKey: "--cyls", templateType: t, def: (int)80, parmType: typeof(GwIntValue));
             });
-            this.GWParaInterface.Add("--file", () => {
-                SelectExistingFileBtn.Enabled = true;
+            this.GWParaInterface.Add("--cyls", new List<Control>() { gwCylLBL, gwCylTB });
+
+            this.GWParameters.Add("--passes", (t) => {
+                return ArgProcessTemplate(argKey: "--passes", templateType: t, def: (int)3, parmType: typeof(GwIntValue));
             });
-            this.gwAdditionalArgs = (al) => {
-                if (!string.IsNullOrEmpty(additonalArgsTB.Text.Trim())) { al.Add(additonalArgsTB.Text.Trim()); }
+            this.GWParaInterface.Add("--passes", new List<Control>() { gwPassesLBL, gwPassesTB });
+
+            this.GWParameters.Add("--linger", (t) => {
+                return ArgProcessTemplate(argKey: "--linger", templateType: t, def: (int)100, parmType: typeof(GwIntValue));
+            });
+            this.GWParaInterface.Add("--linger", new List<Control>() { gwLingerLBL, gwLingerTB });
+
+            this.GWParameters.Add("--nr", (t) => {
+                return ArgProcessTemplate(argKey: "--nr", templateType: t, def: (int)1, parmType: typeof(GwIntValue));
+            });
+            this.GWParaInterface.Add("--nr", new List<Control>() { gwNrLBL, gwNrTB });
+
+            this.GWParameters.Add("--file", (t) => {
+                return ArgProcessTemplate(argKey: "--file", templateType: t, argControls: null, def: this.GwExistingFile.Trim());
+            });
+            this.GWParaInterface.Add("--file", new List<Control>() { SelectExistingFileBtn });
+
+            this.gwAdditionalArgs = (t) =>
+            {
+                return ArgProcessTemplate(argKey: AdditionalArgsName, templateType: t, argControls: new List<Control>() { additonalArgsTB });
             };
+            this.GWParaInterface.Add(AdditionalArgsName, new List<Control>() { additonalArgsTB });
 
             // positional arguments
-            this.gwNewFile = (al) =>
+            this.gwNewFile = (t) =>
             {
-                if(!string.IsNullOrEmpty(this.GwNewFile.Trim())) { al.Add($"\"{this.GwNewFile.Trim()}\""); }
+                return ArgProcessTemplate(argKey: NewFileArgName, templateType: t, argControls: null, def: this.GwNewFile.Trim());
             };
-            this.gwExistingFile = (al) =>
+            this.gwExistingFile = (t) =>
             {
-                if (!string.IsNullOrEmpty(this.GwExistingFile.Trim())) { al.Add($"\"{this.GwExistingFile.Trim()}\""); }
+                return ArgProcessTemplate(argKey: ExistingFileArgName, templateType: t, argControls: null, def: this.GwExistingFile.Trim());
             };
-            this.gwCylinders = (al) =>
+            this.gwCylinders = (t) =>
             {
-                int cyl = 0;
-                if (!string.IsNullOrEmpty(gwCylTB.Text.Trim()) && int.TryParse(gwCylTB.Text.Trim(), out cyl)) { al.Add($"{cyl}"); }
+                return ArgProcessTemplate(argKey: CylindersArgName, templateType: t, argControls: new List<Control>() { gwCylTB }, parmType: typeof(GwIntValue));
             };
 
             // Callback for loading the format types directly from gw into the interface
@@ -111,10 +182,15 @@ namespace gWeasleGUI
             {
                 this.Invoke(new MethodInvoker(delegate
                 {
+                    string existing_selection = string.IsNullOrEmpty(gwFormatTypeCB.Text) ? this.ConfigManager.ConfigData.LastFormatType : gwFormatTypeCB.Text;
+
+                    // available gw format types
+                    gwFormatTypeCB.Items.Clear();
+                    gwFormatTypeCB.Items.Add("default");
                     gwFormatTypeCB.Items.AddRange(t);
-                    if (gwFormatTypeCB.Items.Contains(this.ConfigManager.ConfigData.LastFormatType))
+                    if (gwFormatTypeCB.Items.Contains(existing_selection))
                     {
-                        gwFormatTypeCB.SelectedIndex = gwFormatTypeCB.Items.IndexOf(this.ConfigManager.ConfigData.LastFormatType);
+                        gwFormatTypeCB.SelectedIndex = gwFormatTypeCB.Items.IndexOf(existing_selection);
                     }
                     else
                     {
@@ -124,7 +200,7 @@ namespace gWeasleGUI
             };
         }
 
-        private void PopulateArgs(string gwaction, List<string> args, Action ArgsComplete)
+        private void PopulateArgs(string gwaction, List<gwArgument> args, Action ArgsComplete)
         {
             this.gw.GetActionHelp(gwaction, (response) =>
             {
@@ -132,8 +208,9 @@ namespace gWeasleGUI
                 {
                     List<string> available = utilities.ExtractGroup("optional arguments:", response);
 
-                    if (args is null)
-                        this.ddCfgFileAvailable = false; // fix for older versions when --diskdefs is not available
+                    // fix for older versions when --diskdefs is not available
+                    if (args is null && available.Where(p => p.Trim().ToLower().StartsWith("--diskdefs")).Count()>0)
+                        this.gwUseDiskDefFileCB.Visible = true;
 
                     // get argument list directly from gw tools
                     foreach (string arg in available)
@@ -142,12 +219,17 @@ namespace gWeasleGUI
                         if(args is null)
                         {
                             if (this.GWParaInterface.ContainsKey(sanitizedArg))
-                                this.GWParaInterface[sanitizedArg]();
+                                this.ArgVisibility(sanitizedArg, true);
                         }
                         else
                         {
                             if (this.GWParameters.ContainsKey(sanitizedArg))
-                                this.GWParameters[sanitizedArg](args);
+                            {
+                                IgwArgValue argValue = this.GWParameters[sanitizedArg](templates.CmdArg);
+                                if (!string.IsNullOrEmpty(argValue.ToString()))
+                                    args.Add(new gwArgument(sanitizedArg,argValue));
+                            }
+                                
                         }
                     }
                     // complete the arg list with any additional details specific to the gw action
@@ -158,11 +240,113 @@ namespace gWeasleGUI
             });
         }
 
+        private void PopulateArgs(string gwaction, List<gwArgument> args)
+        {
+            //get all arguments
+            foreach (string arg in GWParameters.Keys)
+            {
+                if (args is null)
+                {
+                    if (this.GWParaInterface.ContainsKey(arg))
+                        this.ArgVisibility(arg, true);
+                }
+                else
+                {
+                    if (this.GWParameters.ContainsKey(arg))
+                    {
+                        IgwArgValue argValue = this.GWParameters[arg](templates.CmdArg);
+
+                        // disk defs has no controls, for a complete list we need to intercept it
+                        if (arg.Equals("--diskdefs", StringComparison.OrdinalIgnoreCase) && 
+                            !string.IsNullOrEmpty(this.GwDiskDefsFile) )
+                        {
+                            argValue = new GwStringValue(this.GwDiskDefsFile);
+                        }
+
+                        args.Add(new gwArgument(arg, argValue));
+                    }
+
+                }
+            }
+            //complete the arg list with any additional details specific to the gw action
+            this.ProcessAction(gwaction, args);
+        }
+
+        enum templates
+        {
+            CmdArg,
+            ObjectType
+        }
+
+        /// <summary>
+        /// Argument processing via a template using the built in control list
+        /// - the argkey will determine the control list
+        /// </summary>
+        /// <param name="argKey"></param>
+        /// <param name="templateType"></param>
+        /// <param name="def"></param>
+        /// <param name="parmType"></param>
+        /// <returns></returns>
+        private IgwArgValue ArgProcessTemplate(string argKey, templates templateType, object def = null, Type parmType = null)
+        {
+            IEnumerable<Control> argControls = GetValueFields(argKey);
+            return ArgProcessTemplate(argKey, templateType, argControls, def, parmType);
+        }
+
+        /// <summary>
+        /// Argument processing via a template using the provided control list
+        /// - the control list is used to populate the values with the content of the System.Windows.Forms.Controls
+        /// - a null control list will populate it with the default value
+        /// </summary>
+        /// <param name="argKey">key to determine argument type</param>
+        /// <param name="templateType">template action</param>
+        /// <param name="argControls">control list for argument content</param>
+        /// <param name="def">default value</param>
+        /// <param name="parmType">optional addtional parameter details (i.e. int, string)</param>
+        /// <returns></returns>
+        private IgwArgValue ArgProcessTemplate(string argKey, templates templateType, IEnumerable<Control>  argControls, object def = null, Type parmType = null)
+        {
+            switch (templateType)
+            {
+                case templates.CmdArg:
+                    return utilities.CmdArgTemplate(argKey, argControls, def, parmType);
+                //case templates.ObjectType:
+                //    return utilities.ObjectFactory(argKey, def, parmType);
+            }
+            return null;
+        }
+
+        private IEnumerable<Control> GetValueFields(string argKey)
+        {
+            List<Control> controls = GWParaInterface[argKey] ?? new List<Control>();
+            IEnumerable<Control> rt = controls.Where(c => c.GetType() == typeof(vTextParam) || c.GetType() == typeof(TextBox) || c.GetType() == typeof(CheckBox) || c.GetType() == typeof(ComboBox));
+            return rt;
+        }
+
+        public void ArgVisibility(string argKey, bool visible)
+        {
+            List<Control> controls = GWParaInterface[argKey];
+            foreach (Control control in controls)
+            {
+                if (control != null)
+                {
+                    control.Visible = visible;
+                }
+            }
+        }
+
+        private void AddToArgs(string ArgName, List<gwArgument> args, Func<templates, IgwArgValue> argFunc, bool positional = false)
+        {
+            IgwArgValue addargs = argFunc(templates.CmdArg);
+            if (!string.IsNullOrEmpty(addargs?.ToString()))
+                args.Add(new gwArgument(ArgName, addargs, positional));
+        }
+
         /// <summary>
         /// gw info
         /// </summary>
         /// <param name="args">optional argument list to populate</param>
-        private void GwGUI_Info(List<string> args = null)
+        private void GwGUI_Info(List<gwArgument> args = null)
         {
             if (args is null)
             {
@@ -171,7 +355,7 @@ namespace gWeasleGUI
             } else
             {
                 // options
-                gwAdditionalArgs(args);
+                AddToArgs(AdditionalArgsName, args, gwAdditionalArgs);
             }
         }
 
@@ -180,17 +364,15 @@ namespace gWeasleGUI
         /// TODO: gui access to additional args
         /// </summary>
         /// <param name="args">optional argument list to populate</param>
-        private void GwGUI_Read(List<string> args = null)
+        private void GwGUI_Read(List<gwArgument> args = null)
         {
             if (args is null)
             {
                 // interface
                 SelectNewFileBtn.Enabled = true;
+                //gwUseDiskDefFileCB.Visible = true;
                 GwFileDisplay.Text = $">> {this.GwNewFile}";
-
-                // available gw format types
-                gwFormatTypeCB.Items.Clear();
-                gwFormatTypeCB.Items.Add("default");
+                gweazleTips.SetToolTip(GwFileDisplay, GwFileDisplay.Text);
 
                 string[] fileDD = GetDiskFormats();
                 if (fileDD != null && fileDD.Count() > 0)
@@ -201,10 +383,10 @@ namespace gWeasleGUI
             } else
             {
                 // options
-                gwAdditionalArgs(args);
+                AddToArgs(AdditionalArgsName, args, gwAdditionalArgs);
 
                 // File is positional so it must come after the options
-                gwNewFile(args);
+                AddToArgs(NewFileArgName, args, gwNewFile, true);
 
                 // update config file for options that persist
                 UpdateFormatConfig();
@@ -216,17 +398,15 @@ namespace gWeasleGUI
         /// TODO: gui access to additional args
         /// </summary>
         /// <param name="args">optional argument list to populate</param>
-        private void GwGUI_Write(List<string> args = null)
+        private void GwGUI_Write(List<gwArgument> args = null)
         {
             if (args is null)
             {
                 // interface
                 SelectExistingFileBtn.Enabled = true;
+                //gwUseDiskDefFileCB.Visible = true;
                 GwFileDisplay.Text = $"<< {this.GwExistingFile}";
-
-                // available gw format types
-                gwFormatTypeCB.Items.Clear();
-                gwFormatTypeCB.Items.Add("default");
+                gweazleTips.SetToolTip(GwFileDisplay, GwFileDisplay.Text);
 
                 string[] fileDD = GetDiskFormats();
                 if (fileDD != null && fileDD.Count() > 0)
@@ -237,10 +417,10 @@ namespace gWeasleGUI
             } else
             {
                 // options
-                gwAdditionalArgs(args);
+                AddToArgs(AdditionalArgsName, args, gwAdditionalArgs);
 
                 // File is positional so it must come after the options
-                gwExistingFile(args);
+                AddToArgs(ExistingFileArgName, args, gwExistingFile, true);
 
                 // update config file for options that persist
                 UpdateFormatConfig();
@@ -249,21 +429,18 @@ namespace gWeasleGUI
 
         /// <summary>
         /// gw convert
-        /// TODO: gui access to additional args
         /// </summary>
         /// <param name="args">optional argument list to populate</param>
-        private void GwGUI_Convert(List<string> args)
+        private void GwGUI_Convert(List<gwArgument> args = null)
         {
             if (args is null)
             {
                 // interface
                 SelectNewFileBtn.Enabled = true;
                 SelectExistingFileBtn.Enabled = true;
+                //gwUseDiskDefFileCB.Visible = true;
                 GwFileDisplay.Text = $"{this.GwExistingFile} >> {this.GwNewFile}";
-
-                // available gw format types
-                gwFormatTypeCB.Items.Clear();
-                gwFormatTypeCB.Items.Add("default");
+                gweazleTips.SetToolTip(GwFileDisplay, GwFileDisplay.Text);
 
                 string[] fileDD = GetDiskFormats();
                 if (fileDD != null && fileDD.Count() > 0)
@@ -275,11 +452,11 @@ namespace gWeasleGUI
             else
             {
                 // options
-                gwAdditionalArgs(args);
+                AddToArgs(AdditionalArgsName, args, gwAdditionalArgs);
 
                 // File is positional so it must come after the options
-                gwExistingFile(args);
-                gwNewFile(args);
+                AddToArgs(ExistingFileArgName, args, gwExistingFile, true);
+                AddToArgs(NewFileArgName, args, gwNewFile, true);
 
                 // update config file for options that persist
                 UpdateFormatConfig();
@@ -290,7 +467,7 @@ namespace gWeasleGUI
         /// gw erase
         /// </summary>
         /// <param name="args">optional argument list to populate</param>
-        private void GwGUI_Erase(List<string> args)
+        private void GwGUI_Erase(List<gwArgument> args = null)
         {
             if (args is null)
             {
@@ -299,7 +476,7 @@ namespace gWeasleGUI
             else
             {
                 // options
-                gwAdditionalArgs(args);
+                AddToArgs(AdditionalArgsName, args, gwAdditionalArgs);
             }
         }
 
@@ -307,7 +484,7 @@ namespace gWeasleGUI
         /// gw clean
         /// </summary>
         /// <param name="args">optional argument list to populate</param>
-        private void GwGUI_Clean(List<string> args)
+        private void GwGUI_Clean(List<gwArgument> args = null)
         {
             if (args is null)
             {
@@ -316,7 +493,7 @@ namespace gWeasleGUI
             else
             {
                 // options
-                gwAdditionalArgs(args);
+                AddToArgs(AdditionalArgsName, args, gwAdditionalArgs);
             }
         }
 
@@ -324,19 +501,22 @@ namespace gWeasleGUI
         /// gw seek
         /// </summary>
         /// <param name="args">optional argument list to populate</param>
-        private void GwGUI_Seek(List<string> args)
+        private void GwGUI_Seek(List<gwArgument> args = null)
         {
             if (args is null)
             {
                 // interface
+                // positional argument is not handled by auto parms
+                gwCylLBL.Visible = true;
+                gwCylTB.Visible = true;
             }
             else
             {
                 // options
-                gwAdditionalArgs(args);
+                AddToArgs(AdditionalArgsName, args, gwAdditionalArgs);
 
                 // positional arguments
-                gwCylinders(args);
+                AddToArgs(CylindersArgName, args, gwCylinders, true);
             }
         }
 
@@ -344,7 +524,7 @@ namespace gWeasleGUI
         /// gw delays
         /// </summary>
         /// <param name="args">optional argument list to populate</param>
-        private void GwGUI_Delays(List<string> args)
+        private void GwGUI_Delays(List<gwArgument> args = null)
         {
             if (args is null)
             {
@@ -353,7 +533,7 @@ namespace gWeasleGUI
             else
             {
                 // options
-                gwAdditionalArgs(args);
+                AddToArgs(AdditionalArgsName, args, gwAdditionalArgs);
             }
         }
 
@@ -361,17 +541,18 @@ namespace gWeasleGUI
         /// gw update
         /// </summary>
         /// <param name="args">optional argument list to populate</param>
-        private void GwGUI_Update(List<string> args)
+        private void GwGUI_Update(List<gwArgument> args = null)
         {
             if (args is null)
             {
                 // interface
                 GwFileDisplay.Text = $"<< {this.GwExistingFile}";
+                SelectExistingFileBtn.Enabled = true;
             }
             else
             {
                 // options
-                gwAdditionalArgs(args);
+                AddToArgs(AdditionalArgsName, args, gwAdditionalArgs);
             }
         }
 
@@ -381,7 +562,7 @@ namespace gWeasleGUI
         /// - currently requires manual input into additional args
         /// </summary>
         /// <param name="args">optional argument list to populate</param>
-        private void GwGUI_Pin(List<string> args)
+        private void GwGUI_Pin(List<gwArgument> args = null)
         {
             if (args is null)
             {
@@ -390,7 +571,7 @@ namespace gWeasleGUI
             else
             {
                 // options
-                gwAdditionalArgs(args);
+                AddToArgs(AdditionalArgsName, args, gwAdditionalArgs);
             }
         }
 
@@ -398,7 +579,7 @@ namespace gWeasleGUI
         /// gw reset
         /// </summary>
         /// <param name="args">optional argument list to populate</param>
-        private void GwGUI_Reset(List<string> args)
+        private void GwGUI_Reset(List<gwArgument> args = null)
         {
             if (args is null)
             {
@@ -407,7 +588,7 @@ namespace gWeasleGUI
             else
             {
                 // options
-                gwAdditionalArgs(args);
+                AddToArgs(AdditionalArgsName, args, gwAdditionalArgs);
             }
         }
 
@@ -415,7 +596,7 @@ namespace gWeasleGUI
         /// gw bandwidth
         /// </summary>
         /// <param name="args">optional argument list to populate</param>
-        private void GwGUI_Bandwidth(List<string> args)
+        private void GwGUI_Bandwidth(List<gwArgument> args = null)
         {
             if (args is null)
             {
@@ -424,7 +605,7 @@ namespace gWeasleGUI
             else
             {
                 // options
-                gwAdditionalArgs(args);
+                AddToArgs(AdditionalArgsName, args, gwAdditionalArgs);
             }
         }
 
@@ -432,7 +613,7 @@ namespace gWeasleGUI
         /// gw rpm
         /// </summary>
         /// <param name="args">optional argument list to populate</param>
-        private void GwGUI_Rpm(List<string> args)
+        private void GwGUI_Rpm(List<gwArgument> args = null)
         {
             if (args is null)
             {
@@ -441,7 +622,7 @@ namespace gWeasleGUI
             else
             {
                 // options
-                gwAdditionalArgs(args);
+                AddToArgs(AdditionalArgsName, args, gwAdditionalArgs);
             }
         }
     }

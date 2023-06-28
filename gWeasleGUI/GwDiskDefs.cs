@@ -11,36 +11,11 @@ namespace gWeasleGUI
 {
     public class GwDiskDefs
     {
-        public class DiskDefinition
-        {
-            public string Name;
-            public string Cylinders;
-            public string Heads;
-            public string step;
-            public TrackDefinition[] Tracks = new TrackDefinition[0];
-
-            public override string ToString()
-            {
-                return Name;
-            }
-        }
-        public class TrackDefinition
-        {
-            public string Tracks;
-            public string Format;
-            public Dictionary<string, string> parameters = new Dictionary<string, string>();
-
-            public override string ToString()
-            {
-                return $"{this.Tracks} {this.Format}";
-            }
-        }
-
         public static string[] trackProps = new[] { "secs", "bps", "iam", "cskew", "hskew", "interleave", "id", "h", "gap1", "gap2", "gap3", "gap4a", "gapbyte", "rate", "rpm", "img_bps", "clock", "format" };
 
         ILogger logger = null;
         Action ActionStart, ActionDone;
-        Dictionary<string, DiskDefinition> DiskDefinitions;
+        Dictionary<string, GwDiskDefsValue> DiskDefinitions;
         bool ddChanged = false;
 
         public GwDiskDefs(ILogger logger, Action WorkStart, Action WorkComplete, string fileName = null) 
@@ -48,11 +23,11 @@ namespace gWeasleGUI
             this.logger = logger;
             this.ActionStart = WorkStart;
             this.ActionDone = WorkComplete;
-            DiskDefinitions = new Dictionary<string, DiskDefinition>();
+            DiskDefinitions = new Dictionary<string, GwDiskDefsValue>();
             if (!string.IsNullOrEmpty(fileName)) { LoadDiskDefs(fileName); }
         }
 
-        public void SetDefinition(DiskDefinition diskDef)
+        public void SetDefinition(GwDiskDefsValue diskDef)
         {
             if (diskDef != null)
             {
@@ -61,7 +36,7 @@ namespace gWeasleGUI
             }
         }
 
-        public DiskDefinition GetDiskDefinition(string name)
+        public GwDiskDefsValue GetDiskDefinition(string name)
         {
             if(DiskDefinitions.ContainsKey(name)) 
                 return DiskDefinitions[name];
@@ -93,9 +68,10 @@ namespace gWeasleGUI
                 using (StreamReader reader = new StreamReader(fileName))
                 {
                     string line, key, current = string.Empty;
-                    DiskDefinition diskDef = null;
+                    GwDiskDefsValue diskDef = null;
                     TrackDefinition trackDef = null;
                     List<TrackDefinition> tracks = new List<TrackDefinition>();
+                    DiskDefinitions.Clear();
 
                     while (reader.Peek() > -1)
                     {
@@ -111,7 +87,7 @@ namespace gWeasleGUI
                         {
                             current = "disk";
                             lastread = "diskdef name";
-                            diskDef = new DiskDefinition();
+                            diskDef = new GwDiskDefsValue();
                             diskDef.Name = line.Split(' ').Skip(1).First();
                             tracks.Clear();
                             continue;
@@ -176,7 +152,7 @@ namespace gWeasleGUI
             }
         }
 
-        public void ParseDDProps(string property, DiskDefinition dd)
+        public void ParseDDProps(string property, GwDiskDefsValue dd)
         {
             string[] parts = property.Split('=');
             if (parts.Length == 2)
@@ -204,7 +180,7 @@ namespace gWeasleGUI
             {
                 using (StreamWriter writer = new StreamWriter(fileName))
                 {
-                    foreach (DiskDefinition diskDef in DiskDefinitions.Values)
+                    foreach (GwDiskDefsValue diskDef in DiskDefinitions.Values)
                     {
                         writer.WriteLine($"disk {diskDef.Name}");
                         writer.WriteLine($"    cyls = {diskDef.Cylinders}");
