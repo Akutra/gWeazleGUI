@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Ports;
 using System.Linq;
+using System.Management;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using System.Xml;
-using static gWeasleGUI.GwTools;
 
 namespace gWeasleGUI
 {
@@ -22,12 +22,26 @@ namespace gWeasleGUI
             public string usbRate;
         }
 
+        public class serialport
+        {
+            public string port;
+            public string name;
+            public string description;
+
+            public override string ToString()
+            {
+                return $"{this.description} ({this.port} {this.name})";
+            }
+        }
+
         public double gwHostToolsVersion { get; private set; } = 0;
         public gwdevice currentDevice { get; private set; }
         public string gw_exe { get; private set; } = "gw";
         public string GwToolsPath { get; private set; }
         public string LastGetFormatsAction { get; private set; } = string.Empty;
         public string LastGetHelpAction { get; private set; } = string.Empty;
+
+        public Dictionary<string, GW_PnPEntity> SerialPorts { get; private set; }
 
         private ILogger logger;
         private char separator = Path.DirectorySeparatorChar;
@@ -44,7 +58,7 @@ namespace gWeasleGUI
         /// <param name="output">action event used to output to the current display</param>
         /// <param name="doneAction">action event to execute upon completion of commands</param>
         /// <param name="deviceLoaded">action event to execute after the device has loaded</param>
-        public GwTools(ILogger logger, string gwHostToolsPath, Action<string> output, Action doneAction, Action beginAction, Action deviceLoaded)
+        public GwTools(ILogger logger, string gwHostToolsPath, string port, Action<string> output, Action doneAction, Action beginAction, Action deviceLoaded)
         {
             this.logger = logger;
 
@@ -52,12 +66,13 @@ namespace gWeasleGUI
             {
                 this.gw_exe = "gw.exe";
             }
+            SerialPorts = GetPorts().ToDictionary(k => k.Caption, v => v, StringComparer.OrdinalIgnoreCase);
 
             gw_output = output;
             DoneAction = doneAction;
             StartAction = beginAction;
             DeviceLoaded = deviceLoaded;
-            ReLoadGW(gwHostToolsPath);
+            ReLoadGW(gwHostToolsPath, port);
         }
 
         /// <summary>
@@ -67,12 +82,7 @@ namespace gWeasleGUI
         public void ReLoadGW(string gwHostToolsPath, string port = null)
         {
             this.GwToolsPath = gwHostToolsPath;
-            if( string.IsNullOrEmpty(port?.Trim()) )
-            {
-                LoadGW();
-                return;
-            }
-            LoadGW(port.Trim());
+            LoadGW(port?.Trim());
         }
 
         /// <summary>
@@ -84,7 +94,7 @@ namespace gWeasleGUI
         {
             string cmdArgs, cmdPort = gwport.Trim();
 
-            if(cmdPort != this.currentDevice.port)
+            if (cmdPort != this.currentDevice.port)
             {
                 this.LoadGW(cmdPort, cmd);
                 return;
@@ -94,7 +104,8 @@ namespace gWeasleGUI
             if (!string.IsNullOrEmpty(cmdArgs))
             {
                 ExecuteGWCommand(cmdArgs);
-            } else
+            }
+            else
             {
                 //this.DoneAction();
             }
@@ -109,7 +120,7 @@ namespace gWeasleGUI
         public void LoadGW(string deviceport = null, gwCommand AfterLoad = null)
         {
             string args = "info";
-            if( !string.IsNullOrEmpty(deviceport) ) { args = $"{args} --device {deviceport}"; }
+            if (!string.IsNullOrEmpty(deviceport)) { args = $"{args} --device {deviceport}"; }
 
             ExecuteGWCommand(args, (response) =>
             {
@@ -118,7 +129,7 @@ namespace gWeasleGUI
                 StringReader input = new StringReader(response);
                 string[] parameter;
 
-                while (input.Peek()>-1)
+                while (input.Peek() > -1)
                 {
                     parameter = input.ReadLine().Trim().Split(':');
                     if (parameter.Length == 2 && !string.IsNullOrEmpty(parameter[1]))
@@ -153,7 +164,7 @@ namespace gWeasleGUI
 
                 // Events after initialize
                 this.DeviceLoaded();
-                if(AfterLoad != null && !string.IsNullOrEmpty(this.currentDevice.port))
+                if (AfterLoad != null && !string.IsNullOrEmpty(this.currentDevice.port))
                 {
                     RunGWCommand(AfterLoad, this.currentDevice.port);
                 }
@@ -220,8 +231,8 @@ namespace gWeasleGUI
             // TODO: Until gw provides a way to get this data, hardcode values accepted by gw v1.13
             string[] ext = new[]
             {
-                "A2R|*.a2r", "ADF|*.adf", "ADS|*.ads", "ADM|*.adm", "ADL|*.adl", "D64|*.d64", "D88|*.d81", "D88|*.d88", "DCP|*.dcp", "DIM|*.dim", 
-                "DSD|*.dsd", "DSK|*.dsk", "FDI|*.fdi", "HDM|*.hdm", "HFE|*.hfe", "IMG|*.img;*.ima;*.st", "IMD|*.imd", "IPF|*.ipf", "MGT|*.mgt", 
+                "A2R|*.a2r", "ADF|*.adf", "ADS|*.ads", "ADM|*.adm", "ADL|*.adl", "D64|*.d64", "D88|*.d81", "D88|*.d88", "DCP|*.dcp", "DIM|*.dim",
+                "DSD|*.dsd", "DSK|*.dsk", "FDI|*.fdi", "HDM|*.hdm", "HFE|*.hfe", "IMG|*.img;*.ima;*.st", "IMD|*.imd", "IPF|*.ipf", "MGT|*.mgt",
                 "MSA|*.msa", "KryoFlux|*.raw", "SF7|*.sf7", "SCP|*.scp", "SSD|*.ssd", "XDF|*.xdf"
             };
             LoadAcceptedSuffixes(ext);
@@ -259,10 +270,11 @@ namespace gWeasleGUI
                 this.LastGetFormatsAction = gwaction;
             };
 
-            if(gw_helpCache.ContainsKey(gwaction))
+            if (gw_helpCache.ContainsKey(gwaction))
             {
                 processResponse(gw_helpCache[gwaction]);
-            } else
+            }
+            else
             {
                 ExecuteGWCommand(args, processResponse);
                 this.LastGetHelpAction = gwaction;
@@ -304,7 +316,7 @@ namespace gWeasleGUI
                     break;
                 default:
                     // Always allow help
-                    if (extraArgs.IndexOf("--help")>-1 )
+                    if (extraArgs.IndexOf("--help") > -1)
                     {
                         cmdArgs = $"{cmdtime}{cmd.action} {extraArgs}".Trim();
                     }
@@ -413,7 +425,7 @@ namespace gWeasleGUI
                     {
                         this.logger.Error($"Error occured while executing the command {args}", ex);
                         //gw_output($"Error occured while executing the command {args}{Environment.NewLine}Exception: {ex}");
-                        if(errorResponse != null) { errorResponse(ex); }
+                        if (errorResponse != null) { errorResponse(ex); }
                         this.DoneAction();
                     }
                 });
@@ -432,5 +444,198 @@ namespace gWeasleGUI
                 gw_output(outLine.Data);
             }
         }
+
+        public static List<GW_PnPEntity> GetPorts()
+        {
+            List<GW_PnPEntity> devices = new List<GW_PnPEntity>();
+            GW_PnPEntity gW_PnPEntity = null;
+            //string[] ports = SerialPort.GetPortNames();
+
+            try // port data is information purposes and should not crash.
+            {
+                ManagementObjectSearcher queryResult = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM Win32_PnPEntity WHERE PNPClass = 'Ports'");
+                foreach (ManagementObject foundObj in queryResult.Get())
+                {
+                    if (foundObj != null)
+                    {
+                        gW_PnPEntity = new GW_PnPEntity();
+
+                        try
+                        {
+                            gW_PnPEntity.Availability = utilities.SafeChangeType<uint>(foundObj["Availability"], 0);
+                            gW_PnPEntity.Caption = (string)foundObj["Caption"];
+                            gW_PnPEntity.ClassGuid = (string)foundObj["ClassGuid"];
+                            gW_PnPEntity.CompatibleID = (string[])foundObj["CompatibleID"];
+                            gW_PnPEntity.ConfigManagerErrorCode = (uint)foundObj["ConfigManagerErrorCode"];
+                            gW_PnPEntity.ConfigManagerUserConfig = (bool)foundObj["ConfigManagerUserConfig"];
+                            gW_PnPEntity.CreationClassName = (string)foundObj["CreationClassName"];
+                            gW_PnPEntity.Description = (string)foundObj["Description"];
+                            gW_PnPEntity.DeviceID = (string)foundObj["DeviceID"];
+                            gW_PnPEntity.ErrorCleared = utilities.SafeChangeType<bool>(foundObj["ErrorCleared"], true);
+                            gW_PnPEntity.ErrorDescription = (string)foundObj["ErrorDescription"];
+                            gW_PnPEntity.HardwareID = (string[])foundObj["HardwareID"];
+                            gW_PnPEntity.InstallDate = utilities.SafeChangeType<DateTime>(foundObj["InstallDate"]?.ToString(), DateTime.Now).ToString();
+                            gW_PnPEntity.LastErrorCode = utilities.SafeChangeType<uint>(foundObj["LastErrorCode"], 0);
+                            gW_PnPEntity.Manufacturer = (string)foundObj["Manufacturer"];
+                            gW_PnPEntity.Name = (string)foundObj["Name"];
+                            gW_PnPEntity.PNPClass = (string)foundObj["PNPClass"];
+                            gW_PnPEntity.PNPDeviceID = (string)foundObj["PNPDeviceID"];
+                            gW_PnPEntity.PowerManagementCapabilities = (uint[])foundObj["PowerManagementCapabilities"];
+                            gW_PnPEntity.PowerManagementSupported = utilities.SafeChangeType<bool>(foundObj["PowerManagementSupported"], false);
+                            gW_PnPEntity.Present = utilities.SafeChangeType<bool>(foundObj["Present"], false);
+                            gW_PnPEntity.Service = (string)foundObj["Service"];
+                            gW_PnPEntity.Status = (string)foundObj["Status"];
+                            gW_PnPEntity.StatusInfo = utilities.SafeChangeType<uint>(foundObj["StatusInfo"], 0);
+                            gW_PnPEntity.SystemCreationClassName = (string)foundObj["SystemCreationClassName"];
+                            gW_PnPEntity.SystemName = (string)foundObj["SystemName"];
+                            gW_PnPEntity.Bus_Description = Win32Device.GetDeviceBusDescription(new Guid(gW_PnPEntity.ClassGuid));
+                        }
+                        catch
+                        {
+                            // for now just skip it.
+                        }
+
+                        devices.Add(gW_PnPEntity);
+                    }
+                }
+            } catch { }
+
+            return devices;
+        }
+
+        public class GW_PnPEntity
+        {
+            public uint Availability;
+            public string Caption;
+            public string ClassGuid;
+            public string[] CompatibleID;
+            public uint ConfigManagerErrorCode;
+            public bool ConfigManagerUserConfig;
+            public string CreationClassName;
+            public string Description;
+            public string Bus_Description;
+            public string DeviceID;
+            public bool ErrorCleared;
+            public string ErrorDescription;
+            public string[] HardwareID;
+            public string InstallDate;
+            public uint LastErrorCode;
+            public string Manufacturer;
+            public string Name;
+            public string PNPClass;
+            public string PNPDeviceID;
+            public uint[] PowerManagementCapabilities;
+            public bool PowerManagementSupported;
+            public bool Present;
+            public string Service;
+            public string Status;
+            public uint StatusInfo;
+            public string SystemCreationClassName;
+            public string SystemName;
+        };
+
+        public class Win32Device
+        {
+            [Flags]
+            public enum DiGetClassFlags : uint
+            {
+                DIGCF_DEFAULT = 0x00000001,  // only valid with DIGCF_DEVICEINTERFACE
+                DIGCF_PRESENT = 0x00000002,
+                DIGCF_ALLCLASSES = 0x00000004,
+                DIGCF_PROFILE = 0x00000008,
+                DIGCF_DEVICEINTERFACE = 0x00000010,
+            }
+
+            /// <summary>
+            /// The SP_DEVINFO_DATA structure defines a device instance that is a member of a device information set.
+            /// </summary>
+            [StructLayout(LayoutKind.Sequential)]
+            private struct SP_DEVINFO_DATA
+            {
+                public UInt32 cbSize;
+                public Guid ClassGuid;
+                public UInt32 DevInst;
+                public UIntPtr Reserved;
+            };
+
+            [StructLayout(LayoutKind.Sequential)]
+            struct DEVPROPKEY
+            {
+                public Guid fmtid;
+                public UInt32 pid;
+            }
+
+            [DllImport("setupapi.dll")]
+            private static extern Int32 SetupDiDestroyDeviceInfoList(IntPtr DeviceInfoSet);
+
+            [DllImport("setupapi.dll", SetLastError = true)]
+            private static extern bool SetupDiEnumDeviceInfo(IntPtr DeviceInfoSet, UInt32 MemberIndex, ref SP_DEVINFO_DATA DeviceInterfaceData);
+
+            [DllImport("setupapi.dll", SetLastError = true)]
+            private static extern IntPtr SetupDiGetClassDevs(ref Guid gClass, UInt32 iEnumerator, UInt32 hParent, DiGetClassFlags nFlags);
+
+            //[DllImport("kernel32.dll")]
+            //private static extern Int32 GetLastError();
+
+            const int BUFFER_SIZE = 1024;
+
+            [DllImport("setupapi.dll", SetLastError = true)]
+            static extern bool SetupDiGetDevicePropertyW(
+                IntPtr deviceInfoSet,
+                [In] ref SP_DEVINFO_DATA DeviceInfoData,
+                [In] ref DEVPROPKEY propertyKey,
+                [Out] out UInt32 propertyType,
+                byte[] propertyBuffer,
+                UInt32 propertyBufferSize,
+                out UInt32 requiredSize,
+                UInt32 flags);
+
+            const int utf16terminatorSize_bytes = 2;
+
+            static Win32Device()
+            {
+
+            }
+
+            public static string GetDeviceBusDescription(Guid deviceId)
+            {
+                byte[] ptrBuf = new byte[BUFFER_SIZE];
+                uint propRegDataType;
+                uint RequiredSize;
+
+                DEVPROPKEY DEVPKEY_Device_BusReportedDeviceDesc = new DEVPROPKEY()
+                {
+                    fmtid = new Guid("540b947e-8b40-45bc-a8a2-6a0b894cbda2"),
+                    pid = 4
+                };
+
+                IntPtr hDeviceInfoSet = SetupDiGetClassDevs(ref deviceId, 0, 0, DiGetClassFlags.DIGCF_PRESENT);
+                if (hDeviceInfoSet == IntPtr.Zero)
+                {
+                    //throw new Exception("Failed to get device information set for the COM ports");
+                    return string.Empty;
+                }
+
+                SP_DEVINFO_DATA deviceInfoData = new SP_DEVINFO_DATA();
+                deviceInfoData.cbSize = (uint)Marshal.SizeOf(typeof(SP_DEVINFO_DATA));
+                bool success = SetupDiEnumDeviceInfo(hDeviceInfoSet, (uint)0, ref deviceInfoData);
+                if (!success)
+                {
+                    return string.Empty;
+                }
+
+                success = SetupDiGetDevicePropertyW(hDeviceInfoSet, ref deviceInfoData, ref DEVPKEY_Device_BusReportedDeviceDesc,
+                    out propRegDataType, ptrBuf, BUFFER_SIZE, out RequiredSize, 0);
+                if (!success)
+                {
+                    //throw new Exception("Can not read Bus provided device description device " + deviceInfoData.ClassGuid);
+                    return string.Empty;
+                }
+                SetupDiDestroyDeviceInfoList(hDeviceInfoSet);
+
+                return System.Text.UnicodeEncoding.Unicode.GetString(ptrBuf, 0, (int)RequiredSize - utf16terminatorSize_bytes);
+            }
+        }
     }
 }
+

@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using gWeasleGUI.Config;
+using static gWeasleGUI.GwTools;
 
 namespace gWeasleGUI
 {
@@ -54,8 +55,13 @@ namespace gWeasleGUI
 
             this.CmdProfileCB.Items.AddRange(this.ConfigManager.ConfigData.profiles.Keys.ToArray());
 
+            //List<GwTools.GW_PnPEntity> ports = GwTools.GetPorts();
+            //List<GwTools.Win32DeviceMgmt.DeviceInfo> devInfos = GwTools.Win32DeviceMgmt.GetAllCOMPorts();
+
             // initialize gw commandline tools
-            this.gw = new GwTools(logger,ConfigManager.ConfigData.GwToolsPath, this.DisplayContentAction, this.ActionComplete, this.ActionStart, this.ActionGwDeviceLoaded);
+            this.gw = new GwTools(logger,ConfigManager.ConfigData.GwToolsPath, this.ConfigManager.ConfigData.gwport, this.DisplayContentAction, this.ActionComplete, this.ActionStart, this.ActionGwDeviceLoaded);
+            portcaptionCB.Items.AddRange(this.gw.SerialPorts.Keys.ToArray());
+            portcaptionCB.SelectedIndex = 0;
 
             // persist file extension to config file
             this.PersistExtConfig = (ext) =>
@@ -159,6 +165,14 @@ namespace gWeasleGUI
                 gwFirmwareValue.Text = this.gw.currentDevice.firmwareVersion.ToString();
                 gwSerialValue.Text = this.gw.currentDevice.serial;
                 gwUSBRateValue.Text = this.gw.currentDevice.usbRate;
+
+                if( !string.IsNullOrEmpty(this.gw.currentDevice.port) &&
+                    (this.ConfigManager.ConfigData.gwport is null ||
+                    !this.ConfigManager.ConfigData.gwport.Equals(this.gw.currentDevice.port, StringComparison.OrdinalIgnoreCase) ) )
+                {
+                    this.ConfigManager.ConfigData.gwport = this.gw.currentDevice.port;
+                    this.ConfigManager.WriteConfig();
+                }
 
                 this.Text = $"{ConfigLoader.AppName} {ConfigLoader.Version} ({ConfigLoader.VersionDetails}) - {this.gw.currentDevice.model} ({this.gw.currentDevice.serial})";
                 this.LoadGWOperations(); // load gw actions
@@ -814,6 +828,22 @@ namespace gWeasleGUI
             //    this.ConfigManager.ConfigData.LastFormatType = gwFormatTypeCB.Text;
             //    this.ConfigManager.WriteConfig();
             //}
+        }
+
+        private void portcaptionCB_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (this.gw.SerialPorts.ContainsKey(portcaptionCB.Text))
+            {
+                GW_PnPEntity selectedPort = this.gw.SerialPorts[portcaptionCB.Text];
+                portnameValue.Text = selectedPort.Name;
+                portbusdescValue.Text = selectedPort.Bus_Description;
+                portdescValue.Text = selectedPort.Description;
+                portdeviceIdValue.Text = selectedPort.DeviceID;
+                portClassGuidValue.Text = selectedPort.ClassGuid;
+                portserviceValue.Text = selectedPort.Service;
+                portstatusValue.Text = selectedPort.Status;
+                porterrordescValue.Text = selectedPort.ErrorDescription;
+            }
         }
 
         private void gwReloadBtn_Click(object sender, EventArgs e)
