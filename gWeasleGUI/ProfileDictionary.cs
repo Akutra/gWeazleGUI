@@ -76,8 +76,9 @@ namespace gWeasleGUI.Config
                 {
                     this.HasChanged = true;
                 }
+                if (reader.NodeType != XmlNodeType.EndElement) { 
+                    reader.ReadEndElement(); }
             }
-            reader.ReadEndElement();
         }
 
         public void WriteXml(System.Xml.XmlWriter writer)

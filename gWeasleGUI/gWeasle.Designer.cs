@@ -191,6 +191,25 @@
             this.gwModelLBL = new System.Windows.Forms.Label();
             this.gwPortLBL = new System.Windows.Forms.Label();
             this.gwPortTB = new gWeasleGUI.vTextParam();
+            this.portsTab = new System.Windows.Forms.TabPage();
+            this.portbusdescValue = new System.Windows.Forms.Label();
+            this.portbusdescLBL = new System.Windows.Forms.Label();
+            this.portcaptionCB = new System.Windows.Forms.ComboBox();
+            this.porterrordescValue = new System.Windows.Forms.Label();
+            this.porterrordescLBL = new System.Windows.Forms.Label();
+            this.portstatusValue = new System.Windows.Forms.Label();
+            this.portstatusLBL = new System.Windows.Forms.Label();
+            this.portserviceValue = new System.Windows.Forms.Label();
+            this.pertserviceLBL = new System.Windows.Forms.Label();
+            this.portClassGuidValue = new System.Windows.Forms.Label();
+            this.portclassguidLBL = new System.Windows.Forms.Label();
+            this.portdeviceIdValue = new System.Windows.Forms.Label();
+            this.portdeviceIdLBL = new System.Windows.Forms.Label();
+            this.portdescValue = new System.Windows.Forms.Label();
+            this.portdescLBL = new System.Windows.Forms.Label();
+            this.portnameValue = new System.Windows.Forms.Label();
+            this.portnameLBL = new System.Windows.Forms.Label();
+            this.portcaptionLBL = new System.Windows.Forms.Label();
             this.CmdProfileCB = new System.Windows.Forms.ComboBox();
             this.gwCmdProfileLBL = new System.Windows.Forms.Label();
             this.GwStatus.SuspendLayout();
@@ -203,6 +222,7 @@
             this.gwDDtracksgroupBox.SuspendLayout();
             this.optionsTab.SuspendLayout();
             this.deviceTab.SuspendLayout();
+            this.portsTab.SuspendLayout();
             this.SuspendLayout();
             // 
             // ExecuteBtn
@@ -669,6 +689,7 @@
             this.GWTab.Controls.Add(this.ddTab);
             this.GWTab.Controls.Add(this.optionsTab);
             this.GWTab.Controls.Add(this.deviceTab);
+            this.GWTab.Controls.Add(this.portsTab);
             this.GWTab.Location = new System.Drawing.Point(13, 38);
             this.GWTab.Name = "GWTab";
             this.GWTab.SelectedIndex = 0;
@@ -1809,7 +1830,7 @@
             // gwUSBRateLBL
             // 
             this.gwUSBRateLBL.AutoSize = true;
-            this.gwUSBRateLBL.Location = new System.Drawing.Point(8, 170);
+            this.gwUSBRateLBL.Location = new System.Drawing.Point(5, 170);
             this.gwUSBRateLBL.Name = "gwUSBRateLBL";
             this.gwUSBRateLBL.Size = new System.Drawing.Size(55, 13);
             this.gwUSBRateLBL.TabIndex = 60;
@@ -1828,7 +1849,7 @@
             // gwSerialLBL
             // 
             this.gwSerialLBL.AutoSize = true;
-            this.gwSerialLBL.Location = new System.Drawing.Point(13, 140);
+            this.gwSerialLBL.Location = new System.Drawing.Point(10, 140);
             this.gwSerialLBL.Name = "gwSerialLBL";
             this.gwSerialLBL.Size = new System.Drawing.Size(50, 13);
             this.gwSerialLBL.TabIndex = 58;
@@ -1847,7 +1868,7 @@
             // gwFirmwareLBL
             // 
             this.gwFirmwareLBL.AutoSize = true;
-            this.gwFirmwareLBL.Location = new System.Drawing.Point(14, 110);
+            this.gwFirmwareLBL.Location = new System.Drawing.Point(11, 110);
             this.gwFirmwareLBL.Name = "gwFirmwareLBL";
             this.gwFirmwareLBL.Size = new System.Drawing.Size(49, 13);
             this.gwFirmwareLBL.TabIndex = 56;
@@ -1866,7 +1887,7 @@
             // gwMCULBL
             // 
             this.gwMCULBL.AutoSize = true;
-            this.gwMCULBL.Location = new System.Drawing.Point(32, 80);
+            this.gwMCULBL.Location = new System.Drawing.Point(29, 80);
             this.gwMCULBL.Name = "gwMCULBL";
             this.gwMCULBL.Size = new System.Drawing.Size(31, 13);
             this.gwMCULBL.TabIndex = 54;
@@ -1885,7 +1906,7 @@
             // gwModelLBL
             // 
             this.gwModelLBL.AutoSize = true;
-            this.gwModelLBL.Location = new System.Drawing.Point(27, 50);
+            this.gwModelLBL.Location = new System.Drawing.Point(24, 50);
             this.gwModelLBL.Name = "gwModelLBL";
             this.gwModelLBL.Size = new System.Drawing.Size(36, 13);
             this.gwModelLBL.TabIndex = 52;
@@ -1907,6 +1928,206 @@
             this.gwPortTB.Size = new System.Drawing.Size(61, 20);
             this.gwPortTB.TabIndex = 83;
             this.gwPortTB.ValidationFailure = false;
+            // 
+            // portsTab
+            // 
+            this.portsTab.Controls.Add(this.portbusdescValue);
+            this.portsTab.Controls.Add(this.portbusdescLBL);
+            this.portsTab.Controls.Add(this.portcaptionCB);
+            this.portsTab.Controls.Add(this.porterrordescValue);
+            this.portsTab.Controls.Add(this.porterrordescLBL);
+            this.portsTab.Controls.Add(this.portstatusValue);
+            this.portsTab.Controls.Add(this.portstatusLBL);
+            this.portsTab.Controls.Add(this.portserviceValue);
+            this.portsTab.Controls.Add(this.pertserviceLBL);
+            this.portsTab.Controls.Add(this.portClassGuidValue);
+            this.portsTab.Controls.Add(this.portclassguidLBL);
+            this.portsTab.Controls.Add(this.portdeviceIdValue);
+            this.portsTab.Controls.Add(this.portdeviceIdLBL);
+            this.portsTab.Controls.Add(this.portdescValue);
+            this.portsTab.Controls.Add(this.portdescLBL);
+            this.portsTab.Controls.Add(this.portnameValue);
+            this.portsTab.Controls.Add(this.portnameLBL);
+            this.portsTab.Controls.Add(this.portcaptionLBL);
+            this.portsTab.Location = new System.Drawing.Point(4, 22);
+            this.portsTab.Name = "portsTab";
+            this.portsTab.Size = new System.Drawing.Size(758, 341);
+            this.portsTab.TabIndex = 5;
+            this.portsTab.Text = "Serial Ports";
+            this.portsTab.UseVisualStyleBackColor = true;
+            // 
+            // portbusdescValue
+            // 
+            this.portbusdescValue.AutoSize = true;
+            this.portbusdescValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.portbusdescValue.Location = new System.Drawing.Point(94, 80);
+            this.portbusdescValue.Name = "portbusdescValue";
+            this.portbusdescValue.Size = new System.Drawing.Size(79, 13);
+            this.portbusdescValue.TabIndex = 102;
+            this.portbusdescValue.Text = "[Description]";
+            // 
+            // portbusdescLBL
+            // 
+            this.portbusdescLBL.AutoSize = true;
+            this.portbusdescLBL.Location = new System.Drawing.Point(7, 80);
+            this.portbusdescLBL.Name = "portbusdescLBL";
+            this.portbusdescLBL.Size = new System.Drawing.Size(81, 13);
+            this.portbusdescLBL.TabIndex = 101;
+            this.portbusdescLBL.Text = "Bus Description";
+            // 
+            // portcaptionCB
+            // 
+            this.portcaptionCB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.portcaptionCB.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.portcaptionCB.FormattingEnabled = true;
+            this.portcaptionCB.Location = new System.Drawing.Point(94, 17);
+            this.portcaptionCB.Name = "portcaptionCB";
+            this.portcaptionCB.Size = new System.Drawing.Size(628, 21);
+            this.portcaptionCB.TabIndex = 100;
+            this.portcaptionCB.SelectedIndexChanged += new System.EventHandler(this.portcaptionCB_SelectedIndexChanged);
+            // 
+            // porterrordescValue
+            // 
+            this.porterrordescValue.AutoSize = true;
+            this.porterrordescValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.porterrordescValue.Location = new System.Drawing.Point(94, 260);
+            this.porterrordescValue.Name = "porterrordescValue";
+            this.porterrordescValue.Size = new System.Drawing.Size(110, 13);
+            this.porterrordescValue.TabIndex = 99;
+            this.porterrordescValue.Text = "[Error Description]";
+            // 
+            // porterrordescLBL
+            // 
+            this.porterrordescLBL.AutoSize = true;
+            this.porterrordescLBL.Location = new System.Drawing.Point(59, 260);
+            this.porterrordescLBL.Name = "porterrordescLBL";
+            this.porterrordescLBL.Size = new System.Drawing.Size(29, 13);
+            this.porterrordescLBL.TabIndex = 98;
+            this.porterrordescLBL.Text = "Error";
+            // 
+            // portstatusValue
+            // 
+            this.portstatusValue.AutoSize = true;
+            this.portstatusValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.portstatusValue.Location = new System.Drawing.Point(94, 230);
+            this.portstatusValue.Name = "portstatusValue";
+            this.portstatusValue.Size = new System.Drawing.Size(51, 13);
+            this.portstatusValue.TabIndex = 97;
+            this.portstatusValue.Text = "[Status]";
+            // 
+            // portstatusLBL
+            // 
+            this.portstatusLBL.AutoSize = true;
+            this.portstatusLBL.Location = new System.Drawing.Point(51, 230);
+            this.portstatusLBL.Name = "portstatusLBL";
+            this.portstatusLBL.Size = new System.Drawing.Size(37, 13);
+            this.portstatusLBL.TabIndex = 96;
+            this.portstatusLBL.Text = "Status";
+            // 
+            // portserviceValue
+            // 
+            this.portserviceValue.AutoSize = true;
+            this.portserviceValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.portserviceValue.Location = new System.Drawing.Point(94, 200);
+            this.portserviceValue.Name = "portserviceValue";
+            this.portserviceValue.Size = new System.Drawing.Size(58, 13);
+            this.portserviceValue.TabIndex = 94;
+            this.portserviceValue.Text = "[Service]";
+            // 
+            // pertserviceLBL
+            // 
+            this.pertserviceLBL.AutoSize = true;
+            this.pertserviceLBL.Location = new System.Drawing.Point(45, 200);
+            this.pertserviceLBL.Name = "pertserviceLBL";
+            this.pertserviceLBL.Size = new System.Drawing.Size(43, 13);
+            this.pertserviceLBL.TabIndex = 93;
+            this.pertserviceLBL.Text = "Service";
+            // 
+            // portClassGuidValue
+            // 
+            this.portClassGuidValue.AutoSize = true;
+            this.portClassGuidValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.portClassGuidValue.Location = new System.Drawing.Point(94, 170);
+            this.portClassGuidValue.Name = "portClassGuidValue";
+            this.portClassGuidValue.Size = new System.Drawing.Size(71, 13);
+            this.portClassGuidValue.TabIndex = 92;
+            this.portClassGuidValue.Text = "[ClassGuid]";
+            // 
+            // portclassguidLBL
+            // 
+            this.portclassguidLBL.AutoSize = true;
+            this.portclassguidLBL.Location = new System.Drawing.Point(31, 170);
+            this.portclassguidLBL.Name = "portclassguidLBL";
+            this.portclassguidLBL.Size = new System.Drawing.Size(57, 13);
+            this.portclassguidLBL.TabIndex = 91;
+            this.portclassguidLBL.Text = "Class Guid";
+            // 
+            // portdeviceIdValue
+            // 
+            this.portdeviceIdValue.AutoSize = true;
+            this.portdeviceIdValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.portdeviceIdValue.Location = new System.Drawing.Point(94, 140);
+            this.portdeviceIdValue.Name = "portdeviceIdValue";
+            this.portdeviceIdValue.Size = new System.Drawing.Size(72, 13);
+            this.portdeviceIdValue.TabIndex = 90;
+            this.portdeviceIdValue.Text = "[Device ID]";
+            // 
+            // portdeviceIdLBL
+            // 
+            this.portdeviceIdLBL.AutoSize = true;
+            this.portdeviceIdLBL.Location = new System.Drawing.Point(33, 140);
+            this.portdeviceIdLBL.Name = "portdeviceIdLBL";
+            this.portdeviceIdLBL.Size = new System.Drawing.Size(55, 13);
+            this.portdeviceIdLBL.TabIndex = 89;
+            this.portdeviceIdLBL.Text = "Device ID";
+            // 
+            // portdescValue
+            // 
+            this.portdescValue.AutoSize = true;
+            this.portdescValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.portdescValue.Location = new System.Drawing.Point(94, 110);
+            this.portdescValue.Name = "portdescValue";
+            this.portdescValue.Size = new System.Drawing.Size(79, 13);
+            this.portdescValue.TabIndex = 88;
+            this.portdescValue.Text = "[Description]";
+            // 
+            // portdescLBL
+            // 
+            this.portdescLBL.AutoSize = true;
+            this.portdescLBL.Location = new System.Drawing.Point(28, 110);
+            this.portdescLBL.Name = "portdescLBL";
+            this.portdescLBL.Size = new System.Drawing.Size(60, 13);
+            this.portdescLBL.TabIndex = 87;
+            this.portdescLBL.Text = "Description";
+            // 
+            // portnameValue
+            // 
+            this.portnameValue.AutoSize = true;
+            this.portnameValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.portnameValue.Location = new System.Drawing.Point(94, 50);
+            this.portnameValue.Name = "portnameValue";
+            this.portnameValue.Size = new System.Drawing.Size(47, 13);
+            this.portnameValue.TabIndex = 86;
+            this.portnameValue.Text = "[Name]";
+            // 
+            // portnameLBL
+            // 
+            this.portnameLBL.AutoSize = true;
+            this.portnameLBL.Location = new System.Drawing.Point(53, 50);
+            this.portnameLBL.Name = "portnameLBL";
+            this.portnameLBL.Size = new System.Drawing.Size(35, 13);
+            this.portnameLBL.TabIndex = 85;
+            this.portnameLBL.Text = "Name";
+            // 
+            // portcaptionLBL
+            // 
+            this.portcaptionLBL.AutoSize = true;
+            this.portcaptionLBL.Location = new System.Drawing.Point(62, 20);
+            this.portcaptionLBL.Name = "portcaptionLBL";
+            this.portcaptionLBL.Size = new System.Drawing.Size(26, 13);
+            this.portcaptionLBL.TabIndex = 84;
+            this.portcaptionLBL.Text = "Port";
             // 
             // CmdProfileCB
             // 
@@ -1966,6 +2187,8 @@
             this.optionsTab.PerformLayout();
             this.deviceTab.ResumeLayout(false);
             this.deviceTab.PerformLayout();
+            this.portsTab.ResumeLayout(false);
+            this.portsTab.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2135,6 +2358,25 @@
         private System.Windows.Forms.Button SelectProfilePathBtn;
         private System.Windows.Forms.Button ProfileClearBtn;
         private System.Windows.Forms.Button gwReloadBtn;
+        private System.Windows.Forms.TabPage portsTab;
+        private System.Windows.Forms.Label portserviceValue;
+        private System.Windows.Forms.Label pertserviceLBL;
+        private System.Windows.Forms.Label portClassGuidValue;
+        private System.Windows.Forms.Label portclassguidLBL;
+        private System.Windows.Forms.Label portdeviceIdValue;
+        private System.Windows.Forms.Label portdeviceIdLBL;
+        private System.Windows.Forms.Label portdescValue;
+        private System.Windows.Forms.Label portdescLBL;
+        private System.Windows.Forms.Label portnameValue;
+        private System.Windows.Forms.Label portnameLBL;
+        private System.Windows.Forms.Label portcaptionLBL;
+        private System.Windows.Forms.Label porterrordescValue;
+        private System.Windows.Forms.Label porterrordescLBL;
+        private System.Windows.Forms.Label portstatusValue;
+        private System.Windows.Forms.Label portstatusLBL;
+        private System.Windows.Forms.ComboBox portcaptionCB;
+        private System.Windows.Forms.Label portbusdescValue;
+        private System.Windows.Forms.Label portbusdescLBL;
     }
 }
 
