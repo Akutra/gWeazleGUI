@@ -12,6 +12,7 @@ namespace gWeasleGUI.Config
     using System.Xml;
     using System.Xml.Linq;
     using System.Xml.Serialization;
+    using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 
     [XmlRoot("Profiles")]
     public class ProfileDictionary<TKey, TValue> : Dictionary<TKey, TValue>, IXmlSerializable
@@ -58,27 +59,31 @@ namespace gWeasleGUI.Config
 
         public void ReadXml(XmlReader reader)
         {
-            XDocument doc = XDocument.Load(reader.ReadSubtree());
-            XmlSerializer serializer = new XmlSerializer(typeof(ProfileReference<TKey, TValue>));
-            XmlReader itemReader;
+            reader.MoveToContent();
 
-            this.HasChanged = false;
-            foreach (XElement item in doc.Descendants(XName.Get("ProfileReference")))
+            if (reader.ReadToDescendant("ProfileReference"))
             {
-                itemReader = item.CreateReader();
+                while (
+                    reader.MoveToContent() == XmlNodeType.Element &&
+                    reader.LocalName == "ProfileReference")
+                {
+                    TKey newKey = utilities.SafeChangeType<TKey>(reader.GetAttribute("Name"), default(TKey));
+                    TValue newValue = utilities.SafeChangeType<TValue>(reader.GetAttribute("File"), default(TValue));
 
-                var kvp = serializer.Deserialize(itemReader) as ProfileReference<TKey, TValue>;
-                if (File.Exists(kvp.File.ToString()))
-                {
-                    base.Add(kvp.Name, kvp.File);
+                    if (File.Exists(newValue.ToString()))
+                    {
+                        this.Add(newKey, newValue);
+                    }
+                    else
+                    {
+                        this.HasChanged = true;
+                    }
+
+                    reader.Skip(); // exit ProfileReference element
                 }
-                else
-                {
-                    this.HasChanged = true;
-                }
-                if (reader.NodeType != XmlNodeType.EndElement) { 
-                    reader.ReadEndElement(); }
             }
+
+            reader.Skip();
         }
 
         public void WriteXml(System.Xml.XmlWriter writer)
