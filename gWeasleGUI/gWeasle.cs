@@ -55,9 +55,6 @@ namespace gWeasleGUI
 
             this.CmdProfileCB.Items.AddRange(this.ConfigManager.ConfigData.profiles.Keys.ToArray());
 
-            //List<GwTools.GW_PnPEntity> ports = GwTools.GetPorts();
-            //List<GwTools.Win32DeviceMgmt.DeviceInfo> devInfos = GwTools.Win32DeviceMgmt.GetAllCOMPorts();
-
             // initialize gw commandline tools
             this.gw = new GwTools(logger,ConfigManager.ConfigData.GwToolsPath, this.ConfigManager.ConfigData.gwport, this.DisplayContentAction, this.ActionComplete, this.ActionStart, this.ActionGwDeviceLoaded);
             portcaptionCB.Items.AddRange(this.gw.SerialPorts.Keys.ToArray());

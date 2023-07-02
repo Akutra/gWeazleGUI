@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Gconfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <profiles />
-  <GwToolsPath>C:\Users\acura\Downloads\greaseweazle-1.12-win\greaseweazle-1.12</GwToolsPath>
-  <gwport>COM4</gwport>
+  <GwToolsPath></GwToolsPath>
+  <gwport></gwport>
   <Time>true</Time>
   <LastFormatType />
   <LastFileExt />
   <RawFormat>false</RawFormat>
-  <LastDiskDefsCfgFile />
+  <LastDiskDefsCfgFile></LastDiskDefsCfgFile>
   <LastUseDiskDefsCfgFile>false</LastUseDiskDefsCfgFile>
 </Gconfig>

@@ -70,7 +70,7 @@ namespace gWeasleGUI.Config
 
             if (File.Exists(this._configfile))
             {
-                try
+                try // don't crash loading config file
                 {
                     XmlSerializer serializer = new XmlSerializer(typeof(Gconfig));
                     fs = new FileStream(this._configfile, FileMode.Open);
