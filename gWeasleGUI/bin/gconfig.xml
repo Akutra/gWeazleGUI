@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Gconfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <profiles>
-    <ProfileReference Name="read command" File="C:\Users\acura\Downloads\greaseweazle-1.12-win\greaseweazle-1.12\readcmd.xml" />
-  </profiles>
-  <GwToolsPath>C:\Users\acura\Downloads\greaseweazle-1.12-win\greaseweazle-1.12</GwToolsPath>
-  <gwport>COM4</gwport>
+  <profiles />
+  <GwToolsPath></GwToolsPath>
+  <gwport></gwport>
   <Time>true</Time>
   <LastFormatType />
   <LastFileExt />
