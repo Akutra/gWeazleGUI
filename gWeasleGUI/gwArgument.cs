@@ -41,13 +41,16 @@ namespace gWeasleGUI
             if (Positional || this.Key == "additional-arguments")
                 prefix = string.Empty;
 
-            if (this.Value.ToString().Trim().ToLower() == "true")
-                return prefix;
+            if (string.IsNullOrEmpty(content) || content.ToLower() == "true")
+                return prefix.Trim();
 
             if (content.IndexOf(' ') != -1)
                 content = $"\"{content}\"";
 
-            return $"{prefix} {content}".Trim();
+            if (string.IsNullOrEmpty(prefix))
+                return content.Trim();
+
+            return $"{prefix}={content}".Trim();
         }
 
         public void PopulateInstance(Dictionary<string, string> values)

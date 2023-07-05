@@ -1,9 +1,9 @@
-﻿using System;
+﻿using gWeasleGUI.Config;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using gWeasleGUI.Config;
 using static gWeasleGUI.GwTools;
 
 namespace gWeasleGUI
@@ -123,7 +123,7 @@ namespace gWeasleGUI
             // verify device can be loaded
             if (this.gw.gwHostToolsVersion == 0 || this.gw.currentDevice is null || string.IsNullOrEmpty(this.gw.currentDevice.port))
             {
-                string gwmsg = this.gw.gwHostToolsVersion == 0 ? "Greaseweazle Host Tools not found." : $"Greaseweazle Host Tools v{this.gw.gwHostToolsVersion} found.";
+                string gwmsg = this.gw.gwHostToolsVersion == 0 ? "Greaseweazle Host Tools not found." : $"Greaseweazle Host Tools v{this.gw.gwHostToolsFullVersion} found.";
                 string err = $"*** Unable to load device on port {this.gwPortTB.Text.Trim()}.";
                 string msg = $"{gwmsg}{Environment.NewLine}{err}{Environment.NewLine}*** Greaseweazle device required for {ConfigLoader.AppName}.";
                 this.DisplayContentAction(msg);
@@ -139,6 +139,7 @@ namespace gWeasleGUI
                     {
                         logger.Info(err);
                         gwToolsVersion.Text = $"H{this.gw.gwHostToolsVersion}";
+                        gwHostToolsVersionValue.Text = this.gw.gwHostToolsFullVersion;
                         GWTab.SelectedTab = this.deviceTab;
                     }
                     else
@@ -156,6 +157,7 @@ namespace gWeasleGUI
             {
                 gwPathSelectionTB.Text = this.ConfigManager.ConfigData.GwToolsPath;
                 gwToolsVersion.Text = $"H{this.gw.gwHostToolsVersion}";
+                gwHostToolsVersionValue.Text = this.gw.gwHostToolsFullVersion;
                 gwPortTB.Text = this.gw.currentDevice.port;
                 gwModelValue.Text = this.gw.currentDevice.model;
                 gwMCUValue.Text = this.gw.currentDevice.mcu;

@@ -212,6 +212,8 @@
             this.portcaptionLBL = new System.Windows.Forms.Label();
             this.CmdProfileCB = new System.Windows.Forms.ComboBox();
             this.gwCmdProfileLBL = new System.Windows.Forms.Label();
+            this.gwHostToolsVersionValue = new System.Windows.Forms.Label();
+            this.gwHostToolsVersionLBL = new System.Windows.Forms.Label();
             this.GwStatus.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.accessoptions)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.busy1)).BeginInit();
@@ -1646,6 +1648,8 @@
             // 
             // optionsTab
             // 
+            this.optionsTab.Controls.Add(this.gwHostToolsVersionValue);
+            this.optionsTab.Controls.Add(this.gwHostToolsVersionLBL);
             this.optionsTab.Controls.Add(this.SelectProfilePathBtn);
             this.optionsTab.Controls.Add(this.ProfileClearBtn);
             this.optionsTab.Controls.Add(this.SaveProfileBtn);
@@ -1668,7 +1672,7 @@
             // SelectProfilePathBtn
             // 
             this.SelectProfilePathBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.SelectProfilePathBtn.Location = new System.Drawing.Point(645, 107);
+            this.SelectProfilePathBtn.Location = new System.Drawing.Point(647, 123);
             this.SelectProfilePathBtn.Name = "SelectProfilePathBtn";
             this.SelectProfilePathBtn.Size = new System.Drawing.Size(75, 23);
             this.SelectProfilePathBtn.TabIndex = 78;
@@ -1678,7 +1682,7 @@
             // 
             // ProfileClearBtn
             // 
-            this.ProfileClearBtn.Location = new System.Drawing.Point(240, 161);
+            this.ProfileClearBtn.Location = new System.Drawing.Point(242, 177);
             this.ProfileClearBtn.Name = "ProfileClearBtn";
             this.ProfileClearBtn.Size = new System.Drawing.Size(75, 23);
             this.ProfileClearBtn.TabIndex = 82;
@@ -1688,7 +1692,7 @@
             // 
             // SaveProfileBtn
             // 
-            this.SaveProfileBtn.Location = new System.Drawing.Point(120, 161);
+            this.SaveProfileBtn.Location = new System.Drawing.Point(122, 177);
             this.SaveProfileBtn.Name = "SaveProfileBtn";
             this.SaveProfileBtn.Size = new System.Drawing.Size(114, 23);
             this.SaveProfileBtn.TabIndex = 81;
@@ -1699,7 +1703,7 @@
             // ProfileNameLBL
             // 
             this.ProfileNameLBL.AutoSize = true;
-            this.ProfileNameLBL.Location = new System.Drawing.Point(36, 138);
+            this.ProfileNameLBL.Location = new System.Drawing.Point(38, 154);
             this.ProfileNameLBL.Name = "ProfileNameLBL";
             this.ProfileNameLBL.Size = new System.Drawing.Size(35, 13);
             this.ProfileNameLBL.TabIndex = 65;
@@ -1709,7 +1713,7 @@
             // 
             this.ProfileNameTB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.ProfileNameTB.Location = new System.Drawing.Point(77, 135);
+            this.ProfileNameTB.Location = new System.Drawing.Point(79, 151);
             this.ProfileNameTB.Name = "ProfileNameTB";
             this.ProfileNameTB.Size = new System.Drawing.Size(643, 20);
             this.ProfileNameTB.TabIndex = 79;
@@ -1718,7 +1722,7 @@
             // CmdProfileFileLBL
             // 
             this.CmdProfileFileLBL.AutoSize = true;
-            this.CmdProfileFileLBL.Location = new System.Drawing.Point(36, 112);
+            this.CmdProfileFileLBL.Location = new System.Drawing.Point(38, 128);
             this.CmdProfileFileLBL.Name = "CmdProfileFileLBL";
             this.CmdProfileFileLBL.Size = new System.Drawing.Size(23, 13);
             this.CmdProfileFileLBL.TabIndex = 63;
@@ -1728,7 +1732,7 @@
             // 
             this.gwProfileSelLBL.AutoSize = true;
             this.gwProfileSelLBL.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gwProfileSelLBL.Location = new System.Drawing.Point(35, 82);
+            this.gwProfileSelLBL.Location = new System.Drawing.Point(37, 98);
             this.gwProfileSelLBL.Name = "gwProfileSelLBL";
             this.gwProfileSelLBL.Size = new System.Drawing.Size(155, 24);
             this.gwProfileSelLBL.TabIndex = 60;
@@ -1736,7 +1740,7 @@
             // 
             // OpenProfileBtn
             // 
-            this.OpenProfileBtn.Location = new System.Drawing.Point(39, 161);
+            this.OpenProfileBtn.Location = new System.Drawing.Point(41, 177);
             this.OpenProfileBtn.Name = "OpenProfileBtn";
             this.OpenProfileBtn.Size = new System.Drawing.Size(75, 23);
             this.OpenProfileBtn.TabIndex = 80;
@@ -1748,7 +1752,7 @@
             // 
             this.gwProfileFileTB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.gwProfileFileTB.Location = new System.Drawing.Point(65, 109);
+            this.gwProfileFileTB.Location = new System.Drawing.Point(67, 125);
             this.gwProfileFileTB.Name = "gwProfileFileTB";
             this.gwProfileFileTB.Size = new System.Drawing.Size(585, 20);
             this.gwProfileFileTB.TabIndex = 77;
@@ -1767,7 +1771,7 @@
             // SelectGWPathBtn
             // 
             this.SelectGWPathBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.SelectGWPathBtn.Location = new System.Drawing.Point(645, 43);
+            this.SelectGWPathBtn.Location = new System.Drawing.Point(647, 59);
             this.SelectGWPathBtn.Name = "SelectGWPathBtn";
             this.SelectGWPathBtn.Size = new System.Drawing.Size(75, 23);
             this.SelectGWPathBtn.TabIndex = 76;
@@ -1779,7 +1783,7 @@
             // 
             this.gwPathSelectionTB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.gwPathSelectionTB.Location = new System.Drawing.Point(39, 45);
+            this.gwPathSelectionTB.Location = new System.Drawing.Point(41, 61);
             this.gwPathSelectionTB.Name = "gwPathSelectionTB";
             this.gwPathSelectionTB.Size = new System.Drawing.Size(611, 20);
             this.gwPathSelectionTB.TabIndex = 75;
@@ -2150,6 +2154,25 @@
             this.gwCmdProfileLBL.TabIndex = 56;
             this.gwCmdProfileLBL.Text = "Profile";
             // 
+            // gwHostToolsVersionValue
+            // 
+            this.gwHostToolsVersionValue.AutoSize = true;
+            this.gwHostToolsVersionValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gwHostToolsVersionValue.Location = new System.Drawing.Point(179, 45);
+            this.gwHostToolsVersionValue.Name = "gwHostToolsVersionValue";
+            this.gwHostToolsVersionValue.Size = new System.Drawing.Size(57, 13);
+            this.gwHostToolsVersionValue.TabIndex = 86;
+            this.gwHostToolsVersionValue.Text = "[Version]";
+            // 
+            // gwHostToolsVersionLBL
+            // 
+            this.gwHostToolsVersionLBL.AutoSize = true;
+            this.gwHostToolsVersionLBL.Location = new System.Drawing.Point(42, 45);
+            this.gwHostToolsVersionLBL.Name = "gwHostToolsVersionLBL";
+            this.gwHostToolsVersionLBL.Size = new System.Drawing.Size(131, 13);
+            this.gwHostToolsVersionLBL.TabIndex = 85;
+            this.gwHostToolsVersionLBL.Text = "Host Tools current version";
+            // 
             // gWeazleFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2377,6 +2400,8 @@
         private System.Windows.Forms.ComboBox portcaptionCB;
         private System.Windows.Forms.Label portbusdescValue;
         private System.Windows.Forms.Label portbusdescLBL;
+        private System.Windows.Forms.Label gwHostToolsVersionValue;
+        private System.Windows.Forms.Label gwHostToolsVersionLBL;
     }
 }
 
