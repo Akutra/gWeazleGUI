@@ -1,5 +1,8 @@
 /gWeasleGUI/bin/Debug/
 /gWeasleGUI/bin/Release/
+/gWeasleGUI/bin/x64/
+/gWeasleGUI/bin/signed/
 /gWeasleGUI/obj/
 /.vs/gWeasleGUI/
 /.vs/
+/python/

@@ -6,6 +6,7 @@ using System.IO.Ports;
 using System.Linq;
 using System.Management;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace gWeasleGUI
@@ -35,6 +36,7 @@ namespace gWeasleGUI
         }
 
         public double gwHostToolsVersion { get; private set; } = 0;
+        public string gwHostToolsFullVersion { get; private set; } = string.Empty;
         public gwdevice currentDevice { get; private set; }
         public string gw_exe { get; private set; } = "gw";
         public string GwToolsPath { get; private set; }
@@ -137,7 +139,9 @@ namespace gWeasleGUI
                         switch (parameter[0].Trim())
                         {
                             case "Host Tools":
-                                this.gwHostToolsVersion = double.Parse(parameter[1].Trim());
+                                this.gwHostToolsFullVersion = parameter[1].Trim();
+                                string NumberOnly = Regex.Match(this.gwHostToolsFullVersion, @"[0-9.]+").Value.Trim('.');
+                                this.gwHostToolsVersion = double.Parse(NumberOnly);
                                 break;
                             case "Port":
                                 this.currentDevice.port = parameter[1].Trim();
