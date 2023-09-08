@@ -16,6 +16,17 @@ namespace gWeasleGUI
 
         public static readonly int ERROR_BAD_ARGUMENTS = 0xA0;
 
+        public static string arraytodecimal(string[] numbers)
+        {
+            string rt = string.Empty;
+            if (numbers.Length > 0)
+                rt = numbers[0];
+            
+            if(numbers.Length > 1)
+                rt += $".{numbers[1]}";
+
+            return rt;
+        }
         /// <summary>
         /// File path dialog helper with extension handling
         /// </summary>
@@ -98,13 +109,14 @@ namespace gWeasleGUI
         /// <param name="start">line to look for marking the start of the group</param>
         /// <param name="rawContent">full content string</param>
         /// <returns>list of items extracted</returns>
-        public static List<string> ExtractGroup(string start, string rawContent)
+        public static List<string> ExtractGroup(string[] start, string rawContent)
         {
             StringReader contentStream = new StringReader(rawContent);
             string current = string.Empty;
             List<string> values = new List<string>();
+            List<string> starters = new List<string>(start);
 
-            while (current != start && contentStream.Peek() > -1)
+            while (!starters.Contains(current) && contentStream.Peek() > -1)
             {
                 current = contentStream.ReadLine().Trim();
             }

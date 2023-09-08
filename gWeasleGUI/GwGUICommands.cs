@@ -112,7 +112,7 @@ namespace gWeasleGUI
             this.GWParaInterface.Add("--pre-erase", new List<Control>() { gwPreEraseCB });
 
             this.GWParameters.Add("--no-verify", (t) => {
-                return ArgProcessTemplate(argKey: "--format", templateType: t);
+                return ArgProcessTemplate(argKey: "--no-verify", templateType: t);
             });
             this.GWParaInterface.Add("--no-verify", new List<Control>() { gwNoVerifyCB });
 
@@ -206,7 +206,7 @@ namespace gWeasleGUI
             {
                 this.Invoke(new MethodInvoker(delegate
                 {
-                    List<string> available = utilities.ExtractGroup("optional arguments:", response);
+                    List<string> available = utilities.ExtractGroup(new[] { "optional arguments:", "options:" }, response);
 
                     // fix for older versions when --diskdefs is not available
                     if (args is null && available.Where(p => p.Trim().ToLower().StartsWith("--diskdefs")).Count()>0)

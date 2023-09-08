@@ -140,7 +140,7 @@ namespace gWeasleGUI
                         {
                             case "Host Tools":
                                 this.gwHostToolsFullVersion = parameter[1].Trim();
-                                string NumberOnly = Regex.Match(this.gwHostToolsFullVersion, @"[0-9.]+").Value.Trim('.');
+                                string NumberOnly = utilities.arraytodecimal(Regex.Match(this.gwHostToolsFullVersion, @"[0-9.]+").Value.Trim('.').Split('.'));
                                 this.gwHostToolsVersion = double.Parse(NumberOnly);
                                 break;
                             case "Port":
@@ -213,7 +213,7 @@ namespace gWeasleGUI
             ExecuteGWCommand(args, (response) =>
             {
                 List<string> operations = new List<string>();
-                List<string> items = utilities.ExtractGroup(@"Actions:", response);
+                List<string> items = utilities.ExtractGroup(new[] { @"Actions:" }, response);
 
                 foreach (string item in items)
                 {
@@ -254,7 +254,7 @@ namespace gWeasleGUI
             Action<string> processResponse = (response) =>
             {
                 List<string> types = new List<string>();
-                List<string> items = utilities.ExtractGroup(@"FORMAT options:", response);
+                List<string> items = utilities.ExtractGroup(new[] { @"FORMAT options:" }, response);
 
                 foreach (string item in items)
                 {

@@ -44,7 +44,7 @@ namespace gWeasleGUI
             if (string.IsNullOrEmpty(content) || content.ToLower() == "true")
                 return prefix.Trim();
 
-            if (content.IndexOf(' ') != -1)
+            if (content.IndexOf(' ') != -1 && this.Key != "additional-arguments")
                 content = $"\"{content}\"";
 
             if (string.IsNullOrEmpty(prefix))
