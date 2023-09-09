@@ -58,7 +58,8 @@ namespace gWeasleGUI
             // initialize gw commandline tools
             this.gw = new GwTools(logger,ConfigManager.ConfigData.GwToolsPath, this.ConfigManager.ConfigData.gwport, this.DisplayContentAction, this.ActionComplete, this.ActionStart, this.ActionGwDeviceLoaded);
             portcaptionCB.Items.AddRange(this.gw.SerialPorts.Keys.ToArray());
-            portcaptionCB.SelectedIndex = 0;
+            if(portcaptionCB.Items.Count > 0)
+                portcaptionCB.SelectedIndex = 0;
 
             // persist file extension to config file
             this.PersistExtConfig = (ext) =>
@@ -251,14 +252,13 @@ namespace gWeasleGUI
                     break;
                 default:
                     // Get the extensions from gw
-                    this.gw.GetAcceptedSuffixes((suffixes) =>
-                    {
-                        //Set the source path with persistent file extension
-                        this.GwExistingFile = utilities.GetFilePath("existing", suffixes, this.ConfigManager.ConfigData.LastFileExt, this.PersistExtConfig);
-                        this.ProcessAction();
+                    string[] suffixes = this.gw.GetAcceptedSuffixes();
 
-                        this.ActionComplete();
-                    });
+                    //Set the source path with persistent file extension
+                    this.GwExistingFile = utilities.GetFilePath("existing", suffixes, this.ConfigManager.ConfigData.LastFileExt, this.PersistExtConfig);
+                    this.ProcessAction();
+
+                    this.ActionComplete();
                     break;
             }
         }
@@ -272,14 +272,13 @@ namespace gWeasleGUI
         {
             this.ActionStart();
 
-            this.gw.GetAcceptedSuffixes((suffixes) =>
-            {
-                //Set the source path with persistent file extension
-                this.GwNewFile = utilities.GetFilePath("new", suffixes, this.ConfigManager.ConfigData.LastFileExt, this.PersistExtConfig);
-                this.ProcessAction();
+            string[] suffixes = this.gw.GetAcceptedSuffixes();
 
-                this.ActionComplete();
-            });
+            //Set the source path with persistent file extension
+            this.GwNewFile = utilities.GetFilePath("new", suffixes, this.ConfigManager.ConfigData.LastFileExt, this.PersistExtConfig);
+            this.ProcessAction();
+
+            this.ActionComplete();
         }
 
         /// <summary>

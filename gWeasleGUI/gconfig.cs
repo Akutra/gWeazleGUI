@@ -82,7 +82,6 @@ namespace gWeasleGUI.Config
                 {
                     // for now simply don't read config on error
                     this.logger.Error($"Unable to load the config file.", ex);
-                    System.Environment.Exit(ERROR_BAD_ARGUMENTS);
                 }
                 fs?.Close();
             }

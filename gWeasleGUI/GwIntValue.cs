@@ -31,7 +31,7 @@ namespace gWeasleGUI
 
         public override string ToString()
         {
-            if(Value != DefValue)
+            if(this.defined && Value != DefValue)
                 return Value.ToString().Trim();
 
             return string.Empty;
