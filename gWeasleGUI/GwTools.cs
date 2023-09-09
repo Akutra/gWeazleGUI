@@ -52,15 +52,23 @@ namespace gWeasleGUI
         private string LastExecutedCommand = string.Empty;
         private Dictionary<string, string> gw_helpCache = new Dictionary<string, string>();
 
-        /// <summary>
-        /// Initialize the GwTools class for interfacing with the commandline gw tools
-        /// </summary>
-        /// <param name="logger">logger to be used for operations</param>
-        /// <param name="gwToolsPath">path to gw commandline tools</param>
-        /// <param name="output">action event used to output to the current display</param>
-        /// <param name="doneAction">action event to execute upon completion of commands</param>
-        /// <param name="deviceLoaded">action event to execute after the device has loaded</param>
-        public GwTools(ILogger logger, string gwHostToolsPath, string port, Action<string> output, Action doneAction, Action beginAction, Action deviceLoaded)
+        // if not provided by GW, hardcode values accepted by gw v1.12
+        private string[] extensions = new[]
+        {
+        "A2R|*.a2r", "ADF|*.adf", "ADS|*.ads", "ADM|*.adm", "ADL|*.adl", "D64|*.d64", "D88|*.d81", "D88|*.d88", "DCP|*.dcp", "DIM|*.dim",
+        "DSD|*.dsd", "DSK|*.dsk", "FDI|*.fdi", "HDM|*.hdm", "HFE|*.hfe", "IMG|*.img;*.ima;*.st", "IMD|*.imd", "IPF|*.ipf", "MGT|*.mgt",
+        "MSA|*.msa", "KryoFlux|*.raw", "SF7|*.sf7", "SCP|*.scp", "SSD|*.ssd", "XDF|*.xdf"
+        };
+
+    /// <summary>
+    /// Initialize the GwTools class for interfacing with the commandline gw tools
+    /// </summary>
+    /// <param name="logger">logger to be used for operations</param>
+    /// <param name="gwToolsPath">path to gw commandline tools</param>
+    /// <param name="output">action event used to output to the current display</param>
+    /// <param name="doneAction">action event to execute upon completion of commands</param>
+    /// <param name="deviceLoaded">action event to execute after the device has loaded</param>
+    public GwTools(ILogger logger, string gwHostToolsPath, string port, Action<string> output, Action doneAction, Action beginAction, Action deviceLoaded)
         {
             this.logger = logger;
 
@@ -225,21 +233,39 @@ namespace gWeasleGUI
             });
         }
 
+        public void LoadAcceptedSuffixes(string helpContent)
+        {
+            List<string> items = utilities.ExtractGroup(new[] { @"Supported file suffixes:" }, helpContent);
+            List<string> suffixes = new List<string>();
+
+            foreach (string item in items)
+            {
+                // Allow nwer columned output
+                IEnumerable<string> parts = item.Trim().Split(' ').Where(i => !string.IsNullOrEmpty(i));
+                if (parts.Count() > 0)
+                {
+                    suffixes.AddRange(parts);
+                }
+            }
+
+            if (suffixes.Count > 0)
+            {
+                List<string> ext = new List<string>();
+                foreach (string item in suffixes)
+                {
+                    ext.Add($"{item.Trim('.').ToUpper()}|*{item.ToLower()}");
+                }
+                this.extensions = ext.ToArray();
+            }
+        }
+
         /// <summary>
         /// Load the acceptable file suffixes/extensions
-        /// TODO: get the suffix values directly from gw
         /// </summary>
-        /// <param name="LoadAcceptedSuffixes">action to handle results</param>
-        public void GetAcceptedSuffixes(Action<string[]> LoadAcceptedSuffixes)
+        /// <returns>Extensions from last GW output</returns>
+        public string[] GetAcceptedSuffixes()
         {
-            // TODO: Until gw provides a way to get this data, hardcode values accepted by gw v1.13
-            string[] ext = new[]
-            {
-                "A2R|*.a2r", "ADF|*.adf", "ADS|*.ads", "ADM|*.adm", "ADL|*.adl", "D64|*.d64", "D88|*.d81", "D88|*.d88", "DCP|*.dcp", "DIM|*.dim",
-                "DSD|*.dsd", "DSK|*.dsk", "FDI|*.fdi", "HDM|*.hdm", "HFE|*.hfe", "IMG|*.img;*.ima;*.st", "IMD|*.imd", "IPF|*.ipf", "MGT|*.mgt",
-                "MSA|*.msa", "KryoFlux|*.raw", "SF7|*.sf7", "SCP|*.scp", "SSD|*.ssd", "XDF|*.xdf"
-            };
-            LoadAcceptedSuffixes(ext);
+            return this.extensions;
         }
 
         /// <summary>

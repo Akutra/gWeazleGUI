@@ -232,6 +232,10 @@ namespace gWeasleGUI
                                 
                         }
                     }
+
+                    // Load the accepted suffixes if provided by GWTools
+                    this.gw.LoadAcceptedSuffixes(response);
+
                     // complete the arg list with any additional details specific to the gw action
                     this.ProcessAction(gwaction, args);
 
