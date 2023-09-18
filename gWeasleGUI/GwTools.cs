@@ -508,6 +508,7 @@ namespace gWeasleGUI
                             gW_PnPEntity.LastErrorCode = utilities.SafeChangeType<uint>(foundObj["LastErrorCode"], 0);
                             gW_PnPEntity.Manufacturer = (string)foundObj["Manufacturer"];
                             gW_PnPEntity.Name = (string)foundObj["Name"];
+                            gW_PnPEntity.UseValue = $"COM{gW_PnPEntity.Name.Substring(gW_PnPEntity.Name.IndexOf("COM") + 3).Trim(')')}";
                             gW_PnPEntity.PNPClass = (string)foundObj["PNPClass"];
                             gW_PnPEntity.PNPDeviceID = (string)foundObj["PNPDeviceID"];
                             gW_PnPEntity.PowerManagementCapabilities = (uint[])foundObj["PowerManagementCapabilities"];
@@ -537,6 +538,7 @@ namespace gWeasleGUI
         {
             public uint Availability;
             public string Caption;
+            public string UseValue;
             public string ClassGuid;
             public string[] CompatibleID;
             public uint ConfigManagerErrorCode;

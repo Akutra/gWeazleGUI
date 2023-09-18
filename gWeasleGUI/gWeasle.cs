@@ -844,6 +844,15 @@ namespace gWeasleGUI
             }
         }
 
+        private void useportbtn_Click(object sender, EventArgs e)
+        {
+            GW_PnPEntity selectedPort = this.gw.SerialPorts[portcaptionCB.Text];
+            this.gwPortTB.Text = selectedPort.UseValue;
+            GWTab.SelectedTab = deviceTab;
+
+            this.gwReloadBtn_Click(null, null);
+        }
+
         private void gwReloadBtn_Click(object sender, EventArgs e)
         {
             this.ActionStart();

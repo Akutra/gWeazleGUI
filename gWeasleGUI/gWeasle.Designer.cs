@@ -75,6 +75,7 @@
             this.gwDDHeadsTB = new gWeasleGUI.vTextParam();
             this.gwDDCylsTB = new gWeasleGUI.vTextParam();
             this.diskDefNameTB = new gWeasleGUI.vTextParam();
+            this.gwSerialValue = new System.Windows.Forms.Label();
             this.busy1 = new System.Windows.Forms.PictureBox();
             this.GWTab = new System.Windows.Forms.TabControl();
             this.actionTab = new System.Windows.Forms.TabPage();
@@ -165,6 +166,8 @@
             this.diskDefsNameLBL = new System.Windows.Forms.Label();
             this.gwDiskConfigLBL = new System.Windows.Forms.Label();
             this.optionsTab = new System.Windows.Forms.TabPage();
+            this.gwHostToolsVersionValue = new System.Windows.Forms.Label();
+            this.gwHostToolsVersionLBL = new System.Windows.Forms.Label();
             this.SelectProfilePathBtn = new System.Windows.Forms.Button();
             this.ProfileClearBtn = new System.Windows.Forms.Button();
             this.SaveProfileBtn = new System.Windows.Forms.Button();
@@ -181,7 +184,6 @@
             this.gwReloadBtn = new System.Windows.Forms.Button();
             this.gwUSBRateValue = new System.Windows.Forms.Label();
             this.gwUSBRateLBL = new System.Windows.Forms.Label();
-            this.gwSerialValue = new System.Windows.Forms.Label();
             this.gwSerialLBL = new System.Windows.Forms.Label();
             this.gwFirmwareValue = new System.Windows.Forms.Label();
             this.gwFirmwareLBL = new System.Windows.Forms.Label();
@@ -192,6 +194,7 @@
             this.gwPortLBL = new System.Windows.Forms.Label();
             this.gwPortTB = new gWeasleGUI.vTextParam();
             this.portsTab = new System.Windows.Forms.TabPage();
+            this.useportbtn = new System.Windows.Forms.Button();
             this.portbusdescValue = new System.Windows.Forms.Label();
             this.portbusdescLBL = new System.Windows.Forms.Label();
             this.portcaptionCB = new System.Windows.Forms.ComboBox();
@@ -212,8 +215,6 @@
             this.portcaptionLBL = new System.Windows.Forms.Label();
             this.CmdProfileCB = new System.Windows.Forms.ComboBox();
             this.gwCmdProfileLBL = new System.Windows.Forms.Label();
-            this.gwHostToolsVersionValue = new System.Windows.Forms.Label();
-            this.gwHostToolsVersionLBL = new System.Windows.Forms.Label();
             this.GwStatus.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.accessoptions)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.busy1)).BeginInit();
@@ -240,6 +241,7 @@
             // 
             // actionCB
             // 
+            this.actionCB.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.actionCB.FormattingEnabled = true;
             this.actionCB.Location = new System.Drawing.Point(56, 10);
             this.actionCB.Name = "actionCB";
@@ -668,6 +670,17 @@
             this.diskDefNameTB.TabIndex = 45;
             this.gweazleTips.SetToolTip(this.diskDefNameTB, "Disk Definition Name");
             this.diskDefNameTB.ValidationFailure = false;
+            // 
+            // gwSerialValue
+            // 
+            this.gwSerialValue.AutoSize = true;
+            this.gwSerialValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gwSerialValue.Location = new System.Drawing.Point(66, 140);
+            this.gwSerialValue.Name = "gwSerialValue";
+            this.gwSerialValue.Size = new System.Drawing.Size(47, 13);
+            this.gwSerialValue.TabIndex = 59;
+            this.gwSerialValue.Text = "[Serial]";
+            this.gweazleTips.SetToolTip(this.gwSerialValue, "Double-click to copy to clipboard");
             // 
             // busy1
             // 
@@ -1669,6 +1682,25 @@
             this.optionsTab.Text = "Options";
             this.optionsTab.UseVisualStyleBackColor = true;
             // 
+            // gwHostToolsVersionValue
+            // 
+            this.gwHostToolsVersionValue.AutoSize = true;
+            this.gwHostToolsVersionValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gwHostToolsVersionValue.Location = new System.Drawing.Point(179, 45);
+            this.gwHostToolsVersionValue.Name = "gwHostToolsVersionValue";
+            this.gwHostToolsVersionValue.Size = new System.Drawing.Size(57, 13);
+            this.gwHostToolsVersionValue.TabIndex = 86;
+            this.gwHostToolsVersionValue.Text = "[Version]";
+            // 
+            // gwHostToolsVersionLBL
+            // 
+            this.gwHostToolsVersionLBL.AutoSize = true;
+            this.gwHostToolsVersionLBL.Location = new System.Drawing.Point(42, 45);
+            this.gwHostToolsVersionLBL.Name = "gwHostToolsVersionLBL";
+            this.gwHostToolsVersionLBL.Size = new System.Drawing.Size(131, 13);
+            this.gwHostToolsVersionLBL.TabIndex = 85;
+            this.gwHostToolsVersionLBL.Text = "Host Tools current version";
+            // 
             // SelectProfilePathBtn
             // 
             this.SelectProfilePathBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -1840,16 +1872,6 @@
             this.gwUSBRateLBL.TabIndex = 60;
             this.gwUSBRateLBL.Text = "USB Rate";
             // 
-            // gwSerialValue
-            // 
-            this.gwSerialValue.AutoSize = true;
-            this.gwSerialValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gwSerialValue.Location = new System.Drawing.Point(66, 140);
-            this.gwSerialValue.Name = "gwSerialValue";
-            this.gwSerialValue.Size = new System.Drawing.Size(47, 13);
-            this.gwSerialValue.TabIndex = 59;
-            this.gwSerialValue.Text = "[Serial]";
-            // 
             // gwSerialLBL
             // 
             this.gwSerialLBL.AutoSize = true;
@@ -1935,6 +1957,7 @@
             // 
             // portsTab
             // 
+            this.portsTab.Controls.Add(this.useportbtn);
             this.portsTab.Controls.Add(this.portbusdescValue);
             this.portsTab.Controls.Add(this.portbusdescLBL);
             this.portsTab.Controls.Add(this.portcaptionCB);
@@ -1960,6 +1983,16 @@
             this.portsTab.Text = "Serial Ports";
             this.portsTab.UseVisualStyleBackColor = true;
             // 
+            // useportbtn
+            // 
+            this.useportbtn.Location = new System.Drawing.Point(309, 15);
+            this.useportbtn.Name = "useportbtn";
+            this.useportbtn.Size = new System.Drawing.Size(75, 23);
+            this.useportbtn.TabIndex = 103;
+            this.useportbtn.Text = "Use";
+            this.useportbtn.UseVisualStyleBackColor = true;
+            this.useportbtn.Click += new System.EventHandler(this.useportbtn_Click);
+            // 
             // portbusdescValue
             // 
             this.portbusdescValue.AutoSize = true;
@@ -1981,13 +2014,11 @@
             // 
             // portcaptionCB
             // 
-            this.portcaptionCB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.portcaptionCB.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.portcaptionCB.FormattingEnabled = true;
             this.portcaptionCB.Location = new System.Drawing.Point(94, 17);
             this.portcaptionCB.Name = "portcaptionCB";
-            this.portcaptionCB.Size = new System.Drawing.Size(628, 21);
+            this.portcaptionCB.Size = new System.Drawing.Size(209, 21);
             this.portcaptionCB.TabIndex = 100;
             this.portcaptionCB.SelectedIndexChanged += new System.EventHandler(this.portcaptionCB_SelectedIndexChanged);
             // 
@@ -2153,25 +2184,6 @@
             this.gwCmdProfileLBL.Size = new System.Drawing.Size(36, 13);
             this.gwCmdProfileLBL.TabIndex = 56;
             this.gwCmdProfileLBL.Text = "Profile";
-            // 
-            // gwHostToolsVersionValue
-            // 
-            this.gwHostToolsVersionValue.AutoSize = true;
-            this.gwHostToolsVersionValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gwHostToolsVersionValue.Location = new System.Drawing.Point(179, 45);
-            this.gwHostToolsVersionValue.Name = "gwHostToolsVersionValue";
-            this.gwHostToolsVersionValue.Size = new System.Drawing.Size(57, 13);
-            this.gwHostToolsVersionValue.TabIndex = 86;
-            this.gwHostToolsVersionValue.Text = "[Version]";
-            // 
-            // gwHostToolsVersionLBL
-            // 
-            this.gwHostToolsVersionLBL.AutoSize = true;
-            this.gwHostToolsVersionLBL.Location = new System.Drawing.Point(42, 45);
-            this.gwHostToolsVersionLBL.Name = "gwHostToolsVersionLBL";
-            this.gwHostToolsVersionLBL.Size = new System.Drawing.Size(131, 13);
-            this.gwHostToolsVersionLBL.TabIndex = 85;
-            this.gwHostToolsVersionLBL.Text = "Host Tools current version";
             // 
             // gWeazleFrm
             // 
@@ -2402,6 +2414,7 @@
         private System.Windows.Forms.Label portbusdescLBL;
         private System.Windows.Forms.Label gwHostToolsVersionValue;
         private System.Windows.Forms.Label gwHostToolsVersionLBL;
+        private System.Windows.Forms.Button useportbtn;
     }
 }
 
