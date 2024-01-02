@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using static gWeasleGUI.GwTools;
 
@@ -53,6 +54,11 @@ namespace gWeasleGUI
             if(this.ConfigManager.ConfigData.profiles.HasChanged)
                 this.ConfigManager.WriteConfig();
 
+            // Start fresh (no profile)
+            this.CmdProfileCB.Items.Add("Unassigned");
+            this.CmdProfileCB.SelectedIndex = 0;
+
+            // Add stored profiles
             this.CmdProfileCB.Items.AddRange(this.ConfigManager.ConfigData.profiles.Keys.ToArray());
 
             // initialize gw commandline tools
@@ -71,10 +77,29 @@ namespace gWeasleGUI
                 }
             };
 
+            // Initialize command argument handling
             this.InitializeArgumentFilters();
             this.InitializeDDParaHandling();
             this.PopulateConfig();
+
             this.ActionComplete();
+        }
+
+        /// <summary>
+        /// Process to config Last Profile setting to make sure it is currently loaded.
+        /// </summary>
+        private void PersistSelectedProfile()
+        {
+            // Place task on the current work queue rather than block on it.
+            this.BeginInvoke(new MethodInvoker(delegate
+            {
+                // persist last profile
+                foreach (var item in this.CmdProfileCB.Items)
+                {
+                    if (item.ToString() == this.ConfigManager.ConfigData.LastProfile)
+                        this.CmdProfileCB.SelectedItem = item;
+                }
+            }));
         }
 
         /// <summary>
@@ -176,6 +201,7 @@ namespace gWeasleGUI
 
                 this.Text = $"{ConfigLoader.AppName} {ConfigLoader.Version} ({ConfigLoader.VersionDetails}) - {this.gw.currentDevice.model} ({this.gw.currentDevice.serial})";
                 this.LoadGWOperations(); // load gw actions
+                this.PersistSelectedProfile(); // Persist selected command profile if possible
             }));            
         }
 
@@ -460,6 +486,7 @@ namespace gWeasleGUI
             gwHFreqCB.Visible = false;
             gwMotorOnCB.Visible = false;
             gwForceCB.Visible = false;
+            gwDDcb.Visible = false;
             gwUseDiskDefFileCB.Visible = false;
 
             gwNrLBL.Visible = false;
@@ -675,8 +702,8 @@ namespace gWeasleGUI
 
             ProcessAction();
 
-            if (UpdateProfile(cmdProfile.name, fileName))
-                this.ConfigManager.WriteConfig();
+            //if (UpdateProfile(cmdProfile.name, fileName))
+            //    this.ConfigManager.WriteConfig();
 
             return true;
         }
@@ -799,23 +826,41 @@ namespace gWeasleGUI
             }
         }
 
+        /// <summary>
+        /// Profile combo selector changed index
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CmdProfileCB_SelectedIndexChanged(object sender, EventArgs e)
         {
-            this.ActionStart();
+            string profileToLoad = CmdProfileCB.Text;
+            ProfileDictionary<string, string> profiles = this.ConfigManager.ConfigData.profiles;
 
-            if( this.ConfigManager.ConfigData.profiles.ContainsKey(CmdProfileCB.Text) )
-            {
-                this.gwProfileFileTB.Text = this.ConfigManager.ConfigData.profiles[CmdProfileCB.Text];
-                if( !LoadProfile(this.gwProfileFileTB.Text) )
+            // Start the profile load on it's own thread for nicer GUI.
+            Task profile_task = Task.Factory.StartNew(
+                () =>
                 {
-                    logger.Info($"Unable to load profile removing it from the selector.");
-                    this.ConfigManager.ConfigData.profiles.Remove(CmdProfileCB.Text);
-                    this.ConfigManager.WriteConfig();
-                    CmdProfileCB.Items.Remove(CmdProfileCB.Text);
-                }
-            }
-
-            this.ActionComplete();
+                    if (profiles.ContainsKey(profileToLoad))
+                    {
+                        // processing actions back to the main thread, so we need the invoker
+                        this.Invoke(new MethodInvoker(delegate
+                        {
+                            this.gwProfileFileTB.Text = profiles[profileToLoad];
+                            if (!LoadProfile(this.gwProfileFileTB.Text))
+                            {
+                                logger.Info($"Unable to load profile removing it from the selector.");
+                                this.ConfigManager.ConfigData.profiles.Remove(profileToLoad);
+                                this.ConfigManager.WriteConfig();
+                                CmdProfileCB.Items.Remove(profileToLoad);
+                            }
+                            else
+                            {
+                                this.ConfigManager.ConfigData.LastProfile = profileToLoad;
+                                this.ConfigManager.WriteConfig();
+                            }
+                        }));   
+                    };
+                });
         }
 
         private void gwFormatTypeCB_SelectedIndexChanged(object sender, EventArgs e)

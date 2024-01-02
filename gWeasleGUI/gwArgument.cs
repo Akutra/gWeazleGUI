@@ -50,7 +50,7 @@ namespace gWeasleGUI
             if (string.IsNullOrEmpty(prefix))
                 return content.Trim();
 
-            return $"{prefix}={content}".Trim();
+            return $"{prefix} {content}".Trim();
         }
 
         public void PopulateInstance(Dictionary<string, string> values)

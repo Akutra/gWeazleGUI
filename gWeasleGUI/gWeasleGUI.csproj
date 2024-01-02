@@ -89,6 +89,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GwToggleValue.cs" />
     <Compile Include="ProfileDictionary.cs" />
     <Compile Include="DictionaryExtensions.cs" />
     <Compile Include="gconfig.cs" />

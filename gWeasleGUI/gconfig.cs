@@ -16,6 +16,7 @@ namespace gWeasleGUI.Config
         public bool RawFormat { get; set; } = false;
         public string LastDiskDefsCfgFile { get; set; } = string.Empty;
         public bool LastUseDiskDefsCfgFile { get; set; } = true;
+        public string LastProfile { get; set; } = string.Empty;
 
         public ProfileDictionary<string, string> profiles = new ProfileDictionary<string, string>();
 

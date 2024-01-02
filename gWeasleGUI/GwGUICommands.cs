@@ -156,6 +156,11 @@ namespace gWeasleGUI
             });
             this.GWParaInterface.Add("--file", new List<Control>() { SelectExistingFileBtn });
 
+            this.GWParameters.Add("--dd", (t) => {
+                return ArgProcessTemplate(argKey: "--dd", templateType: t, def: "H", alt: "L");
+            });
+            this.GWParaInterface.Add("--dd", new List<Control>() { gwDDcb });
+
             this.gwAdditionalArgs = (t) =>
             {
                 return ArgProcessTemplate(argKey: AdditionalArgsName, templateType: t, argControls: new List<Control>() { additonalArgsTB });
@@ -291,10 +296,10 @@ namespace gWeasleGUI
         /// <param name="def"></param>
         /// <param name="parmType"></param>
         /// <returns></returns>
-        private IgwArgValue ArgProcessTemplate(string argKey, templates templateType, object def = null, Type parmType = null)
+        private IgwArgValue ArgProcessTemplate(string argKey, templates templateType, object def = null, object alt = null, Type parmType = null)
         {
             IEnumerable<Control> argControls = GetValueFields(argKey);
-            return ArgProcessTemplate(argKey, templateType, argControls, def, parmType);
+            return ArgProcessTemplate(argKey, templateType, argControls, def, alt, parmType);
         }
 
         /// <summary>
@@ -308,12 +313,12 @@ namespace gWeasleGUI
         /// <param name="def">default value</param>
         /// <param name="parmType">optional addtional parameter details (i.e. int, string)</param>
         /// <returns></returns>
-        private IgwArgValue ArgProcessTemplate(string argKey, templates templateType, IEnumerable<Control>  argControls, object def = null, Type parmType = null)
+        private IgwArgValue ArgProcessTemplate(string argKey, templates templateType, IEnumerable<Control>  argControls, object def = null, object alt = null, Type parmType = null)
         {
             switch (templateType)
             {
                 case templates.CmdArg:
-                    return utilities.CmdArgTemplate(argKey, argControls, def, parmType);
+                    return utilities.CmdArgTemplate(argKey, argControls, def, alt, parmType);
                 //case templates.ObjectType:
                 //    return utilities.ObjectFactory(argKey, def, parmType);
             }
