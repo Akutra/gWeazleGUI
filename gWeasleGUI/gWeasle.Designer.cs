@@ -81,6 +81,7 @@
             this.actionTab = new System.Windows.Forms.TabPage();
             this.outputTB = new System.Windows.Forms.TextBox();
             this.parmTab = new System.Windows.Forms.TabPage();
+            this.gwDDcb = new System.Windows.Forms.CheckBox();
             this.gwUseDiskDefFileCB = new System.Windows.Forms.CheckBox();
             this.gwOTTSPECSwapCB = new System.Windows.Forms.CheckBox();
             this.gwTSPECSwapCB = new System.Windows.Forms.CheckBox();
@@ -215,7 +216,7 @@
             this.portcaptionLBL = new System.Windows.Forms.Label();
             this.CmdProfileCB = new System.Windows.Forms.ComboBox();
             this.gwCmdProfileLBL = new System.Windows.Forms.Label();
-            this.gwDDcb = new System.Windows.Forms.CheckBox();
+            this.ProfileDelBtn = new System.Windows.Forms.Button();
             this.GwStatus.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.accessoptions)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.busy1)).BeginInit();
@@ -233,7 +234,7 @@
             // 
             this.ExecuteBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.ExecuteBtn.Location = new System.Drawing.Point(885, 503);
-            this.ExecuteBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ExecuteBtn.Margin = new System.Windows.Forms.Padding(4);
             this.ExecuteBtn.Name = "ExecuteBtn";
             this.ExecuteBtn.Size = new System.Drawing.Size(100, 28);
             this.ExecuteBtn.TabIndex = 5;
@@ -246,7 +247,7 @@
             this.actionCB.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.actionCB.FormattingEnabled = true;
             this.actionCB.Location = new System.Drawing.Point(75, 12);
-            this.actionCB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.actionCB.Margin = new System.Windows.Forms.Padding(4);
             this.actionCB.Name = "actionCB";
             this.actionCB.Size = new System.Drawing.Size(91, 24);
             this.actionCB.TabIndex = 0;
@@ -292,7 +293,7 @@
             this.timeCB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.timeCB.AutoSize = true;
             this.timeCB.Location = new System.Drawing.Point(617, 509);
-            this.timeCB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.timeCB.Margin = new System.Windows.Forms.Padding(4);
             this.timeCB.Name = "timeCB";
             this.timeCB.Size = new System.Drawing.Size(150, 20);
             this.timeCB.TabIndex = 3;
@@ -304,7 +305,7 @@
             // 
             this.gwCmdHelpBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.gwCmdHelpBtn.Location = new System.Drawing.Point(775, 503);
-            this.gwCmdHelpBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwCmdHelpBtn.Margin = new System.Windows.Forms.Padding(4);
             this.gwCmdHelpBtn.Name = "gwCmdHelpBtn";
             this.gwCmdHelpBtn.Size = new System.Drawing.Size(103, 28);
             this.gwCmdHelpBtn.TabIndex = 4;
@@ -317,7 +318,7 @@
             this.accessoptions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.accessoptions.Image = global::gWeasleGUI.Properties.Resources.Grey_Options;
             this.accessoptions.Location = new System.Drawing.Point(17, 502);
-            this.accessoptions.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.accessoptions.Margin = new System.Windows.Forms.Padding(4);
             this.accessoptions.Name = "accessoptions";
             this.accessoptions.Size = new System.Drawing.Size(37, 34);
             this.accessoptions.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -329,7 +330,7 @@
             // removeDiskConfigBtn
             // 
             this.removeDiskConfigBtn.Location = new System.Drawing.Point(367, 46);
-            this.removeDiskConfigBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.removeDiskConfigBtn.Margin = new System.Windows.Forms.Padding(4);
             this.removeDiskConfigBtn.Name = "removeDiskConfigBtn";
             this.removeDiskConfigBtn.Size = new System.Drawing.Size(91, 28);
             this.removeDiskConfigBtn.TabIndex = 44;
@@ -342,7 +343,7 @@
             // 
             this.gwDDSaveBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.gwDDSaveBtn.Location = new System.Drawing.Point(159, 383);
-            this.gwDDSaveBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwDDSaveBtn.Margin = new System.Windows.Forms.Padding(4);
             this.gwDDSaveBtn.Name = "gwDDSaveBtn";
             this.gwDDSaveBtn.Size = new System.Drawing.Size(136, 28);
             this.gwDDSaveBtn.TabIndex = 74;
@@ -355,7 +356,7 @@
             // 
             this.gwDDReloadBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.gwDDReloadBtn.Location = new System.Drawing.Point(13, 383);
-            this.gwDDReloadBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwDDReloadBtn.Margin = new System.Windows.Forms.Padding(4);
             this.gwDDReloadBtn.Name = "gwDDReloadBtn";
             this.gwDDReloadBtn.Size = new System.Drawing.Size(136, 28);
             this.gwDDReloadBtn.TabIndex = 73;
@@ -368,7 +369,7 @@
             // 
             this.gwDDfileBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.gwDDfileBtn.Location = new System.Drawing.Point(861, 12);
-            this.gwDDfileBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwDDfileBtn.Margin = new System.Windows.Forms.Padding(4);
             this.gwDDfileBtn.Name = "gwDDfileBtn";
             this.gwDDfileBtn.Size = new System.Drawing.Size(125, 28);
             this.gwDDfileBtn.TabIndex = 41;
@@ -382,7 +383,7 @@
             this.gwDDRemoveTrackBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.gwDDRemoveTrackBtn.Enabled = false;
             this.gwDDRemoveTrackBtn.Location = new System.Drawing.Point(636, 167);
-            this.gwDDRemoveTrackBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwDDRemoveTrackBtn.Margin = new System.Windows.Forms.Padding(4);
             this.gwDDRemoveTrackBtn.Name = "gwDDRemoveTrackBtn";
             this.gwDDRemoveTrackBtn.Size = new System.Drawing.Size(100, 28);
             this.gwDDRemoveTrackBtn.TabIndex = 70;
@@ -395,7 +396,7 @@
             // 
             this.gwDDApplyTrackBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.gwDDApplyTrackBtn.Location = new System.Drawing.Point(636, 203);
-            this.gwDDApplyTrackBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwDDApplyTrackBtn.Margin = new System.Windows.Forms.Padding(4);
             this.gwDDApplyTrackBtn.Name = "gwDDApplyTrackBtn";
             this.gwDDApplyTrackBtn.Size = new System.Drawing.Size(100, 28);
             this.gwDDApplyTrackBtn.TabIndex = 71;
@@ -408,7 +409,7 @@
             // 
             this.gwDDiamCB.AutoSize = true;
             this.gwDDiamCB.Location = new System.Drawing.Point(340, 36);
-            this.gwDDiamCB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwDDiamCB.Margin = new System.Windows.Forms.Padding(4);
             this.gwDDiamCB.Name = "gwDDiamCB";
             this.gwDDiamCB.Size = new System.Drawing.Size(51, 20);
             this.gwDDiamCB.TabIndex = 52;
@@ -419,7 +420,7 @@
             // diskDefApplyBtn
             // 
             this.diskDefApplyBtn.Location = new System.Drawing.Point(788, 52);
-            this.diskDefApplyBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.diskDefApplyBtn.Margin = new System.Windows.Forms.Padding(4);
             this.diskDefApplyBtn.Name = "diskDefApplyBtn";
             this.diskDefApplyBtn.Size = new System.Drawing.Size(100, 28);
             this.diskDefApplyBtn.TabIndex = 49;
@@ -431,7 +432,7 @@
             // newDiskConfigBtn
             // 
             this.newDiskConfigBtn.Location = new System.Drawing.Point(275, 46);
-            this.newDiskConfigBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.newDiskConfigBtn.Margin = new System.Windows.Forms.Padding(4);
             this.newDiskConfigBtn.Name = "newDiskConfigBtn";
             this.newDiskConfigBtn.Size = new System.Drawing.Size(91, 28);
             this.newDiskConfigBtn.TabIndex = 43;
@@ -444,7 +445,7 @@
             // 
             this.gwDiskConfigCB.FormattingEnabled = true;
             this.gwDiskConfigCB.Location = new System.Drawing.Point(109, 48);
-            this.gwDiskConfigCB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwDiskConfigCB.Margin = new System.Windows.Forms.Padding(4);
             this.gwDiskConfigCB.Name = "gwDiskConfigCB";
             this.gwDiskConfigCB.Size = new System.Drawing.Size(160, 24);
             this.gwDiskConfigCB.TabIndex = 42;
@@ -455,7 +456,7 @@
             // 
             this.SelectNewFileBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.SelectNewFileBtn.Location = new System.Drawing.Point(925, 7);
-            this.SelectNewFileBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.SelectNewFileBtn.Margin = new System.Windows.Forms.Padding(4);
             this.SelectNewFileBtn.Name = "SelectNewFileBtn";
             this.SelectNewFileBtn.Size = new System.Drawing.Size(77, 28);
             this.SelectNewFileBtn.TabIndex = 7;
@@ -468,7 +469,7 @@
             // 
             this.SelectExistingFileBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.SelectExistingFileBtn.Location = new System.Drawing.Point(840, 7);
-            this.SelectExistingFileBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.SelectExistingFileBtn.Margin = new System.Windows.Forms.Padding(4);
             this.SelectExistingFileBtn.Name = "SelectExistingFileBtn";
             this.SelectExistingFileBtn.Size = new System.Drawing.Size(77, 28);
             this.SelectExistingFileBtn.TabIndex = 6;
@@ -480,7 +481,7 @@
             // gwDDsubformatTB
             // 
             this.gwDDsubformatTB.Location = new System.Drawing.Point(423, 161);
-            this.gwDDsubformatTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwDDsubformatTB.Margin = new System.Windows.Forms.Padding(4);
             this.gwDDsubformatTB.Name = "gwDDsubformatTB";
             this.gwDDsubformatTB.Size = new System.Drawing.Size(61, 22);
             this.gwDDsubformatTB.TabIndex = 69;
@@ -491,7 +492,7 @@
             // 
             this.gwDDclockTB.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
             this.gwDDclockTB.Location = new System.Drawing.Point(549, 33);
-            this.gwDDclockTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwDDclockTB.Margin = new System.Windows.Forms.Padding(4);
             this.gwDDclockTB.Name = "gwDDclockTB";
             this.gwDDclockTB.Size = new System.Drawing.Size(69, 22);
             this.gwDDclockTB.TabIndex = 54;
@@ -502,7 +503,7 @@
             // 
             this.gwDDimgbpsTB.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
             this.gwDDimgbpsTB.Location = new System.Drawing.Point(261, 161);
-            this.gwDDimgbpsTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwDDimgbpsTB.Margin = new System.Windows.Forms.Padding(4);
             this.gwDDimgbpsTB.Name = "gwDDimgbpsTB";
             this.gwDDimgbpsTB.Size = new System.Drawing.Size(69, 22);
             this.gwDDimgbpsTB.TabIndex = 68;
@@ -513,7 +514,7 @@
             // 
             this.gwDDgapbyteTB.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
             this.gwDDgapbyteTB.Location = new System.Drawing.Point(96, 161);
-            this.gwDDgapbyteTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwDDgapbyteTB.Margin = new System.Windows.Forms.Padding(4);
             this.gwDDgapbyteTB.Name = "gwDDgapbyteTB";
             this.gwDDgapbyteTB.Size = new System.Drawing.Size(87, 22);
             this.gwDDgapbyteTB.TabIndex = 67;
@@ -524,7 +525,7 @@
             // 
             this.gwDDgap4aTB.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
             this.gwDDgap4aTB.Location = new System.Drawing.Point(429, 129);
-            this.gwDDgap4aTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwDDgap4aTB.Margin = new System.Windows.Forms.Padding(4);
             this.gwDDgap4aTB.Name = "gwDDgap4aTB";
             this.gwDDgap4aTB.Size = new System.Drawing.Size(61, 22);
             this.gwDDgap4aTB.TabIndex = 66;
@@ -535,7 +536,7 @@
             // 
             this.gwDDgap3TB.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
             this.gwDDgap3TB.Location = new System.Drawing.Point(301, 129);
-            this.gwDDgap3TB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwDDgap3TB.Margin = new System.Windows.Forms.Padding(4);
             this.gwDDgap3TB.Name = "gwDDgap3TB";
             this.gwDDgap3TB.Size = new System.Drawing.Size(61, 22);
             this.gwDDgap3TB.TabIndex = 65;
@@ -546,7 +547,7 @@
             // 
             this.gwDDgap2TB.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
             this.gwDDgap2TB.Location = new System.Drawing.Point(192, 129);
-            this.gwDDgap2TB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwDDgap2TB.Margin = new System.Windows.Forms.Padding(4);
             this.gwDDgap2TB.Name = "gwDDgap2TB";
             this.gwDDgap2TB.Size = new System.Drawing.Size(51, 22);
             this.gwDDgap2TB.TabIndex = 64;
@@ -557,7 +558,7 @@
             // 
             this.gwDDgap1TB.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
             this.gwDDgap1TB.Location = new System.Drawing.Point(75, 129);
-            this.gwDDgap1TB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwDDgap1TB.Margin = new System.Windows.Forms.Padding(4);
             this.gwDDgap1TB.Name = "gwDDgap1TB";
             this.gwDDgap1TB.Size = new System.Drawing.Size(59, 22);
             this.gwDDgap1TB.TabIndex = 63;
@@ -567,7 +568,7 @@
             // gwDDrpmTB
             // 
             this.gwDDrpmTB.Location = new System.Drawing.Point(447, 97);
-            this.gwDDrpmTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwDDrpmTB.Margin = new System.Windows.Forms.Padding(4);
             this.gwDDrpmTB.Name = "gwDDrpmTB";
             this.gwDDrpmTB.Size = new System.Drawing.Size(61, 22);
             this.gwDDrpmTB.TabIndex = 62;
@@ -577,7 +578,7 @@
             // gwDDrateTB
             // 
             this.gwDDrateTB.Location = new System.Drawing.Point(336, 97);
-            this.gwDDrateTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwDDrateTB.Margin = new System.Windows.Forms.Padding(4);
             this.gwDDrateTB.Name = "gwDDrateTB";
             this.gwDDrateTB.Size = new System.Drawing.Size(61, 22);
             this.gwDDrateTB.TabIndex = 61;
@@ -587,7 +588,7 @@
             // gwDDhTB
             // 
             this.gwDDhTB.Location = new System.Drawing.Point(228, 97);
-            this.gwDDhTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwDDhTB.Margin = new System.Windows.Forms.Padding(4);
             this.gwDDhTB.Name = "gwDDhTB";
             this.gwDDhTB.Size = new System.Drawing.Size(51, 22);
             this.gwDDhTB.TabIndex = 60;
@@ -597,7 +598,7 @@
             // gwDDinterleaveTB
             // 
             this.gwDDinterleaveTB.Location = new System.Drawing.Point(108, 97);
-            this.gwDDinterleaveTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwDDinterleaveTB.Margin = new System.Windows.Forms.Padding(4);
             this.gwDDinterleaveTB.Name = "gwDDinterleaveTB";
             this.gwDDinterleaveTB.Size = new System.Drawing.Size(59, 22);
             this.gwDDinterleaveTB.TabIndex = 59;
@@ -607,7 +608,7 @@
             // gwDDidTB
             // 
             this.gwDDidTB.Location = new System.Drawing.Point(432, 33);
-            this.gwDDidTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwDDidTB.Margin = new System.Windows.Forms.Padding(4);
             this.gwDDidTB.Name = "gwDDidTB";
             this.gwDDidTB.Size = new System.Drawing.Size(61, 22);
             this.gwDDidTB.TabIndex = 53;
@@ -617,7 +618,7 @@
             // gwDDhskewTB
             // 
             this.gwDDhskewTB.Location = new System.Drawing.Point(549, 65);
-            this.gwDDhskewTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwDDhskewTB.Margin = new System.Windows.Forms.Padding(4);
             this.gwDDhskewTB.Name = "gwDDhskewTB";
             this.gwDDhskewTB.Size = new System.Drawing.Size(61, 22);
             this.gwDDhskewTB.TabIndex = 58;
@@ -627,7 +628,7 @@
             // gwDDcskewTB
             // 
             this.gwDDcskewTB.Location = new System.Drawing.Point(389, 65);
-            this.gwDDcskewTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwDDcskewTB.Margin = new System.Windows.Forms.Padding(4);
             this.gwDDcskewTB.Name = "gwDDcskewTB";
             this.gwDDcskewTB.Size = new System.Drawing.Size(61, 22);
             this.gwDDcskewTB.TabIndex = 57;
@@ -637,7 +638,7 @@
             // gwDDbpsTB
             // 
             this.gwDDbpsTB.Location = new System.Drawing.Point(200, 65);
-            this.gwDDbpsTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwDDbpsTB.Margin = new System.Windows.Forms.Padding(4);
             this.gwDDbpsTB.Name = "gwDDbpsTB";
             this.gwDDbpsTB.Size = new System.Drawing.Size(112, 22);
             this.gwDDbpsTB.TabIndex = 56;
@@ -647,7 +648,7 @@
             // gwDDformatTB
             // 
             this.gwDDformatTB.Location = new System.Drawing.Point(232, 33);
-            this.gwDDformatTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwDDformatTB.Margin = new System.Windows.Forms.Padding(4);
             this.gwDDformatTB.Name = "gwDDformatTB";
             this.gwDDformatTB.Size = new System.Drawing.Size(99, 22);
             this.gwDDformatTB.TabIndex = 51;
@@ -657,7 +658,7 @@
             // gwDDtracksTB
             // 
             this.gwDDtracksTB.Location = new System.Drawing.Point(93, 33);
-            this.gwDDtracksTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwDDtracksTB.Margin = new System.Windows.Forms.Padding(4);
             this.gwDDtracksTB.Name = "gwDDtracksTB";
             this.gwDDtracksTB.Size = new System.Drawing.Size(71, 22);
             this.gwDDtracksTB.TabIndex = 50;
@@ -667,7 +668,7 @@
             // gwDDsectorsTB
             // 
             this.gwDDsectorsTB.Location = new System.Drawing.Point(93, 65);
-            this.gwDDsectorsTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwDDsectorsTB.Margin = new System.Windows.Forms.Padding(4);
             this.gwDDsectorsTB.Name = "gwDDsectorsTB";
             this.gwDDsectorsTB.Size = new System.Drawing.Size(61, 22);
             this.gwDDsectorsTB.TabIndex = 55;
@@ -677,7 +678,7 @@
             // gwDDStepTB
             // 
             this.gwDDStepTB.Location = new System.Drawing.Point(869, 89);
-            this.gwDDStepTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwDDStepTB.Margin = new System.Windows.Forms.Padding(4);
             this.gwDDStepTB.Name = "gwDDStepTB";
             this.gwDDStepTB.Size = new System.Drawing.Size(85, 22);
             this.gwDDStepTB.TabIndex = 48;
@@ -687,7 +688,7 @@
             // gwDDHeadsTB
             // 
             this.gwDDHeadsTB.Location = new System.Drawing.Point(728, 89);
-            this.gwDDHeadsTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwDDHeadsTB.Margin = new System.Windows.Forms.Padding(4);
             this.gwDDHeadsTB.Name = "gwDDHeadsTB";
             this.gwDDHeadsTB.Size = new System.Drawing.Size(85, 22);
             this.gwDDHeadsTB.TabIndex = 47;
@@ -698,7 +699,7 @@
             // 
             this.gwDDCylsTB.BackColor = System.Drawing.SystemColors.Window;
             this.gwDDCylsTB.Location = new System.Drawing.Point(575, 89);
-            this.gwDDCylsTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwDDCylsTB.Margin = new System.Windows.Forms.Padding(4);
             this.gwDDCylsTB.Name = "gwDDCylsTB";
             this.gwDDCylsTB.Size = new System.Drawing.Size(85, 22);
             this.gwDDCylsTB.TabIndex = 46;
@@ -708,7 +709,7 @@
             // diskDefNameTB
             // 
             this.diskDefNameTB.Location = new System.Drawing.Point(619, 54);
-            this.diskDefNameTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.diskDefNameTB.Margin = new System.Windows.Forms.Padding(4);
             this.diskDefNameTB.Name = "diskDefNameTB";
             this.diskDefNameTB.Size = new System.Drawing.Size(160, 22);
             this.diskDefNameTB.TabIndex = 45;
@@ -733,7 +734,7 @@
             this.busy1.Image = global::gWeasleGUI.Properties.Resources.RotatingRings;
             this.busy1.InitialImage = null;
             this.busy1.Location = new System.Drawing.Point(993, 496);
-            this.busy1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.busy1.Margin = new System.Windows.Forms.Padding(4);
             this.busy1.Name = "busy1";
             this.busy1.Size = new System.Drawing.Size(45, 41);
             this.busy1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -752,7 +753,7 @@
             this.GWTab.Controls.Add(this.deviceTab);
             this.GWTab.Controls.Add(this.portsTab);
             this.GWTab.Location = new System.Drawing.Point(17, 47);
-            this.GWTab.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.GWTab.Margin = new System.Windows.Forms.Padding(4);
             this.GWTab.Name = "GWTab";
             this.GWTab.SelectedIndex = 0;
             this.GWTab.Size = new System.Drawing.Size(1021, 452);
@@ -762,9 +763,9 @@
             // 
             this.actionTab.Controls.Add(this.outputTB);
             this.actionTab.Location = new System.Drawing.Point(4, 25);
-            this.actionTab.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.actionTab.Margin = new System.Windows.Forms.Padding(4);
             this.actionTab.Name = "actionTab";
-            this.actionTab.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.actionTab.Padding = new System.Windows.Forms.Padding(4);
             this.actionTab.Size = new System.Drawing.Size(1013, 423);
             this.actionTab.TabIndex = 0;
             this.actionTab.Text = "Action";
@@ -779,7 +780,7 @@
             this.outputTB.Font = new System.Drawing.Font("Ubuntu Mono", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.outputTB.ForeColor = System.Drawing.Color.Gold;
             this.outputTB.Location = new System.Drawing.Point(0, 0);
-            this.outputTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.outputTB.Margin = new System.Windows.Forms.Padding(4);
             this.outputTB.Multiline = true;
             this.outputTB.Name = "outputTB";
             this.outputTB.ReadOnly = true;
@@ -850,19 +851,30 @@
             this.parmTab.Controls.Add(this.gwFormatTypeCB);
             this.parmTab.Controls.Add(this.gwFormatTypeLBL);
             this.parmTab.Location = new System.Drawing.Point(4, 25);
-            this.parmTab.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.parmTab.Margin = new System.Windows.Forms.Padding(4);
             this.parmTab.Name = "parmTab";
-            this.parmTab.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.parmTab.Padding = new System.Windows.Forms.Padding(4);
             this.parmTab.Size = new System.Drawing.Size(1013, 423);
             this.parmTab.TabIndex = 1;
             this.parmTab.Text = "Parameters";
             this.parmTab.UseVisualStyleBackColor = true;
             // 
+            // gwDDcb
+            // 
+            this.gwDDcb.AutoSize = true;
+            this.gwDDcb.Location = new System.Drawing.Point(348, 299);
+            this.gwDDcb.Margin = new System.Windows.Forms.Padding(4);
+            this.gwDDcb.Name = "gwDDcb";
+            this.gwDDcb.Size = new System.Drawing.Size(117, 20);
+            this.gwDDcb.TabIndex = 128;
+            this.gwDDcb.Text = "double density";
+            this.gwDDcb.UseVisualStyleBackColor = true;
+            // 
             // gwUseDiskDefFileCB
             // 
             this.gwUseDiskDefFileCB.AutoSize = true;
             this.gwUseDiskDefFileCB.Location = new System.Drawing.Point(357, 42);
-            this.gwUseDiskDefFileCB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwUseDiskDefFileCB.Margin = new System.Windows.Forms.Padding(4);
             this.gwUseDiskDefFileCB.Name = "gwUseDiskDefFileCB";
             this.gwUseDiskDefFileCB.Size = new System.Drawing.Size(140, 20);
             this.gwUseDiskDefFileCB.TabIndex = 10;
@@ -875,7 +887,7 @@
             // 
             this.gwOTTSPECSwapCB.AutoSize = true;
             this.gwOTTSPECSwapCB.Location = new System.Drawing.Point(436, 134);
-            this.gwOTTSPECSwapCB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwOTTSPECSwapCB.Margin = new System.Windows.Forms.Padding(4);
             this.gwOTTSPECSwapCB.Name = "gwOTTSPECSwapCB";
             this.gwOTTSPECSwapCB.Size = new System.Drawing.Size(63, 20);
             this.gwOTTSPECSwapCB.TabIndex = 22;
@@ -887,7 +899,7 @@
             // 
             this.gwTSPECSwapCB.AutoSize = true;
             this.gwTSPECSwapCB.Location = new System.Drawing.Point(169, 134);
-            this.gwTSPECSwapCB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwTSPECSwapCB.Margin = new System.Windows.Forms.Padding(4);
             this.gwTSPECSwapCB.Name = "gwTSPECSwapCB";
             this.gwTSPECSwapCB.Size = new System.Drawing.Size(63, 20);
             this.gwTSPECSwapCB.TabIndex = 17;
@@ -908,7 +920,7 @@
             // driveTB
             // 
             this.driveTB.Location = new System.Drawing.Point(317, 39);
-            this.driveTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.driveTB.Margin = new System.Windows.Forms.Padding(4);
             this.driveTB.Name = "driveTB";
             this.driveTB.Size = new System.Drawing.Size(29, 22);
             this.driveTB.TabIndex = 9;
@@ -928,7 +940,7 @@
             // gwNrTB
             // 
             this.gwNrTB.Location = new System.Drawing.Point(95, 73);
-            this.gwNrTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwNrTB.Margin = new System.Windows.Forms.Padding(4);
             this.gwNrTB.Name = "gwNrTB";
             this.gwNrTB.Size = new System.Drawing.Size(44, 22);
             this.gwNrTB.TabIndex = 11;
@@ -939,7 +951,7 @@
             // 
             this.gwForceCB.AutoSize = true;
             this.gwForceCB.Location = new System.Drawing.Point(348, 271);
-            this.gwForceCB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwForceCB.Margin = new System.Windows.Forms.Padding(4);
             this.gwForceCB.Name = "gwForceCB";
             this.gwForceCB.Size = new System.Drawing.Size(64, 20);
             this.gwForceCB.TabIndex = 38;
@@ -950,7 +962,7 @@
             // 
             this.gwMotorOnCB.AutoSize = true;
             this.gwMotorOnCB.Location = new System.Drawing.Point(348, 242);
-            this.gwMotorOnCB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwMotorOnCB.Margin = new System.Windows.Forms.Padding(4);
             this.gwMotorOnCB.Name = "gwMotorOnCB";
             this.gwMotorOnCB.Size = new System.Drawing.Size(83, 20);
             this.gwMotorOnCB.TabIndex = 37;
@@ -971,7 +983,7 @@
             // gwLingerTB
             // 
             this.gwLingerTB.Location = new System.Drawing.Point(441, 73);
-            this.gwLingerTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwLingerTB.Margin = new System.Windows.Forms.Padding(4);
             this.gwLingerTB.Name = "gwLingerTB";
             this.gwLingerTB.Size = new System.Drawing.Size(44, 22);
             this.gwLingerTB.TabIndex = 14;
@@ -992,7 +1004,7 @@
             // gwPassesTB
             // 
             this.gwPassesTB.Location = new System.Drawing.Point(328, 73);
-            this.gwPassesTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwPassesTB.Margin = new System.Windows.Forms.Padding(4);
             this.gwPassesTB.Name = "gwPassesTB";
             this.gwPassesTB.Size = new System.Drawing.Size(44, 22);
             this.gwPassesTB.TabIndex = 13;
@@ -1002,7 +1014,7 @@
             // gwOTTSPECOffsetsTB
             // 
             this.gwOTTSPECOffsetsTB.Location = new System.Drawing.Point(381, 196);
-            this.gwOTTSPECOffsetsTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwOTTSPECOffsetsTB.Margin = new System.Windows.Forms.Padding(4);
             this.gwOTTSPECOffsetsTB.Name = "gwOTTSPECOffsetsTB";
             this.gwOTTSPECOffsetsTB.Size = new System.Drawing.Size(157, 22);
             this.gwOTTSPECOffsetsTB.TabIndex = 24;
@@ -1024,7 +1036,7 @@
             // 
             this.gwHFreqCB.AutoSize = true;
             this.gwHFreqCB.Location = new System.Drawing.Point(348, 214);
-            this.gwHFreqCB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwHFreqCB.Margin = new System.Windows.Forms.Padding(4);
             this.gwHFreqCB.Name = "gwHFreqCB";
             this.gwHFreqCB.Size = new System.Drawing.Size(124, 20);
             this.gwHFreqCB.TabIndex = 36;
@@ -1045,7 +1057,7 @@
             // gwOTTSPECStepTB
             // 
             this.gwOTTSPECStepTB.Location = new System.Drawing.Point(381, 164);
-            this.gwOTTSPECStepTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwOTTSPECStepTB.Margin = new System.Windows.Forms.Padding(4);
             this.gwOTTSPECStepTB.Name = "gwOTTSPECStepTB";
             this.gwOTTSPECStepTB.Size = new System.Drawing.Size(45, 22);
             this.gwOTTSPECStepTB.TabIndex = 23;
@@ -1067,7 +1079,7 @@
             // gwOTTSPECHeadsTB
             // 
             this.gwOTTSPECHeadsTB.Location = new System.Drawing.Point(381, 132);
-            this.gwOTTSPECHeadsTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwOTTSPECHeadsTB.Margin = new System.Windows.Forms.Padding(4);
             this.gwOTTSPECHeadsTB.Name = "gwOTTSPECHeadsTB";
             this.gwOTTSPECHeadsTB.Size = new System.Drawing.Size(45, 22);
             this.gwOTTSPECHeadsTB.TabIndex = 21;
@@ -1089,7 +1101,7 @@
             // gwOTTSPECCylTB
             // 
             this.gwOTTSPECCylTB.Location = new System.Drawing.Point(381, 100);
-            this.gwOTTSPECCylTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwOTTSPECCylTB.Margin = new System.Windows.Forms.Padding(4);
             this.gwOTTSPECCylTB.Name = "gwOTTSPECCylTB";
             this.gwOTTSPECCylTB.Size = new System.Drawing.Size(157, 22);
             this.gwOTTSPECCylTB.TabIndex = 20;
@@ -1112,7 +1124,7 @@
             // 
             this.gwPreEraseCB.AutoSize = true;
             this.gwPreEraseCB.Location = new System.Drawing.Point(348, 186);
-            this.gwPreEraseCB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwPreEraseCB.Margin = new System.Windows.Forms.Padding(4);
             this.gwPreEraseCB.Name = "gwPreEraseCB";
             this.gwPreEraseCB.Size = new System.Drawing.Size(90, 20);
             this.gwPreEraseCB.TabIndex = 35;
@@ -1122,7 +1134,7 @@
             // gwRevsTB
             // 
             this.gwRevsTB.Location = new System.Drawing.Point(115, 262);
-            this.gwRevsTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwRevsTB.Margin = new System.Windows.Forms.Padding(4);
             this.gwRevsTB.Name = "gwRevsTB";
             this.gwRevsTB.Size = new System.Drawing.Size(52, 22);
             this.gwRevsTB.TabIndex = 27;
@@ -1143,7 +1155,7 @@
             // gwAdjustSpeedTB
             // 
             this.gwAdjustSpeedTB.Location = new System.Drawing.Point(277, 294);
-            this.gwAdjustSpeedTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwAdjustSpeedTB.Margin = new System.Windows.Forms.Padding(4);
             this.gwAdjustSpeedTB.Name = "gwAdjustSpeedTB";
             this.gwAdjustSpeedTB.Size = new System.Drawing.Size(52, 22);
             this.gwAdjustSpeedTB.TabIndex = 29;
@@ -1162,7 +1174,7 @@
             // gwFakeIndexTB
             // 
             this.gwFakeIndexTB.Location = new System.Drawing.Point(115, 294);
-            this.gwFakeIndexTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwFakeIndexTB.Margin = new System.Windows.Forms.Padding(4);
             this.gwFakeIndexTB.Name = "gwFakeIndexTB";
             this.gwFakeIndexTB.Size = new System.Drawing.Size(52, 22);
             this.gwFakeIndexTB.TabIndex = 28;
@@ -1181,7 +1193,7 @@
             // gwPLLPhaseTB
             // 
             this.gwPLLPhaseTB.Location = new System.Drawing.Point(227, 228);
-            this.gwPLLPhaseTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwPLLPhaseTB.Margin = new System.Windows.Forms.Padding(4);
             this.gwPLLPhaseTB.Name = "gwPLLPhaseTB";
             this.gwPLLPhaseTB.Size = new System.Drawing.Size(45, 22);
             this.gwPLLPhaseTB.TabIndex = 26;
@@ -1201,7 +1213,7 @@
             // gwPLLPeriodTB
             // 
             this.gwPLLPeriodTB.Location = new System.Drawing.Point(115, 228);
-            this.gwPLLPeriodTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwPLLPeriodTB.Margin = new System.Windows.Forms.Padding(4);
             this.gwPLLPeriodTB.Name = "gwPLLPeriodTB";
             this.gwPLLPeriodTB.Size = new System.Drawing.Size(45, 22);
             this.gwPLLPeriodTB.TabIndex = 25;
@@ -1221,7 +1233,7 @@
             // gwTSPECOffsetsTB
             // 
             this.gwTSPECOffsetsTB.Location = new System.Drawing.Point(115, 196);
-            this.gwTSPECOffsetsTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwTSPECOffsetsTB.Margin = new System.Windows.Forms.Padding(4);
             this.gwTSPECOffsetsTB.Name = "gwTSPECOffsetsTB";
             this.gwTSPECOffsetsTB.Size = new System.Drawing.Size(157, 22);
             this.gwTSPECOffsetsTB.TabIndex = 19;
@@ -1240,7 +1252,7 @@
             // gwTSPECStepTB
             // 
             this.gwTSPECStepTB.Location = new System.Drawing.Point(115, 164);
-            this.gwTSPECStepTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwTSPECStepTB.Margin = new System.Windows.Forms.Padding(4);
             this.gwTSPECStepTB.Name = "gwTSPECStepTB";
             this.gwTSPECStepTB.Size = new System.Drawing.Size(45, 22);
             this.gwTSPECStepTB.TabIndex = 18;
@@ -1260,7 +1272,7 @@
             // gwTSPECHeadsTB
             // 
             this.gwTSPECHeadsTB.Location = new System.Drawing.Point(115, 132);
-            this.gwTSPECHeadsTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwTSPECHeadsTB.Margin = new System.Windows.Forms.Padding(4);
             this.gwTSPECHeadsTB.Name = "gwTSPECHeadsTB";
             this.gwTSPECHeadsTB.Size = new System.Drawing.Size(45, 22);
             this.gwTSPECHeadsTB.TabIndex = 16;
@@ -1280,7 +1292,7 @@
             // gwTSPECCylTB
             // 
             this.gwTSPECCylTB.Location = new System.Drawing.Point(115, 100);
-            this.gwTSPECCylTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwTSPECCylTB.Margin = new System.Windows.Forms.Padding(4);
             this.gwTSPECCylTB.Name = "gwTSPECCylTB";
             this.gwTSPECCylTB.Size = new System.Drawing.Size(157, 22);
             this.gwTSPECCylTB.TabIndex = 15;
@@ -1301,7 +1313,7 @@
             // 
             this.gwNoVerifyCB.AutoSize = true;
             this.gwNoVerifyCB.Location = new System.Drawing.Point(348, 101);
-            this.gwNoVerifyCB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwNoVerifyCB.Margin = new System.Windows.Forms.Padding(4);
             this.gwNoVerifyCB.Name = "gwNoVerifyCB";
             this.gwNoVerifyCB.Size = new System.Drawing.Size(84, 20);
             this.gwNoVerifyCB.TabIndex = 32;
@@ -1312,7 +1324,7 @@
             // 
             this.gwEraseBlankCB.AutoSize = true;
             this.gwEraseBlankCB.Location = new System.Drawing.Point(348, 158);
-            this.gwEraseBlankCB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwEraseBlankCB.Margin = new System.Windows.Forms.Padding(4);
             this.gwEraseBlankCB.Name = "gwEraseBlankCB";
             this.gwEraseBlankCB.Size = new System.Drawing.Size(106, 20);
             this.gwEraseBlankCB.TabIndex = 34;
@@ -1323,7 +1335,7 @@
             // 
             this.gwRawCB.AutoSize = true;
             this.gwRawCB.Location = new System.Drawing.Point(348, 129);
-            this.gwRawCB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwRawCB.Margin = new System.Windows.Forms.Padding(4);
             this.gwRawCB.Name = "gwRawCB";
             this.gwRawCB.Size = new System.Drawing.Size(56, 20);
             this.gwRawCB.TabIndex = 33;
@@ -1333,7 +1345,7 @@
             // gwSeekRetriesTB
             // 
             this.gwSeekRetriesTB.Location = new System.Drawing.Point(277, 326);
-            this.gwSeekRetriesTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwSeekRetriesTB.Margin = new System.Windows.Forms.Padding(4);
             this.gwSeekRetriesTB.Name = "gwSeekRetriesTB";
             this.gwSeekRetriesTB.Size = new System.Drawing.Size(47, 22);
             this.gwSeekRetriesTB.TabIndex = 31;
@@ -1352,7 +1364,7 @@
             // gwRetriesTB
             // 
             this.gwRetriesTB.Location = new System.Drawing.Point(115, 326);
-            this.gwRetriesTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwRetriesTB.Margin = new System.Windows.Forms.Padding(4);
             this.gwRetriesTB.Name = "gwRetriesTB";
             this.gwRetriesTB.Size = new System.Drawing.Size(52, 22);
             this.gwRetriesTB.TabIndex = 30;
@@ -1392,7 +1404,7 @@
             // gwCylTB
             // 
             this.gwCylTB.Location = new System.Drawing.Point(213, 73);
-            this.gwCylTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwCylTB.Margin = new System.Windows.Forms.Padding(4);
             this.gwCylTB.Name = "gwCylTB";
             this.gwCylTB.Size = new System.Drawing.Size(44, 22);
             this.gwCylTB.TabIndex = 12;
@@ -1415,7 +1427,7 @@
             this.additonalArgsTB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.additonalArgsTB.Location = new System.Drawing.Point(179, 377);
-            this.additonalArgsTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.additonalArgsTB.Margin = new System.Windows.Forms.Padding(4);
             this.additonalArgsTB.Name = "additonalArgsTB";
             this.additonalArgsTB.Size = new System.Drawing.Size(804, 22);
             this.additonalArgsTB.TabIndex = 39;
@@ -1425,7 +1437,7 @@
             // 
             this.gwFormatTypeCB.FormattingEnabled = true;
             this.gwFormatTypeCB.Location = new System.Drawing.Point(116, 39);
-            this.gwFormatTypeCB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwFormatTypeCB.Margin = new System.Windows.Forms.Padding(4);
             this.gwFormatTypeCB.Name = "gwFormatTypeCB";
             this.gwFormatTypeCB.Size = new System.Drawing.Size(141, 24);
             this.gwFormatTypeCB.TabIndex = 8;
@@ -1462,7 +1474,7 @@
             this.ddTab.Controls.Add(this.gwDiskConfigLBL);
             this.ddTab.Controls.Add(this.gwDiskConfigCB);
             this.ddTab.Location = new System.Drawing.Point(4, 25);
-            this.ddTab.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ddTab.Margin = new System.Windows.Forms.Padding(4);
             this.ddTab.Name = "ddTab";
             this.ddTab.Size = new System.Drawing.Size(1013, 423);
             this.ddTab.TabIndex = 2;
@@ -1527,9 +1539,9 @@
             this.gwDDtracksgroupBox.Controls.Add(this.gwDDsectorsLBL);
             this.gwDDtracksgroupBox.Controls.Add(this.gwDDTrackListLB);
             this.gwDDtracksgroupBox.Location = new System.Drawing.Point(4, 133);
-            this.gwDDtracksgroupBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwDDtracksgroupBox.Margin = new System.Windows.Forms.Padding(4);
             this.gwDDtracksgroupBox.Name = "gwDDtracksgroupBox";
-            this.gwDDtracksgroupBox.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwDDtracksgroupBox.Padding = new System.Windows.Forms.Padding(4);
             this.gwDDtracksgroupBox.Size = new System.Drawing.Size(1003, 242);
             this.gwDDtracksgroupBox.TabIndex = 54;
             this.gwDDtracksgroupBox.TabStop = false;
@@ -1739,7 +1751,7 @@
             this.gwDDTrackListLB.FormattingEnabled = true;
             this.gwDDTrackListLB.ItemHeight = 16;
             this.gwDDTrackListLB.Location = new System.Drawing.Point(744, 22);
-            this.gwDDTrackListLB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwDDTrackListLB.Margin = new System.Windows.Forms.Padding(4);
             this.gwDDTrackListLB.Name = "gwDDTrackListLB";
             this.gwDDTrackListLB.Size = new System.Drawing.Size(249, 212);
             this.gwDDTrackListLB.TabIndex = 72;
@@ -1798,6 +1810,7 @@
             // 
             // optionsTab
             // 
+            this.optionsTab.Controls.Add(this.ProfileDelBtn);
             this.optionsTab.Controls.Add(this.gwHostToolsVersionValue);
             this.optionsTab.Controls.Add(this.gwHostToolsVersionLBL);
             this.optionsTab.Controls.Add(this.SelectProfilePathBtn);
@@ -1813,7 +1826,7 @@
             this.optionsTab.Controls.Add(this.SelectGWPathBtn);
             this.optionsTab.Controls.Add(this.gwPathSelectionTB);
             this.optionsTab.Location = new System.Drawing.Point(4, 25);
-            this.optionsTab.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.optionsTab.Margin = new System.Windows.Forms.Padding(4);
             this.optionsTab.Name = "optionsTab";
             this.optionsTab.Size = new System.Drawing.Size(1013, 423);
             this.optionsTab.TabIndex = 3;
@@ -1845,7 +1858,7 @@
             // 
             this.SelectProfilePathBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.SelectProfilePathBtn.Location = new System.Drawing.Point(863, 151);
-            this.SelectProfilePathBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.SelectProfilePathBtn.Margin = new System.Windows.Forms.Padding(4);
             this.SelectProfilePathBtn.Name = "SelectProfilePathBtn";
             this.SelectProfilePathBtn.Size = new System.Drawing.Size(100, 28);
             this.SelectProfilePathBtn.TabIndex = 78;
@@ -1856,7 +1869,7 @@
             // ProfileClearBtn
             // 
             this.ProfileClearBtn.Location = new System.Drawing.Point(323, 218);
-            this.ProfileClearBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ProfileClearBtn.Margin = new System.Windows.Forms.Padding(4);
             this.ProfileClearBtn.Name = "ProfileClearBtn";
             this.ProfileClearBtn.Size = new System.Drawing.Size(100, 28);
             this.ProfileClearBtn.TabIndex = 82;
@@ -1867,7 +1880,7 @@
             // SaveProfileBtn
             // 
             this.SaveProfileBtn.Location = new System.Drawing.Point(163, 218);
-            this.SaveProfileBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.SaveProfileBtn.Margin = new System.Windows.Forms.Padding(4);
             this.SaveProfileBtn.Name = "SaveProfileBtn";
             this.SaveProfileBtn.Size = new System.Drawing.Size(152, 28);
             this.SaveProfileBtn.TabIndex = 81;
@@ -1890,7 +1903,7 @@
             this.ProfileNameTB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ProfileNameTB.Location = new System.Drawing.Point(105, 186);
-            this.ProfileNameTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ProfileNameTB.Margin = new System.Windows.Forms.Padding(4);
             this.ProfileNameTB.Name = "ProfileNameTB";
             this.ProfileNameTB.Size = new System.Drawing.Size(856, 22);
             this.ProfileNameTB.TabIndex = 79;
@@ -1920,7 +1933,7 @@
             // OpenProfileBtn
             // 
             this.OpenProfileBtn.Location = new System.Drawing.Point(55, 218);
-            this.OpenProfileBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.OpenProfileBtn.Margin = new System.Windows.Forms.Padding(4);
             this.OpenProfileBtn.Name = "OpenProfileBtn";
             this.OpenProfileBtn.Size = new System.Drawing.Size(100, 28);
             this.OpenProfileBtn.TabIndex = 80;
@@ -1933,7 +1946,7 @@
             this.gwProfileFileTB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gwProfileFileTB.Location = new System.Drawing.Point(89, 154);
-            this.gwProfileFileTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwProfileFileTB.Margin = new System.Windows.Forms.Padding(4);
             this.gwProfileFileTB.Name = "gwProfileFileTB";
             this.gwProfileFileTB.Size = new System.Drawing.Size(779, 22);
             this.gwProfileFileTB.TabIndex = 77;
@@ -1954,7 +1967,7 @@
             // 
             this.SelectGWPathBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.SelectGWPathBtn.Location = new System.Drawing.Point(863, 73);
-            this.SelectGWPathBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.SelectGWPathBtn.Margin = new System.Windows.Forms.Padding(4);
             this.SelectGWPathBtn.Name = "SelectGWPathBtn";
             this.SelectGWPathBtn.Size = new System.Drawing.Size(100, 28);
             this.SelectGWPathBtn.TabIndex = 76;
@@ -1967,7 +1980,7 @@
             this.gwPathSelectionTB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gwPathSelectionTB.Location = new System.Drawing.Point(55, 75);
-            this.gwPathSelectionTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwPathSelectionTB.Margin = new System.Windows.Forms.Padding(4);
             this.gwPathSelectionTB.Name = "gwPathSelectionTB";
             this.gwPathSelectionTB.Size = new System.Drawing.Size(813, 22);
             this.gwPathSelectionTB.TabIndex = 75;
@@ -1989,7 +2002,7 @@
             this.deviceTab.Controls.Add(this.gwPortLBL);
             this.deviceTab.Controls.Add(this.gwPortTB);
             this.deviceTab.Location = new System.Drawing.Point(4, 25);
-            this.deviceTab.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.deviceTab.Margin = new System.Windows.Forms.Padding(4);
             this.deviceTab.Name = "deviceTab";
             this.deviceTab.Size = new System.Drawing.Size(1013, 423);
             this.deviceTab.TabIndex = 4;
@@ -1999,7 +2012,7 @@
             // gwReloadBtn
             // 
             this.gwReloadBtn.Location = new System.Drawing.Point(181, 18);
-            this.gwReloadBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwReloadBtn.Margin = new System.Windows.Forms.Padding(4);
             this.gwReloadBtn.Name = "gwReloadBtn";
             this.gwReloadBtn.Size = new System.Drawing.Size(217, 28);
             this.gwReloadBtn.TabIndex = 84;
@@ -2114,7 +2127,7 @@
             // gwPortTB
             // 
             this.gwPortTB.Location = new System.Drawing.Point(92, 21);
-            this.gwPortTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gwPortTB.Margin = new System.Windows.Forms.Padding(4);
             this.gwPortTB.Name = "gwPortTB";
             this.gwPortTB.Size = new System.Drawing.Size(80, 22);
             this.gwPortTB.TabIndex = 83;
@@ -2142,7 +2155,7 @@
             this.portsTab.Controls.Add(this.portnameLBL);
             this.portsTab.Controls.Add(this.portcaptionLBL);
             this.portsTab.Location = new System.Drawing.Point(4, 25);
-            this.portsTab.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.portsTab.Margin = new System.Windows.Forms.Padding(4);
             this.portsTab.Name = "portsTab";
             this.portsTab.Size = new System.Drawing.Size(1013, 423);
             this.portsTab.TabIndex = 5;
@@ -2152,7 +2165,7 @@
             // useportbtn
             // 
             this.useportbtn.Location = new System.Drawing.Point(412, 18);
-            this.useportbtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.useportbtn.Margin = new System.Windows.Forms.Padding(4);
             this.useportbtn.Name = "useportbtn";
             this.useportbtn.Size = new System.Drawing.Size(100, 28);
             this.useportbtn.TabIndex = 103;
@@ -2186,7 +2199,7 @@
             this.portcaptionCB.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.portcaptionCB.FormattingEnabled = true;
             this.portcaptionCB.Location = new System.Drawing.Point(125, 21);
-            this.portcaptionCB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.portcaptionCB.Margin = new System.Windows.Forms.Padding(4);
             this.portcaptionCB.Name = "portcaptionCB";
             this.portcaptionCB.Size = new System.Drawing.Size(277, 24);
             this.portcaptionCB.TabIndex = 100;
@@ -2356,7 +2369,7 @@
             this.CmdProfileCB.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmdProfileCB.FormattingEnabled = true;
             this.CmdProfileCB.Location = new System.Drawing.Point(223, 12);
-            this.CmdProfileCB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.CmdProfileCB.Margin = new System.Windows.Forms.Padding(4);
             this.CmdProfileCB.Name = "CmdProfileCB";
             this.CmdProfileCB.Size = new System.Drawing.Size(801, 24);
             this.CmdProfileCB.TabIndex = 1;
@@ -2372,16 +2385,16 @@
             this.gwCmdProfileLBL.TabIndex = 56;
             this.gwCmdProfileLBL.Text = "Profile";
             // 
-            // gwDDcb
+            // ProfileDelBtn
             // 
-            this.gwDDcb.AutoSize = true;
-            this.gwDDcb.Location = new System.Drawing.Point(348, 299);
-            this.gwDDcb.Margin = new System.Windows.Forms.Padding(4);
-            this.gwDDcb.Name = "gwDDcb";
-            this.gwDDcb.Size = new System.Drawing.Size(117, 20);
-            this.gwDDcb.TabIndex = 128;
-            this.gwDDcb.Text = "double density";
-            this.gwDDcb.UseVisualStyleBackColor = true;
+            this.ProfileDelBtn.Location = new System.Drawing.Point(842, 218);
+            this.ProfileDelBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.ProfileDelBtn.Name = "ProfileDelBtn";
+            this.ProfileDelBtn.Size = new System.Drawing.Size(119, 28);
+            this.ProfileDelBtn.TabIndex = 87;
+            this.ProfileDelBtn.Text = "Remove Profile";
+            this.ProfileDelBtn.UseVisualStyleBackColor = true;
+            this.ProfileDelBtn.Click += new System.EventHandler(this.ProfileDelBtn_Click);
             // 
             // gWeazleFrm
             // 
@@ -2400,7 +2413,7 @@
             this.Controls.Add(this.actionCB);
             this.Controls.Add(this.ExecuteBtn);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "gWeazleFrm";
             this.Text = "gWeazleGUI";
             this.Load += new System.EventHandler(this.gWeasleFrm_Load);
@@ -2615,6 +2628,7 @@
         private System.Windows.Forms.Label gwHostToolsVersionLBL;
         private System.Windows.Forms.Button useportbtn;
         private System.Windows.Forms.CheckBox gwDDcb;
+        private System.Windows.Forms.Button ProfileDelBtn;
     }
 }
 

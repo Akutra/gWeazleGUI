@@ -25,10 +25,11 @@ namespace gWeasleGUI
             InitializeComponent();
 
             // populate product details
-            int beta;
+            int release;
+            int.TryParse(ConfigLoader.Version.Split('.').First(), out release);
             ConfigLoader.Version = Application.ProductVersion;
             ConfigLoader.AppName = Application.ProductName;
-            ConfigLoader.VersionDetails = int.TryParse(ConfigLoader.Version.Split('.').Last(), out beta) && beta > 0 ? $"beta {beta}" : "Release";
+            ConfigLoader.VersionDetails =  $"Release {release}";
 
             // Common Actions
             ActionComplete = () => { this.EnableActionableGUI(); };
@@ -645,13 +646,24 @@ namespace gWeasleGUI
         {
             this.ActionStart();
 
-            //if (string.IsNullOrEmpty(this.gwProfileFileTB.Text))
-            //{
-                string[] ext = new[] { "Any File|*.*", "eXtensible Markup Language|*.xml" };
-                this.gwProfileFileTB.Text = utilities.GetFilePath("existing", ext, ext.Last(), null);
-            //}
+            string[] ext = new[] { "Any File|*.*", "eXtensible Markup Language|*.xml" };
+            this.gwProfileFileTB.Text = utilities.GetFilePath("existing", ext, ext.Last(), null);
 
-            LoadProfile(this.gwProfileFileTB.Text);
+            if( LoadProfile(this.gwProfileFileTB.Text) )
+            {
+                string profileName = ProfileNameTB.Text;
+                this.gwProfileFileTB.ValidationFailure = false;
+
+                this.ConfigManager.ConfigData.profiles.Add(profileName, this.gwProfileFileTB.Text);
+                this.CmdProfileCB.Items.Add(profileName);
+                this.ConfigManager.ConfigData.LastProfile = profileName;
+
+                PersistSelectedProfile();
+            }
+            else
+            {
+                this.gwProfileFileTB.ValidationFailure = true;
+            }
 
             this.ActionComplete();
         }
@@ -738,7 +750,6 @@ namespace gWeasleGUI
 
             string[] ext = new[] { "Any File|*.*", "eXtensible Markup Language|*.xml" };
             this.gwProfileFileTB.Text = utilities.GetFilePath("select", ext, ext.Last(), null);
-            this.gwProfileFileTB.ValidationFailure = true;
 
             this.ActionComplete();
         }
@@ -812,9 +823,10 @@ namespace gWeasleGUI
 
         private void ProfileClearBtn_Click(object sender, EventArgs e)
         {
+            // reset the profile settings
             gwProfileFileTB.Text = string.Empty;
             ProfileNameTB.Text = string.Empty;
-            CmdProfileCB.SelectedIndex = -1;
+            CmdProfileCB.SelectedIndex = 0;
         }
 
         private void timeCB_CheckedChanged(object sender, EventArgs e)
@@ -896,6 +908,26 @@ namespace gWeasleGUI
             GWTab.SelectedTab = deviceTab;
 
             this.gwReloadBtn_Click(null, null);
+        }
+
+        private void ProfileDelBtn_Click(object sender, EventArgs e)
+        {
+            // remove references
+            if(CmdProfileCB.Items.Contains(ProfileNameTB.Text))
+            {
+                CmdProfileCB.Items.Remove(ProfileNameTB.Text);
+            }
+            if(this.ConfigManager.ConfigData.profiles.ContainsKey(ProfileNameTB.Text))
+            {
+                // if this profile is in config remove it and update
+                this.ConfigManager.ConfigData.profiles.Remove(ProfileNameTB.Text);
+                this.ConfigManager.WriteConfig();
+            }
+
+            // reset the profile settings
+            gwProfileFileTB.Text = string.Empty;
+            ProfileNameTB.Text = string.Empty;
+            CmdProfileCB.SelectedIndex = 0;
         }
 
         private void gwReloadBtn_Click(object sender, EventArgs e)

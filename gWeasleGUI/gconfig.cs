@@ -30,7 +30,7 @@ namespace gWeasleGUI.Config
 
     public class ConfigLoader
     {
-        public static string Version { get; set; } = "0.9";
+        public static string Version { get; set; } = "1.0";
         public static string VersionDetails { get; set; } = "beta 3";
         public static string AppName { get; set; } = "gWeazleGUI";
 
