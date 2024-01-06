@@ -16,6 +16,7 @@ namespace gWeasleGUI.Config
         public bool RawFormat { get; set; } = false;
         public string LastDiskDefsCfgFile { get; set; } = string.Empty;
         public bool LastUseDiskDefsCfgFile { get; set; } = true;
+        public string LastProfile { get; set; } = string.Empty;
 
         public ProfileDictionary<string, string> profiles = new ProfileDictionary<string, string>();
 
@@ -29,7 +30,7 @@ namespace gWeasleGUI.Config
 
     public class ConfigLoader
     {
-        public static string Version { get; set; } = "0.9";
+        public static string Version { get; set; } = "1.0";
         public static string VersionDetails { get; set; } = "beta 3";
         public static string AppName { get; set; } = "gWeazleGUI";
 

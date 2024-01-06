@@ -12,7 +12,7 @@ namespace gWeasleGUI
 {
     public class utilities
     {
-        public static List<IgwArgValue> ArgValueTypes = new List<IgwArgValue>() { new GwTracksValue(), new GwPLLValue(), new GwIntValue(), new GwBoolValue(), new GwStringValue() };
+        public static List<IgwArgValue> ArgValueTypes = new List<IgwArgValue>() { new GwTracksValue(), new GwPLLValue(), new GwIntValue(), new GwBoolValue(), new GwStringValue(), new GwToggleValue() };
 
         public static readonly int ERROR_BAD_ARGUMENTS = 0xA0;
 
@@ -283,12 +283,12 @@ namespace gWeasleGUI
             return new GwStringValue() { DefValue = defValue };
         }
 
-        public static IgwArgValue CmdArgTemplate(string argKey, IEnumerable<Control> argControls, object def = null, Type parmType = null)
+        public static IgwArgValue CmdArgTemplate(string argKey, IEnumerable<Control> argControls, object def = null, object alt = null, Type parmType = null)
         {
             IgwArgValue pObj = utilities.ObjectFactory(argKey, def, parmType);
             Dictionary<string, string> parms = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
 
-            if (argControls is null)
+            if (argControls is null || argControls.Count() == 0)
             {
                 string value = def is null ? string.Empty : def.ToString();
                 return new GwStringValue(value.Trim());
@@ -298,7 +298,21 @@ namespace gWeasleGUI
                 Control input = argControls.First();
                 if (input.GetType() == typeof(CheckBox))// && ((CheckBox)input).Checked)
                 {
-                    return new GwBoolValue(((CheckBox)input).Checked);
+                    if (alt is null)
+                    {
+                        // Bool
+                        return new GwBoolValue(((CheckBox)input).Checked);
+                    } else
+                    {
+                        // toggle will have an alternate value
+                        GwToggleValue toggleValue = new GwToggleValue()
+                        {
+                            DefValue = def?.ToString() ?? string.Empty,
+                            AltValue = alt?.ToString() ?? string.Empty,
+                        };
+                        toggleValue.SetToggle(((CheckBox)input).Checked);
+                        return toggleValue;
+                    }
                 }
 
                 parms.Add("DefValue", def?.ToString() ?? string.Empty);
@@ -310,20 +324,10 @@ namespace gWeasleGUI
                     {
                         return (IgwArgValue)pObj.NewInstance(parms);
                     }
-                    //if (parmType == typeof(int))
-                    //{
-                    //    return (IgwArgValue)(new GwIntValue()).NewInstance(parms);
-                    //}
-                    //else
-                    //{
-                    //    return (IgwArgValue)(new GwStringValue()).NewInstance(parms);
-                    //}
                 }
             }
             if (argControls.Count() > 1)
             {
-                //IgwArgValue pObj = GWParameters[argKey](templates.ObjectType);
-
                 IEnumerable<Control> tbControls = argControls.Where(c => (c.GetType() == typeof(TextBox) || c.GetType() == typeof(vTextParam)) && !string.IsNullOrEmpty(c.Text.Trim()) && !string.IsNullOrEmpty(c.Tag?.ToString().Trim()));
                 parms.Merge(tbControls.ToDictionary(tk => tk.Tag.ToString().Trim(), tv => tv.Text.Trim()));
 
@@ -355,6 +359,12 @@ namespace gWeasleGUI
                     return true;
                 }
 
+                if (input.GetType() == typeof(CheckBox) && arg.Value.GetType() == typeof(GwToggleValue))
+                {
+                    ((CheckBox)input).Checked = ((GwToggleValue)arg.Value).GetToggle();
+                    return true;
+                }
+
                 if ((input.GetType() == typeof(TextBox) || input.GetType() == typeof(vTextParam)))
                 {
                     Dictionary<string, string> parms = arg.Value.GetValues();
@@ -370,7 +380,16 @@ namespace gWeasleGUI
                 {
                     try
                     {
-                        ((ComboBox)input).SelectedItem = arg.Value.ToString();
+                        if (string.IsNullOrEmpty(arg.Value.ToString()))
+                        {
+                            // Handle no-selectable value and default selection
+                            if (((ComboBox)input).Items.Count > 0)
+                                ((ComboBox)input).SelectedIndex = 0;
+                        }
+                        else
+                        {
+                            ((ComboBox)input).SelectedItem = arg.Value.ToString();
+                        }
                         return true;
                     } catch { 
                         return false;
