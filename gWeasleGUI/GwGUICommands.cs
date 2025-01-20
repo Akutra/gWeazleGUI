@@ -126,6 +126,16 @@ namespace gWeasleGUI
             });
             this.GWParaInterface.Add("--force", new List<Control>() { gwForceCB });
 
+            this.GWParameters.Add("--no-clobber", (t) => {
+                return ArgProcessTemplate(argKey: "--no-clobber", templateType: t);
+            });
+            this.GWParaInterface.Add("--no-clobber", new List<Control>() { gwNoClobberCB });
+
+            this.GWParameters.Add("--hard-sectors", (t) => {
+                return ArgProcessTemplate(argKey: "--hard-sectors", templateType: t);
+            });
+            this.GWParaInterface.Add("--hard-sectors", new List<Control>() { gwHardSectorsCB });
+
             this.GWParameters.Add("--drive", (t) => {
                 return ArgProcessTemplate(argKey: "--drive", templateType: t, def: "a");
             });
@@ -160,6 +170,11 @@ namespace gWeasleGUI
                 return ArgProcessTemplate(argKey: "--dd", templateType: t, def: "H", alt: "L");
             });
             this.GWParaInterface.Add("--dd", new List<Control>() { gwDDcb });
+
+            this.GWParameters.Add("--densel", (t) => {
+                return ArgProcessTemplate(argKey: "--dd", templateType: t, def: "H", alt: "L");
+            });
+            this.GWParaInterface.Add("--densel", new List<Control>() { gwDDcb });
 
             this.gwAdditionalArgs = (t) =>
             {

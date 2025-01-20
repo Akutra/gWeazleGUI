@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -6,6 +7,7 @@ using System.IO.Ports;
 using System.Linq;
 using System.Management;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -51,6 +53,7 @@ namespace gWeasleGUI
         private Action StartAction, DoneAction, DeviceLoaded;
         private string LastExecutedCommand = string.Empty;
         private Dictionary<string, string> gw_helpCache = new Dictionary<string, string>();
+        private static Dictionary<string, StringBuilder> processMsg = new Dictionary<string, StringBuilder>();
 
         // if not provided by GW, hardcode values accepted by gw v1.12
         private string[] extensions = new[]
@@ -167,6 +170,7 @@ namespace gWeasleGUI
                                 this.currentDevice.serial = parameter[1].Trim();
                                 break;
                             case "USB Rate":
+                            case "USB":
                                 this.currentDevice.usbRate = parameter[1].Trim();
                                 break;
                         }
@@ -180,7 +184,7 @@ namespace gWeasleGUI
                 {
                     RunGWCommand(AfterLoad, this.currentDevice.port);
                 }
-            }, (ex) => { this.DeviceLoaded(); });
+            }, (ex) => { this.DeviceLoaded(); }, "Loading Greaseweasle Host Tools.");
         }
 
         /// <summary>
@@ -205,7 +209,7 @@ namespace gWeasleGUI
                     gw_helpCache[gwaction] = response;
                     responseAction(response);
                     this.LastGetHelpAction = gwaction;
-                });
+                }, null, $"Loading '{gwaction}' parameters.");
             }
         }
 
@@ -230,7 +234,7 @@ namespace gWeasleGUI
                 this.logger.Info($"{operations.Count} actions loaded.");
 
                 LoadOperations(operations.ToArray());
-            });
+            }, null, "Loading available operations.");
         }
 
         public void LoadAcceptedSuffixes(string helpContent)
@@ -306,7 +310,7 @@ namespace gWeasleGUI
             }
             else
             {
-                ExecuteGWCommand(args, processResponse);
+                ExecuteGWCommand(args, processResponse, null, "Loading File Formats.");
                 this.LastGetHelpAction = gwaction;
             }
         }
@@ -365,14 +369,14 @@ namespace gWeasleGUI
         /// </summary>
         /// <param name="args">gw arguments as would be accepted on an actual commandline</param>
         /// <param name="processResponse">optional event handler to handle response data after completion, when not provided all data goes to the standard async handler</param>
-        private void ExecuteGWCommand(string args, Action<string> processResponse = null, Action<Exception> errorResponse = null)
+        private void ExecuteGWCommand(string args, Action<string> processResponse = null, Action<Exception> errorResponse = null, string CmdMsg = "")
         {
             string cmd = $"\"{this.GwToolsPath}{this.separator}{this.gw_exe}\""; // "powershell";
             if (string.IsNullOrEmpty(this.GwToolsPath))
                 cmd = this.gw_exe;
 
             //args = $".{this.separator}{this.gw_exe} {args}";
-            ExecuteCommand(cmd, args, processResponse, errorResponse);
+            ExecuteCommand(cmd, args, processResponse, errorResponse, CmdMsg);
         }
 
         /// <summary>
@@ -381,12 +385,18 @@ namespace gWeasleGUI
         /// <param name="exe">executable</param>
         /// <param name="args">arguments</param>
         /// <param name="processResponse">optional event handler to handle response data after completion, when not provided all data goes to the standard async handler</param>
-        private void ExecuteCommand(string exe, string args, Action<string> processResponse = null, Action<Exception> errorResponse = null)
+        private void ExecuteCommand(
+            string exe,
+            string args,
+            Action<string> processResponse = null,
+            Action<Exception> errorResponse = null,
+            string CmdMsg = "")
         {
             string rt = string.Empty, err = string.Empty;
             Task exe_task;
+
             this.LastExecutedCommand = $"{utilities.MaxSizeFileName(exe)} {args}";
-            string startOut = $"Executing command: {this.LastExecutedCommand}";
+            string startOut = string.IsNullOrEmpty(CmdMsg) ? $"Executing command: {this.LastExecutedCommand}" : CmdMsg;
             //gw_output(startOut);
             this.logger.Info(startOut);
 
@@ -410,7 +420,7 @@ namespace gWeasleGUI
 
                         if (procStartInfo.Environment["PATH"].IndexOf(this.GwToolsPath) == -1)
                         {
-                            procStartInfo.Environment["PATH"] = procStartInfo.Environment["PATH"] + $";{this.GwToolsPath}";
+                            //procStartInfo.Environment["PATH"] = procStartInfo.Environment["PATH"] + $";{this.GwToolsPath}";
                         }
 
                         Process p = new Process();
@@ -418,38 +428,56 @@ namespace gWeasleGUI
                         p.EnableRaisingEvents = true;
                         p.Exited += (s, e) =>
                         {
+                            p.WaitForExit();
                             if (processResponse != null)
                             {
-                                //p.WaitForExit();
-                                rt = p.StandardOutput.ReadToEnd();
+                                if (processMsg.ContainsKey(p.Id.ToString()))
+                                {
+                                    rt = processMsg[p.Id.ToString()].ToString();
+                                    processMsg.Remove(p.Id.ToString());
+                                }
+                                else
+                                {
+                                    //p.WaitForExit();
+                                    rt = p.StandardOutput.ReadToEnd();
 
-                                // Bug fix for when output shows in standard error
-                                err = p.StandardError.ReadToEnd();
-                                if (string.IsNullOrEmpty(rt)) { rt = err; }
+                                    // Bug fix for when output shows in standard error
+                                    err = p.StandardError.ReadToEnd();
+                                    if (string.IsNullOrEmpty(rt)) { rt = err; }
+                                }
 
                                 processResponse(rt);
                             }
 
-                            string endOut = $"Command completed: {utilities.MaxSizeFileName(p.StartInfo.FileName)} {p.StartInfo.Arguments}";
-                            //gw_output(endOut);
-                            this.logger.Info(endOut);
+                            if (string.IsNullOrEmpty(CmdMsg))
+                            {
+                                string endOut = $"Command completed: {utilities.MaxSizeFileName(p.StartInfo.FileName)} {p.StartInfo.Arguments}";
+                                //gw_output(endOut);
+                                this.logger.Info(endOut);
+                            }
                             this.DoneAction();
                         };
 
-                        if (processResponse is null)
-                        {
+                        //if (processResponse is null || args.StartsWith("read"))
+                        //{
+                        
+                        if (string.IsNullOrEmpty(CmdMsg))
                             p.ErrorDataReceived += OutputHandler;
+                        else
+                            p.ErrorDataReceived += QuietOutputHandler;
+
                             //p.OutputDataReceived += OutputHandler;
-                        }
+                        //}
 
                         // Execute the command
                         p.Start();
 
-                        if (processResponse is null)
-                        {
+                        //if (processResponse is null || args.StartsWith("read") )
+                        //{
+                            processMsg[p.Id.ToString()] = new StringBuilder();
                             p.BeginErrorReadLine();
                             p.BeginOutputReadLine();
-                        }
+                        //}
                     }
                     catch (Exception ex)
                     {
@@ -462,6 +490,23 @@ namespace gWeasleGUI
         }
 
         /// <summary>
+        /// Quiet Event handler to handle ouput
+        /// </summary>
+        /// <param name="sendingProcess">ignored</param>
+        /// <param name="outLine">handler data</param>
+        private static void QuietOutputHandler(object sendingProcess,
+            DataReceivedEventArgs outLine)
+        {
+            if (!String.IsNullOrEmpty(outLine.Data))
+            {
+                if (!processMsg.ContainsKey(((Process)sendingProcess).Id.ToString()))
+                    processMsg[((Process)sendingProcess).Id.ToString()] = new StringBuilder();
+
+                processMsg[((Process)sendingProcess).Id.ToString()].AppendLine(outLine.Data);
+            }
+        }
+
+        /// <summary>
         /// Event handler to handle ouput
         /// </summary>
         /// <param name="sendingProcess">ignored</param>
@@ -471,6 +516,11 @@ namespace gWeasleGUI
         {
             if (!String.IsNullOrEmpty(outLine.Data))
             {
+                if (!processMsg.ContainsKey(((Process)sendingProcess).Id.ToString()))
+                    processMsg[((Process)sendingProcess).Id.ToString()] = new StringBuilder();
+
+                processMsg[((Process)sendingProcess).Id.ToString()].AppendLine(outLine.Data);
+
                 gw_output(outLine.Data);
             }
         }

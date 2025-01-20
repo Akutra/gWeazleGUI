@@ -118,6 +118,7 @@ namespace gWeasleGUI
                     actionCB.Items.AddRange(ops);
                     if (actionCB.Items.Count > 0) { actionCB.SelectedIndex = 0; }
                     actionCB.Enabled = true;
+                    this.PersistSelectedProfile(); // Persist selected command profile if possible
                 }));
             });
         }
@@ -202,7 +203,6 @@ namespace gWeasleGUI
 
                 this.Text = $"{ConfigLoader.AppName} {ConfigLoader.Version} ({ConfigLoader.VersionDetails}) - {this.gw.currentDevice.model} ({this.gw.currentDevice.serial})";
                 this.LoadGWOperations(); // load gw actions
-                this.PersistSelectedProfile(); // Persist selected command profile if possible
             }));            
         }
 
@@ -488,6 +488,7 @@ namespace gWeasleGUI
             gwMotorOnCB.Visible = false;
             gwForceCB.Visible = false;
             gwDDcb.Visible = false;
+            gwHardSectorsCB.Visible = false;
             gwUseDiskDefFileCB.Visible = false;
 
             gwNrLBL.Visible = false;
@@ -517,6 +518,7 @@ namespace gWeasleGUI
             GwFileDisplay.Text = string.Empty;
             SelectNewFileBtn.Enabled = false;
             SelectExistingFileBtn.Enabled = false;
+            gwNoClobberCB.Visible = false;
 
             gwCmdHelpBtn.Enabled = false;
             ExecuteBtn.Enabled = false;
