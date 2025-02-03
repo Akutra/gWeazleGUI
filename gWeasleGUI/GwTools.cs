@@ -570,7 +570,6 @@ namespace gWeasleGUI
                             gW_PnPEntity.SystemCreationClassName = (string)foundObj["SystemCreationClassName"];
                             gW_PnPEntity.SystemName = (string)foundObj["SystemName"];
                             gW_PnPEntity.Bus_Description = Win32Device.GetDeviceBusDescription(new Guid(gW_PnPEntity.ClassGuid), portIndex);
-                            portIndex++;
                         }
                         catch
                         {
@@ -579,6 +578,7 @@ namespace gWeasleGUI
 
                         devices.Add(gW_PnPEntity);
                     }
+                    portIndex++;
                 }
             } catch { }
 
