@@ -17,6 +17,7 @@ namespace gWeasleGUI
         Action ActionComplete, ActionStart, ActionGwDeviceLoaded;
         Action<string> DisplayContentAction, PersistExtConfig;
         int ActionCount = 0;
+        bool ActionUpdate = true;
 
         string GwNewFile = string.Empty, GwExistingFile = string.Empty, GwDiskDefsFile = string.Empty;
 
@@ -114,9 +115,19 @@ namespace gWeasleGUI
             {
                 this.Invoke(new MethodInvoker(delegate
                 {
+                    string newAction = actionCB.Text.Trim();
+                    this.ActionUpdate = false; // Non user selected action
                     actionCB.Items.Clear();
                     actionCB.Items.AddRange(ops);
-                    if (actionCB.Items.Count > 0) { actionCB.SelectedIndex = 0; }
+                    if (actionCB.Items.Count > 0) { 
+                        if(actionCB.Items.IndexOf(newAction) == -1)
+                        {
+                            actionCB.SelectedIndex = 0; 
+                        } else
+                        {
+                            actionCB.SelectedItem = newAction;
+                        }
+                    }
                     actionCB.Enabled = true;
                     this.PersistSelectedProfile(); // Persist selected command profile if possible
                 }));
@@ -368,11 +379,19 @@ namespace gWeasleGUI
         private void actionCB_SelectedIndexChanged(object sender, EventArgs e)
         {
             string action = actionCB.Text.Trim();
-            if (action.Length > 1)
+            if (!string.IsNullOrWhiteSpace(action))
+            {
                 action = $"{char.ToUpper(action[0])}{action.Substring(1)}";
 
-            parmTab.Text = $"{action} parameters".Trim();
-            this.EnableActionInterface();
+                parmTab.Text = $"{action} parameters".Trim();
+                this.EnableActionInterface();
+                
+                // Actions that are specific to non-programmatic updates.
+                if (this.ActionUpdate) { 
+                    GWTab.SelectedTab = parmTab; 
+                }
+                this.ActionUpdate = true; // reset
+            }
         }
 
         private void EnableActionInterface()
@@ -726,6 +745,7 @@ namespace gWeasleGUI
         {
             if (actionCB.Items.Contains(action))
             {
+                this.ActionUpdate = false;
                 actionCB.SelectedItem = action;
                 return true;
             }
@@ -906,10 +926,13 @@ namespace gWeasleGUI
         private void useportbtn_Click(object sender, EventArgs e)
         {
             GW_PnPEntity selectedPort = this.gw.SerialPorts[portcaptionCB.Text];
-            this.gwPortTB.Text = selectedPort.UseValue;
-            GWTab.SelectedTab = deviceTab;
+            if (!this.gwPortTB.Text.Equals(selectedPort.UseValue, StringComparison.OrdinalIgnoreCase))
+            {
+                this.gwPortTB.Text = selectedPort.UseValue;
+                GWTab.SelectedTab = deviceTab;
 
-            this.gwReloadBtn_Click(null, null);
+                this.gwReloadBtn_Click(null, null);
+            }
         }
 
         private void ProfileDelBtn_Click(object sender, EventArgs e)
