@@ -264,6 +264,7 @@ namespace gWeasleGUI
                     this.ActionCount = 0; // zero base
                     this.ProcessAction();
                     busy1.Visible = false;
+                    this.GwGUIActions.Visible = false;
                 }
             }));
         }
@@ -350,7 +351,7 @@ namespace gWeasleGUI
         /// <param name="e">ignored</param>
         private void ExecuteBtn_Click(object sender, EventArgs e)
         {
-            this.ActionStart();
+            //this.ActionStart();
             gwCommand cmd = new gwCommand()
             {
                 time = timeCB.Checked,
@@ -365,9 +366,13 @@ namespace gWeasleGUI
                 cmd.args = args;
                 GWTab.SelectedTab = actionTab;
 
+                // Enable the UI to stop the process
+                this.GwGUIActions.Text = "Stop";
+                this.GwGUIActions.Visible = true;
+
                 // run the gw action command
                 this.gw.RunGWCommand(cmd, this.gwPortTB.Text.Trim());
-                this.ActionComplete();
+                //this.ActionComplete();
             });
         }
 
@@ -1034,6 +1039,15 @@ namespace gWeasleGUI
                     gwDiskConfigCB.Items.AddRange(this.gwDD.GetDiskDefinitionsKeys());
                     PopulateDDDisplay(this.gwDD.GetDiskDefinition(currentDD));
                 }
+            }
+        }
+
+        private void GwGUIActions_Click(object sender, EventArgs e)
+        {
+            if (GwGUIActions.Text.Equals("Stop", StringComparison.InvariantCultureIgnoreCase))
+            {
+                this.gw.StopCurrentProcess();
+                GwGUIActions.Visible = false;
             }
         }
 

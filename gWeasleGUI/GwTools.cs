@@ -54,6 +54,7 @@ namespace gWeasleGUI
         private string LastExecutedCommand = string.Empty;
         private Dictionary<string, string> gw_helpCache = new Dictionary<string, string>();
         private static Dictionary<string, StringBuilder> processMsg = new Dictionary<string, StringBuilder>();
+        private static Dictionary<string, string> processInterrupts = new Dictionary<string, string>();
 
         // if not provided by GW, hardcode values accepted by gw v1.12
         private string[] extensions = new[]
@@ -107,13 +108,13 @@ namespace gWeasleGUI
         {
             string cmdArgs, cmdPort = gwport.Trim();
 
-            if (cmdPort != this.currentDevice.port)
-            {
-                this.LoadGW(cmdPort, cmd);
-                return;
-            }
+            //if (cmdPort != this.currentDevice.port)
+            //{
+            //    this.LoadGW(cmdPort, cmd);
+            //    return;
+            //}
 
-            cmdArgs = ArgsStandardTemplate(cmd);
+            cmdArgs = ArgsStandardTemplate(cmd, cmdPort);
             if (!string.IsNullOrEmpty(cmdArgs))
             {
                 ExecuteGWCommand(cmdArgs);
@@ -320,11 +321,12 @@ namespace gWeasleGUI
         /// </summary>
         /// <param name="cmd">command class for this</param>
         /// <returns>commandline version of the gw command</returns>
-        private string ArgsStandardTemplate(gwCommand cmd)
+        private string ArgsStandardTemplate(gwCommand cmd, string port)
         {
             string cmdArgs = string.Empty;
             string cmdtime = cmd.time ? "--time " : string.Empty;
             string extraArgs = string.Join(" ", cmd.args.Select(a => a.ToString()).ToArray()).Trim();
+            string portToUse = string.IsNullOrEmpty(port.Trim()) ? this.currentDevice.port : port;
 
             // Arg templates
             switch (cmd.action)
@@ -341,7 +343,7 @@ namespace gWeasleGUI
                 case "update":
                 case "bandwidth":
                 case "rpm":
-                    cmdArgs = $"{cmdtime}{cmd.action} --device {this.currentDevice.port} {extraArgs}".Trim();
+                    cmdArgs = $"{cmdtime}{cmd.action} --device {portToUse} {extraArgs}".Trim();
                     break;
                 // No device for actions: convert, pin
                 case "convert":
@@ -371,11 +373,10 @@ namespace gWeasleGUI
         /// <param name="processResponse">optional event handler to handle response data after completion, when not provided all data goes to the standard async handler</param>
         private void ExecuteGWCommand(string args, Action<string> processResponse = null, Action<Exception> errorResponse = null, string CmdMsg = "")
         {
-            string cmd = $"\"{this.GwToolsPath}{this.separator}{this.gw_exe}\""; // "powershell";
+            string cmd = Path.Combine(this.GwToolsPath, this.gw_exe); // $"\"{this.GwToolsPath}{this.separator}{this.gw_exe}\""; // "powershell";
             if (string.IsNullOrEmpty(this.GwToolsPath))
                 cmd = this.gw_exe;
 
-            //args = $".{this.separator}{this.gw_exe} {args}";
             ExecuteCommand(cmd, args, processResponse, errorResponse, CmdMsg);
         }
 
@@ -428,23 +429,24 @@ namespace gWeasleGUI
                         p.EnableRaisingEvents = true;
                         p.Exited += (s, e) =>
                         {
-                            p.WaitForExit();
+                            p.WaitForExit(); // Make sure the command is done bug fix
+
+                            if (processMsg.ContainsKey(p.Id.ToString()))
+                            {
+                                rt = processMsg[p.Id.ToString()].ToString();
+                                processMsg.Remove(p.Id.ToString());
+                            }
                             if (processResponse != null)
                             {
-                                if (processMsg.ContainsKey(p.Id.ToString()))
-                                {
-                                    rt = processMsg[p.Id.ToString()].ToString();
-                                    processMsg.Remove(p.Id.ToString());
-                                }
-                                else
-                                {
-                                    //p.WaitForExit();
-                                    rt = p.StandardOutput.ReadToEnd();
+                                //else
+                                //{
+                                //    //p.WaitForExit();
+                                //    rt = p.StandardOutput.ReadToEnd();
 
-                                    // Bug fix for when output shows in standard error
-                                    err = p.StandardError.ReadToEnd();
-                                    if (string.IsNullOrEmpty(rt)) { rt = err; }
-                                }
+                                //    // Bug fix for when output shows in standard error
+                                //    err = p.StandardError.ReadToEnd();
+                                //    if (string.IsNullOrEmpty(rt)) { rt = err; }
+                                //}
 
                                 processResponse(rt);
                             }
@@ -452,7 +454,11 @@ namespace gWeasleGUI
                             if (string.IsNullOrEmpty(CmdMsg))
                             {
                                 string endOut = $"Command completed: {utilities.MaxSizeFileName(p.StartInfo.FileName)} {p.StartInfo.Arguments}";
-                                //gw_output(endOut);
+                                if (p.ExitCode != 0)
+                                {
+                                    endOut = $"Command early exit code {p.ExitCode}: {utilities.MaxSizeFileName(p.StartInfo.FileName)} {p.StartInfo.Arguments}";
+                                }
+
                                 this.logger.Info(endOut);
                             }
                             this.DoneAction();
@@ -489,6 +495,11 @@ namespace gWeasleGUI
                 });
         }
 
+        public void StopCurrentProcess()
+        {
+            processInterrupts.Add("stop", string.Empty);
+        }
+
         /// <summary>
         /// Quiet Event handler to handle ouput
         /// </summary>
@@ -522,6 +533,12 @@ namespace gWeasleGUI
                 processMsg[((Process)sendingProcess).Id.ToString()].AppendLine(outLine.Data);
 
                 gw_output(outLine.Data);
+                // && outLine.Data.IndexOf("Giving up", StringComparison.InvariantCultureIgnoreCase) != -1)
+                if (!((Process)sendingProcess).HasExited && processInterrupts.ContainsKey("stop"))
+                {
+                    ((Process)sendingProcess).Kill();
+                    processInterrupts.Remove("stop");
+                }
             }
         }
 
