@@ -17,6 +17,7 @@ namespace gWeasleGUI
         Action ActionComplete, ActionStart, ActionGwDeviceLoaded;
         Action<string> DisplayContentAction, PersistExtConfig;
         int ActionCount = 0;
+        bool ActionUpdate = true;
 
         string GwNewFile = string.Empty, GwExistingFile = string.Empty, GwDiskDefsFile = string.Empty;
 
@@ -114,9 +115,19 @@ namespace gWeasleGUI
             {
                 this.Invoke(new MethodInvoker(delegate
                 {
+                    string newAction = actionCB.Text.Trim();
+                    this.ActionUpdate = false; // Non user selected action
                     actionCB.Items.Clear();
                     actionCB.Items.AddRange(ops);
-                    if (actionCB.Items.Count > 0) { actionCB.SelectedIndex = 0; }
+                    if (actionCB.Items.Count > 0) { 
+                        if(actionCB.Items.IndexOf(newAction) == -1)
+                        {
+                            actionCB.SelectedIndex = 0; 
+                        } else
+                        {
+                            actionCB.SelectedItem = newAction;
+                        }
+                    }
                     actionCB.Enabled = true;
                     this.PersistSelectedProfile(); // Persist selected command profile if possible
                 }));
@@ -368,11 +379,19 @@ namespace gWeasleGUI
         private void actionCB_SelectedIndexChanged(object sender, EventArgs e)
         {
             string action = actionCB.Text.Trim();
-            if (action.Length > 1)
+            if (!string.IsNullOrWhiteSpace(action))
+            {
                 action = $"{char.ToUpper(action[0])}{action.Substring(1)}";
 
-            parmTab.Text = $"{action} parameters".Trim();
-            this.EnableActionInterface();
+                parmTab.Text = $"{action} parameters".Trim();
+                this.EnableActionInterface();
+                
+                // Actions that are specific to non-programmatic updates.
+                if (this.ActionUpdate) { 
+                    GWTab.SelectedTab = parmTab; 
+                }
+                this.ActionUpdate = true; // reset
+            }
         }
 
         private void EnableActionInterface()
@@ -556,7 +575,7 @@ namespace gWeasleGUI
             //this.ActionStart();
 
             string[] ext = new[] { "Any File|*.*", "Disk Configs|*.cfg" };
-            string fileSelection = utilities.GetFilePath("new", ext, ext.Last(), null, false);
+            string fileSelection = utilities.GetFilePath("existing", ext, ext.Last(), null, false);
             if (string.IsNullOrEmpty(fileSelection)) return;
 
             this.GwDiskDefsFile = fileSelection;
@@ -618,19 +637,51 @@ namespace gWeasleGUI
 
         private void gwDDReloadBtn_Click(object sender, EventArgs e)
         {
-            if (this.gwDD.LoadDiskDefs(this.GwDiskDefsFile))
+            string Import = gwDDImport.Text;
+            if (this.gwDD.LoadRootDiskDefs())
             {
+                string currentDD = gwDiskConfigCB.Text.Trim();
+                LoadDDImports(Import);
                 gwDiskConfigCB.Items.Clear();
                 gwDiskConfigCB.Items.AddRange(this.gwDD.GetDiskDefinitionsKeys());
-                PopulateDDDisplay(this.gwDD.GetDiskDefinition(gwDiskConfigCB.Text.Trim()));
+                PopulateDDDisplay(this.gwDD.GetDiskDefinition(currentDD));
             }
 
             this.ProcessAction();
         }
 
+        private void LoadDDImports(string Import)
+        {
+            // reload the imports and the selected import
+            gwDDImport.Items.Clear();
+            gwDDImport.Visible = false;
+            if (this.gwDD.GetImports().Count > 0)
+            {
+                gwDDImport.Items.AddRange(this.gwDD.GetImports().Keys.ToArray());
+                if (string.IsNullOrEmpty(Import) || gwDDImport.Items.IndexOf(Import) == -1)
+                {
+                    this.ConfigManager.ConfigData.LastDiskDefsImportFile = "";
+                    gwDDImport.SelectedIndex = 0;
+                }
+                else
+                {
+                    gwDDImport.SelectedItem = Import;
+                }
+                //this.gwDD.LoadDiskDefs(this.gwDD.GetImports()[gwDDImport.Text.Trim()].Trim());
+                gwDDImport.Visible = true;
+            }
+        }
+
         private void gwDDSaveBtn_Click(object sender, EventArgs e)
         {
-            this.gwDD.SaveDiskDefs(this.GwDiskDefsFile);
+            string importFile = gwDDImport.Text?.Trim(), fileToSave = null;
+            if (!string.IsNullOrEmpty(importFile) && this.gwDD.GetImports().ContainsKey(importFile))
+            {
+                fileToSave = this.gwDD.GetImports()[importFile];
+            }
+
+            // Null file name will save to the main file
+            this.gwDD.SaveDiskDefs(fileToSave);
         }
 
         private void removeDiskConfigBtn_Click(object sender, EventArgs e)
@@ -689,7 +740,13 @@ namespace gWeasleGUI
 
             timeCB.Checked = cmdProfile.time;
             ProfileNameTB.Text = cmdProfile.name;
-
+            if (this.GwDiskDefsFile != cmdProfile.DiskDefFile.Trim())
+            {
+                this.GwDiskDefsFile = cmdProfile.DiskDefFile;
+                this.ConfigManager.ConfigData.LastDiskDefsCfgFile = cmdProfile.DiskDefFile;
+                this.ConfigManager.ConfigData.LastDiskDefsImportFile = cmdProfile.DiskDefImport;
+                LoadDD();
+            }
 
             // load the attribnutes
             foreach (gwArgument arg in cmdProfile.args)
@@ -697,13 +754,7 @@ namespace gWeasleGUI
                 // Disk Defs can determine if the specified format is available so process it before the format attribute
                 if (arg.Key.Equals("--diskdefs", StringComparison.OrdinalIgnoreCase))
                 {
-                    this.GwDiskDefsFile = string.Empty;
-                    if (File.Exists(arg.Value.ToString()))
-                    {
-                        this.GwDiskDefsFile = arg.Value.ToString();
-                        gwUseDiskDefFileCB.Checked = cmdProfile.useDiskDefs;
-                        LoadDD();
-                    }
+                    SetDD(arg.Value.ToString(), cmdProfile.useDiskDefs);
                     continue;
                 }
                 // positional unhandled arguments
@@ -726,6 +777,7 @@ namespace gWeasleGUI
         {
             if (actionCB.Items.Contains(action))
             {
+                this.ActionUpdate = false;
                 actionCB.SelectedItem = action;
                 return true;
             }
@@ -770,7 +822,9 @@ namespace gWeasleGUI
                 name = ProfileNameTB.Text,
                 time = timeCB.Checked,
                 action = actionCB.Text.Trim().ToLower(),
-                useDiskDefs = gwUseDiskDefFileCB.Checked
+                useDiskDefs = gwUseDiskDefFileCB.Checked,
+                DiskDefFile = this.GwDiskDefsFile ?? string.Empty,
+                DiskDefImport = gwDDImport.Text ?? string.Empty
             };
 
             // get all the arguments
@@ -906,10 +960,13 @@ namespace gWeasleGUI
         private void useportbtn_Click(object sender, EventArgs e)
         {
             GW_PnPEntity selectedPort = this.gw.SerialPorts[portcaptionCB.Text];
-            this.gwPortTB.Text = selectedPort.UseValue;
-            GWTab.SelectedTab = deviceTab;
+            if (!this.gwPortTB.Text.Equals(selectedPort.UseValue, StringComparison.OrdinalIgnoreCase))
+            {
+                this.gwPortTB.Text = selectedPort.UseValue;
+                GWTab.SelectedTab = deviceTab;
 
-            this.gwReloadBtn_Click(null, null);
+                this.gwReloadBtn_Click(null, null);
+            }
         }
 
         private void ProfileDelBtn_Click(object sender, EventArgs e)
@@ -939,6 +996,45 @@ namespace gWeasleGUI
             this.gw.ReLoadGW(this.ConfigManager.ConfigData.GwToolsPath, this.gwPortTB.Text.Trim());
 
             this.ActionComplete();
+        }
+
+        private void gwDDNewFileBtn_Click(object sender, EventArgs e)
+        {
+            string[] ext = new[] { "Any File|*.*", "Disk Configs|*.cfg" };
+            string fileSelection = utilities.GetFilePath("new", ext, ext.Last(), null, false);
+            if (string.IsNullOrEmpty(fileSelection)) return;
+
+            this.gwDD.SetDiskDefsFile(fileSelection);
+            this.gwDDImport.Items.Clear();
+            this.gwDDImport.Visible = false;
+            this.gwDD.SaveDiskDefs();
+            SetDD(fileSelection, gwUseDiskDefFileCB.Checked);
+        }
+
+        private void gwDDImport_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(!this.doNotLoadDD && !string.IsNullOrEmpty(gwDDImport.Text?.Trim()) )
+            {
+                string currentDD = gwDiskConfigCB.Text?.Trim();
+                string newDDFile = null;
+                if (this.gwDD.GetImports().ContainsKey(gwDDImport.Text.Trim()))
+                {
+                    newDDFile = this.gwDD.GetImports()[gwDDImport.Text.Trim()].Trim();
+                }
+                
+                if (newDDFile != null && this.gwDD.LoadDiskDefs(newDDFile))
+                {
+                    if (ConfigManager.ConfigData.LastDiskDefsImportFile != newDDFile)
+                    {
+                        ConfigManager.ConfigData.LastDiskDefsImportFile = newDDFile;
+                        ConfigManager.WriteConfig();
+                    }
+
+                    gwDiskConfigCB.Items.Clear();
+                    gwDiskConfigCB.Items.AddRange(this.gwDD.GetDiskDefinitionsKeys());
+                    PopulateDDDisplay(this.gwDD.GetDiskDefinition(currentDD));
+                }
+            }
         }
 
         /// <summary>
@@ -979,6 +1075,27 @@ namespace gWeasleGUI
             LoadDD();
         }
 
+        private void SetDD(string ddFile, bool use)
+        {
+            if (string.IsNullOrEmpty(ddFile))
+            {
+                this.GwDiskDefsFile = string.Empty;
+                gwUseDiskDefFileCB.Checked = false;
+                gwDDfileLBL.Text = "";
+                return;
+            }
+
+            if (File.Exists(ddFile))
+            {
+                this.GwDiskDefsFile = ddFile;
+                gwUseDiskDefFileCB.Checked = use;
+                LoadDD();
+            } else
+            {
+                logger.Info($"Warning: unable to set disk defs: 'File not found.'");
+            }
+        }
+
         private void LoadDD()
         {
             this.gwDDfileLBL.Text = utilities.MaxSizeFileName(this.GwDiskDefsFile, this.gwDDfileLBL.MaximumSize.Width);
@@ -990,14 +1107,19 @@ namespace gWeasleGUI
             this.CurrentDiskDef = new GwDiskDefsValue();
 
             // Load the new file if it exists
-            if (File.Exists(this.GwDiskDefsFile) && this.gwDD.LoadDiskDefs(this.GwDiskDefsFile))
+            if (File.Exists(this.GwDiskDefsFile))
             {
-                if (this.ConfigManager.ConfigData.LastDiskDefsCfgFile != this.GwDiskDefsFile)
+                this.gwDD.SetDiskDefsFile(this.GwDiskDefsFile);
+                if (this.gwDD.LoadRootDiskDefs(this.GwDiskDefsFile))
                 {
-                    this.ConfigManager.ConfigData.LastDiskDefsCfgFile = this.GwDiskDefsFile;
-                    this.ConfigManager.WriteConfig();
+                    if (this.ConfigManager.ConfigData.LastDiskDefsCfgFile != this.GwDiskDefsFile)
+                    {
+                        this.ConfigManager.ConfigData.LastDiskDefsCfgFile = this.GwDiskDefsFile;
+                        this.ConfigManager.WriteConfig();
+                    }
+                    gwDiskConfigCB.Items.AddRange(this.gwDD.GetDiskDefinitionsKeys());
+                    LoadDDImports(this.ConfigManager.ConfigData.LastDiskDefsImportFile);
                 }
-                gwDiskConfigCB.Items.AddRange(this.gwDD.GetDiskDefinitionsKeys());
             }
         }
     }

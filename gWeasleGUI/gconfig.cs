@@ -15,6 +15,7 @@ namespace gWeasleGUI.Config
         public string LastFileExt { get; set; } = string.Empty;
         public bool RawFormat { get; set; } = false;
         public string LastDiskDefsCfgFile { get; set; } = string.Empty;
+        public string LastDiskDefsImportFile { get; set; } = string.Empty;
         public bool LastUseDiskDefsCfgFile { get; set; } = true;
         public string LastProfile { get; set; } = string.Empty;
 

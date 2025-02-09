@@ -529,11 +529,11 @@ namespace gWeasleGUI
         {
             List<GW_PnPEntity> devices = new List<GW_PnPEntity>();
             GW_PnPEntity gW_PnPEntity = null;
-            //string[] ports = SerialPort.GetPortNames();
 
             try // port data is information purposes and should not crash.
             {
                 ManagementObjectSearcher queryResult = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM Win32_PnPEntity WHERE PNPClass = 'Ports'");
+                uint portIndex = 0;
                 foreach (ManagementObject foundObj in queryResult.Get())
                 {
                     if (foundObj != null)
@@ -569,7 +569,7 @@ namespace gWeasleGUI
                             gW_PnPEntity.StatusInfo = utilities.SafeChangeType<uint>(foundObj["StatusInfo"], 0);
                             gW_PnPEntity.SystemCreationClassName = (string)foundObj["SystemCreationClassName"];
                             gW_PnPEntity.SystemName = (string)foundObj["SystemName"];
-                            gW_PnPEntity.Bus_Description = Win32Device.GetDeviceBusDescription(new Guid(gW_PnPEntity.ClassGuid));
+                            gW_PnPEntity.Bus_Description = Win32Device.GetDeviceBusDescription(new Guid(gW_PnPEntity.ClassGuid), portIndex);
                         }
                         catch
                         {
@@ -578,6 +578,7 @@ namespace gWeasleGUI
 
                         devices.Add(gW_PnPEntity);
                     }
+                    portIndex++;
                 }
             } catch { }
 
@@ -679,7 +680,7 @@ namespace gWeasleGUI
 
             }
 
-            public static string GetDeviceBusDescription(Guid deviceId)
+            public static string GetDeviceBusDescription(Guid deviceId, uint index)
             {
                 byte[] ptrBuf = new byte[BUFFER_SIZE];
                 uint propRegDataType;
@@ -700,7 +701,7 @@ namespace gWeasleGUI
 
                 SP_DEVINFO_DATA deviceInfoData = new SP_DEVINFO_DATA();
                 deviceInfoData.cbSize = (uint)Marshal.SizeOf(typeof(SP_DEVINFO_DATA));
-                bool success = SetupDiEnumDeviceInfo(hDeviceInfoSet, (uint)0, ref deviceInfoData);
+                bool success = SetupDiEnumDeviceInfo(hDeviceInfoSet, index, ref deviceInfoData);
                 if (!success)
                 {
                     return string.Empty;
