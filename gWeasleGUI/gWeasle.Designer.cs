@@ -34,6 +34,7 @@
             this.actionCB = new System.Windows.Forms.ComboBox();
             this.GwStatus = new System.Windows.Forms.StatusStrip();
             this.gwToolsVersion = new System.Windows.Forms.ToolStripStatusLabel();
+            this.GwGUIActions = new System.Windows.Forms.ToolStripStatusLabel();
             this.GwCurrentStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.actionLBL = new System.Windows.Forms.Label();
             this.timeCB = new System.Windows.Forms.CheckBox();
@@ -57,35 +58,6 @@
             this.gwNoClobberCB = new System.Windows.Forms.CheckBox();
             this.gwHardSectorsCB = new System.Windows.Forms.CheckBox();
             this.gwDDNewFileBtn = new System.Windows.Forms.Button();
-            this.driveTB = new gWeasleGUI.vTextParam();
-            this.gwRevsTB = new gWeasleGUI.vTextParam();
-            this.gwAdjustSpeedTB = new gWeasleGUI.vTextParam();
-            this.gwFakeIndexTB = new gWeasleGUI.vTextParam();
-            this.gwRetriesTB = new gWeasleGUI.vTextParam();
-            this.gwDDsubformatTB = new gWeasleGUI.vTextParam();
-            this.gwDDclockTB = new gWeasleGUI.vTextParam();
-            this.gwDDimgbpsTB = new gWeasleGUI.vTextParam();
-            this.gwDDgapbyteTB = new gWeasleGUI.vTextParam();
-            this.gwDDgap4aTB = new gWeasleGUI.vTextParam();
-            this.gwDDgap3TB = new gWeasleGUI.vTextParam();
-            this.gwDDgap2TB = new gWeasleGUI.vTextParam();
-            this.gwDDgap1TB = new gWeasleGUI.vTextParam();
-            this.gwDDrpmTB = new gWeasleGUI.vTextParam();
-            this.gwDDrateTB = new gWeasleGUI.vTextParam();
-            this.gwDDhTB = new gWeasleGUI.vTextParam();
-            this.gwDDinterleaveTB = new gWeasleGUI.vTextParam();
-            this.gwDDidTB = new gWeasleGUI.vTextParam();
-            this.gwDDhskewTB = new gWeasleGUI.vTextParam();
-            this.gwDDcskewTB = new gWeasleGUI.vTextParam();
-            this.gwDDbpsTB = new gWeasleGUI.vTextParam();
-            this.gwDDformatTB = new gWeasleGUI.vTextParam();
-            this.gwDDtracksTB = new gWeasleGUI.vTextParam();
-            this.gwDDsectorsTB = new gWeasleGUI.vTextParam();
-            this.gwDDStepTB = new gWeasleGUI.vTextParam();
-            this.gwDDHeadsTB = new gWeasleGUI.vTextParam();
-            this.gwDDCylsTB = new gWeasleGUI.vTextParam();
-            this.diskDefNameTB = new gWeasleGUI.vTextParam();
-            this.gwPortTB = new gWeasleGUI.vTextParam();
             this.busy1 = new System.Windows.Forms.PictureBox();
             this.GWTab = new System.Windows.Forms.TabControl();
             this.actionTab = new System.Windows.Forms.TabPage();
@@ -96,50 +68,34 @@
             this.gwTSPECSwapCB = new System.Windows.Forms.CheckBox();
             this.driveLBL = new System.Windows.Forms.Label();
             this.gwNrLBL = new System.Windows.Forms.Label();
-            this.gwNrTB = new gWeasleGUI.vTextParam();
             this.gwForceCB = new System.Windows.Forms.CheckBox();
             this.gwMotorOnCB = new System.Windows.Forms.CheckBox();
             this.gwLingerLBL = new System.Windows.Forms.Label();
-            this.gwLingerTB = new gWeasleGUI.vTextParam();
             this.gwPassesLBL = new System.Windows.Forms.Label();
-            this.gwPassesTB = new gWeasleGUI.vTextParam();
-            this.gwOTTSPECOffsetsTB = new gWeasleGUI.vTextParam();
             this.gwOTTSPECOffsetsLBL = new System.Windows.Forms.Label();
             this.gwHFreqCB = new System.Windows.Forms.CheckBox();
             this.gwOutTracksLBL = new System.Windows.Forms.Label();
-            this.gwOTTSPECStepTB = new gWeasleGUI.vTextParam();
             this.gwOTTSPECStepLBL = new System.Windows.Forms.Label();
-            this.gwOTTSPECHeadsTB = new gWeasleGUI.vTextParam();
             this.gwOTTSPECHeadsLBL = new System.Windows.Forms.Label();
-            this.gwOTTSPECCylTB = new gWeasleGUI.vTextParam();
             this.gwOTTSPECCylLBL = new System.Windows.Forms.Label();
             this.gwPreEraseCB = new System.Windows.Forms.CheckBox();
             this.gwRevsLBL = new System.Windows.Forms.Label();
             this.gwAdjustSpeedLBL = new System.Windows.Forms.Label();
             this.gwFakeIndexLBL = new System.Windows.Forms.Label();
-            this.gwPLLPhaseTB = new gWeasleGUI.vTextParam();
             this.gwPLLPhaseLBL = new System.Windows.Forms.Label();
-            this.gwPLLPeriodTB = new gWeasleGUI.vTextParam();
             this.gwPLLPeriodLBL = new System.Windows.Forms.Label();
-            this.gwTSPECOffsetsTB = new gWeasleGUI.vTextParam();
             this.gwTSPECOffsetsLBL = new System.Windows.Forms.Label();
-            this.gwTSPECStepTB = new gWeasleGUI.vTextParam();
             this.gwTSPECStepLBL = new System.Windows.Forms.Label();
-            this.gwTSPECHeadsTB = new gWeasleGUI.vTextParam();
             this.gwTSPECHeadsLBL = new System.Windows.Forms.Label();
-            this.gwTSPECCylTB = new gWeasleGUI.vTextParam();
             this.gwTSPECCylLBL = new System.Windows.Forms.Label();
             this.gwNoVerifyCB = new System.Windows.Forms.CheckBox();
             this.gwEraseBlankCB = new System.Windows.Forms.CheckBox();
             this.gwRawCB = new System.Windows.Forms.CheckBox();
-            this.gwSeekRetriesTB = new gWeasleGUI.vTextParam();
             this.gwSeekRetriesLBL = new System.Windows.Forms.Label();
             this.gwRetriesLBL = new System.Windows.Forms.Label();
             this.GwFileDisplay = new System.Windows.Forms.Label();
             this.gwCylLBL = new System.Windows.Forms.Label();
-            this.gwCylTB = new gWeasleGUI.vTextParam();
             this.additonalArgsLBL = new System.Windows.Forms.Label();
-            this.additonalArgsTB = new gWeasleGUI.vTextParam();
             this.gwFormatTypeCB = new System.Windows.Forms.ComboBox();
             this.gwFormatTypeLBL = new System.Windows.Forms.Label();
             this.ddTab = new System.Windows.Forms.TabPage();
@@ -179,14 +135,11 @@
             this.ProfileClearBtn = new System.Windows.Forms.Button();
             this.SaveProfileBtn = new System.Windows.Forms.Button();
             this.ProfileNameLBL = new System.Windows.Forms.Label();
-            this.ProfileNameTB = new gWeasleGUI.vTextParam();
             this.CmdProfileFileLBL = new System.Windows.Forms.Label();
             this.gwProfileSelLBL = new System.Windows.Forms.Label();
             this.OpenProfileBtn = new System.Windows.Forms.Button();
-            this.gwProfileFileTB = new gWeasleGUI.vTextParam();
             this.gwPathSelectionLBL = new System.Windows.Forms.Label();
             this.SelectGWPathBtn = new System.Windows.Forms.Button();
-            this.gwPathSelectionTB = new gWeasleGUI.vTextParam();
             this.deviceTab = new System.Windows.Forms.TabPage();
             this.gwReloadBtn = new System.Windows.Forms.Button();
             this.gwUSBRateValue = new System.Windows.Forms.Label();
@@ -221,6 +174,54 @@
             this.portcaptionLBL = new System.Windows.Forms.Label();
             this.CmdProfileCB = new System.Windows.Forms.ComboBox();
             this.gwCmdProfileLBL = new System.Windows.Forms.Label();
+            this.driveTB = new gWeasleGUI.vTextParam();
+            this.gwNrTB = new gWeasleGUI.vTextParam();
+            this.gwLingerTB = new gWeasleGUI.vTextParam();
+            this.gwPassesTB = new gWeasleGUI.vTextParam();
+            this.gwOTTSPECOffsetsTB = new gWeasleGUI.vTextParam();
+            this.gwOTTSPECStepTB = new gWeasleGUI.vTextParam();
+            this.gwOTTSPECHeadsTB = new gWeasleGUI.vTextParam();
+            this.gwOTTSPECCylTB = new gWeasleGUI.vTextParam();
+            this.gwRevsTB = new gWeasleGUI.vTextParam();
+            this.gwAdjustSpeedTB = new gWeasleGUI.vTextParam();
+            this.gwFakeIndexTB = new gWeasleGUI.vTextParam();
+            this.gwPLLPhaseTB = new gWeasleGUI.vTextParam();
+            this.gwPLLPeriodTB = new gWeasleGUI.vTextParam();
+            this.gwTSPECOffsetsTB = new gWeasleGUI.vTextParam();
+            this.gwTSPECStepTB = new gWeasleGUI.vTextParam();
+            this.gwTSPECHeadsTB = new gWeasleGUI.vTextParam();
+            this.gwTSPECCylTB = new gWeasleGUI.vTextParam();
+            this.gwSeekRetriesTB = new gWeasleGUI.vTextParam();
+            this.gwRetriesTB = new gWeasleGUI.vTextParam();
+            this.gwCylTB = new gWeasleGUI.vTextParam();
+            this.additonalArgsTB = new gWeasleGUI.vTextParam();
+            this.gwDDsubformatTB = new gWeasleGUI.vTextParam();
+            this.gwDDclockTB = new gWeasleGUI.vTextParam();
+            this.gwDDimgbpsTB = new gWeasleGUI.vTextParam();
+            this.gwDDgapbyteTB = new gWeasleGUI.vTextParam();
+            this.gwDDgap4aTB = new gWeasleGUI.vTextParam();
+            this.gwDDgap3TB = new gWeasleGUI.vTextParam();
+            this.gwDDgap2TB = new gWeasleGUI.vTextParam();
+            this.gwDDgap1TB = new gWeasleGUI.vTextParam();
+            this.gwDDrpmTB = new gWeasleGUI.vTextParam();
+            this.gwDDrateTB = new gWeasleGUI.vTextParam();
+            this.gwDDhTB = new gWeasleGUI.vTextParam();
+            this.gwDDinterleaveTB = new gWeasleGUI.vTextParam();
+            this.gwDDidTB = new gWeasleGUI.vTextParam();
+            this.gwDDhskewTB = new gWeasleGUI.vTextParam();
+            this.gwDDcskewTB = new gWeasleGUI.vTextParam();
+            this.gwDDbpsTB = new gWeasleGUI.vTextParam();
+            this.gwDDformatTB = new gWeasleGUI.vTextParam();
+            this.gwDDtracksTB = new gWeasleGUI.vTextParam();
+            this.gwDDsectorsTB = new gWeasleGUI.vTextParam();
+            this.gwDDStepTB = new gWeasleGUI.vTextParam();
+            this.gwDDHeadsTB = new gWeasleGUI.vTextParam();
+            this.gwDDCylsTB = new gWeasleGUI.vTextParam();
+            this.diskDefNameTB = new gWeasleGUI.vTextParam();
+            this.ProfileNameTB = new gWeasleGUI.vTextParam();
+            this.gwProfileFileTB = new gWeasleGUI.vTextParam();
+            this.gwPathSelectionTB = new gWeasleGUI.vTextParam();
+            this.gwPortTB = new gWeasleGUI.vTextParam();
             this.GwStatus.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.accessoptions)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.busy1)).BeginInit();
@@ -262,6 +263,7 @@
             this.GwStatus.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.GwStatus.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.gwToolsVersion,
+            this.GwGUIActions,
             this.GwCurrentStatus});
             this.GwStatus.Location = new System.Drawing.Point(0, 541);
             this.GwStatus.Name = "GwStatus";
@@ -275,6 +277,17 @@
             this.gwToolsVersion.Name = "gwToolsVersion";
             this.gwToolsVersion.Size = new System.Drawing.Size(45, 20);
             this.gwToolsVersion.Text = "None";
+            // 
+            // GwGUIActions
+            // 
+            this.GwGUIActions.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.GwGUIActions.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.GwGUIActions.IsLink = true;
+            this.GwGUIActions.Name = "GwGUIActions";
+            this.GwGUIActions.Size = new System.Drawing.Size(72, 20);
+            this.GwGUIActions.Text = "UIActions";
+            this.GwGUIActions.Visible = false;
+            this.GwGUIActions.Click += new System.EventHandler(this.GwGUIActions_Click);
             // 
             // GwCurrentStatus
             // 
@@ -544,305 +557,6 @@
             this.gwDDNewFileBtn.UseVisualStyleBackColor = true;
             this.gwDDNewFileBtn.Click += new System.EventHandler(this.gwDDNewFileBtn_Click);
             // 
-            // driveTB
-            // 
-            this.driveTB.Location = new System.Drawing.Point(317, 39);
-            this.driveTB.Margin = new System.Windows.Forms.Padding(4);
-            this.driveTB.Name = "driveTB";
-            this.driveTB.Size = new System.Drawing.Size(29, 22);
-            this.driveTB.TabIndex = 9;
-            this.gweazleTips.SetToolTip(this.driveTB, "drive to read (default: A)");
-            this.driveTB.ValidationFailure = false;
-            // 
-            // gwRevsTB
-            // 
-            this.gwRevsTB.Location = new System.Drawing.Point(115, 262);
-            this.gwRevsTB.Margin = new System.Windows.Forms.Padding(4);
-            this.gwRevsTB.Name = "gwRevsTB";
-            this.gwRevsTB.Size = new System.Drawing.Size(52, 22);
-            this.gwRevsTB.TabIndex = 27;
-            this.gweazleTips.SetToolTip(this.gwRevsTB, "number of revolutions to read per track");
-            this.gwRevsTB.ValidationFailure = false;
-            this.gwRevsTB.Visible = false;
-            // 
-            // gwAdjustSpeedTB
-            // 
-            this.gwAdjustSpeedTB.Location = new System.Drawing.Point(277, 294);
-            this.gwAdjustSpeedTB.Margin = new System.Windows.Forms.Padding(4);
-            this.gwAdjustSpeedTB.Name = "gwAdjustSpeedTB";
-            this.gwAdjustSpeedTB.Size = new System.Drawing.Size(52, 22);
-            this.gwAdjustSpeedTB.TabIndex = 29;
-            this.gweazleTips.SetToolTip(this.gwAdjustSpeedTB, "scale track data to effective drive");
-            this.gwAdjustSpeedTB.ValidationFailure = false;
-            // 
-            // gwFakeIndexTB
-            // 
-            this.gwFakeIndexTB.Location = new System.Drawing.Point(115, 294);
-            this.gwFakeIndexTB.Margin = new System.Windows.Forms.Padding(4);
-            this.gwFakeIndexTB.Name = "gwFakeIndexTB";
-            this.gwFakeIndexTB.Size = new System.Drawing.Size(52, 22);
-            this.gwFakeIndexTB.TabIndex = 28;
-            this.gweazleTips.SetToolTip(this.gwFakeIndexTB, "fake index pulses");
-            this.gwFakeIndexTB.ValidationFailure = false;
-            // 
-            // gwRetriesTB
-            // 
-            this.gwRetriesTB.Location = new System.Drawing.Point(115, 326);
-            this.gwRetriesTB.Margin = new System.Windows.Forms.Padding(4);
-            this.gwRetriesTB.Name = "gwRetriesTB";
-            this.gwRetriesTB.Size = new System.Drawing.Size(52, 22);
-            this.gwRetriesTB.TabIndex = 30;
-            this.gweazleTips.SetToolTip(this.gwRetriesTB, "number of retries per seek-retry");
-            this.gwRetriesTB.ValidationFailure = false;
-            // 
-            // gwDDsubformatTB
-            // 
-            this.gwDDsubformatTB.Location = new System.Drawing.Point(423, 161);
-            this.gwDDsubformatTB.Margin = new System.Windows.Forms.Padding(4);
-            this.gwDDsubformatTB.Name = "gwDDsubformatTB";
-            this.gwDDsubformatTB.Size = new System.Drawing.Size(61, 22);
-            this.gwDDsubformatTB.TabIndex = 69;
-            this.gweazleTips.SetToolTip(this.gwDDsubformatTB, "Format code for these tracks");
-            this.gwDDsubformatTB.ValidationFailure = false;
-            // 
-            // gwDDclockTB
-            // 
-            this.gwDDclockTB.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
-            this.gwDDclockTB.Location = new System.Drawing.Point(549, 33);
-            this.gwDDclockTB.Margin = new System.Windows.Forms.Padding(4);
-            this.gwDDclockTB.Name = "gwDDclockTB";
-            this.gwDDclockTB.Size = new System.Drawing.Size(69, 22);
-            this.gwDDclockTB.TabIndex = 54;
-            this.gweazleTips.SetToolTip(this.gwDDclockTB, "Clock");
-            this.gwDDclockTB.ValidationFailure = false;
-            // 
-            // gwDDimgbpsTB
-            // 
-            this.gwDDimgbpsTB.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
-            this.gwDDimgbpsTB.Location = new System.Drawing.Point(261, 161);
-            this.gwDDimgbpsTB.Margin = new System.Windows.Forms.Padding(4);
-            this.gwDDimgbpsTB.Name = "gwDDimgbpsTB";
-            this.gwDDimgbpsTB.Size = new System.Drawing.Size(69, 22);
-            this.gwDDimgbpsTB.TabIndex = 68;
-            this.gweazleTips.SetToolTip(this.gwDDimgbpsTB, "Bytes per sector in IMG file (short sectors are padded)");
-            this.gwDDimgbpsTB.ValidationFailure = false;
-            // 
-            // gwDDgapbyteTB
-            // 
-            this.gwDDgapbyteTB.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
-            this.gwDDgapbyteTB.Location = new System.Drawing.Point(96, 161);
-            this.gwDDgapbyteTB.Margin = new System.Windows.Forms.Padding(4);
-            this.gwDDgapbyteTB.Name = "gwDDgapbyteTB";
-            this.gwDDgapbyteTB.Size = new System.Drawing.Size(87, 22);
-            this.gwDDgapbyteTB.TabIndex = 67;
-            this.gweazleTips.SetToolTip(this.gwDDgapbyteTB, "Byte value used to fill the above gaps (0-255, default: auto)");
-            this.gwDDgapbyteTB.ValidationFailure = false;
-            // 
-            // gwDDgap4aTB
-            // 
-            this.gwDDgap4aTB.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
-            this.gwDDgap4aTB.Location = new System.Drawing.Point(429, 129);
-            this.gwDDgap4aTB.Margin = new System.Windows.Forms.Padding(4);
-            this.gwDDgap4aTB.Name = "gwDDgap4aTB";
-            this.gwDDgap4aTB.Size = new System.Drawing.Size(61, 22);
-            this.gwDDgap4aTB.TabIndex = 66;
-            this.gweazleTips.SetToolTip(this.gwDDgap4aTB, "Post-Index Gap size (0-255, default: auto)");
-            this.gwDDgap4aTB.ValidationFailure = false;
-            // 
-            // gwDDgap3TB
-            // 
-            this.gwDDgap3TB.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
-            this.gwDDgap3TB.Location = new System.Drawing.Point(301, 129);
-            this.gwDDgap3TB.Margin = new System.Windows.Forms.Padding(4);
-            this.gwDDgap3TB.Name = "gwDDgap3TB";
-            this.gwDDgap3TB.Size = new System.Drawing.Size(61, 22);
-            this.gwDDgap3TB.TabIndex = 65;
-            this.gweazleTips.SetToolTip(this.gwDDgap3TB, "Post-DAM Gap size (0-255, default: auto)");
-            this.gwDDgap3TB.ValidationFailure = false;
-            // 
-            // gwDDgap2TB
-            // 
-            this.gwDDgap2TB.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
-            this.gwDDgap2TB.Location = new System.Drawing.Point(192, 129);
-            this.gwDDgap2TB.Margin = new System.Windows.Forms.Padding(4);
-            this.gwDDgap2TB.Name = "gwDDgap2TB";
-            this.gwDDgap2TB.Size = new System.Drawing.Size(51, 22);
-            this.gwDDgap2TB.TabIndex = 64;
-            this.gweazleTips.SetToolTip(this.gwDDgap2TB, "Post-IDAM Gap size (0-255, default: auto)");
-            this.gwDDgap2TB.ValidationFailure = false;
-            // 
-            // gwDDgap1TB
-            // 
-            this.gwDDgap1TB.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
-            this.gwDDgap1TB.Location = new System.Drawing.Point(75, 129);
-            this.gwDDgap1TB.Margin = new System.Windows.Forms.Padding(4);
-            this.gwDDgap1TB.Name = "gwDDgap1TB";
-            this.gwDDgap1TB.Size = new System.Drawing.Size(59, 22);
-            this.gwDDgap1TB.TabIndex = 63;
-            this.gweazleTips.SetToolTip(this.gwDDgap1TB, "Post-IAM Gap size (0-255, default: auto)");
-            this.gwDDgap1TB.ValidationFailure = false;
-            // 
-            // gwDDrpmTB
-            // 
-            this.gwDDrpmTB.Location = new System.Drawing.Point(447, 97);
-            this.gwDDrpmTB.Margin = new System.Windows.Forms.Padding(4);
-            this.gwDDrpmTB.Name = "gwDDrpmTB";
-            this.gwDDrpmTB.Size = new System.Drawing.Size(61, 22);
-            this.gwDDrpmTB.TabIndex = 62;
-            this.gweazleTips.SetToolTip(this.gwDDrpmTB, "Disk spin speed in RPM (1-2000, default: 300)");
-            this.gwDDrpmTB.ValidationFailure = false;
-            // 
-            // gwDDrateTB
-            // 
-            this.gwDDrateTB.Location = new System.Drawing.Point(336, 97);
-            this.gwDDrateTB.Margin = new System.Windows.Forms.Padding(4);
-            this.gwDDrateTB.Name = "gwDDrateTB";
-            this.gwDDrateTB.Size = new System.Drawing.Size(61, 22);
-            this.gwDDrateTB.TabIndex = 61;
-            this.gweazleTips.SetToolTip(this.gwDDrateTB, "Data rate in kbps (1-2000, default: auto)");
-            this.gwDDrateTB.ValidationFailure = false;
-            // 
-            // gwDDhTB
-            // 
-            this.gwDDhTB.Location = new System.Drawing.Point(228, 97);
-            this.gwDDhTB.Margin = new System.Windows.Forms.Padding(4);
-            this.gwDDhTB.Name = "gwDDhTB";
-            this.gwDDhTB.Size = new System.Drawing.Size(51, 22);
-            this.gwDDhTB.TabIndex = 60;
-            this.gweazleTips.SetToolTip(this.gwDDhTB, "Head (aka H) byte value in each sector header (0-255, default: auto)");
-            this.gwDDhTB.ValidationFailure = false;
-            // 
-            // gwDDinterleaveTB
-            // 
-            this.gwDDinterleaveTB.Location = new System.Drawing.Point(108, 97);
-            this.gwDDinterleaveTB.Margin = new System.Windows.Forms.Padding(4);
-            this.gwDDinterleaveTB.Name = "gwDDinterleaveTB";
-            this.gwDDinterleaveTB.Size = new System.Drawing.Size(59, 22);
-            this.gwDDinterleaveTB.TabIndex = 59;
-            this.gweazleTips.SetToolTip(this.gwDDinterleaveTB, "Sector interleave, N:1 (1-255, default: 1)");
-            this.gwDDinterleaveTB.ValidationFailure = false;
-            // 
-            // gwDDidTB
-            // 
-            this.gwDDidTB.Location = new System.Drawing.Point(432, 33);
-            this.gwDDidTB.Margin = new System.Windows.Forms.Padding(4);
-            this.gwDDidTB.Name = "gwDDidTB";
-            this.gwDDidTB.Size = new System.Drawing.Size(61, 22);
-            this.gwDDidTB.TabIndex = 53;
-            this.gweazleTips.SetToolTip(this.gwDDidTB, "Sector ID (aka R) of logical first sector (0-255, default: 1)");
-            this.gwDDidTB.ValidationFailure = false;
-            // 
-            // gwDDhskewTB
-            // 
-            this.gwDDhskewTB.Location = new System.Drawing.Point(549, 65);
-            this.gwDDhskewTB.Margin = new System.Windows.Forms.Padding(4);
-            this.gwDDhskewTB.Name = "gwDDhskewTB";
-            this.gwDDhskewTB.Size = new System.Drawing.Size(61, 22);
-            this.gwDDhskewTB.TabIndex = 58;
-            this.gweazleTips.SetToolTip(this.gwDDhskewTB, "Sector skew per head (0-255, default: 0)");
-            this.gwDDhskewTB.ValidationFailure = false;
-            // 
-            // gwDDcskewTB
-            // 
-            this.gwDDcskewTB.Location = new System.Drawing.Point(389, 65);
-            this.gwDDcskewTB.Margin = new System.Windows.Forms.Padding(4);
-            this.gwDDcskewTB.Name = "gwDDcskewTB";
-            this.gwDDcskewTB.Size = new System.Drawing.Size(61, 22);
-            this.gwDDcskewTB.TabIndex = 57;
-            this.gweazleTips.SetToolTip(this.gwDDcskewTB, "Sector skew per cylinder (0-255, default: 0)");
-            this.gwDDcskewTB.ValidationFailure = false;
-            // 
-            // gwDDbpsTB
-            // 
-            this.gwDDbpsTB.Location = new System.Drawing.Point(200, 65);
-            this.gwDDbpsTB.Margin = new System.Windows.Forms.Padding(4);
-            this.gwDDbpsTB.Name = "gwDDbpsTB";
-            this.gwDDbpsTB.Size = new System.Drawing.Size(112, 22);
-            this.gwDDbpsTB.TabIndex = 56;
-            this.gweazleTips.SetToolTip(this.gwDDbpsTB, "Bytes per sector (128, 256, 512, 1024, 2048, 4096, 8192)");
-            this.gwDDbpsTB.ValidationFailure = false;
-            // 
-            // gwDDformatTB
-            // 
-            this.gwDDformatTB.Location = new System.Drawing.Point(232, 33);
-            this.gwDDformatTB.Margin = new System.Windows.Forms.Padding(4);
-            this.gwDDformatTB.Name = "gwDDformatTB";
-            this.gwDDformatTB.Size = new System.Drawing.Size(99, 22);
-            this.gwDDformatTB.TabIndex = 51;
-            this.gweazleTips.SetToolTip(this.gwDDformatTB, "Format for these tracks");
-            this.gwDDformatTB.ValidationFailure = false;
-            // 
-            // gwDDtracksTB
-            // 
-            this.gwDDtracksTB.Location = new System.Drawing.Point(93, 33);
-            this.gwDDtracksTB.Margin = new System.Windows.Forms.Padding(4);
-            this.gwDDtracksTB.Name = "gwDDtracksTB";
-            this.gwDDtracksTB.Size = new System.Drawing.Size(71, 22);
-            this.gwDDtracksTB.TabIndex = 50;
-            this.gweazleTips.SetToolTip(this.gwDDtracksTB, "Track list or \"*\" for all unmatched tracks");
-            this.gwDDtracksTB.ValidationFailure = false;
-            // 
-            // gwDDsectorsTB
-            // 
-            this.gwDDsectorsTB.Location = new System.Drawing.Point(93, 65);
-            this.gwDDsectorsTB.Margin = new System.Windows.Forms.Padding(4);
-            this.gwDDsectorsTB.Name = "gwDDsectorsTB";
-            this.gwDDsectorsTB.Size = new System.Drawing.Size(61, 22);
-            this.gwDDsectorsTB.TabIndex = 55;
-            this.gweazleTips.SetToolTip(this.gwDDsectorsTB, "Number of sectors (0-256, default: 0)");
-            this.gwDDsectorsTB.ValidationFailure = false;
-            // 
-            // gwDDStepTB
-            // 
-            this.gwDDStepTB.Location = new System.Drawing.Point(869, 89);
-            this.gwDDStepTB.Margin = new System.Windows.Forms.Padding(4);
-            this.gwDDStepTB.Name = "gwDDStepTB";
-            this.gwDDStepTB.Size = new System.Drawing.Size(85, 22);
-            this.gwDDStepTB.TabIndex = 48;
-            this.gweazleTips.SetToolTip(this.gwDDStepTB, "Number of physical drive steps per image step (1-4)");
-            this.gwDDStepTB.ValidationFailure = false;
-            // 
-            // gwDDHeadsTB
-            // 
-            this.gwDDHeadsTB.Location = new System.Drawing.Point(728, 89);
-            this.gwDDHeadsTB.Margin = new System.Windows.Forms.Padding(4);
-            this.gwDDHeadsTB.Name = "gwDDHeadsTB";
-            this.gwDDHeadsTB.Size = new System.Drawing.Size(85, 22);
-            this.gwDDHeadsTB.TabIndex = 47;
-            this.gweazleTips.SetToolTip(this.gwDDHeadsTB, "Number of heads/sides (1-2)");
-            this.gwDDHeadsTB.ValidationFailure = false;
-            // 
-            // gwDDCylsTB
-            // 
-            this.gwDDCylsTB.BackColor = System.Drawing.SystemColors.Window;
-            this.gwDDCylsTB.Location = new System.Drawing.Point(575, 89);
-            this.gwDDCylsTB.Margin = new System.Windows.Forms.Padding(4);
-            this.gwDDCylsTB.Name = "gwDDCylsTB";
-            this.gwDDCylsTB.Size = new System.Drawing.Size(85, 22);
-            this.gwDDCylsTB.TabIndex = 46;
-            this.gweazleTips.SetToolTip(this.gwDDCylsTB, "Number of cylinders (1-255)");
-            this.gwDDCylsTB.ValidationFailure = false;
-            // 
-            // diskDefNameTB
-            // 
-            this.diskDefNameTB.Location = new System.Drawing.Point(619, 54);
-            this.diskDefNameTB.Margin = new System.Windows.Forms.Padding(4);
-            this.diskDefNameTB.Name = "diskDefNameTB";
-            this.diskDefNameTB.Size = new System.Drawing.Size(160, 22);
-            this.diskDefNameTB.TabIndex = 45;
-            this.gweazleTips.SetToolTip(this.diskDefNameTB, "Disk Definition Name");
-            this.diskDefNameTB.ValidationFailure = false;
-            // 
-            // gwPortTB
-            // 
-            this.gwPortTB.Location = new System.Drawing.Point(92, 21);
-            this.gwPortTB.Margin = new System.Windows.Forms.Padding(4);
-            this.gwPortTB.Name = "gwPortTB";
-            this.gwPortTB.Size = new System.Drawing.Size(80, 22);
-            this.gwPortTB.TabIndex = 83;
-            this.gweazleTips.SetToolTip(this.gwPortTB, "device name (COM/serial port)");
-            this.gwPortTB.ValidationFailure = false;
-            // 
             // busy1
             // 
             this.busy1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -1034,16 +748,6 @@
             this.gwNrLBL.Text = "Iterations";
             this.gwNrLBL.Visible = false;
             // 
-            // gwNrTB
-            // 
-            this.gwNrTB.Location = new System.Drawing.Point(95, 73);
-            this.gwNrTB.Margin = new System.Windows.Forms.Padding(4);
-            this.gwNrTB.Name = "gwNrTB";
-            this.gwNrTB.Size = new System.Drawing.Size(44, 22);
-            this.gwNrTB.TabIndex = 11;
-            this.gwNrTB.ValidationFailure = false;
-            this.gwNrTB.Visible = false;
-            // 
             // gwForceCB
             // 
             this.gwForceCB.AutoSize = true;
@@ -1077,16 +781,6 @@
             this.gwLingerLBL.Text = "Linger";
             this.gwLingerLBL.Visible = false;
             // 
-            // gwLingerTB
-            // 
-            this.gwLingerTB.Location = new System.Drawing.Point(441, 73);
-            this.gwLingerTB.Margin = new System.Windows.Forms.Padding(4);
-            this.gwLingerTB.Name = "gwLingerTB";
-            this.gwLingerTB.Size = new System.Drawing.Size(44, 22);
-            this.gwLingerTB.TabIndex = 14;
-            this.gwLingerTB.ValidationFailure = false;
-            this.gwLingerTB.Visible = false;
-            // 
             // gwPassesLBL
             // 
             this.gwPassesLBL.AutoSize = true;
@@ -1097,26 +791,6 @@
             this.gwPassesLBL.TabIndex = 120;
             this.gwPassesLBL.Text = "Passes";
             this.gwPassesLBL.Visible = false;
-            // 
-            // gwPassesTB
-            // 
-            this.gwPassesTB.Location = new System.Drawing.Point(328, 73);
-            this.gwPassesTB.Margin = new System.Windows.Forms.Padding(4);
-            this.gwPassesTB.Name = "gwPassesTB";
-            this.gwPassesTB.Size = new System.Drawing.Size(44, 22);
-            this.gwPassesTB.TabIndex = 13;
-            this.gwPassesTB.ValidationFailure = false;
-            this.gwPassesTB.Visible = false;
-            // 
-            // gwOTTSPECOffsetsTB
-            // 
-            this.gwOTTSPECOffsetsTB.Location = new System.Drawing.Point(381, 196);
-            this.gwOTTSPECOffsetsTB.Margin = new System.Windows.Forms.Padding(4);
-            this.gwOTTSPECOffsetsTB.Name = "gwOTTSPECOffsetsTB";
-            this.gwOTTSPECOffsetsTB.Size = new System.Drawing.Size(157, 22);
-            this.gwOTTSPECOffsetsTB.TabIndex = 24;
-            this.gwOTTSPECOffsetsTB.ValidationFailure = false;
-            this.gwOTTSPECOffsetsTB.Visible = false;
             // 
             // gwOTTSPECOffsetsLBL
             // 
@@ -1151,17 +825,6 @@
             this.gwOutTracksLBL.Text = "Out Tracks";
             this.gwOutTracksLBL.Visible = false;
             // 
-            // gwOTTSPECStepTB
-            // 
-            this.gwOTTSPECStepTB.Location = new System.Drawing.Point(381, 164);
-            this.gwOTTSPECStepTB.Margin = new System.Windows.Forms.Padding(4);
-            this.gwOTTSPECStepTB.Name = "gwOTTSPECStepTB";
-            this.gwOTTSPECStepTB.Size = new System.Drawing.Size(45, 22);
-            this.gwOTTSPECStepTB.TabIndex = 23;
-            this.gwOTTSPECStepTB.Tag = "step";
-            this.gwOTTSPECStepTB.ValidationFailure = false;
-            this.gwOTTSPECStepTB.Visible = false;
-            // 
             // gwOTTSPECStepLBL
             // 
             this.gwOTTSPECStepLBL.AutoSize = true;
@@ -1173,17 +836,6 @@
             this.gwOTTSPECStepLBL.Text = "Step";
             this.gwOTTSPECStepLBL.Visible = false;
             // 
-            // gwOTTSPECHeadsTB
-            // 
-            this.gwOTTSPECHeadsTB.Location = new System.Drawing.Point(381, 132);
-            this.gwOTTSPECHeadsTB.Margin = new System.Windows.Forms.Padding(4);
-            this.gwOTTSPECHeadsTB.Name = "gwOTTSPECHeadsTB";
-            this.gwOTTSPECHeadsTB.Size = new System.Drawing.Size(45, 22);
-            this.gwOTTSPECHeadsTB.TabIndex = 21;
-            this.gwOTTSPECHeadsTB.Tag = "h";
-            this.gwOTTSPECHeadsTB.ValidationFailure = false;
-            this.gwOTTSPECHeadsTB.Visible = false;
-            // 
             // gwOTTSPECHeadsLBL
             // 
             this.gwOTTSPECHeadsLBL.AutoSize = true;
@@ -1194,17 +846,6 @@
             this.gwOTTSPECHeadsLBL.TabIndex = 111;
             this.gwOTTSPECHeadsLBL.Text = "Heads";
             this.gwOTTSPECHeadsLBL.Visible = false;
-            // 
-            // gwOTTSPECCylTB
-            // 
-            this.gwOTTSPECCylTB.Location = new System.Drawing.Point(381, 100);
-            this.gwOTTSPECCylTB.Margin = new System.Windows.Forms.Padding(4);
-            this.gwOTTSPECCylTB.Name = "gwOTTSPECCylTB";
-            this.gwOTTSPECCylTB.Size = new System.Drawing.Size(157, 22);
-            this.gwOTTSPECCylTB.TabIndex = 20;
-            this.gwOTTSPECCylTB.Tag = "c";
-            this.gwOTTSPECCylTB.ValidationFailure = false;
-            this.gwOTTSPECCylTB.Visible = false;
             // 
             // gwOTTSPECCylLBL
             // 
@@ -1259,16 +900,6 @@
             this.gwFakeIndexLBL.TabIndex = 104;
             this.gwFakeIndexLBL.Text = "Fake Index";
             // 
-            // gwPLLPhaseTB
-            // 
-            this.gwPLLPhaseTB.Location = new System.Drawing.Point(227, 228);
-            this.gwPLLPhaseTB.Margin = new System.Windows.Forms.Padding(4);
-            this.gwPLLPhaseTB.Name = "gwPLLPhaseTB";
-            this.gwPLLPhaseTB.Size = new System.Drawing.Size(45, 22);
-            this.gwPLLPhaseTB.TabIndex = 26;
-            this.gwPLLPhaseTB.Tag = "phase";
-            this.gwPLLPhaseTB.ValidationFailure = false;
-            // 
             // gwPLLPhaseLBL
             // 
             this.gwPLLPhaseLBL.AutoSize = true;
@@ -1278,16 +909,6 @@
             this.gwPLLPhaseLBL.Size = new System.Drawing.Size(46, 16);
             this.gwPLLPhaseLBL.TabIndex = 100;
             this.gwPLLPhaseLBL.Text = "Phase";
-            // 
-            // gwPLLPeriodTB
-            // 
-            this.gwPLLPeriodTB.Location = new System.Drawing.Point(115, 228);
-            this.gwPLLPeriodTB.Margin = new System.Windows.Forms.Padding(4);
-            this.gwPLLPeriodTB.Name = "gwPLLPeriodTB";
-            this.gwPLLPeriodTB.Size = new System.Drawing.Size(45, 22);
-            this.gwPLLPeriodTB.TabIndex = 25;
-            this.gwPLLPeriodTB.Tag = "period";
-            this.gwPLLPeriodTB.ValidationFailure = false;
             // 
             // gwPLLPeriodLBL
             // 
@@ -1299,15 +920,6 @@
             this.gwPLLPeriodLBL.TabIndex = 98;
             this.gwPLLPeriodLBL.Text = "PLL   Period";
             // 
-            // gwTSPECOffsetsTB
-            // 
-            this.gwTSPECOffsetsTB.Location = new System.Drawing.Point(115, 196);
-            this.gwTSPECOffsetsTB.Margin = new System.Windows.Forms.Padding(4);
-            this.gwTSPECOffsetsTB.Name = "gwTSPECOffsetsTB";
-            this.gwTSPECOffsetsTB.Size = new System.Drawing.Size(157, 22);
-            this.gwTSPECOffsetsTB.TabIndex = 19;
-            this.gwTSPECOffsetsTB.ValidationFailure = false;
-            // 
             // gwTSPECOffsetsLBL
             // 
             this.gwTSPECOffsetsLBL.AutoSize = true;
@@ -1317,16 +929,6 @@
             this.gwTSPECOffsetsLBL.Size = new System.Drawing.Size(48, 16);
             this.gwTSPECOffsetsLBL.TabIndex = 96;
             this.gwTSPECOffsetsLBL.Text = "Offsets";
-            // 
-            // gwTSPECStepTB
-            // 
-            this.gwTSPECStepTB.Location = new System.Drawing.Point(115, 164);
-            this.gwTSPECStepTB.Margin = new System.Windows.Forms.Padding(4);
-            this.gwTSPECStepTB.Name = "gwTSPECStepTB";
-            this.gwTSPECStepTB.Size = new System.Drawing.Size(45, 22);
-            this.gwTSPECStepTB.TabIndex = 18;
-            this.gwTSPECStepTB.Tag = "step";
-            this.gwTSPECStepTB.ValidationFailure = false;
             // 
             // gwTSPECStepLBL
             // 
@@ -1338,16 +940,6 @@
             this.gwTSPECStepLBL.TabIndex = 94;
             this.gwTSPECStepLBL.Text = "Step";
             // 
-            // gwTSPECHeadsTB
-            // 
-            this.gwTSPECHeadsTB.Location = new System.Drawing.Point(115, 132);
-            this.gwTSPECHeadsTB.Margin = new System.Windows.Forms.Padding(4);
-            this.gwTSPECHeadsTB.Name = "gwTSPECHeadsTB";
-            this.gwTSPECHeadsTB.Size = new System.Drawing.Size(45, 22);
-            this.gwTSPECHeadsTB.TabIndex = 16;
-            this.gwTSPECHeadsTB.Tag = "h";
-            this.gwTSPECHeadsTB.ValidationFailure = false;
-            // 
             // gwTSPECHeadsLBL
             // 
             this.gwTSPECHeadsLBL.AutoSize = true;
@@ -1357,16 +949,6 @@
             this.gwTSPECHeadsLBL.Size = new System.Drawing.Size(48, 16);
             this.gwTSPECHeadsLBL.TabIndex = 92;
             this.gwTSPECHeadsLBL.Text = "Heads";
-            // 
-            // gwTSPECCylTB
-            // 
-            this.gwTSPECCylTB.Location = new System.Drawing.Point(115, 100);
-            this.gwTSPECCylTB.Margin = new System.Windows.Forms.Padding(4);
-            this.gwTSPECCylTB.Name = "gwTSPECCylTB";
-            this.gwTSPECCylTB.Size = new System.Drawing.Size(157, 22);
-            this.gwTSPECCylTB.TabIndex = 15;
-            this.gwTSPECCylTB.Tag = "c";
-            this.gwTSPECCylTB.ValidationFailure = false;
             // 
             // gwTSPECCylLBL
             // 
@@ -1411,15 +993,6 @@
             this.gwRawCB.Text = "Raw";
             this.gwRawCB.UseVisualStyleBackColor = true;
             // 
-            // gwSeekRetriesTB
-            // 
-            this.gwSeekRetriesTB.Location = new System.Drawing.Point(277, 326);
-            this.gwSeekRetriesTB.Margin = new System.Windows.Forms.Padding(4);
-            this.gwSeekRetriesTB.Name = "gwSeekRetriesTB";
-            this.gwSeekRetriesTB.Size = new System.Drawing.Size(47, 22);
-            this.gwSeekRetriesTB.TabIndex = 31;
-            this.gwSeekRetriesTB.ValidationFailure = false;
-            // 
             // gwSeekRetriesLBL
             // 
             this.gwSeekRetriesLBL.AutoSize = true;
@@ -1461,16 +1034,6 @@
             this.gwCylLBL.Text = "Cylinder";
             this.gwCylLBL.Visible = false;
             // 
-            // gwCylTB
-            // 
-            this.gwCylTB.Location = new System.Drawing.Point(213, 73);
-            this.gwCylTB.Margin = new System.Windows.Forms.Padding(4);
-            this.gwCylTB.Name = "gwCylTB";
-            this.gwCylTB.Size = new System.Drawing.Size(44, 22);
-            this.gwCylTB.TabIndex = 12;
-            this.gwCylTB.ValidationFailure = false;
-            this.gwCylTB.Visible = false;
-            // 
             // additonalArgsLBL
             // 
             this.additonalArgsLBL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -1481,17 +1044,6 @@
             this.additonalArgsLBL.Size = new System.Drawing.Size(134, 16);
             this.additonalArgsLBL.TabIndex = 44;
             this.additonalArgsLBL.Text = "Additional Arguments";
-            // 
-            // additonalArgsTB
-            // 
-            this.additonalArgsTB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.additonalArgsTB.Location = new System.Drawing.Point(179, 377);
-            this.additonalArgsTB.Margin = new System.Windows.Forms.Padding(4);
-            this.additonalArgsTB.Name = "additonalArgsTB";
-            this.additonalArgsTB.Size = new System.Drawing.Size(804, 22);
-            this.additonalArgsTB.TabIndex = 39;
-            this.additonalArgsTB.ValidationFailure = false;
             // 
             // gwFormatTypeCB
             // 
@@ -1983,17 +1535,6 @@
             this.ProfileNameLBL.TabIndex = 65;
             this.ProfileNameLBL.Text = "Name";
             // 
-            // ProfileNameTB
-            // 
-            this.ProfileNameTB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.ProfileNameTB.Location = new System.Drawing.Point(105, 186);
-            this.ProfileNameTB.Margin = new System.Windows.Forms.Padding(4);
-            this.ProfileNameTB.Name = "ProfileNameTB";
-            this.ProfileNameTB.Size = new System.Drawing.Size(856, 22);
-            this.ProfileNameTB.TabIndex = 79;
-            this.ProfileNameTB.ValidationFailure = false;
-            // 
             // CmdProfileFileLBL
             // 
             this.CmdProfileFileLBL.AutoSize = true;
@@ -2026,17 +1567,6 @@
             this.OpenProfileBtn.UseVisualStyleBackColor = true;
             this.OpenProfileBtn.Click += new System.EventHandler(this.SelectGWProfileBtn_Click);
             // 
-            // gwProfileFileTB
-            // 
-            this.gwProfileFileTB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.gwProfileFileTB.Location = new System.Drawing.Point(89, 154);
-            this.gwProfileFileTB.Margin = new System.Windows.Forms.Padding(4);
-            this.gwProfileFileTB.Name = "gwProfileFileTB";
-            this.gwProfileFileTB.Size = new System.Drawing.Size(779, 22);
-            this.gwProfileFileTB.TabIndex = 77;
-            this.gwProfileFileTB.ValidationFailure = false;
-            // 
             // gwPathSelectionLBL
             // 
             this.gwPathSelectionLBL.AutoSize = true;
@@ -2059,17 +1589,6 @@
             this.SelectGWPathBtn.Text = "Select";
             this.SelectGWPathBtn.UseVisualStyleBackColor = true;
             this.SelectGWPathBtn.Click += new System.EventHandler(this.SelectGWPathBtn_Click);
-            // 
-            // gwPathSelectionTB
-            // 
-            this.gwPathSelectionTB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.gwPathSelectionTB.Location = new System.Drawing.Point(55, 75);
-            this.gwPathSelectionTB.Margin = new System.Windows.Forms.Padding(4);
-            this.gwPathSelectionTB.Name = "gwPathSelectionTB";
-            this.gwPathSelectionTB.Size = new System.Drawing.Size(813, 22);
-            this.gwPathSelectionTB.TabIndex = 75;
-            this.gwPathSelectionTB.ValidationFailure = false;
             // 
             // deviceTab
             // 
@@ -2461,6 +1980,500 @@
             this.gwCmdProfileLBL.TabIndex = 56;
             this.gwCmdProfileLBL.Text = "Profile";
             // 
+            // driveTB
+            // 
+            this.driveTB.Location = new System.Drawing.Point(317, 39);
+            this.driveTB.Margin = new System.Windows.Forms.Padding(4);
+            this.driveTB.Name = "driveTB";
+            this.driveTB.Size = new System.Drawing.Size(29, 22);
+            this.driveTB.TabIndex = 9;
+            this.gweazleTips.SetToolTip(this.driveTB, "drive to read (default: A)");
+            this.driveTB.ValidationFailure = false;
+            // 
+            // gwNrTB
+            // 
+            this.gwNrTB.Location = new System.Drawing.Point(95, 73);
+            this.gwNrTB.Margin = new System.Windows.Forms.Padding(4);
+            this.gwNrTB.Name = "gwNrTB";
+            this.gwNrTB.Size = new System.Drawing.Size(44, 22);
+            this.gwNrTB.TabIndex = 11;
+            this.gwNrTB.ValidationFailure = false;
+            this.gwNrTB.Visible = false;
+            // 
+            // gwLingerTB
+            // 
+            this.gwLingerTB.Location = new System.Drawing.Point(441, 73);
+            this.gwLingerTB.Margin = new System.Windows.Forms.Padding(4);
+            this.gwLingerTB.Name = "gwLingerTB";
+            this.gwLingerTB.Size = new System.Drawing.Size(44, 22);
+            this.gwLingerTB.TabIndex = 14;
+            this.gwLingerTB.ValidationFailure = false;
+            this.gwLingerTB.Visible = false;
+            // 
+            // gwPassesTB
+            // 
+            this.gwPassesTB.Location = new System.Drawing.Point(328, 73);
+            this.gwPassesTB.Margin = new System.Windows.Forms.Padding(4);
+            this.gwPassesTB.Name = "gwPassesTB";
+            this.gwPassesTB.Size = new System.Drawing.Size(44, 22);
+            this.gwPassesTB.TabIndex = 13;
+            this.gwPassesTB.ValidationFailure = false;
+            this.gwPassesTB.Visible = false;
+            // 
+            // gwOTTSPECOffsetsTB
+            // 
+            this.gwOTTSPECOffsetsTB.Location = new System.Drawing.Point(381, 196);
+            this.gwOTTSPECOffsetsTB.Margin = new System.Windows.Forms.Padding(4);
+            this.gwOTTSPECOffsetsTB.Name = "gwOTTSPECOffsetsTB";
+            this.gwOTTSPECOffsetsTB.Size = new System.Drawing.Size(157, 22);
+            this.gwOTTSPECOffsetsTB.TabIndex = 24;
+            this.gwOTTSPECOffsetsTB.ValidationFailure = false;
+            this.gwOTTSPECOffsetsTB.Visible = false;
+            // 
+            // gwOTTSPECStepTB
+            // 
+            this.gwOTTSPECStepTB.Location = new System.Drawing.Point(381, 164);
+            this.gwOTTSPECStepTB.Margin = new System.Windows.Forms.Padding(4);
+            this.gwOTTSPECStepTB.Name = "gwOTTSPECStepTB";
+            this.gwOTTSPECStepTB.Size = new System.Drawing.Size(45, 22);
+            this.gwOTTSPECStepTB.TabIndex = 23;
+            this.gwOTTSPECStepTB.Tag = "step";
+            this.gwOTTSPECStepTB.ValidationFailure = false;
+            this.gwOTTSPECStepTB.Visible = false;
+            // 
+            // gwOTTSPECHeadsTB
+            // 
+            this.gwOTTSPECHeadsTB.Location = new System.Drawing.Point(381, 132);
+            this.gwOTTSPECHeadsTB.Margin = new System.Windows.Forms.Padding(4);
+            this.gwOTTSPECHeadsTB.Name = "gwOTTSPECHeadsTB";
+            this.gwOTTSPECHeadsTB.Size = new System.Drawing.Size(45, 22);
+            this.gwOTTSPECHeadsTB.TabIndex = 21;
+            this.gwOTTSPECHeadsTB.Tag = "h";
+            this.gwOTTSPECHeadsTB.ValidationFailure = false;
+            this.gwOTTSPECHeadsTB.Visible = false;
+            // 
+            // gwOTTSPECCylTB
+            // 
+            this.gwOTTSPECCylTB.Location = new System.Drawing.Point(381, 100);
+            this.gwOTTSPECCylTB.Margin = new System.Windows.Forms.Padding(4);
+            this.gwOTTSPECCylTB.Name = "gwOTTSPECCylTB";
+            this.gwOTTSPECCylTB.Size = new System.Drawing.Size(157, 22);
+            this.gwOTTSPECCylTB.TabIndex = 20;
+            this.gwOTTSPECCylTB.Tag = "c";
+            this.gwOTTSPECCylTB.ValidationFailure = false;
+            this.gwOTTSPECCylTB.Visible = false;
+            // 
+            // gwRevsTB
+            // 
+            this.gwRevsTB.Location = new System.Drawing.Point(115, 262);
+            this.gwRevsTB.Margin = new System.Windows.Forms.Padding(4);
+            this.gwRevsTB.Name = "gwRevsTB";
+            this.gwRevsTB.Size = new System.Drawing.Size(52, 22);
+            this.gwRevsTB.TabIndex = 27;
+            this.gweazleTips.SetToolTip(this.gwRevsTB, "number of revolutions to read per track");
+            this.gwRevsTB.ValidationFailure = false;
+            this.gwRevsTB.Visible = false;
+            // 
+            // gwAdjustSpeedTB
+            // 
+            this.gwAdjustSpeedTB.Location = new System.Drawing.Point(277, 294);
+            this.gwAdjustSpeedTB.Margin = new System.Windows.Forms.Padding(4);
+            this.gwAdjustSpeedTB.Name = "gwAdjustSpeedTB";
+            this.gwAdjustSpeedTB.Size = new System.Drawing.Size(52, 22);
+            this.gwAdjustSpeedTB.TabIndex = 29;
+            this.gweazleTips.SetToolTip(this.gwAdjustSpeedTB, "scale track data to effective drive");
+            this.gwAdjustSpeedTB.ValidationFailure = false;
+            // 
+            // gwFakeIndexTB
+            // 
+            this.gwFakeIndexTB.Location = new System.Drawing.Point(115, 294);
+            this.gwFakeIndexTB.Margin = new System.Windows.Forms.Padding(4);
+            this.gwFakeIndexTB.Name = "gwFakeIndexTB";
+            this.gwFakeIndexTB.Size = new System.Drawing.Size(52, 22);
+            this.gwFakeIndexTB.TabIndex = 28;
+            this.gweazleTips.SetToolTip(this.gwFakeIndexTB, "fake index pulses");
+            this.gwFakeIndexTB.ValidationFailure = false;
+            // 
+            // gwPLLPhaseTB
+            // 
+            this.gwPLLPhaseTB.Location = new System.Drawing.Point(227, 228);
+            this.gwPLLPhaseTB.Margin = new System.Windows.Forms.Padding(4);
+            this.gwPLLPhaseTB.Name = "gwPLLPhaseTB";
+            this.gwPLLPhaseTB.Size = new System.Drawing.Size(45, 22);
+            this.gwPLLPhaseTB.TabIndex = 26;
+            this.gwPLLPhaseTB.Tag = "phase";
+            this.gwPLLPhaseTB.ValidationFailure = false;
+            // 
+            // gwPLLPeriodTB
+            // 
+            this.gwPLLPeriodTB.Location = new System.Drawing.Point(115, 228);
+            this.gwPLLPeriodTB.Margin = new System.Windows.Forms.Padding(4);
+            this.gwPLLPeriodTB.Name = "gwPLLPeriodTB";
+            this.gwPLLPeriodTB.Size = new System.Drawing.Size(45, 22);
+            this.gwPLLPeriodTB.TabIndex = 25;
+            this.gwPLLPeriodTB.Tag = "period";
+            this.gwPLLPeriodTB.ValidationFailure = false;
+            // 
+            // gwTSPECOffsetsTB
+            // 
+            this.gwTSPECOffsetsTB.Location = new System.Drawing.Point(115, 196);
+            this.gwTSPECOffsetsTB.Margin = new System.Windows.Forms.Padding(4);
+            this.gwTSPECOffsetsTB.Name = "gwTSPECOffsetsTB";
+            this.gwTSPECOffsetsTB.Size = new System.Drawing.Size(157, 22);
+            this.gwTSPECOffsetsTB.TabIndex = 19;
+            this.gwTSPECOffsetsTB.ValidationFailure = false;
+            // 
+            // gwTSPECStepTB
+            // 
+            this.gwTSPECStepTB.Location = new System.Drawing.Point(115, 164);
+            this.gwTSPECStepTB.Margin = new System.Windows.Forms.Padding(4);
+            this.gwTSPECStepTB.Name = "gwTSPECStepTB";
+            this.gwTSPECStepTB.Size = new System.Drawing.Size(45, 22);
+            this.gwTSPECStepTB.TabIndex = 18;
+            this.gwTSPECStepTB.Tag = "step";
+            this.gwTSPECStepTB.ValidationFailure = false;
+            // 
+            // gwTSPECHeadsTB
+            // 
+            this.gwTSPECHeadsTB.Location = new System.Drawing.Point(115, 132);
+            this.gwTSPECHeadsTB.Margin = new System.Windows.Forms.Padding(4);
+            this.gwTSPECHeadsTB.Name = "gwTSPECHeadsTB";
+            this.gwTSPECHeadsTB.Size = new System.Drawing.Size(45, 22);
+            this.gwTSPECHeadsTB.TabIndex = 16;
+            this.gwTSPECHeadsTB.Tag = "h";
+            this.gwTSPECHeadsTB.ValidationFailure = false;
+            // 
+            // gwTSPECCylTB
+            // 
+            this.gwTSPECCylTB.Location = new System.Drawing.Point(115, 100);
+            this.gwTSPECCylTB.Margin = new System.Windows.Forms.Padding(4);
+            this.gwTSPECCylTB.Name = "gwTSPECCylTB";
+            this.gwTSPECCylTB.Size = new System.Drawing.Size(157, 22);
+            this.gwTSPECCylTB.TabIndex = 15;
+            this.gwTSPECCylTB.Tag = "c";
+            this.gwTSPECCylTB.ValidationFailure = false;
+            // 
+            // gwSeekRetriesTB
+            // 
+            this.gwSeekRetriesTB.Location = new System.Drawing.Point(277, 326);
+            this.gwSeekRetriesTB.Margin = new System.Windows.Forms.Padding(4);
+            this.gwSeekRetriesTB.Name = "gwSeekRetriesTB";
+            this.gwSeekRetriesTB.Size = new System.Drawing.Size(47, 22);
+            this.gwSeekRetriesTB.TabIndex = 31;
+            this.gwSeekRetriesTB.ValidationFailure = false;
+            // 
+            // gwRetriesTB
+            // 
+            this.gwRetriesTB.Location = new System.Drawing.Point(115, 326);
+            this.gwRetriesTB.Margin = new System.Windows.Forms.Padding(4);
+            this.gwRetriesTB.Name = "gwRetriesTB";
+            this.gwRetriesTB.Size = new System.Drawing.Size(52, 22);
+            this.gwRetriesTB.TabIndex = 30;
+            this.gweazleTips.SetToolTip(this.gwRetriesTB, "number of retries per seek-retry");
+            this.gwRetriesTB.ValidationFailure = false;
+            // 
+            // gwCylTB
+            // 
+            this.gwCylTB.Location = new System.Drawing.Point(213, 73);
+            this.gwCylTB.Margin = new System.Windows.Forms.Padding(4);
+            this.gwCylTB.Name = "gwCylTB";
+            this.gwCylTB.Size = new System.Drawing.Size(44, 22);
+            this.gwCylTB.TabIndex = 12;
+            this.gwCylTB.ValidationFailure = false;
+            this.gwCylTB.Visible = false;
+            // 
+            // additonalArgsTB
+            // 
+            this.additonalArgsTB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.additonalArgsTB.Location = new System.Drawing.Point(179, 377);
+            this.additonalArgsTB.Margin = new System.Windows.Forms.Padding(4);
+            this.additonalArgsTB.Name = "additonalArgsTB";
+            this.additonalArgsTB.Size = new System.Drawing.Size(804, 22);
+            this.additonalArgsTB.TabIndex = 39;
+            this.additonalArgsTB.ValidationFailure = false;
+            // 
+            // gwDDsubformatTB
+            // 
+            this.gwDDsubformatTB.Location = new System.Drawing.Point(423, 161);
+            this.gwDDsubformatTB.Margin = new System.Windows.Forms.Padding(4);
+            this.gwDDsubformatTB.Name = "gwDDsubformatTB";
+            this.gwDDsubformatTB.Size = new System.Drawing.Size(61, 22);
+            this.gwDDsubformatTB.TabIndex = 69;
+            this.gweazleTips.SetToolTip(this.gwDDsubformatTB, "Format code for these tracks");
+            this.gwDDsubformatTB.ValidationFailure = false;
+            // 
+            // gwDDclockTB
+            // 
+            this.gwDDclockTB.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
+            this.gwDDclockTB.Location = new System.Drawing.Point(549, 33);
+            this.gwDDclockTB.Margin = new System.Windows.Forms.Padding(4);
+            this.gwDDclockTB.Name = "gwDDclockTB";
+            this.gwDDclockTB.Size = new System.Drawing.Size(69, 22);
+            this.gwDDclockTB.TabIndex = 54;
+            this.gweazleTips.SetToolTip(this.gwDDclockTB, "Clock");
+            this.gwDDclockTB.ValidationFailure = false;
+            // 
+            // gwDDimgbpsTB
+            // 
+            this.gwDDimgbpsTB.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
+            this.gwDDimgbpsTB.Location = new System.Drawing.Point(261, 161);
+            this.gwDDimgbpsTB.Margin = new System.Windows.Forms.Padding(4);
+            this.gwDDimgbpsTB.Name = "gwDDimgbpsTB";
+            this.gwDDimgbpsTB.Size = new System.Drawing.Size(69, 22);
+            this.gwDDimgbpsTB.TabIndex = 68;
+            this.gweazleTips.SetToolTip(this.gwDDimgbpsTB, "Bytes per sector in IMG file (short sectors are padded)");
+            this.gwDDimgbpsTB.ValidationFailure = false;
+            // 
+            // gwDDgapbyteTB
+            // 
+            this.gwDDgapbyteTB.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
+            this.gwDDgapbyteTB.Location = new System.Drawing.Point(96, 161);
+            this.gwDDgapbyteTB.Margin = new System.Windows.Forms.Padding(4);
+            this.gwDDgapbyteTB.Name = "gwDDgapbyteTB";
+            this.gwDDgapbyteTB.Size = new System.Drawing.Size(87, 22);
+            this.gwDDgapbyteTB.TabIndex = 67;
+            this.gweazleTips.SetToolTip(this.gwDDgapbyteTB, "Byte value used to fill the above gaps (0-255, default: auto)");
+            this.gwDDgapbyteTB.ValidationFailure = false;
+            // 
+            // gwDDgap4aTB
+            // 
+            this.gwDDgap4aTB.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
+            this.gwDDgap4aTB.Location = new System.Drawing.Point(429, 129);
+            this.gwDDgap4aTB.Margin = new System.Windows.Forms.Padding(4);
+            this.gwDDgap4aTB.Name = "gwDDgap4aTB";
+            this.gwDDgap4aTB.Size = new System.Drawing.Size(61, 22);
+            this.gwDDgap4aTB.TabIndex = 66;
+            this.gweazleTips.SetToolTip(this.gwDDgap4aTB, "Post-Index Gap size (0-255, default: auto)");
+            this.gwDDgap4aTB.ValidationFailure = false;
+            // 
+            // gwDDgap3TB
+            // 
+            this.gwDDgap3TB.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
+            this.gwDDgap3TB.Location = new System.Drawing.Point(301, 129);
+            this.gwDDgap3TB.Margin = new System.Windows.Forms.Padding(4);
+            this.gwDDgap3TB.Name = "gwDDgap3TB";
+            this.gwDDgap3TB.Size = new System.Drawing.Size(61, 22);
+            this.gwDDgap3TB.TabIndex = 65;
+            this.gweazleTips.SetToolTip(this.gwDDgap3TB, "Post-DAM Gap size (0-255, default: auto)");
+            this.gwDDgap3TB.ValidationFailure = false;
+            // 
+            // gwDDgap2TB
+            // 
+            this.gwDDgap2TB.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
+            this.gwDDgap2TB.Location = new System.Drawing.Point(192, 129);
+            this.gwDDgap2TB.Margin = new System.Windows.Forms.Padding(4);
+            this.gwDDgap2TB.Name = "gwDDgap2TB";
+            this.gwDDgap2TB.Size = new System.Drawing.Size(51, 22);
+            this.gwDDgap2TB.TabIndex = 64;
+            this.gweazleTips.SetToolTip(this.gwDDgap2TB, "Post-IDAM Gap size (0-255, default: auto)");
+            this.gwDDgap2TB.ValidationFailure = false;
+            // 
+            // gwDDgap1TB
+            // 
+            this.gwDDgap1TB.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
+            this.gwDDgap1TB.Location = new System.Drawing.Point(75, 129);
+            this.gwDDgap1TB.Margin = new System.Windows.Forms.Padding(4);
+            this.gwDDgap1TB.Name = "gwDDgap1TB";
+            this.gwDDgap1TB.Size = new System.Drawing.Size(59, 22);
+            this.gwDDgap1TB.TabIndex = 63;
+            this.gweazleTips.SetToolTip(this.gwDDgap1TB, "Post-IAM Gap size (0-255, default: auto)");
+            this.gwDDgap1TB.ValidationFailure = false;
+            // 
+            // gwDDrpmTB
+            // 
+            this.gwDDrpmTB.Location = new System.Drawing.Point(447, 97);
+            this.gwDDrpmTB.Margin = new System.Windows.Forms.Padding(4);
+            this.gwDDrpmTB.Name = "gwDDrpmTB";
+            this.gwDDrpmTB.Size = new System.Drawing.Size(61, 22);
+            this.gwDDrpmTB.TabIndex = 62;
+            this.gweazleTips.SetToolTip(this.gwDDrpmTB, "Disk spin speed in RPM (1-2000, default: 300)");
+            this.gwDDrpmTB.ValidationFailure = false;
+            // 
+            // gwDDrateTB
+            // 
+            this.gwDDrateTB.Location = new System.Drawing.Point(336, 97);
+            this.gwDDrateTB.Margin = new System.Windows.Forms.Padding(4);
+            this.gwDDrateTB.Name = "gwDDrateTB";
+            this.gwDDrateTB.Size = new System.Drawing.Size(61, 22);
+            this.gwDDrateTB.TabIndex = 61;
+            this.gweazleTips.SetToolTip(this.gwDDrateTB, "Data rate in kbps (1-2000, default: auto)");
+            this.gwDDrateTB.ValidationFailure = false;
+            // 
+            // gwDDhTB
+            // 
+            this.gwDDhTB.Location = new System.Drawing.Point(228, 97);
+            this.gwDDhTB.Margin = new System.Windows.Forms.Padding(4);
+            this.gwDDhTB.Name = "gwDDhTB";
+            this.gwDDhTB.Size = new System.Drawing.Size(51, 22);
+            this.gwDDhTB.TabIndex = 60;
+            this.gweazleTips.SetToolTip(this.gwDDhTB, "Head (aka H) byte value in each sector header (0-255, default: auto)");
+            this.gwDDhTB.ValidationFailure = false;
+            // 
+            // gwDDinterleaveTB
+            // 
+            this.gwDDinterleaveTB.Location = new System.Drawing.Point(108, 97);
+            this.gwDDinterleaveTB.Margin = new System.Windows.Forms.Padding(4);
+            this.gwDDinterleaveTB.Name = "gwDDinterleaveTB";
+            this.gwDDinterleaveTB.Size = new System.Drawing.Size(59, 22);
+            this.gwDDinterleaveTB.TabIndex = 59;
+            this.gweazleTips.SetToolTip(this.gwDDinterleaveTB, "Sector interleave, N:1 (1-255, default: 1)");
+            this.gwDDinterleaveTB.ValidationFailure = false;
+            // 
+            // gwDDidTB
+            // 
+            this.gwDDidTB.Location = new System.Drawing.Point(432, 33);
+            this.gwDDidTB.Margin = new System.Windows.Forms.Padding(4);
+            this.gwDDidTB.Name = "gwDDidTB";
+            this.gwDDidTB.Size = new System.Drawing.Size(61, 22);
+            this.gwDDidTB.TabIndex = 53;
+            this.gweazleTips.SetToolTip(this.gwDDidTB, "Sector ID (aka R) of logical first sector (0-255, default: 1)");
+            this.gwDDidTB.ValidationFailure = false;
+            // 
+            // gwDDhskewTB
+            // 
+            this.gwDDhskewTB.Location = new System.Drawing.Point(549, 65);
+            this.gwDDhskewTB.Margin = new System.Windows.Forms.Padding(4);
+            this.gwDDhskewTB.Name = "gwDDhskewTB";
+            this.gwDDhskewTB.Size = new System.Drawing.Size(61, 22);
+            this.gwDDhskewTB.TabIndex = 58;
+            this.gweazleTips.SetToolTip(this.gwDDhskewTB, "Sector skew per head (0-255, default: 0)");
+            this.gwDDhskewTB.ValidationFailure = false;
+            // 
+            // gwDDcskewTB
+            // 
+            this.gwDDcskewTB.Location = new System.Drawing.Point(389, 65);
+            this.gwDDcskewTB.Margin = new System.Windows.Forms.Padding(4);
+            this.gwDDcskewTB.Name = "gwDDcskewTB";
+            this.gwDDcskewTB.Size = new System.Drawing.Size(61, 22);
+            this.gwDDcskewTB.TabIndex = 57;
+            this.gweazleTips.SetToolTip(this.gwDDcskewTB, "Sector skew per cylinder (0-255, default: 0)");
+            this.gwDDcskewTB.ValidationFailure = false;
+            // 
+            // gwDDbpsTB
+            // 
+            this.gwDDbpsTB.Location = new System.Drawing.Point(200, 65);
+            this.gwDDbpsTB.Margin = new System.Windows.Forms.Padding(4);
+            this.gwDDbpsTB.Name = "gwDDbpsTB";
+            this.gwDDbpsTB.Size = new System.Drawing.Size(112, 22);
+            this.gwDDbpsTB.TabIndex = 56;
+            this.gweazleTips.SetToolTip(this.gwDDbpsTB, "Bytes per sector (128, 256, 512, 1024, 2048, 4096, 8192)");
+            this.gwDDbpsTB.ValidationFailure = false;
+            // 
+            // gwDDformatTB
+            // 
+            this.gwDDformatTB.Location = new System.Drawing.Point(232, 33);
+            this.gwDDformatTB.Margin = new System.Windows.Forms.Padding(4);
+            this.gwDDformatTB.Name = "gwDDformatTB";
+            this.gwDDformatTB.Size = new System.Drawing.Size(99, 22);
+            this.gwDDformatTB.TabIndex = 51;
+            this.gweazleTips.SetToolTip(this.gwDDformatTB, "Format for these tracks");
+            this.gwDDformatTB.ValidationFailure = false;
+            // 
+            // gwDDtracksTB
+            // 
+            this.gwDDtracksTB.Location = new System.Drawing.Point(93, 33);
+            this.gwDDtracksTB.Margin = new System.Windows.Forms.Padding(4);
+            this.gwDDtracksTB.Name = "gwDDtracksTB";
+            this.gwDDtracksTB.Size = new System.Drawing.Size(71, 22);
+            this.gwDDtracksTB.TabIndex = 50;
+            this.gweazleTips.SetToolTip(this.gwDDtracksTB, "Track list or \"*\" for all unmatched tracks");
+            this.gwDDtracksTB.ValidationFailure = false;
+            // 
+            // gwDDsectorsTB
+            // 
+            this.gwDDsectorsTB.Location = new System.Drawing.Point(93, 65);
+            this.gwDDsectorsTB.Margin = new System.Windows.Forms.Padding(4);
+            this.gwDDsectorsTB.Name = "gwDDsectorsTB";
+            this.gwDDsectorsTB.Size = new System.Drawing.Size(61, 22);
+            this.gwDDsectorsTB.TabIndex = 55;
+            this.gweazleTips.SetToolTip(this.gwDDsectorsTB, "Number of sectors (0-256, default: 0)");
+            this.gwDDsectorsTB.ValidationFailure = false;
+            // 
+            // gwDDStepTB
+            // 
+            this.gwDDStepTB.Location = new System.Drawing.Point(869, 89);
+            this.gwDDStepTB.Margin = new System.Windows.Forms.Padding(4);
+            this.gwDDStepTB.Name = "gwDDStepTB";
+            this.gwDDStepTB.Size = new System.Drawing.Size(85, 22);
+            this.gwDDStepTB.TabIndex = 48;
+            this.gweazleTips.SetToolTip(this.gwDDStepTB, "Number of physical drive steps per image step (1-4)");
+            this.gwDDStepTB.ValidationFailure = false;
+            // 
+            // gwDDHeadsTB
+            // 
+            this.gwDDHeadsTB.Location = new System.Drawing.Point(728, 89);
+            this.gwDDHeadsTB.Margin = new System.Windows.Forms.Padding(4);
+            this.gwDDHeadsTB.Name = "gwDDHeadsTB";
+            this.gwDDHeadsTB.Size = new System.Drawing.Size(85, 22);
+            this.gwDDHeadsTB.TabIndex = 47;
+            this.gweazleTips.SetToolTip(this.gwDDHeadsTB, "Number of heads/sides (1-2)");
+            this.gwDDHeadsTB.ValidationFailure = false;
+            // 
+            // gwDDCylsTB
+            // 
+            this.gwDDCylsTB.BackColor = System.Drawing.SystemColors.Window;
+            this.gwDDCylsTB.Location = new System.Drawing.Point(575, 89);
+            this.gwDDCylsTB.Margin = new System.Windows.Forms.Padding(4);
+            this.gwDDCylsTB.Name = "gwDDCylsTB";
+            this.gwDDCylsTB.Size = new System.Drawing.Size(85, 22);
+            this.gwDDCylsTB.TabIndex = 46;
+            this.gweazleTips.SetToolTip(this.gwDDCylsTB, "Number of cylinders (1-255)");
+            this.gwDDCylsTB.ValidationFailure = false;
+            // 
+            // diskDefNameTB
+            // 
+            this.diskDefNameTB.Location = new System.Drawing.Point(619, 54);
+            this.diskDefNameTB.Margin = new System.Windows.Forms.Padding(4);
+            this.diskDefNameTB.Name = "diskDefNameTB";
+            this.diskDefNameTB.Size = new System.Drawing.Size(160, 22);
+            this.diskDefNameTB.TabIndex = 45;
+            this.gweazleTips.SetToolTip(this.diskDefNameTB, "Disk Definition Name");
+            this.diskDefNameTB.ValidationFailure = false;
+            // 
+            // ProfileNameTB
+            // 
+            this.ProfileNameTB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ProfileNameTB.Location = new System.Drawing.Point(105, 186);
+            this.ProfileNameTB.Margin = new System.Windows.Forms.Padding(4);
+            this.ProfileNameTB.Name = "ProfileNameTB";
+            this.ProfileNameTB.Size = new System.Drawing.Size(856, 22);
+            this.ProfileNameTB.TabIndex = 79;
+            this.ProfileNameTB.ValidationFailure = false;
+            // 
+            // gwProfileFileTB
+            // 
+            this.gwProfileFileTB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gwProfileFileTB.Location = new System.Drawing.Point(89, 154);
+            this.gwProfileFileTB.Margin = new System.Windows.Forms.Padding(4);
+            this.gwProfileFileTB.Name = "gwProfileFileTB";
+            this.gwProfileFileTB.Size = new System.Drawing.Size(779, 22);
+            this.gwProfileFileTB.TabIndex = 77;
+            this.gwProfileFileTB.ValidationFailure = false;
+            // 
+            // gwPathSelectionTB
+            // 
+            this.gwPathSelectionTB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gwPathSelectionTB.Location = new System.Drawing.Point(55, 75);
+            this.gwPathSelectionTB.Margin = new System.Windows.Forms.Padding(4);
+            this.gwPathSelectionTB.Name = "gwPathSelectionTB";
+            this.gwPathSelectionTB.Size = new System.Drawing.Size(813, 22);
+            this.gwPathSelectionTB.TabIndex = 75;
+            this.gwPathSelectionTB.ValidationFailure = false;
+            // 
+            // gwPortTB
+            // 
+            this.gwPortTB.Location = new System.Drawing.Point(92, 21);
+            this.gwPortTB.Margin = new System.Windows.Forms.Padding(4);
+            this.gwPortTB.Name = "gwPortTB";
+            this.gwPortTB.Size = new System.Drawing.Size(80, 22);
+            this.gwPortTB.TabIndex = 83;
+            this.gweazleTips.SetToolTip(this.gwPortTB, "device name (COM/serial port)");
+            this.gwPortTB.ValidationFailure = false;
+            // 
             // gWeazleFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -2698,6 +2711,7 @@
         private System.Windows.Forms.CheckBox gwNoClobberCB;
         private System.Windows.Forms.ComboBox gwDDImport;
         private System.Windows.Forms.Button gwDDNewFileBtn;
+        private System.Windows.Forms.ToolStripStatusLabel GwGUIActions;
     }
 }
 
