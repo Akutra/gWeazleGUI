@@ -247,14 +247,14 @@ namespace gWeasleGUI
         private void parseGlobals(string candidate)
         {
             // for now only use this as a hack parse for prefix when directly opening an import
-            if(candidate.ToLower().IndexOf("prefix:") == -1 &&
-                !ddGlobals.ContainsKey("prefix")) { return; }
+            //if(candidate.ToLower().IndexOf("prefix:") == -1 &&
+            //    !ddGlobals.ContainsKey("prefix")) { return; }
 
-            // filter extra characters
-            string line = candidate.Trim().Trim('#');
+            //// filter extra characters
+            //string line = candidate.Trim().Trim('#');
 
-            string[] parm = line.Trim().Split(':');
-            if (parm.Length < 2) return;
+            //string[] parm = line.Trim().Split(':');
+            //if (parm.Length < 2) return;
 
             //ddGlobals.Add(parm[0].Trim().ToLower(), parm[1].Trim());
         }
