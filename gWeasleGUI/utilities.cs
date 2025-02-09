@@ -193,7 +193,11 @@ namespace gWeasleGUI
             
             try
             {
-                return (T)Convert.ChangeType(input, typeof(T));
+                T value = (T)Convert.ChangeType(input, typeof(T));
+                if(value == null ) 
+                    return defValue;
+
+                return value;
             }
             catch
             {

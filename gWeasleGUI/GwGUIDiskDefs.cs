@@ -14,6 +14,7 @@ namespace gWeasleGUI
     public partial class gWeazleFrm : Form
     {
         private GwDiskDefs gwDD;
+        private bool doNotLoadDD = false;
 
         private Dictionary<string, Func<GwDiskDefsValue, bool>> GWDiskDefPara;
         private Dictionary<string, Func<TrackDefinition, bool>> GWDiskDefTrackPara;
@@ -37,6 +38,27 @@ namespace gWeasleGUI
             int c;
 
             gwDD = new GwDiskDefs(logger, this.ActionStart, this.ActionComplete, this.ConfigManager.ConfigData.LastDiskDefsCfgFile);
+
+            // Load import files
+            if( gwDD.GetImports().Count > 0 )
+            {
+                this.doNotLoadDD = true;
+                gwDDImport.Items.AddRange(gwDD.GetImports().Keys.ToArray());
+                // Try to select the last user selection
+                if(gwDD.GetImports().Keys.Contains(this.ConfigManager.ConfigData.LastDiskDefsImportFile))
+                {
+                    gwDDImport.SelectedItem = this.ConfigManager.ConfigData.LastDiskDefsImportFile;
+                } else
+                {
+                    gwDDImport.SelectedItem = 0;
+                }
+                this.doNotLoadDD = false;
+
+                gwDDImport.Visible = true;
+            } else
+            {
+                gwDDImport.Visible= false;
+            }
 
             // disk def parms
             GWDiskDefPara.Add("name", (dd) =>

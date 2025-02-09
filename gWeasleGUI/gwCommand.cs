@@ -12,6 +12,8 @@ namespace gWeasleGUI
         public string action;
         public bool time = true;
         public bool useDiskDefs = false;
+        public string DiskDefFile = "";
+        public string DiskDefImport = "";
         public List<gwArgument> args = new List<gwArgument>();
 
         public void PopulateInstance(Dictionary<string, string> values)
@@ -29,6 +31,12 @@ namespace gWeasleGUI
 
             if (values.ContainsKey("useDiskDefs"))
                 this.useDiskDefs = utilities.SafeChangeType<bool>(values["useDiskDefs"], this.useDiskDefs);
+
+            if (values.ContainsKey("DiskDefFile"))
+                this.DiskDefFile = utilities.SafeChangeType<string>(values["DiskDefFile"], string.Empty);
+
+            if (values.ContainsKey("DiskDefImport"))
+                this.DiskDefImport = utilities.SafeChangeType<string>(values["DiskDefImport"], string.Empty);
         }
 
         public XmlSchema GetSchema()
@@ -43,6 +51,8 @@ namespace gWeasleGUI
             action = reader.GetAttribute("action");
             time = utilities.SafeChangeType<bool>(reader.GetAttribute("time"), false);
             useDiskDefs = utilities.SafeChangeType<bool>(reader.GetAttribute("useDiskDefs"), false);
+            DiskDefFile = utilities.SafeChangeType<string>(reader.GetAttribute("DiskDefFile"), string.Empty);
+            DiskDefImport = utilities.SafeChangeType<string>(reader.GetAttribute("DiskDefImport"), string.Empty);
 
             if (reader.ReadToDescendant("gwArgument"))
             {
@@ -66,6 +76,8 @@ namespace gWeasleGUI
             writer.WriteAttributeString("action", this.action);
             writer.WriteAttributeString("time", this.time.ToString());
             writer.WriteAttributeString("useDiskDefs", this.useDiskDefs.ToString());
+            writer.WriteAttributeString("DiskDefFile", this.DiskDefFile);
+            writer.WriteAttributeString("DiskDefImport", this.DiskDefImport);
 
             XmlSerializer serializer = new XmlSerializer(typeof(gwArgument));
             XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
