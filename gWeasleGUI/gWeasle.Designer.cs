@@ -189,6 +189,7 @@
             this.SelectGWPathBtn = new System.Windows.Forms.Button();
             this.gwPathSelectionTB = new gWeasleGUI.vTextParam();
             this.deviceTab = new System.Windows.Forms.TabPage();
+            this.gwAutoReloadBtn = new System.Windows.Forms.Button();
             this.gwReloadBtn = new System.Windows.Forms.Button();
             this.gwUSBRateValue = new System.Windows.Forms.Label();
             this.gwUSBRateLBL = new System.Windows.Forms.Label();
@@ -201,6 +202,7 @@
             this.gwModelLBL = new System.Windows.Forms.Label();
             this.gwPortLBL = new System.Windows.Forms.Label();
             this.portsTab = new System.Windows.Forms.TabPage();
+            this.refreshportsbtn = new System.Windows.Forms.Button();
             this.useportbtn = new System.Windows.Forms.Button();
             this.portbusdescValue = new System.Windows.Forms.Label();
             this.portbusdescLBL = new System.Windows.Forms.Label();
@@ -385,12 +387,12 @@
             // gwDDfileBtn
             // 
             this.gwDDfileBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.gwDDfileBtn.Location = new System.Drawing.Point(861, 12);
+            this.gwDDfileBtn.Location = new System.Drawing.Point(915, 12);
             this.gwDDfileBtn.Margin = new System.Windows.Forms.Padding(4);
             this.gwDDfileBtn.Name = "gwDDfileBtn";
-            this.gwDDfileBtn.Size = new System.Drawing.Size(125, 28);
+            this.gwDDfileBtn.Size = new System.Drawing.Size(82, 28);
             this.gwDDfileBtn.TabIndex = 41;
-            this.gwDDfileBtn.Text = "Disk Defs File";
+            this.gwDDfileBtn.Text = "Open File";
             this.gweazleTips.SetToolTip(this.gwDDfileBtn, "Select  a Disk Definition File (*.cfg)");
             this.gwDDfileBtn.UseVisualStyleBackColor = true;
             this.gwDDfileBtn.Click += new System.EventHandler(this.gwDDfileBtn_Click);
@@ -547,7 +549,7 @@
             // gwDDNewFileBtn
             // 
             this.gwDDNewFileBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.gwDDNewFileBtn.Location = new System.Drawing.Point(771, 12);
+            this.gwDDNewFileBtn.Location = new System.Drawing.Point(826, 12);
             this.gwDDNewFileBtn.Margin = new System.Windows.Forms.Padding(4);
             this.gwDDNewFileBtn.Name = "gwDDNewFileBtn";
             this.gwDDNewFileBtn.Size = new System.Drawing.Size(82, 28);
@@ -2087,6 +2089,7 @@
             // 
             // deviceTab
             // 
+            this.deviceTab.Controls.Add(this.gwAutoReloadBtn);
             this.deviceTab.Controls.Add(this.gwReloadBtn);
             this.deviceTab.Controls.Add(this.gwUSBRateValue);
             this.deviceTab.Controls.Add(this.gwUSBRateLBL);
@@ -2107,6 +2110,17 @@
             this.deviceTab.TabIndex = 4;
             this.deviceTab.Text = "Device";
             this.deviceTab.UseVisualStyleBackColor = true;
+            // 
+            // gwAutoReloadBtn
+            // 
+            this.gwAutoReloadBtn.Location = new System.Drawing.Point(406, 18);
+            this.gwAutoReloadBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.gwAutoReloadBtn.Name = "gwAutoReloadBtn";
+            this.gwAutoReloadBtn.Size = new System.Drawing.Size(80, 28);
+            this.gwAutoReloadBtn.TabIndex = 85;
+            this.gwAutoReloadBtn.Text = "Auto Port";
+            this.gwAutoReloadBtn.UseVisualStyleBackColor = true;
+            this.gwAutoReloadBtn.Click += new System.EventHandler(this.gwAutoReloadBtn_Click);
             // 
             // gwReloadBtn
             // 
@@ -2225,6 +2239,7 @@
             // 
             // portsTab
             // 
+            this.portsTab.Controls.Add(this.refreshportsbtn);
             this.portsTab.Controls.Add(this.useportbtn);
             this.portsTab.Controls.Add(this.portbusdescValue);
             this.portsTab.Controls.Add(this.portbusdescLBL);
@@ -2251,6 +2266,17 @@
             this.portsTab.TabIndex = 5;
             this.portsTab.Text = "Serial Ports";
             this.portsTab.UseVisualStyleBackColor = true;
+            // 
+            // refreshportsbtn
+            // 
+            this.refreshportsbtn.Location = new System.Drawing.Point(520, 19);
+            this.refreshportsbtn.Margin = new System.Windows.Forms.Padding(4);
+            this.refreshportsbtn.Name = "refreshportsbtn";
+            this.refreshportsbtn.Size = new System.Drawing.Size(100, 28);
+            this.refreshportsbtn.TabIndex = 104;
+            this.refreshportsbtn.Text = "Refresh";
+            this.refreshportsbtn.UseVisualStyleBackColor = true;
+            this.refreshportsbtn.Click += new System.EventHandler(this.refreshportsbtn_Click);
             // 
             // useportbtn
             // 
@@ -2713,6 +2739,8 @@
         private System.Windows.Forms.ComboBox gwDDImport;
         private System.Windows.Forms.Button gwDDNewFileBtn;
         private System.Windows.Forms.ToolStripStatusLabel GwGUIActions;
+        private System.Windows.Forms.Button gwAutoReloadBtn;
+        private System.Windows.Forms.Button refreshportsbtn;
     }
 }
 

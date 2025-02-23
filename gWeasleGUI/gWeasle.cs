@@ -1000,6 +1000,7 @@ namespace gWeasleGUI
         {
             this.ActionStart();
 
+            this.portcaptionCB.SelectedIndex = FindCurrentUSBPort(this.gwPortTB.Text.Trim());
             this.gw.ReLoadGW(this.ConfigManager.ConfigData.GwToolsPath, this.gwPortTB.Text.Trim());
 
             this.ActionComplete();
@@ -1061,6 +1062,18 @@ namespace gWeasleGUI
             }
         }
 
+        private void gwAutoReloadBtn_Click(object sender, EventArgs e)
+        {
+            this.gwPortTB.Text = string.Empty;
+
+            this.ActionStart();
+
+            this.gw.ReLoadGW(this.ConfigManager.ConfigData.GwToolsPath);
+            this.portcaptionCB.SelectedIndex = FindCurrentUSBPort(this.gwPortTB.Text.Trim());
+
+            this.ActionComplete();
+        }
+
         /// <summary>
         /// Execute a trimmed down version of the selected gw action with help parameter
         /// </summary>
@@ -1076,6 +1089,14 @@ namespace gWeasleGUI
                     outputTB.Text = response;
                 }));
             });
+        }
+
+        private void refreshportsbtn_Click(object sender, EventArgs e)
+        {
+            this.gw.ReLoadSystemPorts();
+            this.portcaptionCB.Items.Clear();
+            this.portcaptionCB.Items.AddRange(this.gw.SerialPorts.Keys.ToArray());
+            this.portcaptionCB.SelectedIndex = FindCurrentUSBPort(gwPortTB.Text.Trim());
         }
 
         private void UpdateFormatConfig()
@@ -1097,6 +1118,18 @@ namespace gWeasleGUI
             this.GwDiskDefsFile = ConfigManager.ConfigData.LastDiskDefsCfgFile;
             gwUseDiskDefFileCB.Checked = ConfigManager.ConfigData.LastUseDiskDefsCfgFile;
             LoadDD();
+        }
+
+        private int FindCurrentUSBPort(string usbPort)
+        {
+            for (int i = 0; i < portcaptionCB.Items.Count; i++)
+            {
+                if (portcaptionCB.Items[i].ToString().ToLower().IndexOf(usbPort.ToLower()) != -1)
+                {
+                    return i;
+                }
+            }
+            return 0;
         }
 
         private void SetDD(string ddFile, bool use)
