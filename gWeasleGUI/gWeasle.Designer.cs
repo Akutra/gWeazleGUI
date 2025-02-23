@@ -58,6 +58,7 @@
             this.gwNoClobberCB = new System.Windows.Forms.CheckBox();
             this.gwHardSectorsCB = new System.Windows.Forms.CheckBox();
             this.gwDDNewFileBtn = new System.Windows.Forms.Button();
+            this.gwTagTB = new gWeasleGUI.vTextParam();
             this.driveTB = new gWeasleGUI.vTextParam();
             this.gwRevsTB = new gWeasleGUI.vTextParam();
             this.gwAdjustSpeedTB = new gWeasleGUI.vTextParam();
@@ -92,6 +93,9 @@
             this.actionTab = new System.Windows.Forms.TabPage();
             this.outputTB = new System.Windows.Forms.TextBox();
             this.parmTab = new System.Windows.Forms.TabPage();
+            this.gwDelaysCB = new System.Windows.Forms.CheckBox();
+            this.gwTagLBL = new System.Windows.Forms.Label();
+            this.gwReverseCB = new System.Windows.Forms.CheckBox();
             this.gwUseDiskDefFileCB = new System.Windows.Forms.CheckBox();
             this.gwOTTSPECSwapCB = new System.Windows.Forms.CheckBox();
             this.gwTSPECSwapCB = new System.Windows.Forms.CheckBox();
@@ -224,6 +228,8 @@
             this.portcaptionLBL = new System.Windows.Forms.Label();
             this.CmdProfileCB = new System.Windows.Forms.ComboBox();
             this.gwCmdProfileLBL = new System.Windows.Forms.Label();
+            this.gwPLLLowPassTB = new gWeasleGUI.vTextParam();
+            this.gwPLLLowPassLBL = new System.Windows.Forms.Label();
             this.GwStatus.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.accessoptions)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.busy1)).BeginInit();
@@ -558,6 +564,15 @@
             this.gweazleTips.SetToolTip(this.gwDDNewFileBtn, "Create a Disk Definition File (*.cfg)");
             this.gwDDNewFileBtn.UseVisualStyleBackColor = true;
             this.gwDDNewFileBtn.Click += new System.EventHandler(this.gwDDNewFileBtn_Click);
+            // 
+            // gwTagTB
+            // 
+            this.gwTagTB.Location = new System.Drawing.Point(109, 39);
+            this.gwTagTB.Name = "gwTagTB";
+            this.gwTagTB.Size = new System.Drawing.Size(100, 22);
+            this.gwTagTB.TabIndex = 133;
+            this.gweazleTips.SetToolTip(this.gwTagTB, "use specified GitHub release tag");
+            this.gwTagTB.ValidationFailure = false;
             // 
             // driveTB
             // 
@@ -922,6 +937,12 @@
             // 
             // parmTab
             // 
+            this.parmTab.Controls.Add(this.gwPLLLowPassTB);
+            this.parmTab.Controls.Add(this.gwPLLLowPassLBL);
+            this.parmTab.Controls.Add(this.gwDelaysCB);
+            this.parmTab.Controls.Add(this.gwTagTB);
+            this.parmTab.Controls.Add(this.gwTagLBL);
+            this.parmTab.Controls.Add(this.gwReverseCB);
             this.parmTab.Controls.Add(this.gwHardSectorsCB);
             this.parmTab.Controls.Add(this.gwNoClobberCB);
             this.parmTab.Controls.Add(this.gwDDcb);
@@ -991,6 +1012,38 @@
             this.parmTab.TabIndex = 1;
             this.parmTab.Text = "Parameters";
             this.parmTab.UseVisualStyleBackColor = true;
+            // 
+            // gwDelaysCB
+            // 
+            this.gwDelaysCB.AutoSize = true;
+            this.gwDelaysCB.Location = new System.Drawing.Point(348, 73);
+            this.gwDelaysCB.Margin = new System.Windows.Forms.Padding(4);
+            this.gwDelaysCB.Name = "gwDelaysCB";
+            this.gwDelaysCB.Size = new System.Drawing.Size(72, 20);
+            this.gwDelaysCB.TabIndex = 134;
+            this.gwDelaysCB.Text = "Delays";
+            this.gwDelaysCB.UseVisualStyleBackColor = true;
+            // 
+            // gwTagLBL
+            // 
+            this.gwTagLBL.AutoSize = true;
+            this.gwTagLBL.Location = new System.Drawing.Point(69, 43);
+            this.gwTagLBL.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.gwTagLBL.Name = "gwTagLBL";
+            this.gwTagLBL.Size = new System.Drawing.Size(32, 16);
+            this.gwTagLBL.TabIndex = 132;
+            this.gwTagLBL.Text = "Tag";
+            // 
+            // gwReverseCB
+            // 
+            this.gwReverseCB.AutoSize = true;
+            this.gwReverseCB.Location = new System.Drawing.Point(348, 271);
+            this.gwReverseCB.Margin = new System.Windows.Forms.Padding(4);
+            this.gwReverseCB.Name = "gwReverseCB";
+            this.gwReverseCB.Size = new System.Drawing.Size(81, 20);
+            this.gwReverseCB.TabIndex = 131;
+            this.gwReverseCB.Text = "Reverse";
+            this.gwReverseCB.UseVisualStyleBackColor = true;
             // 
             // gwUseDiskDefFileCB
             // 
@@ -2501,6 +2554,26 @@
             this.gwCmdProfileLBL.TabIndex = 56;
             this.gwCmdProfileLBL.Text = "Profile";
             // 
+            // gwPLLLowPassTB
+            // 
+            this.gwPLLLowPassTB.Location = new System.Drawing.Point(348, 228);
+            this.gwPLLLowPassTB.Margin = new System.Windows.Forms.Padding(4);
+            this.gwPLLLowPassTB.Name = "gwPLLLowPassTB";
+            this.gwPLLLowPassTB.Size = new System.Drawing.Size(45, 22);
+            this.gwPLLLowPassTB.TabIndex = 135;
+            this.gwPLLLowPassTB.Tag = "lowpass";
+            this.gwPLLLowPassTB.ValidationFailure = false;
+            // 
+            // gwPLLLowPassLBL
+            // 
+            this.gwPLLLowPassLBL.AutoSize = true;
+            this.gwPLLLowPassLBL.Location = new System.Drawing.Point(280, 231);
+            this.gwPLLLowPassLBL.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.gwPLLLowPassLBL.Name = "gwPLLLowPassLBL";
+            this.gwPLLLowPassLBL.Size = new System.Drawing.Size(61, 16);
+            this.gwPLLLowPassLBL.TabIndex = 136;
+            this.gwPLLLowPassLBL.Text = "Lowpass";
+            // 
             // gWeazleFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -2741,6 +2814,12 @@
         private System.Windows.Forms.ToolStripStatusLabel GwGUIActions;
         private System.Windows.Forms.Button gwAutoReloadBtn;
         private System.Windows.Forms.Button refreshportsbtn;
+        private System.Windows.Forms.CheckBox gwReverseCB;
+        private vTextParam gwTagTB;
+        private System.Windows.Forms.Label gwTagLBL;
+        private System.Windows.Forms.CheckBox gwDelaysCB;
+        private vTextParam gwPLLLowPassTB;
+        private System.Windows.Forms.Label gwPLLLowPassLBL;
     }
 }
 

@@ -439,8 +439,6 @@ namespace gWeasleGUI
                         p.EnableRaisingEvents = true;
                         p.Exited += (s, e) =>
                         {
-                            p.WaitForExit(); // Make sure the command is done bug fix
-
                             if (processMsg.ContainsKey(p.Id.ToString()))
                             {
                                 rt = processMsg[p.Id.ToString()].ToString();
@@ -980,8 +978,7 @@ namespace gWeasleGUI
                 };
                 uint propRegDataType;
                 uint RequiredSize;
-                bool success = SetupDiGetDevicePropertyW(hDeviceInfoSet, ref deviceInfoData, ref DEVPKEY_Device_BusReportedDeviceDesc,
-                    out propRegDataType, ptrBuf, BUFFER_SIZE, out RequiredSize, 0);
+                bool success = SetupDiGetDevicePropertyW(hDeviceInfoSet, ref deviceInfoData, ref DEVPKEY_Device_BusReportedDeviceDesc, out propRegDataType, ptrBuf, BUFFER_SIZE, out RequiredSize, 0);
                 if (!success)
                 {
                     return string.Empty;

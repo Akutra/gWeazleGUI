@@ -37,7 +37,7 @@ namespace gWeasleGUI
             this.GWParameters.Add("--pll", (t) => {
                 return ArgProcessTemplate(argKey: "--pll", templateType: t);
             });
-            this.GWParaInterface.Add("--pll", new List<Control>() { gwPLLPeriodTB, gwPLLPhaseTB, gwPLLPeriodLBL, gwPLLPhaseLBL });
+            this.GWParaInterface.Add("--pll", new List<Control>() { gwPLLPeriodTB, gwPLLPhaseTB, gwPLLPeriodLBL, gwPLLPhaseLBL, gwPLLLowPassLBL, gwPLLLowPassTB });
 
             this.GWParameters.Add("--adjust-speed", (t) => {
                 return ArgProcessTemplate(argKey: "--adjust-speed", templateType: t);
@@ -161,9 +161,11 @@ namespace gWeasleGUI
             });
             this.GWParaInterface.Add("--nr", new List<Control>() { gwNrLBL, gwNrTB });
 
+            // currently the Update command is the only command with this
             this.GWParameters.Add("--file", (t) => {
-                return ArgProcessTemplate(argKey: "--file", templateType: t, argControls: null, def: this.GwExistingFile.Trim());
+                return ArgProcessTemplate(argKey: "--file", templateType: t, argControls: null, def: this.GwUpdateFile.Trim());
             });
+
             this.GWParaInterface.Add("--file", new List<Control>() { SelectExistingFileBtn });
 
             this.GWParameters.Add("--dd", (t) => {
@@ -175,6 +177,21 @@ namespace gWeasleGUI
                 return ArgProcessTemplate(argKey: "--dd", templateType: t, def: "H", alt: "L");
             });
             this.GWParaInterface.Add("--densel", new List<Control>() { gwDDcb });
+
+            this.GWParameters.Add("--reverse", (t) => {
+                return ArgProcessTemplate(argKey: "--reverse", templateType: t);
+            });
+            this.GWParaInterface.Add("--reverse", new List<Control>() { gwReverseCB });
+
+            this.GWParameters.Add("--tag", (t) => {
+                return ArgProcessTemplate(argKey: "--tag", templateType: t);
+            });
+            this.GWParaInterface.Add("--tag", new List<Control>() { gwTagTB, gwTagLBL });
+
+            this.GWParameters.Add("--delays", (t) => {
+                return ArgProcessTemplate(argKey: "--delays", templateType: t);
+            });
+            this.GWParaInterface.Add("--delays", new List<Control>() { gwDelaysCB });
 
             this.gwAdditionalArgs = (t) =>
             {
@@ -574,7 +591,7 @@ namespace gWeasleGUI
             if (args is null)
             {
                 // interface
-                GwFileDisplay.Text = $"<< {this.GwExistingFile}";
+                GwFileDisplay.Text = $"<< {this.GwUpdateFile}";
                 SelectExistingFileBtn.Enabled = true;
             }
             else

@@ -19,7 +19,7 @@ namespace gWeasleGUI
         int ActionCount = 0;
         bool ActionUpdate = true;
 
-        string GwNewFile = string.Empty, GwExistingFile = string.Empty, GwDiskDefsFile = string.Empty;
+        string GwNewFile = string.Empty, GwExistingFile = string.Empty, GwDiskDefsFile = string.Empty, GwUpdateFile = string.Empty;
 
         public gWeazleFrm()
         {
@@ -284,7 +284,7 @@ namespace gWeasleGUI
                 // Update has different extensions
                 case "update":
                     string[] ext = new[] { "Any File|*.*", "Firmware Update|*.upd" };
-                    this.GwExistingFile = utilities.GetFilePath("existing", ext, ext.Last(), null);
+                    this.GwUpdateFile = utilities.GetFilePath("existing", ext, ext.Last(), null);
                     this.ProcessAction();
 
                     this.ActionComplete();
@@ -491,8 +491,10 @@ namespace gWeasleGUI
             gwTSPECOffsetsLBL.Visible = false;
             gwPLLPeriodTB.Visible = false; 
             gwPLLPhaseTB.Visible = false;
+            gwPLLLowPassTB.Visible = false;
             gwPLLPeriodLBL.Visible = false;
             gwPLLPhaseLBL.Visible = false;
+            gwPLLLowPassLBL.Visible = false;
             gwOutTracksLBL.Visible = false;
             gwOTTSPECCylTB.Visible = false; 
             gwOTTSPECHeadsTB.Visible = false; 
@@ -514,6 +516,9 @@ namespace gWeasleGUI
             gwDDcb.Visible = false;
             gwHardSectorsCB.Visible = false;
             gwUseDiskDefFileCB.Visible = false;
+            gwReverseCB.Visible = false;
+            gwNoClobberCB.Visible = false;
+            gwDelaysCB.Visible = false;
 
             gwNrLBL.Visible = false;
             gwNrTB.Visible = false;
@@ -538,11 +543,12 @@ namespace gWeasleGUI
             gwSeekRetriesLBL.Visible = false;
             gwRetriesLBL.Visible = false;
             gwRetriesTB.Visible = false;
+            gwTagLBL.Visible = false;
+            gwTagTB.Visible = false;
 
             GwFileDisplay.Text = string.Empty;
             SelectNewFileBtn.Enabled = false;
             SelectExistingFileBtn.Enabled = false;
-            gwNoClobberCB.Visible = false;
 
             gwCmdHelpBtn.Enabled = false;
             ExecuteBtn.Enabled = false;
@@ -1158,6 +1164,7 @@ namespace gWeasleGUI
             this.gwDDfileLBL.Text = utilities.MaxSizeFileName(this.GwDiskDefsFile, this.gwDDfileLBL.MaximumSize.Width);
 
             // Reset
+            string prevDD = gwDiskConfigCB.Text.Trim();
             gwDiskConfigCB.Items.Clear();
             this.gwDD?.Clear();
             this.ddTracks?.Clear();
@@ -1175,6 +1182,14 @@ namespace gWeasleGUI
                         this.ConfigManager.WriteConfig();
                     }
                     gwDiskConfigCB.Items.AddRange(this.gwDD.GetDiskDefinitionsKeys());
+                    if (gwDiskConfigCB.FindString(prevDD) != ListBox.NoMatches)
+                    {
+                        gwDiskConfigCB.SelectedIndex = gwDiskConfigCB.FindString(prevDD);
+                    }
+                    else if (gwDiskConfigCB.Items.Count>0)
+                    {
+                        gwDiskConfigCB.SelectedIndex = 0;
+                    }
                     LoadDDImports(this.ConfigManager.ConfigData.LastDiskDefsImportFile);
                 }
             }
