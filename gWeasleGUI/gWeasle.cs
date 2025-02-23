@@ -751,6 +751,7 @@ namespace gWeasleGUI
                 this.ConfigManager.ConfigData.LastDiskDefsCfgFile = cmdProfile.DiskDefFile;
                 this.ConfigManager.ConfigData.LastDiskDefsImportFile = cmdProfile.DiskDefImport;
                 LoadDD();
+                UIUpdateDiskFormats(actionCB.Text?.Trim());
             }
 
             // load the attribnutes
@@ -799,8 +800,9 @@ namespace gWeasleGUI
                 this.ConfigManager.ConfigData.LastUseDiskDefsCfgFile = this.gwUseDiskDefFileCB.Checked;
                 this.ConfigManager.WriteConfig();
             }
+            UIUpdateDiskFormats(actionCB.Text?.Trim());
 
-            this.ProcessAction();
+            //this.ProcessAction();
         }
 
         private void SelectProfilePathBtn_Click(object sender, EventArgs e)
@@ -1048,6 +1050,14 @@ namespace gWeasleGUI
             {
                 this.gw.StopCurrentProcess();
                 GwGUIActions.Visible = false;
+            }
+        }
+
+        private void GWTab_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (this.GWTab.SelectedTab == parmTab)
+            {
+                gwUseDiskDefFileCB_CheckedChanged(null, null);
             }
         }
 

@@ -366,6 +366,22 @@ namespace gWeasleGUI
                 args.Add(new gwArgument(ArgName, addargs, positional));
         }
 
+        public void UIUpdateDiskFormats(string gwCmd)
+        {
+            string[] fileDD = GetDiskFormats();
+            if (fileDD != null && fileDD.Count() > 0)
+            {
+                gwGetFormatTypes(fileDD);
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(gwCmd))
+                {
+                    this.gw.GetFormatTypes(gwCmd, gwGetFormatTypes);
+                }
+            }
+        }
+
         /// <summary>
         /// gw info
         /// </summary>
@@ -398,11 +414,7 @@ namespace gWeasleGUI
                 GwFileDisplay.Text = $">> {this.GwNewFile}";
                 gweazleTips.SetToolTip(GwFileDisplay, GwFileDisplay.Text);
 
-                string[] fileDD = GetDiskFormats();
-                if (fileDD != null && fileDD.Count() > 0)
-                    gwGetFormatTypes(fileDD);
-                else
-                    this.gw.GetFormatTypes("read", gwGetFormatTypes);
+                //UIUpdateDiskFormats("read");
 
             } else
             {
@@ -432,11 +444,7 @@ namespace gWeasleGUI
                 GwFileDisplay.Text = $"<< {this.GwExistingFile}";
                 gweazleTips.SetToolTip(GwFileDisplay, GwFileDisplay.Text);
 
-                string[] fileDD = GetDiskFormats();
-                if (fileDD != null && fileDD.Count() > 0)
-                    gwGetFormatTypes(fileDD);
-                else
-                    this.gw.GetFormatTypes("write", gwGetFormatTypes);
+                //UIUpdateDiskFormats("write");
 
             } else
             {
@@ -466,11 +474,7 @@ namespace gWeasleGUI
                 GwFileDisplay.Text = $"{this.GwExistingFile} >> {this.GwNewFile}";
                 gweazleTips.SetToolTip(GwFileDisplay, GwFileDisplay.Text);
 
-                string[] fileDD = GetDiskFormats();
-                if (fileDD != null && fileDD.Count() > 0)
-                    gwGetFormatTypes(fileDD);
-                else
-                    this.gw.GetFormatTypes("convert", gwGetFormatTypes);
+                //UIUpdateDiskFormats("convert");
                 
             }
             else
