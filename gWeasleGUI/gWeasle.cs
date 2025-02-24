@@ -685,6 +685,7 @@ namespace gWeasleGUI
 
         private void gwDDSaveBtn_Click(object sender, EventArgs e)
         {
+            gwDDSaveBtn.Text = "Saving...";
             string importFile = gwDDImport.Text?.Trim(), fileToSave = null;
             if (!string.IsNullOrEmpty(importFile) && this.gwDD.GetImports().ContainsKey(importFile))
             {
@@ -693,6 +694,7 @@ namespace gWeasleGUI
 
             // Null file name will save to the main file
             this.gwDD.SaveDiskDefs(fileToSave);
+            gwDDSaveBtn.Text = "Save to file";
         }
 
         private void removeDiskConfigBtn_Click(object sender, EventArgs e)

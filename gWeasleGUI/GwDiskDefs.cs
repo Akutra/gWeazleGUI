@@ -294,17 +294,19 @@ namespace gWeasleGUI
 
         private void parseGlobals(string candidate)
         {
+            if (ddGlobals.ContainsKey("prefix")) { return; } // Prefix will be populated from import if available
+            
             // for now only use this as a hack parse for prefix when directly opening an import
-            //if(candidate.ToLower().IndexOf("prefix:") == -1 &&
-            //    !ddGlobals.ContainsKey("prefix")) { return; }
+            if (candidate.ToLower().IndexOf("prefix:") == -1) { return; }
+            
 
-            //// filter extra characters
-            //string line = candidate.Trim().Trim('#');
+            // filter extra characters
+            string line = candidate.Trim().Trim('#');
 
-            //string[] parm = line.Trim().Split(':');
-            //if (parm.Length < 2) return;
+            string[] parm = line.Trim().Split(':');
+            if (parm.Length < 2) return;
 
-            //ddGlobals.Add(parm[0].Trim().ToLower(), parm[1].Trim());
+            ddGlobals.Add(parm[0].Trim().ToLower(), parm[1].Trim());
         }
 
         public void ParseTDProps(string property, TrackDefinition trackDef)
@@ -376,6 +378,7 @@ namespace gWeasleGUI
                         writer.WriteLine();
                     }
                 }
+                logger.Info($"Disk Definitions successfully written to file '{fileToSave}'.");
             }
             catch (Exception e)
             {

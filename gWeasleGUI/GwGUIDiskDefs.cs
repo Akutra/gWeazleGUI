@@ -313,6 +313,7 @@ namespace gWeasleGUI
                     gwDDTrackListLB.Items.Add(track.ToString());
 
                 CurrentDiskDef.Tracks = ddTracks.Values.ToArray();
+                this.gwDD.SetDefinition(this.CurrentDiskDef);
                 return true;
             }
 
