@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using Microsoft.Win32.SafeHandles;
+using System;
 using System.CodeDom;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -64,15 +66,15 @@ namespace gWeasleGUI
         "MSA|*.msa", "KryoFlux|*.raw", "SF7|*.sf7", "SCP|*.scp", "SSD|*.ssd", "XDF|*.xdf"
         };
 
-    /// <summary>
-    /// Initialize the GwTools class for interfacing with the commandline gw tools
-    /// </summary>
-    /// <param name="logger">logger to be used for operations</param>
-    /// <param name="gwToolsPath">path to gw commandline tools</param>
-    /// <param name="output">action event used to output to the current display</param>
-    /// <param name="doneAction">action event to execute upon completion of commands</param>
-    /// <param name="deviceLoaded">action event to execute after the device has loaded</param>
-    public GwTools(ILogger logger, string gwHostToolsPath, string port, Action<string> output, Action doneAction, Action beginAction, Action deviceLoaded)
+        /// <summary>
+        /// Initialize the GwTools class for interfacing with the commandline gw tools
+        /// </summary>
+        /// <param name="logger">logger to be used for operations</param>
+        /// <param name="gwToolsPath">path to gw commandline tools</param>
+        /// <param name="output">action event used to output to the current display</param>
+        /// <param name="doneAction">action event to execute upon completion of commands</param>
+        /// <param name="deviceLoaded">action event to execute after the device has loaded</param>
+        public GwTools(ILogger logger, string gwHostToolsPath, string port, Action<string> output, Action doneAction, Action beginAction, Action deviceLoaded)
         {
             this.logger = logger;
 
@@ -97,6 +99,14 @@ namespace gWeasleGUI
         {
             this.GwToolsPath = gwHostToolsPath;
             LoadGW(port?.Trim());
+        }
+
+        /// <summary>
+        /// Reload the usb ports from the OS
+        /// </summary>
+        public void ReLoadSystemPorts()
+        {
+            SerialPorts = GetPorts().ToDictionary(k => k.Caption, v => v, StringComparer.OrdinalIgnoreCase);
         }
 
         /// <summary>
@@ -429,8 +439,6 @@ namespace gWeasleGUI
                         p.EnableRaisingEvents = true;
                         p.Exited += (s, e) =>
                         {
-                            p.WaitForExit(); // Make sure the command is done bug fix
-
                             if (processMsg.ContainsKey(p.Id.ToString()))
                             {
                                 rt = processMsg[p.Id.ToString()].ToString();
@@ -545,6 +553,7 @@ namespace gWeasleGUI
         public static List<GW_PnPEntity> GetPorts()
         {
             List<GW_PnPEntity> devices = new List<GW_PnPEntity>();
+            List<Win32Device.DeviceDetails> devDescriptions = new List<Win32Device.DeviceDetails>();
             GW_PnPEntity gW_PnPEntity = null;
 
             try // port data is information purposes and should not crash.
@@ -586,7 +595,8 @@ namespace gWeasleGUI
                             gW_PnPEntity.StatusInfo = utilities.SafeChangeType<uint>(foundObj["StatusInfo"], 0);
                             gW_PnPEntity.SystemCreationClassName = (string)foundObj["SystemCreationClassName"];
                             gW_PnPEntity.SystemName = (string)foundObj["SystemName"];
-                            gW_PnPEntity.Bus_Description = Win32Device.GetDeviceBusDescription(new Guid(gW_PnPEntity.ClassGuid), portIndex);
+                            // 02.23.2025 Bus index doesn't always match
+                            devDescriptions.Add(Win32Device.GetWin32DeviceDetails(new Guid(gW_PnPEntity.ClassGuid), portIndex));
                         }
                         catch
                         {
@@ -596,6 +606,18 @@ namespace gWeasleGUI
                         devices.Add(gW_PnPEntity);
                     }
                     portIndex++;
+                }
+                // correct additional values from Win32Device
+                GW_PnPEntity gW_cPnPEntity;
+                for (int i = 0; i < devices.Count; i++)
+                {
+                    var devDesc = devDescriptions[i];
+                    gW_cPnPEntity = devices.Where(port => port.Name.IndexOf(devDesc.DevName)!=-1 ).FirstOrDefault();
+                    if (gW_cPnPEntity != null)
+                    {
+                        gW_cPnPEntity.UseValue = devDesc.DevName;
+                        gW_cPnPEntity.Bus_Description = devDesc.DevBusDescription;
+                    }
                 }
             } catch { }
 
@@ -645,6 +667,194 @@ namespace gWeasleGUI
                 DIGCF_PROFILE = 0x00000008,
                 DIGCF_DEVICEINTERFACE = 0x00000010,
             }
+            /// <summary>
+            /// Device registry property codes
+            /// </summary>
+            public enum SPDRP : uint
+            {
+                /// <summary>
+                /// DeviceDesc (R/W)
+                /// </summary>
+                SPDRP_DEVICEDESC = 0x00000000,
+
+                /// <summary>
+                /// HardwareID (R/W)
+                /// </summary>
+                SPDRP_HARDWAREID = 0x00000001,
+
+                /// <summary>
+                /// CompatibleIDs (R/W)
+                /// </summary>
+                SPDRP_COMPATIBLEIDS = 0x00000002,
+
+                /// <summary>
+                /// unused
+                /// </summary>
+                SPDRP_UNUSED0 = 0x00000003,
+
+                /// <summary>
+                /// Service (R/W)
+                /// </summary>
+                SPDRP_SERVICE = 0x00000004,
+
+                /// <summary>
+                /// unused
+                /// </summary>
+                SPDRP_UNUSED1 = 0x00000005,
+
+                /// <summary>
+                /// unused
+                /// </summary>
+                SPDRP_UNUSED2 = 0x00000006,
+
+                /// <summary>
+                /// Class (R--tied to ClassGUID)
+                /// </summary>
+                SPDRP_CLASS = 0x00000007,
+
+                /// <summary>
+                /// ClassGUID (R/W)
+                /// </summary>
+                SPDRP_CLASSGUID = 0x00000008,
+
+                /// <summary>
+                /// Driver (R/W)
+                /// </summary>
+                SPDRP_DRIVER = 0x00000009,
+
+                /// <summary>
+                /// ConfigFlags (R/W)
+                /// </summary>
+                SPDRP_CONFIGFLAGS = 0x0000000A,
+
+                /// <summary>
+                /// Mfg (R/W)
+                /// </summary>
+                SPDRP_MFG = 0x0000000B,
+
+                /// <summary>
+                /// FriendlyName (R/W)
+                /// </summary>
+                SPDRP_FRIENDLYNAME = 0x0000000C,
+
+                /// <summary>
+                /// LocationInformation (R/W)
+                /// </summary>
+                SPDRP_LOCATION_INFORMATION = 0x0000000D,
+
+                /// <summary>
+                /// PhysicalDeviceObjectName (R)
+                /// </summary>
+                SPDRP_PHYSICAL_DEVICE_OBJECT_NAME = 0x0000000E,
+
+                /// <summary>
+                /// Capabilities (R)
+                /// </summary>
+                SPDRP_CAPABILITIES = 0x0000000F,
+
+                /// <summary>
+                /// UiNumber (R)
+                /// </summary>
+                SPDRP_UI_NUMBER = 0x00000010,
+
+                /// <summary>
+                /// UpperFilters (R/W)
+                /// </summary>
+                SPDRP_UPPERFILTERS = 0x00000011,
+
+                /// <summary>
+                /// LowerFilters (R/W)
+                /// </summary>
+                SPDRP_LOWERFILTERS = 0x00000012,
+
+                /// <summary>
+                /// BusTypeGUID (R)
+                /// </summary>
+                SPDRP_BUSTYPEGUID = 0x00000013,
+
+                /// <summary>
+                /// LegacyBusType (R)
+                /// </summary>
+                SPDRP_LEGACYBUSTYPE = 0x00000014,
+
+                /// <summary>
+                /// BusNumber (R)
+                /// </summary>
+                SPDRP_BUSNUMBER = 0x00000015,
+
+                /// <summary>
+                /// Enumerator Name (R)
+                /// </summary>
+                SPDRP_ENUMERATOR_NAME = 0x00000016,
+
+                /// <summary>
+                /// Security (R/W, binary form)
+                /// </summary>
+                SPDRP_SECURITY = 0x00000017,
+
+                /// <summary>
+                /// Security (W, SDS form)
+                /// </summary>
+                SPDRP_SECURITY_SDS = 0x00000018,
+
+                /// <summary>
+                /// Device Type (R/W)
+                /// </summary>
+                SPDRP_DEVTYPE = 0x00000019,
+
+                /// <summary>
+                /// Device is exclusive-access (R/W)
+                /// </summary>
+                SPDRP_EXCLUSIVE = 0x0000001A,
+
+                /// <summary>
+                /// Device Characteristics (R/W)
+                /// </summary>
+                SPDRP_CHARACTERISTICS = 0x0000001B,
+
+                /// <summary>
+                /// Device Address (R)
+                /// </summary>
+                SPDRP_ADDRESS = 0x0000001C,
+
+                /// <summary>
+                /// UiNumberDescFormat (R/W)
+                /// </summary>
+                SPDRP_UI_NUMBER_DESC_FORMAT = 0X0000001D,
+
+                /// <summary>
+                /// Device Power Data (R)
+                /// </summary>
+                SPDRP_DEVICE_POWER_DATA = 0x0000001E,
+
+                /// <summary>
+                /// Removal Policy (R)
+                /// </summary>
+                SPDRP_REMOVAL_POLICY = 0x0000001F,
+
+                /// <summary>
+                /// Hardware Removal Policy (R)
+                /// </summary>
+                SPDRP_REMOVAL_POLICY_HW_DEFAULT = 0x00000020,
+
+                /// <summary>
+                /// Removal Policy Override (RW)
+                /// </summary>
+                SPDRP_REMOVAL_POLICY_OVERRIDE = 0x00000021,
+
+                /// <summary>
+                /// Device Install State (R)
+                /// </summary>
+                SPDRP_INSTALL_STATE = 0x00000022,
+
+                /// <summary>
+                /// Device Location Paths (R)
+                /// </summary>
+                SPDRP_LOCATION_PATHS = 0x00000023,
+            }
+            private const UInt32 DICS_FLAG_GLOBAL = 0x00000001;
+            private const UInt32 DIREG_DEV = 0x00000001;
+            private const UInt32 KEY_QUERY_VALUE = 0x0001;
 
             /// <summary>
             /// The SP_DEVINFO_DATA structure defines a device instance that is a member of a device information set.
@@ -674,46 +884,49 @@ namespace gWeasleGUI
             [DllImport("setupapi.dll", SetLastError = true)]
             private static extern IntPtr SetupDiGetClassDevs(ref Guid gClass, UInt32 iEnumerator, UInt32 hParent, DiGetClassFlags nFlags);
 
+            [DllImport("Setupapi", CharSet = CharSet.Auto, SetLastError = true)]
+            private static extern IntPtr SetupDiOpenDevRegKey(IntPtr hDeviceInfoSet, ref SP_DEVINFO_DATA deviceInfoData, uint scope, uint hwProfile, uint parameterRegistryValueKind, uint samDesired);
+
+            [DllImport("advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegQueryValueExW", SetLastError = true)]
+            private static extern int RegQueryValueEx(IntPtr hKey, string lpValueName, int lpReserved, out uint lpType, byte[] lpData, ref uint lpcbData);
+
+            [DllImport("setupapi.dll", CharSet = CharSet.Auto, SetLastError = true)]
+            private static extern bool SetupDiGetDeviceRegistryProperty(IntPtr DeviceInfoSet, ref SP_DEVINFO_DATA DeviceInfoData, SPDRP Property, out UInt32 PropertyRegDataType, byte[] PropertyBuffer, uint PropertyBufferSize, out UInt32 RequiredSize);
+
             //[DllImport("kernel32.dll")]
             //private static extern Int32 GetLastError();
 
             const int BUFFER_SIZE = 1024;
 
             [DllImport("setupapi.dll", SetLastError = true)]
-            static extern bool SetupDiGetDevicePropertyW(
-                IntPtr deviceInfoSet,
-                [In] ref SP_DEVINFO_DATA DeviceInfoData,
-                [In] ref DEVPROPKEY propertyKey,
-                [Out] out UInt32 propertyType,
-                byte[] propertyBuffer,
-                UInt32 propertyBufferSize,
-                out UInt32 requiredSize,
-                UInt32 flags);
+            static extern bool SetupDiGetDevicePropertyW(IntPtr deviceInfoSet, [In] ref SP_DEVINFO_DATA DeviceInfoData, [In] ref DEVPROPKEY propertyKey, [Out] out UInt32 propertyType, byte[] propertyBuffer, UInt32 propertyBufferSize, out UInt32 requiredSize, UInt32 flags);
 
             const int utf16terminatorSize_bytes = 2;
+
+            public class DeviceDetails
+            {
+                public string DevName = string.Empty;
+                public string DevDescription = string.Empty;
+                public string DevBusDescription = string.Empty;
+            }
 
             static Win32Device()
             {
 
             }
 
-            public static string GetDeviceBusDescription(Guid deviceId, uint index)
+            public static DeviceDetails GetWin32DeviceDetails(Guid deviceId, uint index)
             {
-                byte[] ptrBuf = new byte[BUFFER_SIZE];
-                uint propRegDataType;
-                uint RequiredSize;
-
-                DEVPROPKEY DEVPKEY_Device_BusReportedDeviceDesc = new DEVPROPKEY()
-                {
-                    fmtid = new Guid("540b947e-8b40-45bc-a8a2-6a0b894cbda2"),
-                    pid = 4
-                };
+                string DeviceName = string.Empty;
+                string DeviceDesc = string.Empty;
+                string DeviceBusDesc = string.Empty;
+                DeviceDetails returnValue = new DeviceDetails();
 
                 IntPtr hDeviceInfoSet = SetupDiGetClassDevs(ref deviceId, 0, 0, DiGetClassFlags.DIGCF_PRESENT);
                 if (hDeviceInfoSet == IntPtr.Zero)
                 {
                     //throw new Exception("Failed to get device information set for the COM ports");
-                    return string.Empty;
+                    return returnValue;
                 }
 
                 SP_DEVINFO_DATA deviceInfoData = new SP_DEVINFO_DATA();
@@ -721,19 +934,80 @@ namespace gWeasleGUI
                 bool success = SetupDiEnumDeviceInfo(hDeviceInfoSet, index, ref deviceInfoData);
                 if (!success)
                 {
-                    return string.Empty;
+                    return returnValue;
                 }
 
-                success = SetupDiGetDevicePropertyW(hDeviceInfoSet, ref deviceInfoData, ref DEVPKEY_Device_BusReportedDeviceDesc,
-                    out propRegDataType, ptrBuf, BUFFER_SIZE, out RequiredSize, 0);
-                if (!success)
+                IntPtr hDeviceRegistryKey = SetupDiOpenDevRegKey(hDeviceInfoSet, ref deviceInfoData, DICS_FLAG_GLOBAL, 0, DIREG_DEV, KEY_QUERY_VALUE);
+                if (hDeviceRegistryKey == IntPtr.Zero)
                 {
-                    //throw new Exception("Can not read Bus provided device description device " + deviceInfoData.ClassGuid);
-                    return string.Empty;
+                    return returnValue;
+                } else
+                {
+                    returnValue.DevName = GetDeviceNameFromRegistry(hDeviceInfoSet, deviceInfoData);
                 }
+
+                //returnValue.DevDescription = GetDeviceDescription(hDeviceInfoSet, deviceInfoData);
+                returnValue.DevBusDescription = GetDeviceBusDescription(hDeviceInfoSet, deviceInfoData);
+
                 SetupDiDestroyDeviceInfoList(hDeviceInfoSet);
 
+                return returnValue;
+            }
+
+            private static string GetDeviceDescription(IntPtr hDeviceInfoSet, SP_DEVINFO_DATA deviceInfoData)
+            {
+                byte[] ptrBuf = new byte[BUFFER_SIZE];
+                uint propRegDataType;
+                uint RequiredSize;
+                bool success = SetupDiGetDeviceRegistryProperty(hDeviceInfoSet, ref deviceInfoData, SPDRP.SPDRP_DEVICEDESC,
+                    out propRegDataType, ptrBuf, BUFFER_SIZE, out RequiredSize);
+                if (!success)
+                {
+                    return string.Empty;
+                }
+                return Encoding.Unicode.GetString(ptrBuf, 0, (int)RequiredSize - utf16terminatorSize_bytes);
+            }
+
+            private static string GetDeviceBusDescription(IntPtr hDeviceInfoSet, SP_DEVINFO_DATA deviceInfoData)
+            {
+                byte[] ptrBuf = new byte[BUFFER_SIZE];
+                DEVPROPKEY DEVPKEY_Device_BusReportedDeviceDesc = new DEVPROPKEY()
+                {
+                    fmtid = new Guid(0x540b947e, 0x8b40, 0x45bc, 0xa8, 0xa2, 0x6a, 0x0b, 0x89, 0x4c, 0xbd, 0xa2),
+                    pid = 4
+                };
+                uint propRegDataType;
+                uint RequiredSize;
+                bool success = SetupDiGetDevicePropertyW(hDeviceInfoSet, ref deviceInfoData, ref DEVPKEY_Device_BusReportedDeviceDesc, out propRegDataType, ptrBuf, BUFFER_SIZE, out RequiredSize, 0);
+                if (!success)
+                {
+                    return string.Empty;
+                }
                 return System.Text.UnicodeEncoding.Unicode.GetString(ptrBuf, 0, (int)RequiredSize - utf16terminatorSize_bytes);
+            }
+
+            private static string GetDeviceNameFromRegistry(IntPtr deviceInfoSet, SP_DEVINFO_DATA deviceInfoData)
+            {
+                string DevName = string.Empty;
+                IntPtr hDeviceRegistryKey = SetupDiOpenDevRegKey(deviceInfoSet, ref deviceInfoData, DICS_FLAG_GLOBAL, 0, DIREG_DEV, KEY_QUERY_VALUE);
+                if (hDeviceRegistryKey == IntPtr.Zero)
+                {
+                    return string.Empty;
+                    //throw new System.ComponentModel.Win32Exception(Marshal.GetLastWin32Error());
+                }
+
+                SafeRegistryHandle handle = new SafeRegistryHandle(hDeviceRegistryKey, true);
+                RegistryKey key = RegistryKey.FromHandle(handle);
+                if(key != null)
+                {
+                    object keyValue = key.GetValue("PortName");
+                    if (keyValue != null)
+                    {
+                        DevName = (string)keyValue;
+                    }
+                }
+
+                return DevName;
             }
         }
     }

@@ -13,8 +13,17 @@ namespace gWeasleGUI
     {
         public static string[] trackProps = new[] { "secs", "bps", "iam", "cskew", "hskew", "interleave", "id", "h", "gap1", "gap2", "gap3", "gap4a", "gapbyte", "rate", "rpm", "img_bps", "clock", "format" };
 
+        enum loadType
+        {
+            ROOT = 0,
+            IMPORT = 1,
+            ALL = 2
+        }
+
         private ILogger logger = null;
         private Action ActionStart, ActionDone;
+        private string LastLoadedDDNames = string.Empty;
+        private List<string> allDDNames = new List<string>();
         private Dictionary<string, GwDiskDefsValue> DiskDefinitions;
         private Dictionary<string, string> ddGlobals = new Dictionary<string, string>();
         private Dictionary<string, string> ddImports = new Dictionary<string, string>();
@@ -74,6 +83,10 @@ namespace gWeasleGUI
         {
             return ddImports;
         }
+        public List<string> GetALLDiskDefNames()
+        {
+            return allDDNames;
+        }
 
         public void SetDiskDefsFile(string fileName)
         {
@@ -94,7 +107,7 @@ namespace gWeasleGUI
             }
             this.def_fileName = fileToLoad;
 
-            return Internal_LoadDiskDefs(fileToLoad, true);
+            return Internal_LoadDiskDefs(fileToLoad, loadType.ROOT);
         }
 
         public bool LoadDiskDefs(string fileName = null)
@@ -103,14 +116,32 @@ namespace gWeasleGUI
             fileToLoad = Path.GetFileName(fileToLoad) ?? this.def_fileName;
             SetPrefixFromFile(fileToLoad);
 
-            return Internal_LoadDiskDefs(fileToLoad, false);
+            return Internal_LoadDiskDefs(fileToLoad, loadType.IMPORT);
         }
 
-        private bool Internal_LoadDiskDefs(string fileName, bool root)
+        public bool LoadALLDiskDefNames(string fileName = null)
+        {
+            string fileToLoad = fileName ?? this.def_fileName;
+            string fullPath;
+            fileToLoad = Path.GetFileName(fileToLoad) ?? this.def_fileName;
+            fullPath = Path.Combine(this.folderRoot, fileToLoad);
+            if (this.LastLoadedDDNames.Equals(fullPath, StringComparison.OrdinalIgnoreCase) && allDDNames.Count > 0)
+            {
+                return true;
+            }
+            else
+            {
+                this.LastLoadedDDNames = fullPath;
+                allDDNames.Clear(); // this is a full load to start fresh
+                return Internal_LoadDiskDefs(fileToLoad, loadType.ALL, string.Empty);
+            }
+        }
+
+        private bool Internal_LoadDiskDefs(string fileName, loadType type, string prefix = "")
         {
             ActionStart();
-            string lastread = string.Empty;
-            string fileToLoad = fileName;
+            string lastread = string.Empty, newPrefix = string.Empty;
+            string fileToLoad = fileName, importFile = string.Empty;
             int lastreadlinenumber = 0;
 
             if (fileName is null)
@@ -125,7 +156,7 @@ namespace gWeasleGUI
                     TrackDefinition trackDef = null;
                     List<TrackDefinition> tracks = new List<TrackDefinition>();
                     DiskDefinitions.Clear();
-                    if (root) {
+                    if (type == loadType.ROOT) {
                         ddGlobals.Clear();
                         ddImports.Clear(); }
 
@@ -150,9 +181,19 @@ namespace gWeasleGUI
 
                         if (key == "import")
                         {
-                            // only allow imports at root for now
-                            if (root) { 
-                                ddImports.Add(parms.First(), parms.Last().Trim(new[] {' ', '"' })); 
+                            if (parms.Length > 0)
+                            {
+                                importFile = parms.Last().Trim(new[] { ' ', '"' });
+                                newPrefix = parms.Length > 1 ? parms.First().Trim() : null;
+                                // only allow imports at root for now
+                                if (type == loadType.ROOT)
+                                {
+                                    ddImports.Add(newPrefix ?? importFile, importFile);
+                                }
+                                if (type == loadType.ALL)
+                                {
+                                    Internal_LoadDiskDefs(importFile, loadType.ALL, newPrefix ?? string.Empty);
+                                }
                             }
                             continue;
                         }
@@ -183,7 +224,14 @@ namespace gWeasleGUI
                             if (current == "disk")
                             {
                                 diskDef.Tracks = tracks.ToArray();
-                                DiskDefinitions[diskDef.ToString()] = diskDef;
+                                if (type == loadType.ALL)
+                                {
+                                    allDDNames.Add($"{prefix}{diskDef.Name}");
+                                }
+                                else
+                                {
+                                    DiskDefinitions[diskDef.ToString()] = diskDef;
+                                }
                                 current = string.Empty;
                             }
 
@@ -246,17 +294,19 @@ namespace gWeasleGUI
 
         private void parseGlobals(string candidate)
         {
+            if (ddGlobals.ContainsKey("prefix")) { return; } // Prefix will be populated from import if available
+            
             // for now only use this as a hack parse for prefix when directly opening an import
-            //if(candidate.ToLower().IndexOf("prefix:") == -1 &&
-            //    !ddGlobals.ContainsKey("prefix")) { return; }
+            if (candidate.ToLower().IndexOf("prefix:") == -1) { return; }
+            
 
-            //// filter extra characters
-            //string line = candidate.Trim().Trim('#');
+            // filter extra characters
+            string line = candidate.Trim().Trim('#');
 
-            //string[] parm = line.Trim().Split(':');
-            //if (parm.Length < 2) return;
+            string[] parm = line.Trim().Split(':');
+            if (parm.Length < 2) return;
 
-            //ddGlobals.Add(parm[0].Trim().ToLower(), parm[1].Trim());
+            ddGlobals.Add(parm[0].Trim().ToLower(), parm[1].Trim());
         }
 
         public void ParseTDProps(string property, TrackDefinition trackDef)
@@ -328,6 +378,7 @@ namespace gWeasleGUI
                         writer.WriteLine();
                     }
                 }
+                logger.Info($"Disk Definitions successfully written to file '{fileToSave}'.");
             }
             catch (Exception e)
             {
