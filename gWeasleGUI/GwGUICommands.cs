@@ -169,14 +169,14 @@ namespace gWeasleGUI
             this.GWParaInterface.Add("--file", new List<Control>() { SelectExistingFileBtn });
 
             this.GWParameters.Add("--dd", (t) => {
-                return ArgProcessTemplate(argKey: "--dd", templateType: t, def: "H", alt: "L");
+                return ArgProcessTemplate(argKey: "--dd", templateType: t, def: "");
             });
-            this.GWParaInterface.Add("--dd", new List<Control>() { gwDDcb });
+            this.GWParaInterface.Add("--dd", new List<Control>() { gwDensityCB, gwDensityLBL });
 
             this.GWParameters.Add("--densel", (t) => {
-                return ArgProcessTemplate(argKey: "--dd", templateType: t, def: "H", alt: "L");
+                return ArgProcessTemplate(argKey: "--dd", templateType: t, def: "");
             });
-            this.GWParaInterface.Add("--densel", new List<Control>() { gwDDcb });
+            this.GWParaInterface.Add("--densel", new List<Control>() { gwDensityCB, gwDensityLBL });
 
             this.GWParameters.Add("--reverse", (t) => {
                 return ArgProcessTemplate(argKey: "--reverse", templateType: t);

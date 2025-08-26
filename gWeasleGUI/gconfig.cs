@@ -7,7 +7,7 @@ namespace gWeasleGUI.Config
 {
     public class Gconfig
     {
-        public string GwToolsPath { get; set; }
+        public string GwToolsPath { get; set; } = string.Empty;
         public string gwport { get; set; }
         //public string LogFile { get; set; }
         public bool Time { get; set; } = true;

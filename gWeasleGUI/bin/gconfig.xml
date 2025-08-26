@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Gconfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <profiles />
-  <GwToolsPath></GwToolsPath>
-  <gwport></gwport>
+  <GwToolsPath>C:\Users\Atenosis\Downloads\greaseweazle-1.21-win64\greaseweazle-1.21</GwToolsPath>
+  <gwport>COM21</gwport>
   <Time>true</Time>
-  <LastFormatType />
-  <LastFileExt />
+  <LastFormatType>amiga.amigados</LastFormatType>
+  <LastFileExt>ADF|*.adf</LastFileExt>
   <RawFormat>false</RawFormat>
   <LastDiskDefsCfgFile />
   <LastDiskDefsImportFile />
