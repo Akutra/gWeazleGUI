@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Gconfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <profiles />
-  <GwToolsPath></GwToolsPath>
-  <gwport></gwport>
-  <Time>true</Time>
-  <LastFormatType />
-  <LastFileExt />
+  <GwToolsPath/>
+  <gwport/>
+  <Time>false</Time>
+  <LastFormatType/>
+  <LastFileExt>ADF|*.adf</LastFileExt>
   <RawFormat>false</RawFormat>
   <LastDiskDefsCfgFile />
   <LastDiskDefsImportFile />

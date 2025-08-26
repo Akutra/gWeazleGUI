@@ -513,7 +513,8 @@ namespace gWeasleGUI
             gwHFreqCB.Visible = false;
             gwMotorOnCB.Visible = false;
             gwForceCB.Visible = false;
-            gwDDcb.Visible = false;
+            gwDensityLBL.Visible = false;
+            gwDensityCB.Visible = false;
             gwHardSectorsCB.Visible = false;
             gwUseDiskDefFileCB.Visible = false;
             gwReverseCB.Visible = false;

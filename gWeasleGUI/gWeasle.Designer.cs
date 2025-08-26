@@ -54,7 +54,6 @@
             this.SelectNewFileBtn = new System.Windows.Forms.Button();
             this.SelectExistingFileBtn = new System.Windows.Forms.Button();
             this.gwSerialValue = new System.Windows.Forms.Label();
-            this.gwDDcb = new System.Windows.Forms.CheckBox();
             this.gwNoClobberCB = new System.Windows.Forms.CheckBox();
             this.gwHardSectorsCB = new System.Windows.Forms.CheckBox();
             this.gwDDNewFileBtn = new System.Windows.Forms.Button();
@@ -93,6 +92,10 @@
             this.actionTab = new System.Windows.Forms.TabPage();
             this.outputTB = new System.Windows.Forms.TextBox();
             this.parmTab = new System.Windows.Forms.TabPage();
+            this.gwDensityLBL = new System.Windows.Forms.Label();
+            this.gwDensityCB = new System.Windows.Forms.ComboBox();
+            this.gwPLLLowPassTB = new gWeasleGUI.vTextParam();
+            this.gwPLLLowPassLBL = new System.Windows.Forms.Label();
             this.gwDelaysCB = new System.Windows.Forms.CheckBox();
             this.gwTagLBL = new System.Windows.Forms.Label();
             this.gwReverseCB = new System.Windows.Forms.CheckBox();
@@ -228,8 +231,6 @@
             this.portcaptionLBL = new System.Windows.Forms.Label();
             this.CmdProfileCB = new System.Windows.Forms.ComboBox();
             this.gwCmdProfileLBL = new System.Windows.Forms.Label();
-            this.gwPLLLowPassTB = new gWeasleGUI.vTextParam();
-            this.gwPLLLowPassLBL = new System.Windows.Forms.Label();
             this.GwStatus.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.accessoptions)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.busy1)).BeginInit();
@@ -514,18 +515,6 @@
             this.gwSerialValue.TabIndex = 59;
             this.gwSerialValue.Text = "[Serial]";
             this.gweazleTips.SetToolTip(this.gwSerialValue, "Double-click to copy to clipboard");
-            // 
-            // gwDDcb
-            // 
-            this.gwDDcb.AutoSize = true;
-            this.gwDDcb.Location = new System.Drawing.Point(348, 299);
-            this.gwDDcb.Margin = new System.Windows.Forms.Padding(4);
-            this.gwDDcb.Name = "gwDDcb";
-            this.gwDDcb.Size = new System.Drawing.Size(117, 20);
-            this.gwDDcb.TabIndex = 128;
-            this.gwDDcb.Text = "double density";
-            this.gweazleTips.SetToolTip(this.gwDDcb, "drive interface density select");
-            this.gwDDcb.UseVisualStyleBackColor = true;
             // 
             // gwNoClobberCB
             // 
@@ -937,6 +926,8 @@
             // 
             // parmTab
             // 
+            this.parmTab.Controls.Add(this.gwDensityLBL);
+            this.parmTab.Controls.Add(this.gwDensityCB);
             this.parmTab.Controls.Add(this.gwPLLLowPassTB);
             this.parmTab.Controls.Add(this.gwPLLLowPassLBL);
             this.parmTab.Controls.Add(this.gwDelaysCB);
@@ -945,7 +936,6 @@
             this.parmTab.Controls.Add(this.gwReverseCB);
             this.parmTab.Controls.Add(this.gwHardSectorsCB);
             this.parmTab.Controls.Add(this.gwNoClobberCB);
-            this.parmTab.Controls.Add(this.gwDDcb);
             this.parmTab.Controls.Add(this.gwUseDiskDefFileCB);
             this.parmTab.Controls.Add(this.gwOTTSPECSwapCB);
             this.parmTab.Controls.Add(this.gwTSPECSwapCB);
@@ -1012,6 +1002,47 @@
             this.parmTab.TabIndex = 1;
             this.parmTab.Text = "Parameters";
             this.parmTab.UseVisualStyleBackColor = true;
+            // 
+            // gwDensityLBL
+            // 
+            this.gwDensityLBL.AutoSize = true;
+            this.gwDensityLBL.Location = new System.Drawing.Point(347, 298);
+            this.gwDensityLBL.Name = "gwDensityLBL";
+            this.gwDensityLBL.Size = new System.Drawing.Size(52, 16);
+            this.gwDensityLBL.TabIndex = 138;
+            this.gwDensityLBL.Text = "Density";
+            // 
+            // gwDensityCB
+            // 
+            this.gwDensityCB.FormattingEnabled = true;
+            this.gwDensityCB.Items.AddRange(new object[] {
+            "",
+            "H",
+            "L"});
+            this.gwDensityCB.Location = new System.Drawing.Point(405, 295);
+            this.gwDensityCB.Name = "gwDensityCB";
+            this.gwDensityCB.Size = new System.Drawing.Size(49, 24);
+            this.gwDensityCB.TabIndex = 137;
+            // 
+            // gwPLLLowPassTB
+            // 
+            this.gwPLLLowPassTB.Location = new System.Drawing.Point(348, 228);
+            this.gwPLLLowPassTB.Margin = new System.Windows.Forms.Padding(4);
+            this.gwPLLLowPassTB.Name = "gwPLLLowPassTB";
+            this.gwPLLLowPassTB.Size = new System.Drawing.Size(45, 22);
+            this.gwPLLLowPassTB.TabIndex = 135;
+            this.gwPLLLowPassTB.Tag = "lowpass";
+            this.gwPLLLowPassTB.ValidationFailure = false;
+            // 
+            // gwPLLLowPassLBL
+            // 
+            this.gwPLLLowPassLBL.AutoSize = true;
+            this.gwPLLLowPassLBL.Location = new System.Drawing.Point(280, 231);
+            this.gwPLLLowPassLBL.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.gwPLLLowPassLBL.Name = "gwPLLLowPassLBL";
+            this.gwPLLLowPassLBL.Size = new System.Drawing.Size(61, 16);
+            this.gwPLLLowPassLBL.TabIndex = 136;
+            this.gwPLLLowPassLBL.Text = "Lowpass";
             // 
             // gwDelaysCB
             // 
@@ -1978,6 +2009,7 @@
             // 
             // ProfileDelBtn
             // 
+            this.ProfileDelBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.ProfileDelBtn.Location = new System.Drawing.Point(843, 218);
             this.ProfileDelBtn.Margin = new System.Windows.Forms.Padding(4);
             this.ProfileDelBtn.Name = "ProfileDelBtn";
@@ -2554,26 +2586,6 @@
             this.gwCmdProfileLBL.TabIndex = 56;
             this.gwCmdProfileLBL.Text = "Profile";
             // 
-            // gwPLLLowPassTB
-            // 
-            this.gwPLLLowPassTB.Location = new System.Drawing.Point(348, 228);
-            this.gwPLLLowPassTB.Margin = new System.Windows.Forms.Padding(4);
-            this.gwPLLLowPassTB.Name = "gwPLLLowPassTB";
-            this.gwPLLLowPassTB.Size = new System.Drawing.Size(45, 22);
-            this.gwPLLLowPassTB.TabIndex = 135;
-            this.gwPLLLowPassTB.Tag = "lowpass";
-            this.gwPLLLowPassTB.ValidationFailure = false;
-            // 
-            // gwPLLLowPassLBL
-            // 
-            this.gwPLLLowPassLBL.AutoSize = true;
-            this.gwPLLLowPassLBL.Location = new System.Drawing.Point(280, 231);
-            this.gwPLLLowPassLBL.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.gwPLLLowPassLBL.Name = "gwPLLLowPassLBL";
-            this.gwPLLLowPassLBL.Size = new System.Drawing.Size(61, 16);
-            this.gwPLLLowPassLBL.TabIndex = 136;
-            this.gwPLLLowPassLBL.Text = "Lowpass";
-            // 
             // gWeazleFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -2805,7 +2817,6 @@
         private System.Windows.Forms.Label gwHostToolsVersionValue;
         private System.Windows.Forms.Label gwHostToolsVersionLBL;
         private System.Windows.Forms.Button useportbtn;
-        private System.Windows.Forms.CheckBox gwDDcb;
         private System.Windows.Forms.Button ProfileDelBtn;
         private System.Windows.Forms.CheckBox gwHardSectorsCB;
         private System.Windows.Forms.CheckBox gwNoClobberCB;
@@ -2820,6 +2831,8 @@
         private System.Windows.Forms.CheckBox gwDelaysCB;
         private vTextParam gwPLLLowPassTB;
         private System.Windows.Forms.Label gwPLLLowPassLBL;
+        private System.Windows.Forms.Label gwDensityLBL;
+        private System.Windows.Forms.ComboBox gwDensityCB;
     }
 }
 
